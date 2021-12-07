@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://v2.jokeapi.dev/joke',
+  baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
