@@ -6,6 +6,8 @@ import { About } from './pages/About';
 import { Profile } from './pages/Profile';
 
 export default function App() {
+  console.log(process.env.NODE_ENV, 'environment')
+  console.log(process.env.REACT_APP_BASE_URL)
   return (
     <BrowserRouter>
       <div className="App">
