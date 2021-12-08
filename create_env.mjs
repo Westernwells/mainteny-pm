@@ -5,19 +5,19 @@
 //   3. Under environent variable sections, create one
 //   4. Enter name, suffix with "_STAGING" and "_PRODUCTION" for different environments
 //   5. Add the name without suffix in the .env.template
-import * as fs from "fs/promises";
+import * as fs from 'fs/promises';
 
-const ENV = process.env["ENV"];
+const ENV = process.env['ENV'];
 const envFileName = `.env.${ENV}`;
-const envSuffix = ENV === "prod" ? "PROD" : "STAGE";
+const envSuffix = ENV === 'prod' ? 'PROD' : 'STAGE';
 
 const requiredVariables = await fs
-  .readFile(".env.template", "utf-8")
-  .then((content) => content.split("\n"))
+  .readFile('.env.template', 'utf-8')
+  .then((content) => content.split('\n'))
   .then((lines) => lines.map((line) => line.trim().slice(0, -1))) // Remove '=' from the end
   .then((variables) => variables.filter((variable) => variable)); // Filter out empty variables
 
-await fs.writeFile(envFileName, "", { flag: "w" }); // Create an empty env file
+await fs.writeFile(envFileName, '', {flag: 'w'}); // Create an empty env file
 
 requiredVariables.forEach(async (variable) => {
   const variableName = `${variable}_${envSuffix}`;
@@ -25,11 +25,11 @@ requiredVariables.forEach(async (variable) => {
   const value = process.env[variableName];
   if (!value) {
     console.error(
-      `${variableName} not found. Maybe you forgot to add it in GitLab CI settings?`
+      `${variableName} not found. Maybe you forgot to add it in GitLab CI settings?`,
     );
     process.exit();
   }
-  await fs.writeFile(envFileName, `${variableName}=${value}\n`, { flag: "a" });
+  await fs.writeFile(envFileName, `${variableName}=${value}\n`, {flag: 'a'});
 });
 
 console.log(`Successfully Prepared ${envFileName}`);

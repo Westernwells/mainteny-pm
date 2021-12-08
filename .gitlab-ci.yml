@@ -26,7 +26,7 @@ variables:
     GIT_STRATEGY: none
   image:
     name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [ "" ]
+    entrypoint: ['']
   before_script:
     - mkdir -p /kaniko/.docker
     - echo "{\"credsStore\":\"ecr-login\",\"credHelpers\":{\"$DOCKER_REGISTRY\":\"ecr-login\"}}" > /kaniko/.docker/config.json
@@ -37,17 +37,16 @@ variables:
       --context $CI_PROJECT_DIR 
       --dockerfile Dockerfile 
       --destination ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${ENV}
-  
 
 build-staging:
-  << : *build-template
+  <<: *build-template
   variables:
     ENV: staging
   rules:
     - when: on_success
 
 build-prod:
-  << : *build-template
+  <<: *build-template
   rules:
     - if: $CI_COMMIT_REF_NAME == 'main'
       when: on_success
