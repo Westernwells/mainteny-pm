@@ -1,12 +1,92 @@
-# You can override the included template(s) by including variable overrides
-# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
-# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-  - test
-sast:
-  stage: test
-include:
-  - template: Security/SAST.gitlab-ci.yml
+  - lint
+  - build-project
+  - build-images
+  - deploy
+
+variables:
+  DOCKER_REGISTRY: 155174012160.dkr.ecr.eu-central-1.amazonaws.com
+  DOCKER_DRIVER: overlay
+  IMAGE_SUFFIX: ${CI_COMMIT_SHORT_SHA}-${CI_PIPELINE_ID}
+
+.build-project: &build-template
+  stage: build-project
+  image: node:lts-gallium
+  script:
+    - yarn prepare_env
+    - yarn install --frozen-lockfile
+    - yarn build:${ENV}
+  artifacts:
+    paths:
+      - build/
+
+.build-images: &build-image-template
+  stage: build-images
+  variables:
+    GIT_STRATEGY: none
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: ['']
+  before_script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"credsStore\":\"ecr-login\",\"credHelpers\":{\"$DOCKER_REGISTRY\":\"ecr-login\"}}" > /kaniko/.docker/config.json
+  script:
+    - >
+      /kaniko/executor
+      --cache=true
+      --context $CI_PROJECT_DIR 
+      --dockerfile Dockerfile 
+      --destination ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${ENV}
+
+lint-project:
+  stage: lint
+  image: node:lts-gallium
+  script:
+    - yarn install --frozen-lockfile
+    - yarn check-format
+    - yarn check-types
+    - yarn check-lint
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      when: never
+    - when: always
+
+build-staging:
+  <<: *build-template
+  variables:
+    ENV: staging
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      when: never
+    - when: on_success
+
+build-prod:
+  <<: *build-template
+  rules:
+    - if: $CI_COMMIT_REF_NAME == 'main'
+      when: on_success
+      variables:
+        ENV: prod
+    - when: never
+
+build-staging-image:
+  <<: *build-image-template
+  dependencies:
+    - build-staging
+  rules:
+    - if: $CI_COMMIT_REF_NAME == 'main'
+      when: on_success
+      variables:
+        ENV: staging
+    - when: never
+
+build-prod-image:
+  <<: *build-image-template
+  dependencies:
+    - build-prod
+  rules:
+    - if: $CI_COMMIT_REF_NAME == 'main'
+      when: on_success
+      variables:
+        ENV: prod
+    - when: never
