@@ -38,6 +38,15 @@ variables:
       --dockerfile Dockerfile 
       --destination ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${ENV}
 
+lint-project:
+  stage: lint
+  image: node:lts-gallium
+  script:
+    - yarn install --frozen-lockfile
+    - yarn check-format
+    - yarn check-types
+    - yarn check-lint
+
 build-staging:
   <<: *build-template
   variables:
