@@ -19,6 +19,7 @@ variables:
   artifacts:
     paths:
       - build/
+      - Dockerfile
 
 .build-images: &build-image-template
   stage: build-images
