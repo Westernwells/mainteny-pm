@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from '../setup';
 
-export const useFetch = (url, params = {}, method, requestPayload) => {
+export const useFetch = (url, method, body, params = {}) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
   const [error, setError] = useState(false);
@@ -11,22 +11,21 @@ export const useFetch = (url, params = {}, method, requestPayload) => {
     axios({
       method,
       url,
-      data: requestPayload,
+      data: body,
       params,
-      paramsSerializer: function (params) {
-        const items = Object.keys(params).map((key) => {
-          const value = params[key];
+      paramsSerializer: (parameters) => {
+        const items = Object.keys(parameters).map((key) => {
+          const value = parameters[key];
           if (Array.isArray(value)) {
             return value.map((v) => `${key}=${v}`);
-          } else {
-            return `${key}=${value}`;
           }
+          return `${key}=${value}`;
         });
 
         return items.flat().join('&');
       },
     })
-      .then(function (response) {
+      .then((response) => {
         setData(response);
       })
       .catch((err) => {
@@ -37,5 +36,5 @@ export const useFetch = (url, params = {}, method, requestPayload) => {
       });
   }, []);
 
-  return { loading, data, error };
+  return {loading, data, error};
 };
