@@ -17,6 +17,7 @@
     "typescript": "latest"
   },
   "scripts": {
+    "prepare": "node create_env.mjs",
     "start": "react-scripts start",
     "start:staging": "env-cmd -f .env.staging react-scripts start",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
