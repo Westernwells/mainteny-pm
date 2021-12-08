@@ -13,7 +13,7 @@ variables:
   stage: build-project
   image: node:lts-gallium
   script:
-    - yarn prepare
+    - yarn prepare_env
     - yarn install --frozen-lockfile
     - yarn build:${ENV}
   artifacts:
