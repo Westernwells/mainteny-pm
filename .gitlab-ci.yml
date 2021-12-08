@@ -46,12 +46,18 @@ lint-project:
     - yarn check-format
     - yarn check-types
     - yarn check-lint
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      when: never
+    - when: always
 
 build-staging:
   <<: *build-template
   variables:
     ENV: staging
   rules:
+    - if: $CI_MERGE_REQUEST_ID
+      when: never
     - when: on_success
 
 build-prod:
