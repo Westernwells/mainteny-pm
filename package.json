@@ -10,6 +10,7 @@
     "@types/react-dom": "latest",
     "axios": "^0.24.0",
     "env-cmd": "^10.1.0",
+    "lint-staged": "^12.1.2",
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "^6.0.2",
@@ -30,7 +31,7 @@
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext ts --ext tsx --ext js",
     "format": "prettier --write .",
-    "test-all": "npm run check-format && npm run check-lint && npm run check-types"
+    "test-all": "npm run check-format && npm run check-lint && npm run check-types",
   },
   "browserslist": {
     "production": [
@@ -55,5 +56,10 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^7.0.0",
     "prettier": "^2.5.1"
-  }
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,tsx}": [
+      "eslint . --fix", "git add"
+    ]
+  },
 }
