@@ -39,6 +39,47 @@ variables:
       --dockerfile Dockerfile 
       --destination ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${ENV}
 
+.deploy_project: &deploy-template
+  stage: deploy
+  allow_failure: false
+  image: node:lts-gallium
+  before_script:
+    - curl -fsSL https://get.pulumi.com/ | bash # Install Pulumi
+    - export PATH=$PATH:$HOME/.pulumi/bin
+    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" # Install AWS CLI
+    - unzip -qq awscliv2.zip
+    - ./aws/install
+    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/mainteny/infra/kubeapps
+    - cd kubeapps
+    - npm ci
+    - pulumi login s3://mainteny-pulumi-state
+  variables:
+    ENV: stage
+  script:
+    - echo "Deploying ${IMAGE_SUFFIX} on environment $ENV"
+    - pulumi stack select pm.$ENV
+    - pulumi config set --path "mainteny:k8sConfig.services[0].image" ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${ENV}
+    - pulumi config set mainteny:version ${CI_COMMIT_SHORT_SHA}_$(date '+%Y%m%d')
+    - pulumi config set mainteny:deploymentTimeStamp "$(date)"
+    - pulumi up -y
+    - pulumi stack select cdn.$ENV
+    - aws cloudfront create-invalidation --distribution-id $(pulumi stack output distributionId) --paths "/pm/*"
+    - >-
+      curl -X POST
+      --data-urlencode
+      "payload={
+      \"channel\": \"#release-notifications\",
+      \"username\": \"ReleaseBot\",
+      \"text\": \"*Property Manager UI $ENV Release* :rocket:\n
+      *Git commit Message*: $CI_COMMIT_MESSAGE\n
+      *Git commit ID*: <https://gitlab.com/mainteny/applications/web/-/commit/$CI_COMMIT_SHA|$CI_COMMIT_SHORT_SHA>
+      \",
+      \"icon_emoji\": \":rocket:\"
+       }" $SLACK_WEBHOOK_URL
+  rules:
+    - if: '$CI_MERGE_REQUEST_ID'
+      when: never
+
 lint-project:
   stage: lint
   image: node:lts-gallium
@@ -90,4 +131,26 @@ build-prod-image:
       when: on_success
       variables:
         ENV: prod
+    - when: never
+
+deploy-stage:
+  <<: *deploy-template
+  dependencies:
+    - build-stage-image
+  rules:
+    - if: "$CI_COMMIT_REF_NAME == 'main'"
+      variables:
+        ENV: stage
+      when: on_success
+    - when: never
+
+deploy-production:
+  <<: *deploy-template
+  dependencies:
+    - build-prod-image
+  rules:
+    - if: "$CI_COMMIT_REF_NAME == 'main'"
+      variables:
+        ENV: prod
+      when: manual
     - when: never
