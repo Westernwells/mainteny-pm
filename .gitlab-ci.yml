@@ -20,6 +20,7 @@ variables:
     paths:
       - build/
       - Dockerfile
+      - nginx.conf
 
 .build-images: &build-image-template
   stage: build-images
