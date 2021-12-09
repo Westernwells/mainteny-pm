@@ -1,9 +1,9 @@
-// Script to create env.staging or env.prod on fly during GitLab CI
+// Script to create env.stage or env.prod on fly during GitLab CI
 // Whenever adding a new environment variable, do the following steps:
 //   1. Go to GitLab repo
 //   2. Settings -> CI/CD
 //   3. Under environent variable sections, create one
-//   4. Enter name, suffix with "_STAGING" and "_PRODUCTION" for different environments
+//   4. Enter name, suffix with "_STAGE" and "_PRODUCTION" for different environments
 //   5. Add the name without suffix in the .env.template
 import * as fs from 'fs/promises';
 

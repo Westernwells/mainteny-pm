@@ -52,10 +52,10 @@ lint-project:
       when: never
     - when: always
 
-build-staging:
+build-stage:
   <<: *build-template
   variables:
-    ENV: staging
+    ENV: stage
   rules:
     - if: $CI_MERGE_REQUEST_ID
       when: never
@@ -70,15 +70,15 @@ build-prod:
         ENV: prod
     - when: never
 
-build-staging-image:
+build-stage-image:
   <<: *build-image-template
   dependencies:
-    - build-staging
+    - build-stage
   rules:
     - if: $CI_COMMIT_REF_NAME == 'main'
       when: on_success
       variables:
-        ENV: staging
+        ENV: stage
     - when: never
 
 build-prod-image:
