@@ -5,7 +5,7 @@ import {Home} from './pages/Home';
 import {Profile} from './pages/Profile';
 
 export const App = () => (
-  <BrowserRouter>
+  <BrowserRouter basename="/pm">
     <div className="App">
       <Header />
     </div>
