@@ -2,14 +2,12 @@ import {Method} from 'axios';
 import {useEffect, useState} from 'react';
 import axios from '../setup';
 
-interface FetchParams<T = any, K = any> {
-  url: string;
-  method: Method;
-  body: T;
-  params: K;
-}
-
-export const useFetch = ({url, method, body, params = {}}: FetchParams) => {
+export const useFetch = <T = any, K = any>(
+  url: string,
+  method: Method,
+  body: T,
+  params: K,
+) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>();
   const [error, setError] = useState(false);
