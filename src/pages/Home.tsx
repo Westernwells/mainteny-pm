@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Container from '@mui/material/Container';
 import {Button} from '@mui/material';
 import Typography from '@mui/material/Typography';
