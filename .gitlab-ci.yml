@@ -73,7 +73,7 @@ variables:
       \"username\": \"ReleaseBot\",
       \"text\": \"*Property Manager UI $ENV Release* :rocket:\n
       *Git commit Message*: $CI_COMMIT_MESSAGE\n
-      *Git commit ID*: <https://gitlab.com/mainteny/applications/web/-/commit/$CI_COMMIT_SHA|$CI_COMMIT_SHORT_SHA>
+      *Git commit ID*: <https://gitlab.com/mainteny/applications/pm/-/commit/$CI_COMMIT_SHA|$CI_COMMIT_SHORT_SHA>
       \",
       \"icon_emoji\": \":rocket:\"
        }" $SLACK_WEBHOOK_URL
