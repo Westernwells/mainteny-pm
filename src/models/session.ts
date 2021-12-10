@@ -3,7 +3,7 @@ import {UserAccount} from './user';
 export interface UserSession {
   token: string;
   userAccount: UserAccount;
-  createdAt: number;
-  lastUpdatedAt: number;
-  expiredAt: number;
+  createdAt: string;
+  lastUpdatedAt: string;
+  expiredAt: string;
 }

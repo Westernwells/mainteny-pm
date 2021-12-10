@@ -14,8 +14,8 @@ export enum DispatchStrategy {
 }
 
 export interface Meta {
-  createdAt: number;
-  lastUpdatedAt: number;
+  createdAt: string;
+  lastUpdatedAt: string;
   state: State;
 }
 
