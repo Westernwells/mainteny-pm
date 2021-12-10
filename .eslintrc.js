@@ -21,7 +21,7 @@ module.exports = {
     'react/jsx-filename-extension': [1, {extensions: ['.tsx']}],
     'no-use-before-define': 'off',
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 1,
     'no-shadow': 'off',
     'no-param-reassign': 0,
     '@typescript-eslint/no-shadow': ['error'],
@@ -30,6 +30,7 @@ module.exports = {
       {namedComponents: 'arrow-function'},
     ],
     'import/extensions': 'off',
+    'arrow-body-style': 1,
   },
   settings: {
     react: {

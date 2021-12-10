@@ -70,18 +70,18 @@ export const theme = createTheme({
       letterSpacing: '-1.5px',
     },
     h2: {
-      fontWeight: 400,
+      fontWeight: 600,
       fontSize: '60px',
       lineHeight: '72px',
       letterSpacing: '-0.5px',
     },
     h3: {
-      fontWeight: 400,
+      fontWeight: 600,
       fontSize: '48px',
       lineHeight: '56.02px',
     },
     h4: {
-      fontWeight: 400,
+      fontWeight: 600,
       fontSize: '34px',
       lineHeight: '41.99px',
       letterSpacing: '0.25px',
