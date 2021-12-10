@@ -64,7 +64,7 @@ variables:
     - pulumi config set mainteny:deploymentTimeStamp "$(date)"
     - pulumi up -y
     - pulumi stack select cdn.$ENV
-    - aws cloudfront create-invalidation --distribution-id $(pulumi stack output distributionId) --paths "/pm/*"
+    - aws cloudfront create-invalidation --distribution-id $(pulumi stack output distributionId) --paths "/pm*"
     - >-
       curl -X POST
       --data-urlencode
