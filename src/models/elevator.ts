@@ -80,7 +80,7 @@ export interface ElevatorView {
 export interface ElevatorSimpleView {
   id: string;
   propertyOwner: ClientSimpleView;
-  properties: ElevatorProperty[];
+  properties?: ElevatorProperty[];
   number: string;
   model: string;
   type: string;
@@ -90,6 +90,8 @@ export interface ElevatorSimpleView {
   lastVisitDate: string;
   serviceTime: number;
   status: ElevatorStatus;
+  labels: string[];
+  additionalInfo: ElevatorAdditionalInfo;
   meta: Meta;
 }
 

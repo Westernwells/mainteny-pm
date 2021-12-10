@@ -87,9 +87,9 @@ export interface ContractSimpleView {
   price: number;
   hourlyRate: number;
   currency: string;
-  startTime: number;
-  endTime: number;
-
+  startTime: string;
+  endTime: string;
+  search: string;
   status: ContractStatus;
   meta: Meta;
 }

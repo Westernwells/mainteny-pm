@@ -1,9 +1,15 @@
 import {Address, Meta, TechnicianEventType, TimeWindowRecord} from './misc';
 import {UserAccountSimpleView, UserAccountView} from './user';
+import {ServiceOrderType} from './service-order';
 
 export interface TechnicianTimeWindowRecord extends TimeWindowRecord {
   id: string;
   technicianId: string;
+}
+
+export interface TechnicianAdditionalInfo {
+  leftVacationDays: number;
+  assignedServiceOrderTypes: ServiceOrderType[];
 }
 
 export interface Technician {
@@ -34,6 +40,9 @@ export interface MaintainerView {
 export interface TechnicianSimpleView {
   id: string;
   userAccount: UserAccountSimpleView;
+  address: Address;
+  isOnline: boolean;
+  additionalInfo: TechnicianAdditionalInfo;
   meta: Meta;
 }
 

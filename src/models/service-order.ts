@@ -76,7 +76,7 @@ export interface ServiceOrder {
 
 export interface ServiceOrderAdditionalInfo {
   appointmentConfirmed: boolean;
-  appointmentNotificationDueDate: string;
+  appointmentNotificationDueDate?: string;
   appointmentNotificationRequired: boolean;
   appointmentNotificationSent: boolean;
   priority: Priority;
@@ -88,14 +88,17 @@ export interface ServiceOrderView {
   externalID: string;
   serviceCompany: ServiceCompanySimpleView;
   elevator: ElevatorSimpleView;
-  contract: ContractSimpleView;
+  contract?: ContractSimpleView;
   description: string;
   type: ServiceOrderType;
   status: ServiceOrderStatus;
   lastVisitDate: string;
   expectedVisitDate: string;
+  actualStartTime?: string;
   dueDate: string;
+  serviceTime?: number;
   schedules: ServiceOrderScheduleSimpleView[];
+  labels: string[];
   search: string;
   meta: Meta;
   additionalInfo: ServiceOrderAdditionalInfo;
@@ -154,6 +157,9 @@ export interface ServiceOrderScheduleSimpleView {
   technician: TechnicianSimpleView;
   startTime: string;
   endTime: string;
+  type: JobScheduleType;
+  source: string;
+  createdAt: string;
 }
 
 export interface CreateAssignmentBasedServiceOrder {
