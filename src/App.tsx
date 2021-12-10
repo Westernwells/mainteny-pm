@@ -4,8 +4,6 @@ import {About} from './pages/About';
 import {Home} from './pages/Home';
 import {Profile} from './pages/Profile';
 
-// import {request} from './utils/axios-utils';
-
 export const App = () => (
   <BrowserRouter basename="/pm">
     <div className="App">
