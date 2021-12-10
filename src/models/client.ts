@@ -30,6 +30,10 @@ export interface ClientSimpleView {
   id: string;
   name: string;
   serviceCompanyId: string;
+  address: Address;
+  contact: Contact;
+  labels: string[];
+  additionalInfo: ClientAdditionalInfo;
   meta: Meta;
 }
 

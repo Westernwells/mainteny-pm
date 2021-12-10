@@ -1,5 +1,5 @@
 import {Address, AddressRecord, Meta, Priority, StringMap} from './misc';
-import {Client, ClientSimpleView, ClientView} from './client';
+import {Client, ClientSimpleView} from './client';
 import {TechnicianSimpleView} from './technician';
 import {FileResource} from './media';
 
@@ -29,6 +29,7 @@ export enum ElevatorCategory {
 
 export interface ElevatorAdditionalInfo {
   priority: Priority;
+  isServiceOrderGenerationEnabled: boolean;
 }
 
 export interface ElevatorProperty {
@@ -66,10 +67,11 @@ export interface ElevatorView {
   category: ElevatorCategory;
   technicianNumber: number;
   address: Address;
-  propertyOwner: ClientView;
+  propertyOwner: ClientSimpleView;
   lastVisitDate: string;
   serviceTime: number;
   status: ElevatorStatus;
+  labels: [];
   additionalInfo: ElevatorAdditionalInfo;
   search: string;
   meta: Meta;
