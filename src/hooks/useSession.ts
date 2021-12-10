@@ -1,5 +1,11 @@
 import {useQuery} from 'react-query';
-import {DispatchStrategy, Language, RestError, State} from '../models/misc';
+import {
+  DispatchStrategy,
+  Language,
+  RestError,
+  State,
+  StringValueResponse,
+} from '../models/misc';
 import {UserSession} from '../models/session';
 import {UserAccountStatus} from '../models/user';
 
@@ -50,5 +56,13 @@ export function useLogin(username: string, password: string) {
   };
   return useQuery<UserSession, RestError>('login', () =>
     Promise.resolve(session),
+  );
+}
+
+export function useAccountActivation(token: string, password: string) {
+  console.log(token);
+  console.log(password);
+  return useQuery<StringValueResponse, RestError>('accountActivation', () =>
+    Promise.resolve({value: 'ok'}),
   );
 }

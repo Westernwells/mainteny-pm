@@ -162,3 +162,7 @@ export enum Priority {
   C = 'C',
   NONE = 'NONE',
 }
+
+export interface StringValueResponse {
+  value: string;
+}
