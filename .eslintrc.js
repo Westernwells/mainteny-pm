@@ -18,6 +18,10 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/jsx-fragments': 'off',
     'react/jsx-filename-extension': [1, {extensions: ['.tsx']}],
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
     'react/function-component-definition': [
       2,
       {namedComponents: 'arrow-function'},
