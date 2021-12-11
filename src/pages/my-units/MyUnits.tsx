@@ -8,7 +8,11 @@ import {Resource} from '../../models/misc';
 import {ElevatorsByAddress, ElevatorOrderPair} from './Models';
 import {UnitsSection} from './UnitsSection';
 
-export const MyUnits = () => {
+interface Props {
+  stopLoading: () => void;
+}
+
+export const MyUnits = ({stopLoading}: Props) => {
   const [isLoading, setLoading] = useState(true);
   const [elevatorsByAddressList, setElevatorsByAddressList] = useState<
     ElevatorsByAddress[]
@@ -43,6 +47,7 @@ export const MyUnits = () => {
     }
 
     loadData();
+    stopLoading();
   }, []);
 
   if (isLoading) {

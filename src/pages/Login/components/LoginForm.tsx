@@ -1,4 +1,5 @@
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEye';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import TextField from '@mui/material/TextField';
@@ -16,6 +17,7 @@ interface Props {
   emailError: string | undefined;
   password: string;
   passwordError: string | undefined;
+  startLoading: () => void;
 }
 
 export const LoginForm = ({
@@ -27,70 +29,78 @@ export const LoginForm = ({
   emailError,
   handleBlur,
   emailTouched,
-}: Props) => (
-  <Box mt={3} display="flex" justifyContent="center" width="100%">
-    <form style={{width: '34%'}} onSubmit={handleSubmit}>
-      <TextField
-        sx={{}}
-        id="email"
-        name="email"
-        label="Email address"
-        size="medium"
-        fullWidth
-        type="email"
-        error={!!(emailTouched && emailError)}
-        helperText={emailTouched && emailError ? emailError : ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={email}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <EmailSharp />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Box>
+  startLoading,
+}: Props) => {
+  const navigate = useNavigate();
+  return (
+    <Box mt={3} display="flex" justifyContent="center" width="100%">
+      <form style={{width: '34%'}} onSubmit={handleSubmit}>
         <TextField
-          sx={{marginTop: 4}}
-          id="password"
-          name="password"
-          label="Password"
+          sx={{}}
+          id="email"
+          name="email"
+          label="Email address"
           size="medium"
           fullWidth
-          type="password"
+          type="email"
+          error={!!(emailTouched && emailError)}
+          helperText={emailTouched && emailError ? emailError : ''}
           onChange={handleChange}
           onBlur={handleBlur}
-          value={password}
+          value={email}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <RemoveRedEye />
+                <EmailSharp />
               </InputAdornment>
             ),
           }}
         />
-        <Box display="flex" justifyContent="flex-end" mt={1}>
-          <Button
-            variant="text"
-            color="info"
-            sx={{textTransform: 'capitalize'}}
-          >
-            Forgot Password?
-          </Button>
+        <Box>
+          <TextField
+            sx={{marginTop: 4}}
+            id="password"
+            name="password"
+            label="Password"
+            size="medium"
+            fullWidth
+            type="password"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={password}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <RemoveRedEye />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Box display="flex" justifyContent="flex-end" mt={1}>
+            <Button
+              variant="text"
+              color="info"
+              sx={{textTransform: 'capitalize'}}
+            >
+              Forgot Password?
+            </Button>
+          </Box>
         </Box>
-      </Box>
 
-      <Button
-        disabled={!!(!password || !email || emailError || passwordError)}
-        sx={{marginTop: 5, width: '100%'}}
-        variant="contained"
-        size="large"
-        endIcon={<ArrowForward />}
-      >
-        Login
-      </Button>
-    </form>
-  </Box>
-);
+        <Button
+          onClick={() => {
+            startLoading();
+            navigate('/my-units');
+          }}
+          disabled={!!(!password || !email || emailError || passwordError)}
+          sx={{marginTop: 5, width: '100%'}}
+          variant="contained"
+          size="large"
+          endIcon={<ArrowForward />}
+        >
+          Login
+        </Button>
+      </form>
+    </Box>
+  );
+};

@@ -26,6 +26,7 @@
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.2",
     "react-scripts": "latest",
+    "react-top-loading-bar": "^2.1.0",
     "typescript": "latest",
     "yup": "^0.32.11"
   },
