@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import {
-  RemoveRedEye,
-  CheckCircleRounded,
-  ArrowForward,
-  ArrowBack,
-} from '@mui/icons-material';
-import {TextField, InputAdornment, Typography, Button} from '@mui/material';
-import {Box} from '@mui/system';
+import ArrowForward from '@mui/icons-material/ArrowForward';
+import ArrowBack from '@mui/icons-material/ArrowBack';
+import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
+import RemoveRedEye from '@mui/icons-material/RemoveRedEye';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 interface Props {
   handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;

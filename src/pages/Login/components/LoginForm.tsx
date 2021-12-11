@@ -1,7 +1,11 @@
 import React from 'react';
-import {RemoveRedEye, ArrowForward, EmailSharp} from '@mui/icons-material';
-import {TextField, InputAdornment, Button} from '@mui/material';
-import {Box} from '@mui/system';
+import RemoveRedEye from '@mui/icons-material/RemoveRedEye';
+import ArrowForward from '@mui/icons-material/ArrowForward';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import EmailSharp from '@mui/icons-material/EmailSharp';
 
 interface Props {
   handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
