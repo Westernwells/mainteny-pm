@@ -1,5 +1,9 @@
 import React from 'react';
-import {Box, Button, Grid, Paper, styled} from '@mui/material';
+import {styled} from '@mui/material';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/system/Box';
 import {ElevatorsByAddress} from './Models';
 import {getDay} from '../../utils/datetime';
 

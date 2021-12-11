@@ -1,18 +1,11 @@
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {Header} from './components/Header';
-import {About} from './pages/About';
-import {Home} from './pages/Home';
-import {Profile} from './pages/Profile';
+import {Login} from './pages/Login';
 
 export const App = () => (
   <BrowserRouter basename="/pm">
-    <div className="App">
-      <Header />
-    </div>
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   </BrowserRouter>
 );

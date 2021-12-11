@@ -19,17 +19,19 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/jsx-fragments': 'off',
     'react/jsx-filename-extension': [1, {extensions: ['.tsx']}],
-    'no-use-before-define': 'off',
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 1,
     'no-shadow': 'off',
     'no-param-reassign': 0,
     '@typescript-eslint/no-shadow': ['error'],
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': ['error'],
     'react/function-component-definition': [
       2,
       {namedComponents: 'arrow-function'},
     ],
     'import/extensions': 'off',
+    'arrow-body-style': 1,
   },
   settings: {
     react: {
