@@ -1,8 +1,16 @@
-import {Container, Grid, Paper, Typography} from '@mui/material';
+import {useState} from 'react';
+import {Typography} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {Box} from '@mui/system';
-import {ReactComponent as PolygonTop} from '../../assets/icons/polygon-top.svg';
-import {ReactComponent as PolygonBottom} from '../../assets/icons/polygon-bottom.svg';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import {ReactComponent as PolygonTop} from '../../assets/icons/polygonTop.svg';
+import {ReactComponent as PolygonBottom} from '../../assets/icons/polygonBottom.svg';
+import {ReactComponent as Logo} from '../../assets/icons/Logo.svg';
+import {LoginForm} from './components/LoginForm';
+import {PasswordResetForm} from './components/ResetPasswordForm';
+import {ReactComponent as CheckMark} from '../../assets/icons/CheckMark.svg';
+
 // import loginBg from '../../assets/images/login-bg.png';
 
 const useStyles = makeStyles({
@@ -14,8 +22,33 @@ const useStyles = makeStyles({
   },
 });
 
+const validationSchema = Yup.object().shape({
+  resetPassword: Yup.string()
+    .required('field is required')
+    .min(6, 'must be atleast 6 characters')
+    .matches(/\d/, 'must contain 1 digit'),
+
+  password: Yup.string().required('field is required'),
+});
+
 export const Login = () => {
   const classes = useStyles();
+  const [resetPasswordDone, setPasswordResetDone] = useState<boolean>();
+  const formik = useFormik({
+    initialValues: {
+      resetPassword: '',
+      password: '',
+      confirmResetPassword: '',
+      email: '',
+    },
+    onSubmit: (values) => {
+      console.log(values, '|||||||||||||||');
+    },
+    validationSchema,
+  });
+
+  console.log(formik.values, formik.errors);
+
   return (
     <Box display="flex" height="100vh">
       <Box
@@ -31,7 +64,7 @@ export const Login = () => {
         </Box>
 
         <Box>
-          <Typography sx={{color: '#fff'}} variant="h2" textAlign="center">
+          <Typography color="#fff" variant="h2" textAlign="center">
             Mainteny CX
           </Typography>
 
@@ -51,8 +84,62 @@ export const Login = () => {
         </Box>
       </Box>
 
-      <Box>
-        <Typography variant="h1">Login</Typography>
+      <Box ml={10} flexGrow={1} display="flex" justifyContent="center" pt={14}>
+        <Box>
+          <Box display="flex" justifyContent="center">
+            <Logo />
+          </Box>
+          {resetPasswordDone ? (
+            <Box display="flex">
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="flex-end"
+              >
+                <CheckMark />
+              </Box>
+              <Typography variant="h4" mt={7} textAlign="center">
+                Awesome, password created successfully
+              </Typography>
+            </Box>
+          ) : (
+            <Typography variant="h4" mt={7} textAlign="center">
+              Hi John, let’s activate your account
+            </Typography>
+          )}
+
+          {resetPasswordDone ? (
+            <Typography variant="h6" mt={5} textAlign="center">
+              Login
+            </Typography>
+          ) : (
+            <Typography variant="h6" mt={5} textAlign="center">
+              Set a new password
+            </Typography>
+          )}
+
+          {resetPasswordDone ? (
+            <LoginForm
+              handleChange={formik.handleChange}
+              handleSubmit={formik.handleSubmit}
+              password={formik.values.password}
+              passwordError={formik.errors.password}
+              handleBlur={formik.handleBlur}
+              email={formik.values.email}
+              emailError={formik.errors.email}
+            />
+          ) : (
+            <PasswordResetForm
+              handleChange={formik.handleChange}
+              handleSubmit={formik.handleSubmit}
+              password={formik.values.resetPassword}
+              passwordError={formik.errors.resetPassword}
+              handleBlur={formik.handleBlur}
+              confirmPassword={formik.values.confirmResetPassword}
+              setPasswordResetDone={setPasswordResetDone}
+            />
+          )}
+        </Box>
       </Box>
     </Box>
   );

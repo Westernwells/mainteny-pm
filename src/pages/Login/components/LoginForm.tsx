@@ -1,0 +1,90 @@
+import React from 'react';
+import {RemoveRedEye, ArrowForward, EmailSharp} from '@mui/icons-material';
+import {TextField, InputAdornment, Button} from '@mui/material';
+import {Box} from '@mui/system';
+
+interface Props {
+  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
+  handleChange: (e: React.ChangeEvent<any>) => void;
+  handleBlur: (e: React.FocusEvent<any, Element>) => void;
+  email: string;
+  emailError: string | undefined;
+  password: string;
+  passwordError: string | undefined;
+}
+
+export const LoginForm = ({
+  handleSubmit,
+  handleChange,
+  password,
+  passwordError,
+  email,
+  emailError,
+  handleBlur,
+}: Props) => (
+  <Box mt={3} display="flex" justifyContent="center" width="100%">
+    <form style={{width: '60%'}} onSubmit={handleSubmit}>
+      <TextField
+        sx={{}}
+        id="email"
+        name="email"
+        label="Email address"
+        size="medium"
+        fullWidth
+        type="email"
+        error={!!emailError}
+        helperText={emailError}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={email}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <EmailSharp />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <Box>
+        <TextField
+          sx={{marginTop: 4}}
+          id="password"
+          name="password"
+          label="Password"
+          size="medium"
+          fullWidth
+          type="password"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={password}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <RemoveRedEye />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Box display="flex" justifyContent="flex-end" mt={1}>
+          <Button
+            variant="text"
+            color="info"
+            sx={{textTransform: 'capitalize'}}
+          >
+            Forgot Password?
+          </Button>
+        </Box>
+      </Box>
+
+      <Button
+        disabled={!!(!password || !email || emailError || passwordError)}
+        sx={{marginTop: 5, width: '100%'}}
+        variant="contained"
+        size="large"
+        endIcon={<ArrowForward />}
+      >
+        Login
+      </Button>
+    </form>
+  </Box>
+);

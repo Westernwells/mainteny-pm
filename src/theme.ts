@@ -134,72 +134,79 @@ export const theme = createTheme({
       lineHeight: '31.92px',
       letterSpacing: '1px',
     },
-    buttonLarge: {
-      fontWeight: 600,
-      fontSize: '15px',
-      lineHeight: '26px',
-      letterSpacing: '0.15px',
-    },
-    buttonMedium: {
-      fontWeight: 600,
-      fontSize: '14px',
-      lineHeight: '24px',
-      letterSpacing: '0.4px',
-    },
-    buttonSmall: {
-      fontWeight: 600,
-      fontSize: '13px',
-      lineHeight: '22px',
-      letterSpacing: '0.46px',
-    },
-    avatarLetter: {
-      fontWeight: 400,
-      fontSize: '20px',
-      lineHeight: '20px',
-      letterSpacing: '0.14px',
-    },
-    inputLabel: {
-      fontWeight: 400,
-      fontSize: '12px',
-      lineHeight: '12px',
-      letterSpacing: '0.15px',
-    },
-    helperText: {
-      fontWeight: 400,
-      fontSize: '12px',
-      lineHeight: '20px',
-      letterSpacing: '0.4px',
-    },
-    inputText: {
-      fontWeight: 400,
-      fontSize: '16px',
-      lineHeight: '24px',
-      letterSpacing: '0.15px',
-    },
-    tooltip: {
-      fontWeight: 500,
-      fontSize: '10px',
-      lineHeight: '14px',
-    },
   },
   components: {
     MuiButton: {
       variants: [
         {
-          props: {variant: 'large'},
+          props: {size: 'large'},
           style: {
-            textTransform: 'none',
+            fontWeight: 600,
+            fontSize: '15px',
+            lineHeight: '26px',
+            letterSpacing: '0.15px',
           },
         },
         {
-          props: {variant: 'medium'},
-          style: {},
+          props: {size: 'medium'},
+          style: {
+            fontWeight: 600,
+            fontSize: '14px',
+            lineHeight: '24px',
+            letterSpacing: '0.4px',
+          },
         },
         {
-          props: {variant: 'small', color: 'secondary'},
-          style: {},
+          props: {size: 'small'},
+          style: {
+            fontWeight: 600,
+            fontSize: '13px',
+            lineHeight: '22px',
+            letterSpacing: '0.46px',
+          },
         },
       ],
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontWeight: 400,
+          fontSize: '16px',
+          lineHeight: '24px',
+          letterSpacing: '0.15px',
+        },
+      },
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          fontWeight: 400,
+          fontSize: '12px',
+          lineHeight: '20px',
+          letterSpacing: '0.4px',
+        },
+      },
+    },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          fontWeight: 400,
+          fontSize: '16px',
+          lineHeight: '24px',
+          letterSpacing: '0.15px',
+        },
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          fontWeight: 400,
+          fontSize: '20px',
+          lineHeight: '20px',
+          letterSpacing: '0.14px',
+        },
+      },
+    },
+    MuiTooltip: {},
   },
 });
