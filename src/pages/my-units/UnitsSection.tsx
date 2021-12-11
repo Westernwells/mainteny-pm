@@ -45,7 +45,7 @@ export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => (
       </Grid>
     </Grid>
     {elevatorsByAddress.elevators.map((elevatorOrder) => (
-      <Grid container spacing={2} columns={12}>
+      <Grid key={elevatorOrder.elevator.id} container spacing={2} columns={12}>
         <Grid item xs={3}>
           <Item>{elevatorOrder.elevator.model}</Item>
         </Grid>
