@@ -30,7 +30,7 @@ export const PasswordResetForm = ({
   const [reEnterPassword, setReEnterPassword] = useState(false);
   return (
     <Box mt={3} display="flex" justifyContent="center" width="100%">
-      <form style={{width: '60%'}} onSubmit={handleSubmit}>
+      <form style={{width: '34%'}} onSubmit={handleSubmit}>
         <TextField
           disabled={reEnterPassword}
           id="resetPassword"

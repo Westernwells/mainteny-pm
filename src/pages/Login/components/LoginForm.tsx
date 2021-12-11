@@ -23,7 +23,7 @@ export const LoginForm = ({
   handleBlur,
 }: Props) => (
   <Box mt={3} display="flex" justifyContent="center" width="100%">
-    <form style={{width: '60%'}} onSubmit={handleSubmit}>
+    <form style={{width: '34%'}} onSubmit={handleSubmit}>
       <TextField
         sx={{}}
         id="email"

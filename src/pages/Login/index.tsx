@@ -80,21 +80,22 @@ export const Login = () => {
         </Box>
       </Box>
 
-      <Box ml={10} flexGrow={1} display="flex" justifyContent="center" pt={14}>
+      <Box ml={10} flexGrow={1} pt={14}>
         <Box>
           <Box display="flex" justifyContent="center">
             <Logo />
           </Box>
           {resetPasswordDone ? (
-            <Box display="flex">
+            <Box display="flex" justifyContent="center">
               <Box
                 display="flex"
                 flexDirection="column"
                 justifyContent="flex-end"
+                mr={2}
               >
                 <CheckMark />
               </Box>
-              <Typography variant="h4" mt={7} textAlign="center">
+              <Typography variant="h4" mt={7}>
                 Awesome, password created successfully
               </Typography>
             </Box>
