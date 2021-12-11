@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import {Typography} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {Box} from '@mui/system';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Box from '@mui/system/Box';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {ReactComponent as PolygonTop} from '../../assets/icons/polygonTop.svg';
@@ -10,6 +10,10 @@ import {ReactComponent as Logo} from '../../assets/icons/Logo.svg';
 import {LoginForm} from './components/LoginForm';
 import {PasswordResetForm} from './components/ResetPasswordForm';
 import {ReactComponent as CheckMark} from '../../assets/icons/CheckMark.svg';
+
+interface Props {
+  startLoading: () => void;
+}
 
 const useStyles = makeStyles({
   leftBackground: {
@@ -31,7 +35,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required('field is required'),
 });
 
-export const Login = () => {
+export const Login = ({startLoading}: Props) => {
   const classes = useStyles();
   const [resetPasswordDone, setPasswordResetDone] = useState<boolean>();
   const formik = useFormik({
@@ -127,6 +131,7 @@ export const Login = () => {
               email={formik.values.email}
               emailError={formik.errors.email}
               emailTouched={formik.touched.email}
+              startLoading={startLoading}
             />
           ) : (
             <PasswordResetForm
