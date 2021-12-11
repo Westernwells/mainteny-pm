@@ -4,6 +4,7 @@ import {Button} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useFetchContractDetails, useQueryContract} from '../hooks/useContract';
+import {MyUnits} from './my-units/MyUnits';
 
 export const Home = () => {
   const dummyContractId = '58ef817f-17b2-4bce-9823-990b6dd1a437';
@@ -14,14 +15,15 @@ export const Home = () => {
   console.log(isLoading, data);
   console.log(contractDetails, '<<<<<<<<<<<<<<<<<contract details');
   return (
-    <Container maxWidth="sm">
-      <Box sx={{my: 4}}>
+    <Container>
+      <Box>
         <Typography variant="h4" component="h1" gutterBottom>
           Hello World
         </Typography>
         <Button variant="outlined" onClick={() => fetchDetail()}>
           Fetch Contract Details
         </Button>
+        <MyUnits />
       </Box>
     </Container>
   );
