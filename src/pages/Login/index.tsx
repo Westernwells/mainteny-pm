@@ -11,8 +11,6 @@ import {LoginForm} from './components/LoginForm';
 import {PasswordResetForm} from './components/ResetPasswordForm';
 import {ReactComponent as CheckMark} from '../../assets/icons/CheckMark.svg';
 
-// import loginBg from '../../assets/images/login-bg.png';
-
 const useStyles = makeStyles({
   leftBackground: {
     background: 'linear-gradient(180deg, #095369 0%, #043146 100%)',
@@ -41,13 +39,11 @@ export const Login = () => {
       confirmResetPassword: '',
       email: '',
     },
-    onSubmit: (values) => {
-      console.log(values, '|||||||||||||||');
+    onSubmit: () => {
+      // (values) => {}
     },
     validationSchema,
   });
-
-  console.log(formik.values, formik.errors);
 
   return (
     <Box display="flex" height="100vh">
