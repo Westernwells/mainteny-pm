@@ -8,6 +8,7 @@ interface Props {
   handleChange: (e: React.ChangeEvent<any>) => void;
   handleBlur: (e: React.FocusEvent<any, Element>) => void;
   email: string;
+  emailTouched: boolean | undefined;
   emailError: string | undefined;
   password: string;
   passwordError: string | undefined;
@@ -21,6 +22,7 @@ export const LoginForm = ({
   email,
   emailError,
   handleBlur,
+  emailTouched,
 }: Props) => (
   <Box mt={3} display="flex" justifyContent="center" width="100%">
     <form style={{width: '34%'}} onSubmit={handleSubmit}>
@@ -32,8 +34,8 @@ export const LoginForm = ({
         size="medium"
         fullWidth
         type="email"
-        error={!!emailError}
-        helperText={emailError}
+        error={!!(emailTouched && emailError)}
+        helperText={emailTouched && emailError ? emailError : ''}
         onChange={handleChange}
         onBlur={handleBlur}
         value={email}

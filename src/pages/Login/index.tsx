@@ -25,7 +25,9 @@ const validationSchema = Yup.object().shape({
     .required('field is required')
     .min(6, 'must be atleast 6 characters')
     .matches(/\d/, 'must contain 1 digit'),
-
+  email: Yup.string()
+    .email('Enter a valid email')
+    .required('Email is required'),
   password: Yup.string().required('field is required'),
 });
 
@@ -124,6 +126,7 @@ export const Login = () => {
               handleBlur={formik.handleBlur}
               email={formik.values.email}
               emailError={formik.errors.email}
+              emailTouched={formik.touched.email}
             />
           ) : (
             <PasswordResetForm
