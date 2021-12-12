@@ -9,6 +9,7 @@ import {ElevatorBasicSection} from './ElevatorBasicSection';
 import {ServiceHistorySection} from './ServiceHistorySection';
 import {TechnicianSection} from './TechnicianSection';
 import {createEmptyResource} from '../../utils/paging-utils';
+import {ElevatorBreakDownSection} from './ElevatorBreakDownSection';
 
 const pageSize = 10;
 export interface UnitsDetailProps {
@@ -48,6 +49,7 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
       {serviceOrders.data.length > 0 && (
         <TechnicianSection serviceOrder={serviceOrders.data[0]} />
       )}
+      <ElevatorBreakDownSection />
     </Stack>
   );
 };
