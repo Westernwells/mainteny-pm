@@ -15277,8 +15277,172 @@ const serviceOrders: Resource<ServiceOrderView> = {
   total: 96,
   page: {pageIndex: 0, pageSize: 500},
 };
+
+const serviceOrderByElevator: Resource<ServiceOrderView> = {
+  data: [
+    {
+      id: '02a9d8a5-5efc-4385-9571-14b37739cd68',
+      number: 'MT-0002299',
+      externalID: 'system',
+      serviceCompany: {
+        id: '4a156124-a1f1-4877-9059-595416996223',
+        name: 'Graedler Foerdertechnik GmbH (Pilot Testing)',
+        meta: {
+          createdAt: '2021-05-01T18:56:53.233281Z',
+          lastUpdatedAt: '2021-05-01T18:56:53.233282Z',
+          state: State.ACTIVE,
+        },
+      },
+      elevator: {
+        id: '16b7560e-9594-4794-9b86-bc9beeae335b',
+        number: '234',
+        model: '15482 Aufzug',
+        type: '-',
+        capacity: '-',
+        category: ElevatorCategory.ELEVATOR,
+        address: {
+          id: 'd03e185b-36a0-4570-9b1f-2a90ca607070',
+          fullName: 'Töpchiner Weg 189-193, 12309 Berlin, Germany',
+          countryCode: 'DE',
+          location: {longitude: 13.4130553, latitude: 52.4017699},
+        },
+        propertyOwner: {
+          id: '26a8ecf5-070b-4867-805d-2f67330bc070',
+          name: 'FLEX Fonds Objektgesellschaft Berlin',
+          serviceCompanyId: '4a156124-a1f1-4877-9059-595416996223',
+          address: {
+            id: 'bbcca169-2d25-459b-8e98-302923ac8014',
+            fullName: 'Töpchiner Weg 189-193, 12309 Berlin, Germany',
+            countryCode: 'DE',
+            location: {longitude: 13.4130553, latitude: 52.4017699},
+          },
+          contact: {phone: '030 746 800 44', email: 'email@company.com'},
+          labels: [],
+          additionalInfo: {priority: Priority.NONE},
+          meta: {
+            createdAt: '2021-05-30T22:31:20.774980Z',
+            lastUpdatedAt: '2021-05-30T22:31:20.774980Z',
+            state: State.ACTIVE,
+          },
+        },
+        lastVisitDate: '2021-01-30',
+        serviceTime: 45,
+        status: ElevatorStatus.RUNNING,
+        labels: [],
+        additionalInfo: {
+          priority: Priority.NONE,
+          isServiceOrderGenerationEnabled: true,
+        },
+        meta: {
+          createdAt: '2021-05-30T22:31:21.056588Z',
+          lastUpdatedAt: '2021-05-30T22:31:21.056589Z',
+          state: State.ACTIVE,
+        },
+      },
+      contract: {
+        id: '422ce27e-6de1-46b0-8e1c-72b24a9aefbe',
+        type: ContractType.BASIC,
+        visitsNumber: 4,
+        sla: 0,
+        spendingLimit: 0,
+        price: 0,
+        hourlyRate: 0,
+        currency: 'EUR',
+        startTime: '2020-12-02T00:00:00Z',
+        endTime: '2021-11-28T00:00:00Z',
+        status: ContractStatus.EXPIRED,
+        search: 'flex fonds objektgesellschaft berlin basic eur valid',
+        meta: {
+          createdAt: '2021-05-30T22:31:21.391424Z',
+          lastUpdatedAt: '2021-05-30T22:31:21.391424Z',
+          state: State.ACTIVE,
+        },
+      },
+      description: 'Regular Maintenance',
+      type: ServiceOrderType.REGULAR,
+      status: ServiceOrderStatus.SCHEDULED,
+      lastVisitDate: '2021-01-30',
+      expectedVisitDate: '2021-05-01',
+      dueDate: '2021-06-01',
+      actualStartTime: '2021-09-29T12:21:06.596811Z',
+      serviceTime: 0,
+      schedules: [
+        {
+          id: 'd145e3e1-2152-4799-9899-542fa11d9794',
+          serviceOrderId: '02a9d8a5-5efc-4385-9571-14b37739cd68',
+          technician: {
+            id: '5a309c12-bda9-41d4-9b62-542662f68009',
+            address: {
+              id: '49e47444-bc70-4244-9595-2209d4a4a7ca',
+              fullName: 'Parkstraße 12, 14959 Trebbin, Germany',
+              countryCode: 'DE',
+              location: {longitude: 13.2277769, latitude: 52.2168509},
+            },
+            userAccount: {
+              id: '49717972-d803-4ae6-957c-ff8388c02db2',
+              username: 'dummy5-team1@graedler-foerdertechnik.de',
+              firstName: 'Dummy5',
+              lastName: 'Team1',
+              photoUrl: '',
+              contact: {
+                phone: '+4900000000000',
+                email: 'dummy5-team1@graedler-foerdertechnik.de',
+              },
+              roles: ['TECHNICIAN'],
+              status: UserAccountStatus.NORMAL,
+              meta: {
+                createdAt: '2021-05-01T22:33:21.319236Z',
+                lastUpdatedAt: '2021-08-10T19:51:29.563112Z',
+                state: State.ACTIVE,
+              },
+            },
+            isOnline: true,
+            additionalInfo: {
+              leftVacationDays: 30.0,
+              assignedServiceOrderTypes: [],
+            },
+            meta: {
+              createdAt: '2021-05-01T22:33:21.354152Z',
+              lastUpdatedAt: '2021-08-10T19:51:29.573042Z',
+              state: State.ACTIVE,
+            },
+          },
+          startTime: '2021-12-10T07:00:00',
+          endTime: '2021-12-10T07:45:00',
+          type: JobScheduleType.AUTO,
+          source: 'NIGHTLY_SHUFFLE',
+          createdAt: '2021-12-10T00:09:01.016397Z',
+        },
+      ],
+      additionalInfo: {
+        appointmentNotificationSent: false,
+        appointmentConfirmed: false,
+        appointmentNotificationRequired: false,
+        priority: Priority.NONE,
+      },
+      labels: [],
+      search:
+        'system, töpchiner weg 189-193, 12309 berlin, germany de flex fonds objektgesellschaft berlin running 234 15482 aufzug - - elevator [], flex fonds objektgesellschaft berlin basic eur expired, regular, scheduled, []',
+      meta: {
+        createdAt: '2021-05-30T23:00:21.744224Z',
+        lastUpdatedAt: '2021-12-10T00:09:01.387407Z',
+        state: State.ACTIVE,
+      },
+    },
+  ],
+  total: 1,
+  page: {pageIndex: 0, pageSize: 500},
+};
+
 export function fetchServiceOrders(): Promise<Resource<ServiceOrderView>> {
   return Promise.resolve(serviceOrders);
+}
+
+export function fetchServiceOrdersByElevator(
+  elevatorId: string,
+): Promise<Resource<ServiceOrderView>> {
+  console.log(`fetchServiceOrdersByElevator, elevatorId = ${elevatorId}`);
+  return Promise.resolve(serviceOrderByElevator);
 }
 
 export function useServiceOrders() {

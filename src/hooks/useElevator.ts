@@ -1,10 +1,18 @@
 import {useQuery} from 'react-query';
 import {
+  Elevator,
   ElevatorCategory,
   ElevatorStatus,
   ElevatorView,
 } from '../models/elevator';
-import {Priority, Resource, RestError, State} from '../models/misc';
+import {
+  DispatchStrategy,
+  Language,
+  Priority,
+  Resource,
+  RestError,
+  State,
+} from '../models/misc';
 
 const elevators: Resource<ElevatorView> = {
   data: [
@@ -2463,8 +2471,129 @@ const elevators: Resource<ElevatorView> = {
   total: 1350,
   page: {pageIndex: 0, pageSize: 50},
 };
+const elevator: Elevator = {
+  id: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
+  number: '500',
+  model: '47NH6674 Aufzug',
+  type: '-',
+  capacity: '-',
+  category: ElevatorCategory.ELEVATOR,
+  technicianNumber: 1,
+  address: {
+    id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
+    fullName: 'Pankstraße 32, 13357 Berlin, Germany',
+    countryCode: 'DE',
+    location: {longitude: 13.3783028, latitude: 52.54852109999999},
+  },
+  propertyOwner: {
+    id: 'badb269b-1fbc-4c45-b19a-8cff185bb8cc',
+    name: 'ADAM Pankstraße Berlin GmbH',
+    address: {
+      id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
+      fullName: 'Pankstraße 32, 13357 Berlin, Germany',
+      countryCode: 'DE',
+      location: {longitude: 13.3783028, latitude: 52.54852109999999},
+    },
+    serviceCompany: {
+      id: '4a156124-a1f1-4877-9059-595416996223',
+      name: 'Graedler Foerdertechnik GmbH (Pilot Testing)',
+      contact: {
+        phone: '+4900000000000',
+        email: 'admin@graedler-foerdertechnik.de',
+        url: 'https://www.graedler-foerdertechnik.de/',
+      },
+      language: Language.DE_DE,
+      settings: {
+        nightlyShuffleEnabled: true,
+        companyDispatchStrategy: DispatchStrategy.ASSIGNMENT_WEIGHTS,
+        totalYearlyVacationDaysAllowed: 30,
+        dateFormat: 'dd/MM/yyyy',
+      },
+      meta: {
+        createdAt: '2021-05-01T18:56:53.233281Z',
+        lastUpdatedAt: '2021-05-01T18:56:53.233282Z',
+        state: State.ACTIVE,
+      },
+    },
+    contact: {phone: '46901-125', email: 'email@company.com'},
+    additionalInfo: {priority: Priority.NONE},
+    search:
+      'adam pankstraße berlin gmbh pankstraße 32, 13357 berlin, germany de',
+    meta: {
+      createdAt: '2021-05-30T22:45:24.258240Z',
+      lastUpdatedAt: '2021-05-30T22:45:25.909Z',
+      state: State.ACTIVE,
+    },
+  },
+  lastVisitDate: '2021-11-29',
+  serviceTime: 45,
+  status: ElevatorStatus.RUNNING,
+  properties: [
+    {
+      id: 'b5978f22-4e7b-41ed-8712-806e31e1add7',
+      elevatorId: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
+      key: 'Appointment Time',
+      value: '09:00:00 - 12:00:00',
+    },
+    {
+      id: '65bc9fbb-65a7-4cb4-8589-3b3feec2077d',
+      elevatorId: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
+      key: 'Number of Technicians',
+      value: '1',
+    },
+    {
+      id: '802753ff-d924-4fd4-93f8-d4ef87130f86',
+      elevatorId: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
+      key: 'Appointment Day of the Week',
+      value: 'Mo,Tu,We,Th,Fr',
+    },
+    {
+      id: '01201ef9-921b-46c5-b2b7-bd0a4d500539',
+      elevatorId: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
+      key: 'Category',
+      value: '',
+    },
+    {
+      id: '841fc3d0-8386-4349-9283-eceb1adc3386',
+      elevatorId: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
+      key: 'Notify Customer',
+      value: 'Yes',
+    },
+    {
+      id: '914361c8-6ef2-4ce1-81a4-0e957bb180ff',
+      elevatorId: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
+      key: 'Appointment Notification Due',
+      value: '3',
+    },
+    {
+      id: 'faeca8d6-dbb3-4b54-a968-5ea2999ed0d8',
+      elevatorId: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
+      key: 'Team',
+      value: '2',
+    },
+  ],
+  labels: [],
+  requiredSkills: [],
+  additionalInfo: {
+    priority: Priority.NONE,
+    isServiceOrderGenerationEnabled: true,
+  },
+  search:
+    'pankstraße 32, 13357 berlin, germany de adam pankstraße berlin gmbh running 500 47nh6674 aufzug - - elevator []',
+  meta: {
+    createdAt: '2021-05-30T22:45:26.187794Z',
+    lastUpdatedAt: '2021-06-06T07:35:44.901345Z',
+    state: State.ACTIVE,
+  },
+};
+
 export function fetchElevators(): Promise<Resource<ElevatorView>> {
   return Promise.resolve(elevators);
+}
+
+export function fetchElevator(elevatorId: string): Promise<Elevator> {
+  console.log(`fetch elevator, elevator id = ${elevatorId}`);
+  return Promise.resolve(elevator);
 }
 
 export function useAllElevators() {

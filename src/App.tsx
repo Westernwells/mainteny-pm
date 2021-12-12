@@ -4,6 +4,7 @@ import LoadingBar, {LoadingBarRef} from 'react-top-loading-bar';
 import {AppTopBar} from './components/AppTopBar';
 import {Login} from './pages/Login';
 import {MyUnits} from './pages/my-units/MyUnits';
+import {UnitsDetail} from './pages/units-detail/UnitsDetail';
 
 interface LoadingProps extends LoadingBarRef {
   continuousStart: (startingValue?: number, refreshRate?: number) => void;
@@ -33,6 +34,12 @@ export const App = () => {
           <Route
             path="/my-units"
             element={<MyUnits stopLoading={() => ref.current!.complete()} />}
+          />
+          <Route
+            path="/units/:id"
+            element={
+              <UnitsDetail stopLoading={() => ref.current!.complete()} />
+            }
           />
         </Routes>
       </BrowserRouter>

@@ -12,6 +12,7 @@ export interface Client {
   serviceCompany: ServiceCompany;
   contact: Contact;
   additionalInfo: ClientAdditionalInfo;
+  search: string;
   meta: Meta;
 }
 

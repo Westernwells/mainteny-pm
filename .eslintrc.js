@@ -20,12 +20,13 @@ module.exports = {
     'react/jsx-fragments': 'off',
     'react/jsx-filename-extension': [1, {extensions: ['.tsx']}],
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 1,
+    '@typescript-eslint/no-unused-vars': 'off', // TODO: enable it later
     'no-shadow': 'off',
     'no-param-reassign': 0,
     '@typescript-eslint/no-shadow': ['error'],
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
+    'no-console': 'off',
     'react/function-component-definition': [
       2,
       {namedComponents: 'arrow-function'},

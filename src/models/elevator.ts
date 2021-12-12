@@ -54,6 +54,8 @@ export interface Elevator {
   status: ElevatorStatus;
   properties: ElevatorProperty[];
   additionalInfo: ElevatorAdditionalInfo;
+  labels: string[];
+  requiredSkills: string[];
   search: string;
   meta: Meta;
 }

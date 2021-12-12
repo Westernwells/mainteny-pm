@@ -44,10 +44,10 @@ export const MyUnits = ({stopLoading}: Props) => {
 
       setElevatorsByAddressList(elevatorByAddressList);
       setLoading(false);
+      stopLoading();
     }
 
     loadData();
-    stopLoading();
   }, []);
 
   if (isLoading) {

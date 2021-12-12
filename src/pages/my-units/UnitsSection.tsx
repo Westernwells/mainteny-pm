@@ -47,7 +47,11 @@ export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => (
     {elevatorsByAddress.elevators.map((elevatorOrder) => (
       <Grid key={elevatorOrder.elevator.id} container spacing={2} columns={12}>
         <Grid item xs={3}>
-          <Item>{elevatorOrder.elevator.model}</Item>
+          <Item>
+            <a href={`/pm/units/${elevatorOrder.elevator.id}`}>
+              {elevatorOrder.elevator.model}
+            </a>
+          </Item>
         </Grid>
         <Grid item xs={2}>
           <Item>{elevatorOrder.elevator.lastVisitDate}</Item>
