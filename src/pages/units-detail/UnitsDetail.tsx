@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Box} from '@mui/system';
+import {Stack} from '@mui/material';
 import {Elevator} from '../../models/elevator';
 import {ServiceOrderView} from '../../models/service-order';
 import {fetchElevator} from '../../hooks/useElevator';
 import {fetchServiceOrdersByElevator} from '../../hooks/useServiceOrder';
 import {Resource} from '../../models/misc';
 import {ElevatorBasicSection} from './ElevatorBasicSection';
+import {ServiceHistorySection} from './ServiceHistorySection';
 
 export interface UnitsDetailProps {
   stopLoading: () => void;
@@ -36,5 +38,10 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
   if (isLoading) {
     return <Box>Loading...</Box>;
   }
-  return <ElevatorBasicSection elevator={elevator as Elevator} />;
+  return (
+    <Stack>
+      <ElevatorBasicSection elevator={elevator as Elevator} />
+      <ServiceHistorySection elevator={elevator as Elevator} />
+    </Stack>
+  );
 };

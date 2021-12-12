@@ -1,4 +1,4 @@
-import {Address, AddressRecord, Meta, Priority, StringMap} from './misc';
+import {Address, AddressRecord, Fee, Meta, Priority, StringMap} from './misc';
 import {Client, ClientSimpleView} from './client';
 import {TechnicianSimpleView} from './technician';
 import {FileResource} from './media';
@@ -141,7 +141,8 @@ export interface ElevatorMaintenanceHistoryView {
   description: string;
   attachments: ElevatorMaintenanceHistoryAttachment[];
   technician: TechnicianSimpleView;
+  fee: Fee;
   serviceOrderId: string;
   actualServiceTime: number;
-  createdAt: number;
+  createdAt: string;
 }

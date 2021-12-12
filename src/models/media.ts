@@ -3,5 +3,5 @@ export interface FileResource {
   uri: string;
   type: string;
   description: string;
-  createdAt: number;
+  createdAt: string;
 }

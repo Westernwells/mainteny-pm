@@ -15438,6 +15438,15 @@ export function fetchServiceOrders(): Promise<Resource<ServiceOrderView>> {
   return Promise.resolve(serviceOrders);
 }
 
+export function fetchServiceOrderByIds(
+  serviceOrderIds: string[],
+): Promise<ServiceOrderView[]> {
+  console.log(
+    `fetch service order by ids, service order ids = ${serviceOrderIds}`,
+  );
+  return Promise.resolve(serviceOrders.data);
+}
+
 export function fetchServiceOrdersByElevator(
   elevatorId: string,
 ): Promise<Resource<ServiceOrderView>> {

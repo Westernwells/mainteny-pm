@@ -167,3 +167,8 @@ export enum Priority {
 export interface StringValueResponse {
   value: string;
 }
+
+export interface Fee {
+  amount: number;
+  currency: string;
+}

@@ -9,7 +9,7 @@ export interface ElevatorBasicSectionProp {
 
 export const ElevatorBasicSection = ({elevator}: ElevatorBasicSectionProp) => (
   <Box>
-    <Stack>
+    <Stack spacing={1}>
       <div>
         <h2>{elevator.model}</h2>
       </div>
@@ -19,7 +19,7 @@ export const ElevatorBasicSection = ({elevator}: ElevatorBasicSectionProp) => (
         <div>FACILITY MANAGER</div>
         <div>George Cooper</div>
       </div>
-      <Stack direction="row">
+      <Stack direction="row" spacing={3}>
         <div>
           <div>Stops</div>
           <div>10</div>
