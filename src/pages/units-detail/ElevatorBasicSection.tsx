@@ -1,6 +1,5 @@
 import React from 'react';
-import {Box} from '@mui/system';
-import {Stack} from '@mui/material';
+import {Box, Stack} from '@mui/material';
 import {Elevator} from '../../models/elevator';
 
 export interface ElevatorBasicSectionProp {

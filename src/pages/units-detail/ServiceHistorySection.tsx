@@ -46,7 +46,7 @@ export const ServiceHistorySection = ({
 
   return (
     <Box>
-      <div>Service History</div>
+      <h2>Service History</h2>
       {serviceHistories.data.map((history) => (
         <Stack key={history.id} spacing={1}>
           <Stack direction="row" spacing={3}>

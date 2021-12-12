@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box} from '@mui/system';
-import {Stack} from '@mui/material';
+import {Box, Stack} from '@mui/material';
 import {Elevator} from '../../models/elevator';
 import {ServiceOrderView} from '../../models/service-order';
 import {fetchElevator} from '../../hooks/useElevator';
@@ -8,7 +7,10 @@ import {fetchServiceOrdersByElevator} from '../../hooks/useServiceOrder';
 import {Resource} from '../../models/misc';
 import {ElevatorBasicSection} from './ElevatorBasicSection';
 import {ServiceHistorySection} from './ServiceHistorySection';
+import {TechnicianSection} from './TechnicianSection';
+import {createEmptyResource} from '../../utils/paging-utils';
 
+const pageSize = 10;
 export interface UnitsDetailProps {
   stopLoading: () => void;
 }
@@ -16,8 +18,9 @@ export interface UnitsDetailProps {
 // eslint-disable-next-line
 export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
   const [elevator, setElevator] = useState<Elevator>();
-  const [serviceOrders, setServiceOrders] =
-    useState<Resource<ServiceOrderView>>();
+  const [serviceOrders, setServiceOrders] = useState<
+    Resource<ServiceOrderView>
+  >(createEmptyResource(pageSize));
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,6 +45,9 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
     <Stack>
       <ElevatorBasicSection elevator={elevator as Elevator} />
       <ServiceHistorySection elevator={elevator as Elevator} />
+      {serviceOrders.data.length > 0 && (
+        <TechnicianSection serviceOrder={serviceOrders.data[0]} />
+      )}
     </Stack>
   );
 };
