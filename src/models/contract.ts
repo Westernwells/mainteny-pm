@@ -46,8 +46,8 @@ export interface Contract {
   price: number;
   hourlyRate: number;
   currency: string;
-  startTime: number;
-  endTime: number;
+  startTime: string;
+  endTime: string;
   timePreference: ContractTimeWindow[];
   status: ContractStatus;
   meta: Meta;
@@ -66,10 +66,11 @@ export interface ContractView {
 
   hourlyRate: number;
   currency: string;
-  startTime: number;
-  endTime: number;
+  startTime: string;
+  endTime: string;
 
   status: ContractStatus;
+  search: string;
   meta: Meta;
 }
 
