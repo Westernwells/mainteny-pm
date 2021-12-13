@@ -5,6 +5,7 @@ import {Login} from './pages/Login';
 import {MyUnits} from './pages/my-units/MyUnits';
 import {UnitsDetail} from './pages/units-detail/UnitsDetail';
 import {PageLayout} from './components/Layout';
+import {Contracts} from './pages/contracts/Contracts';
 
 interface LoadingProps extends LoadingBarRef {
   continuousStart: (startingValue?: number, refreshRate?: number) => void;
@@ -42,6 +43,15 @@ export const App = () => {
           element={
             <PageLayout startPageLoad={() => ref.current!.continuousStart()}>
               <UnitsDetail stopLoading={() => ref.current!.complete()} />
+            </PageLayout>
+          }
+        />
+
+        <Route
+          path="/contracts"
+          element={
+            <PageLayout startPageLoad={() => ref.current!.continuousStart()}>
+              <Contracts stopLoading={() => ref.current!.complete()} />
             </PageLayout>
           }
         />
