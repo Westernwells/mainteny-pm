@@ -215,5 +215,16 @@ export const theme = createTheme({
         },
       },
     },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            background: '#457892',
+            borderLeft: '8px solid #222B45',
+            boxSizing: 'border-box',
+          },
+        },
+      },
+    },
   },
 });
