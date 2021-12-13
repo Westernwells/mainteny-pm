@@ -15455,7 +15455,8 @@ export function fetchServiceOrdersByElevator(
 }
 
 export function useServiceOrders() {
-  return useQuery<Resource<ServiceOrderView>, RestError>('serviceOrders', () =>
-    fetchServiceOrders(),
+  return useQuery<Resource<ServiceOrderView>, RestError>(
+    'fetchServiceOrders',
+    () => fetchServiceOrders(),
   );
 }

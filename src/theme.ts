@@ -52,7 +52,6 @@ export const theme = createTheme({
       dark: '#00A361',
       contrastText: '#FFFFFF',
     },
-
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
     contrastThreshold: 3,
@@ -208,5 +207,24 @@ export const theme = createTheme({
       },
     },
     MuiTooltip: {},
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          background: 'linear-gradient(180deg, #095369 0%, #043146 100%)',
+          color: '#fff',
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            background: '#457892',
+            borderLeft: '8px solid #222B45',
+            boxSizing: 'border-box',
+          },
+        },
+      },
+    },
   },
 });
