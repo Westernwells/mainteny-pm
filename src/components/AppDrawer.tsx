@@ -9,11 +9,11 @@ import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import {useLocation} from 'react-router-dom';
 import Elevator from '@mui/icons-material/Elevator';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import {useLocation, useNavigate} from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -68,6 +68,7 @@ const Drawer = styled(MuiDrawer, {
 export const AppDrawer = () => {
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -77,7 +78,16 @@ export const AppDrawer = () => {
     setOpen(false);
   };
 
-  return location.pathname !== '/' && location.pathname !== '/login' ? (
+  const drawerList = [
+    {
+      text: 'Units',
+      icon: <Elevator sx={{color: '#fff'}} />,
+      path: 'my-units',
+      onClick: () => navigate('/my-units'),
+    },
+  ];
+
+  return (
     <Box sx={{display: 'flex'}}>
       <Drawer
         variant="permanent"
@@ -121,16 +131,20 @@ export const AppDrawer = () => {
             </>
           )}
         </DrawerHeader>
-        <Divider />
         <List>
-          <ListItem button>
-            <ListItemIcon>
-              <Elevator sx={{color: '#fff'}} />
-            </ListItemIcon>
-            <ListItemText primary="Units" />
-          </ListItem>
+          {drawerList.map(({text, icon, path, onClick}) => (
+            <ListItem
+              onClick={onClick}
+              selected={`/${path}` === location.pathname}
+              button
+              key={text}
+            >
+              <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
         </List>
       </Drawer>
     </Box>
-  ) : null;
+  );
 };
