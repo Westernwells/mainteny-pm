@@ -193,18 +193,3 @@ export const AppDrawer = () => {
     </Box>
   );
 };
-
-// {
-//   width: '100%',
-//   // borderLeft: '8px solid #222B45',
-//   boxSizing: 'border-box',
-
-//   // marginBottom: 1,
-//   // paddingTop: 2,
-//   // paddingBottom: 2,
-//   // transition: (theme: Theme) =>
-//   //   theme.transitions.create('margin', {
-//   //     easing: theme.transitions.easing.sharp,
-//   //     duration: theme.transitions.duration.leavingScreen,
-//   //   }),
-// }
