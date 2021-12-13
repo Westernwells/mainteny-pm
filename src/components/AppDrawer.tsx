@@ -102,7 +102,7 @@ export const AppDrawer = () => {
       ) => {
         e.preventDefault();
         setSelectedIndex(index);
-        // navigate('/my-');
+        navigate('/my-units');
       },
     },
   ];
