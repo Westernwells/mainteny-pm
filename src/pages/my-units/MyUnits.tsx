@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import * as _ from 'lodash';
-import {ElevatorView} from '../../models/elevator';
+import Box from '@mui/material/Box';
 import {ServiceOrderView} from '../../models/service-order';
-import {fetchElevators} from '../../hooks/useElevator';
-import {fetchServiceOrders} from '../../hooks/useServiceOrder';
-import {Resource} from '../../models/misc';
+import {useAllElevators} from '../../hooks/useElevator';
+import {useServiceOrders} from '../../hooks/useServiceOrder';
 import {ElevatorsByAddress, ElevatorOrderPair} from './Models';
 import {UnitsSection} from './UnitsSection';
 
@@ -13,21 +12,21 @@ interface Props {
 }
 
 export const MyUnits = ({stopLoading}: Props) => {
-  const [isLoading, setLoading] = useState(true);
+  const {data: serviceOrderRes, isLoading: serviceOrderResLoading} =
+    useServiceOrders();
+  const {data: elevatorRes, isLoading: elevatorResLoading} = useAllElevators();
   const [elevatorsByAddressList, setElevatorsByAddressList] = useState<
     ElevatorsByAddress[]
   >([]);
 
   useEffect(() => {
-    async function loadData() {
-      const data = await Promise.all([fetchElevators(), fetchServiceOrders()]);
-      const elevatorRes: Resource<ElevatorView> = data[0];
-      const serviceOrderRes: Resource<ServiceOrderView> = data[1];
+    if (!serviceOrderResLoading && !elevatorResLoading) {
       const serviceOrderMap = _.groupBy(
-        serviceOrderRes.data,
+        serviceOrderRes!.data,
         (order: ServiceOrderView) => order.elevator.id,
       );
-      const elevatorWithOrders = elevatorRes.data.map((elevator) => {
+
+      const elevatorWithOrders = elevatorRes!.data.map((elevator) => {
         const orders = serviceOrderMap[elevator.id];
         const elevatorWithOrder: ElevatorOrderPair = {
           elevator,
@@ -35,6 +34,7 @@ export const MyUnits = ({stopLoading}: Props) => {
         };
         return elevatorWithOrder;
       });
+
       const elevatorByAddressList: ElevatorsByAddress[] = _.values(
         _.groupBy(elevatorWithOrders, (record) => record.elevator.address.id),
       ).map((elevators) => ({
@@ -43,25 +43,18 @@ export const MyUnits = ({stopLoading}: Props) => {
       }));
 
       setElevatorsByAddressList(elevatorByAddressList);
-      setLoading(false);
-      stopLoading();
     }
-
-    loadData();
-  }, []);
-
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
+    stopLoading();
+  }, [serviceOrderResLoading, elevatorResLoading]);
 
   return (
-    <div>
+    <Box>
       {elevatorsByAddressList.map((elevatorsByAddress) => (
         <UnitsSection
           key={elevatorsByAddress.address.id}
           elevatorsByAddress={elevatorsByAddress}
         />
       ))}
-    </div>
+    </Box>
   );
 };

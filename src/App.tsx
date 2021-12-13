@@ -1,6 +1,7 @@
 import {useRef} from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import LoadingBar, {LoadingBarRef} from 'react-top-loading-bar';
+import Box from '@mui/material/Box';
 import {AppTopBar} from './components/AppTopBar';
 import {Login} from './pages/Login';
 import {MyUnits} from './pages/my-units/MyUnits';
@@ -14,10 +15,12 @@ export const App = () => {
   const ref = useRef<LoadingProps>(null);
 
   return (
-    <>
+    <Box>
       <LoadingBar color="#222B45" ref={ref} />
       <BrowserRouter basename="/pm">
         <AppTopBar startLoading={() => ref.current!.continuousStart()} />
+        <AppDrawer />
+
         <Routes>
           <Route
             path="/"
@@ -42,7 +45,16 @@ export const App = () => {
             }
           />
         </Routes>
+
+        <Box sx={{background: '#F2F6F8'}} pt={15} pl={15}>
+          <Routes>
+            <Route
+              path="/my-units"
+              element={<MyUnits stopLoading={() => ref.current!.complete()} />}
+            />
+          </Routes>
+        </Box>
       </BrowserRouter>
-    </>
+    </Box>
   );
 };
