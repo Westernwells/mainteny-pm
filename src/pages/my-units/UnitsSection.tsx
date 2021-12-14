@@ -20,7 +20,6 @@ const randomizeAvailability = [
 ];
 
 export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
-  console.log(elevatorsByAddress, '>>>>>><<<<<<,');
   const availability =
     randomizeAvailability[
       Math.floor(Math.random() * randomizeAvailability.length)

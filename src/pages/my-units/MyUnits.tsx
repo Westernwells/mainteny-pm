@@ -50,7 +50,7 @@ export const MyUnits = ({stopLoading}: Props) => {
   }, [serviceOrderResLoading, elevatorResLoading]);
 
   return (
-    <Box mr={2}>
+    <Box mr={5}>
       <MyUnitsWidget />
       <MyUnitsColumnTitles />
       {elevatorsByAddressList.map((elevatorsByAddress) => (
