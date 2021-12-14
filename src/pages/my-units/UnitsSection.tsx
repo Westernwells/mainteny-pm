@@ -110,28 +110,31 @@ export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
             </Grid>
 
             <Grid item xs={2}>
-              <Typography
-                variant="largeBtnText"
-                sx={{textTransform: 'capitalize'}}
-              >
-                <Chip
-                  label={`${elevatorOrder.elevator.status.charAt(
-                    0,
-                  )}${elevatorOrder.elevator.status.slice(1).toLowerCase()}`}
-                  color={
-                    elevatorOrder.elevator.status === ElevatorStatus.RUNNING
-                      ? 'success'
-                      : 'error'
-                  }
-                  size="medium"
-                />
-              </Typography>
+              <Chip
+                sx={{py: 2}}
+                label={
+                  <Typography
+                    variant="largeBtnText"
+                    sx={{textTransform: 'capitalize'}}
+                  >
+                    {`${elevatorOrder.elevator.status.charAt(
+                      0,
+                    )}${elevatorOrder.elevator.status.slice(1).toLowerCase()}`}
+                  </Typography>
+                }
+                color={
+                  elevatorOrder.elevator.status === ElevatorStatus.RUNNING
+                    ? 'success'
+                    : 'error'
+                }
+                size="medium"
+              />
             </Grid>
 
             <Grid item xs={2}>
               <Button
                 variant="outlined"
-                sx={{background: (theme) => theme.state.hover}}
+                sx={{background: (theme) => theme.state.hover, px: 3}}
               >
                 <Typography
                   variant="largeBtnText"
