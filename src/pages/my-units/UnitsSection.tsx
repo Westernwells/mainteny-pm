@@ -36,23 +36,30 @@ export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
         paddingLeft: '15px',
       }}
     >
-      <Box display="flex" justifyContent="space-between" width="100%" mb={3}>
-        <Box pl={2}>
-          <Typography variant="h5">Grant Hyatt Berlin,</Typography>
-          <Typography variant="largeBtnText" mt={1} color="textSecondary">
-            {elevatorsByAddress.address.fullName}
-          </Typography>
-        </Box>
-        <Typography variant="h5" color="textSecondary" pr={12}>
-          {elevatorsByAddress.elevators.length} units
-        </Typography>
-      </Box>
+      <Grid container sx={{mb: 3}}>
+        <Grid item xs={6}>
+          <Box pl={2}>
+            <Typography variant="h5">Grant Hyatt Berlin,</Typography>
+            <Typography variant="largeBtnText" mt={1} color="textSecondary">
+              {elevatorsByAddress.address.fullName}
+            </Typography>
+          </Box>
+        </Grid>
+
+        <Grid item xs={6} sx={{width: '50%'}}>
+          <Box display="flex" justifyContent="flex-end">
+            <Typography variant="h5" color="textSecondary" pr="13%">
+              {elevatorsByAddress.elevators.length} units
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
       {elevatorsByAddress.elevators.map((elevatorOrder) => (
         <Grid
           container
           sx={{
-            paddingTop: 2,
-            paddingBottom: 2,
+            paddingTop: 1,
+            paddingBottom: 1,
             paddingLeft: 2,
             '&:hover': {background: 'rgba(0, 209, 255, 0.08)'},
           }}
@@ -73,6 +80,12 @@ export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
               justifyContent: 'flex-end',
             }}
           >
+            <Grid item xs={1}>
+              <Typography variant="largeBtnText">
+                {elevatorOrder.elevator.number}
+              </Typography>
+            </Grid>
+
             <Grid item xs={2}>
               <Typography variant="largeBtnText">
                 {elevatorOrder.elevator.lastVisitDate || 'N/A'}

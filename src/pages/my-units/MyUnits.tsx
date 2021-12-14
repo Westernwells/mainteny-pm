@@ -53,7 +53,6 @@ export const MyUnits = ({stopLoading}: Props) => {
     <Box mr={2}>
       <MyUnitsWidget />
       <MyUnitsColumnTitles />
-      {console.log(elevatorsByAddressList, '?????????*******')}
       {elevatorsByAddressList.map((elevatorsByAddress) => (
         <UnitsSection
           key={elevatorsByAddress.address.id}

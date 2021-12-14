@@ -10,9 +10,10 @@ export const MyUnitsColumnTitles = () => (
       border: '2px solid #E4E9F2',
       paddingTop: 2,
       paddingBottom: 2,
+      paddingLeft: '15px',
     }}
   >
-    <Grid container sx={{paddingLeft: 2}}>
+    <Grid container sx={{pl: 2}}>
       <Grid item xs={3} />
       <Grid
         item
@@ -21,6 +22,10 @@ export const MyUnitsColumnTitles = () => (
         spacing={2}
         sx={{display: 'flex', justifyContent: 'flex-end'}}
       >
+        <Grid item xs={1}>
+          <Typography variant="subtitle2">NUMBER</Typography>
+        </Grid>
+
         <Grid item xs={2}>
           <Typography variant="subtitle2">LAST VISIT</Typography>
         </Grid>
