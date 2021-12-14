@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Button, Grid, Stack} from '@mui/material';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
 import {
   fetchContracts,
   fetchContractsElevatorMap,

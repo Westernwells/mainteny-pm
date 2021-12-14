@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Box, Stack} from '@mui/material';
+import {useEffect, useState} from 'react';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import * as _ from 'lodash';
 import {createEmptyResource} from '../../utils/paging-utils';
 import {fetchServiceHistoryByElevator} from '../../hooks/useServiceHistory';

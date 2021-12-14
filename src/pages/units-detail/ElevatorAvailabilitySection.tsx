@@ -1,6 +1,8 @@
 // TODO: we do not have the model in backend yet
 import React from 'react';
-import {Box, Button, Stack} from '@mui/material';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 export const ElevatorAvailabilitySection = () => (
   <Box>
