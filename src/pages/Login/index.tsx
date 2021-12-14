@@ -52,7 +52,7 @@ export const Login = ({startPageLoad}: Props) => {
   });
 
   return (
-    <Box display="flex" height="100vh">
+    <Box display="flex" height="100vh" sx={{backgroundColor: '#fff'}}>
       <Box
         display="flex"
         flexDirection="column"

@@ -52,6 +52,9 @@ export const theme = createTheme({
       dark: '#00A361',
       contrastText: '#FFFFFF',
     },
+    background: {
+      default: '#F2F6F8',
+    },
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
     contrastThreshold: 3,
@@ -225,6 +228,59 @@ export const theme = createTheme({
           },
         },
       },
+    },
+    MuiGrid: {
+      styleOverrides: {
+        root: {
+          // 'background': 'red',
+          '&.MuiGrid-item': {
+            // background: 'red',
+          },
+        },
+      },
+    },
+    MuiTypography: {
+      variants: [
+        {
+          props: {variant: 'largeBtnText'},
+          style: {
+            fontWeight: 600,
+            fontSize: '15px',
+            lineHeight: '26px',
+            letterSpacing: '0.15px',
+          },
+        },
+        {
+          props: {variant: 'mediumBtnText'},
+          style: {
+            fontWeight: 600,
+            fontSize: '14px',
+            lineHeight: '24px',
+            letterSpacing: '0.4px',
+          },
+        },
+        {
+          props: {variant: 'smallBtnText'},
+          style: {
+            fontWeight: 600,
+            fontSize: '13px',
+            lineHeight: '22px',
+            letterSpacing: '0.46px',
+          },
+        },
+        {
+          props: {color: 'textSuccess'},
+          style: {
+            color: '#00D68F',
+          },
+        },
+        {
+          props: {color: 'textWarning'},
+          style: {
+            color: '#ED6C02',
+          },
+        },
+      ],
     },
   },
 });
