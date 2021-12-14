@@ -7,10 +7,11 @@ export const MyUnitsColumnTitles = () => (
     // display="flex"
     sx={{
       backgroundColor: '#fff',
-      border: '2px solid #E4E9F2',
       paddingTop: 2,
       paddingBottom: 2,
       paddingLeft: '15px',
+      boxShadow: '0px 0px 0px 1px #E0E0E0',
+      borderRadius: '4px',
     }}
   >
     <Grid container sx={{pl: 2}}>

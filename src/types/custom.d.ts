@@ -13,6 +13,17 @@ declare module '@mui/material/styles' {
     mediumBtnText?: React.CSSProperties;
     smallBtnText?: React.CSSProperties;
   }
+
+  interface Theme {
+    state: {
+      hover: string;
+    };
+  }
+  interface ThemeOptions {
+    state?: {
+      hover: string;
+    };
+  }
 }
 
 declare module '@mui/material/Typography' {

@@ -137,6 +137,9 @@ export const theme = createTheme({
       letterSpacing: '1px',
     },
   },
+  state: {
+    hover: 'rgba(15, 76, 100, 0.08)',
+  },
   components: {
     MuiButton: {
       variants: [
@@ -257,6 +260,7 @@ export const theme = createTheme({
             fontSize: '14px',
             lineHeight: '24px',
             letterSpacing: '0.4px',
+            textTransform: 'capitalize',
           },
         },
         {

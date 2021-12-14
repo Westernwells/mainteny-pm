@@ -1,3 +1,4 @@
+import React, {useState} from 'react';
 import {Theme, CSSObject} from '@mui/material/styles';
 import styled from '@mui/material/styles/styled';
 import Box from '@mui/material/Box';
@@ -7,12 +8,12 @@ import Elevator from '@mui/icons-material/Elevator';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import React, {useState} from 'react';
+import {Typography} from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -65,7 +66,6 @@ const Drawer = styled(MuiDrawer, {
 export const AppDrawer = () => {
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const location = useLocation();
   const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
@@ -183,7 +183,9 @@ export const AppDrawer = () => {
               key={text}
             >
               <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText
+                primary={<Typography variant="h6">{text}</Typography>}
+              />
             </ListItemButton>
           ))}
         </List>

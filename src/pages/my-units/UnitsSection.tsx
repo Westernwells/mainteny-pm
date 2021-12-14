@@ -28,11 +28,12 @@ export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
     <Box
       sx={{
         backgroundColor: '#FAFAFA',
-        border: '2px solid #E4E9F2',
+        border: '1px solid #E4E9F2',
         paddingTop: 2,
         paddingBottom: 2,
-        marginTop: 1,
+        marginTop: 2,
         paddingLeft: '15px',
+        borderRadius: '4px 4px 0px 0px',
       }}
     >
       <Grid container sx={{mb: 3, width: '97%'}}>
@@ -109,9 +110,14 @@ export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
             </Grid>
 
             <Grid item xs={2}>
-              <Typography variant="largeBtnText">
+              <Typography
+                variant="largeBtnText"
+                sx={{textTransform: 'capitalize'}}
+              >
                 <Chip
-                  label={elevatorOrder.elevator.status}
+                  label={`${elevatorOrder.elevator.status.charAt(
+                    0,
+                  )}${elevatorOrder.elevator.status.slice(1).toLowerCase()}`}
                   color={
                     elevatorOrder.elevator.status === ElevatorStatus.RUNNING
                       ? 'success'
@@ -123,9 +129,18 @@ export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
             </Grid>
 
             <Grid item xs={2}>
-              <Typography variant="largeBtnText">
-                <Button variant="outlined">Notify</Button>
-              </Typography>
+              <Button
+                variant="outlined"
+                sx={{background: (theme) => theme.state.hover}}
+              >
+                <Typography
+                  variant="largeBtnText"
+                  sx={{textTransform: 'capitalize'}}
+                >
+                  {' '}
+                  Notify{' '}
+                </Typography>
+              </Button>
             </Grid>
           </Grid>
         </Grid>

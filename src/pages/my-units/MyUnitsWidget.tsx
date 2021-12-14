@@ -29,8 +29,26 @@ export const MyUnitsWidget = () => (
       </Box>
       <Box>
         <ButtonGroup variant="outlined" size="large" sx={{height: 48}}>
-          <Button>List View</Button>
-          <Button>Map View</Button>
+          <Button
+            variant="outlined"
+            sx={{background: (theme) => theme.state.hover}}
+          >
+            <Typography
+              variant="largeBtnText"
+              sx={{textTransform: 'capitalize'}}
+            >
+              List View
+            </Typography>
+          </Button>
+
+          <Button variant="outlined">
+            <Typography
+              variant="largeBtnText"
+              sx={{textTransform: 'capitalize'}}
+            >
+              Map View
+            </Typography>
+          </Button>
         </ButtonGroup>
       </Box>
     </Box>
