@@ -36,8 +36,8 @@ export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
         paddingLeft: '15px',
       }}
     >
-      <Grid container sx={{mb: 3}}>
-        <Grid item xs={6}>
+      <Grid container sx={{mb: 3, width: '97%'}}>
+        <Grid item xs={11}>
           <Box pl={2}>
             <Typography variant="h5">Grant Hyatt Berlin,</Typography>
             <Typography variant="largeBtnText" mt={1} color="textSecondary">
@@ -46,8 +46,8 @@ export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
           </Box>
         </Grid>
 
-        <Grid item xs={6} sx={{width: '50%'}}>
-          <Box display="flex" justifyContent="flex-end">
+        <Grid item xs={1} sx={{width: '50%'}}>
+          <Box>
             <Typography variant="h5" color="textSecondary" pr="13%">
               {elevatorsByAddress.elevators.length} units
             </Typography>
