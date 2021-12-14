@@ -51,7 +51,7 @@ const elevators: Resource<ElevatorView> = {
       },
       lastVisitDate: '2021-11-29',
       serviceTime: 45,
-      status: ElevatorStatus.RUNNING,
+      status: ElevatorStatus.STOPPED,
       labels: [],
       additionalInfo: {
         priority: Priority.NONE,
@@ -149,7 +149,7 @@ const elevators: Resource<ElevatorView> = {
       },
       lastVisitDate: '2021-12-01',
       serviceTime: 45,
-      status: ElevatorStatus.RUNNING,
+      status: ElevatorStatus.STOPPED,
       labels: [],
       additionalInfo: {
         priority: Priority.NONE,
@@ -248,7 +248,7 @@ const elevators: Resource<ElevatorView> = {
       },
       lastVisitDate: '2021-09-28',
       serviceTime: 45,
-      status: ElevatorStatus.RUNNING,
+      status: ElevatorStatus.STOPPED,
       labels: [],
       additionalInfo: {
         priority: Priority.NONE,
@@ -346,7 +346,7 @@ const elevators: Resource<ElevatorView> = {
       },
       lastVisitDate: '2021-11-27',
       serviceTime: 45,
-      status: ElevatorStatus.RUNNING,
+      status: ElevatorStatus.STOPPED,
       labels: [],
       additionalInfo: {
         priority: Priority.NONE,
@@ -1130,7 +1130,7 @@ const elevators: Resource<ElevatorView> = {
       },
       lastVisitDate: '2021-08-12',
       serviceTime: 45,
-      status: ElevatorStatus.RUNNING,
+      status: ElevatorStatus.STOPPED,
       labels: [],
       additionalInfo: {
         priority: Priority.NONE,
@@ -1228,7 +1228,7 @@ const elevators: Resource<ElevatorView> = {
       },
       lastVisitDate: '2021-11-27',
       serviceTime: 45,
-      status: ElevatorStatus.RUNNING,
+      status: ElevatorStatus.STOPPED,
       labels: [],
       additionalInfo: {
         priority: Priority.NONE,
@@ -2527,7 +2527,7 @@ const elevator: Elevator = {
   },
   lastVisitDate: '2021-11-29',
   serviceTime: 45,
-  status: ElevatorStatus.RUNNING,
+  status: ElevatorStatus.STOPPED,
   properties: [
     {
       id: 'b5978f22-4e7b-41ed-8712-806e31e1add7',

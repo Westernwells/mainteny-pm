@@ -6,6 +6,8 @@ import {useAllElevators} from '../../hooks/useElevator';
 import {useServiceOrders} from '../../hooks/useServiceOrder';
 import {ElevatorsByAddress, ElevatorOrderPair} from './Models';
 import {UnitsSection} from './UnitsSection';
+import {MyUnitsColumnTitles} from './MyUnitsColumn';
+import {MyUnitsWidget} from './MyUnitsWidget';
 
 interface Props {
   stopLoading: () => void;
@@ -48,7 +50,10 @@ export const MyUnits = ({stopLoading}: Props) => {
   }, [serviceOrderResLoading, elevatorResLoading]);
 
   return (
-    <Box>
+    <Box mr={2}>
+      <MyUnitsWidget />
+      <MyUnitsColumnTitles />
+      {console.log(elevatorsByAddressList, '?????????*******')}
       {elevatorsByAddressList.map((elevatorsByAddress) => (
         <UnitsSection
           key={elevatorsByAddress.address.id}
