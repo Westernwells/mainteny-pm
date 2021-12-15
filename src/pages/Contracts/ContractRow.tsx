@@ -1,12 +1,8 @@
-import React from 'react';
-import {styled} from '@mui/material';
-import Button from '@mui/material/Button';
-import Elevator from '@mui/icons-material/Elevator';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
-import Chip from '@mui/material/Chip';
+
 import OpenInNewOffOutlinedIcon from '@mui/icons-material/OpenInNewOffOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 

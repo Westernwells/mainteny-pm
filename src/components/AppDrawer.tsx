@@ -14,6 +14,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {Typography} from '@mui/material';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 const drawerWidth = 240;
 
@@ -92,7 +93,7 @@ export const AppDrawer = () => {
     },
     {
       text: 'Contracts',
-      icon: <Elevator sx={{color: '#fff'}} />,
+      icon: <FileCopyIcon sx={{color: '#fff'}} />,
       path: 'contracts',
       onClick: (
         e: React.MouseEvent<HTMLDivElement, MouseEvent>,

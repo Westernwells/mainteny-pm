@@ -80,28 +80,6 @@ export const Contracts = ({stopLoading}: ContractsProp) => {
         <ContractHeader />
         {contractResource.data.map((record) => (
           <ContractRow contract={record} />
-          // <Grid container>
-          //   <Grid item xs={3}>
-          //     <div>{record.contract.serviceCompany.name}</div>
-          //   </Grid>
-          //   <Grid item xs={2}>
-          //     {/* TODO: fix contract number */}
-          //     <div>abc-01</div>
-          //   </Grid>
-          //   <Grid item xs={1}>
-          //     <div>{record.elevators.length}</div>
-          //   </Grid>
-          //   <Grid item xs={2}>
-          //     <div>{`${record.contract.hourlyRate}/${record.contract.visitsNumber}`}</div>
-          //   </Grid>
-          //   <Grid item xs={2}>
-          //     <div>{getDay(record.contract.endTime)}</div>
-          //   </Grid>
-          //   <Grid item xs={2}>
-          //     <Button>View</Button>
-          //     <Button>Download</Button>
-          //   </Grid>
-          // </Grid>
         ))}
       </Box>
     </Box>
