@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Theme, CSSObject} from '@mui/material/styles';
 import styled from '@mui/material/styles/styled';
 import Box from '@mui/material/Box';
@@ -8,7 +8,7 @@ import Elevator from '@mui/icons-material/Elevator';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -67,7 +67,14 @@ const Drawer = styled(MuiDrawer, {
 export const AppDrawer = () => {
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedPath, setSelectedPath] = useState('/units');
+  const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(location, '.........');
+    setSelectedPath(location.pathname);
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -81,26 +88,28 @@ export const AppDrawer = () => {
     {
       text: 'Units',
       icon: <Elevator sx={{color: '#fff'}} />,
-      path: 'units',
+      path: '/units',
       onClick: (
         e: React.MouseEvent<HTMLDivElement, MouseEvent>,
         index: number,
       ) => {
         e.preventDefault();
         setSelectedIndex(index);
+        setSelectedPath('/units');
         navigate('/units');
       },
     },
     {
       text: 'Contracts',
       icon: <FileCopyIcon sx={{color: '#fff'}} />,
-      path: 'contracts',
+      path: '/contracts',
       onClick: (
         e: React.MouseEvent<HTMLDivElement, MouseEvent>,
         index: number,
       ) => {
         e.preventDefault();
         setSelectedIndex(index);
+        setSelectedPath('/contracts');
         navigate('/contracts');
       },
     },
@@ -151,10 +160,10 @@ export const AppDrawer = () => {
           )}
         </DrawerHeader>
         <List>
-          {drawerList.map(({text, icon, onClick}, index) => (
+          {drawerList.map(({text, icon, onClick, path}, index) => (
             <ListItemButton
               onClick={(e) => onClick(e, index)}
-              selected={selectedIndex === index}
+              selected={!!selectedPath.includes(path)}
               style={{
                 borderTopLeftRadius: '6px',
                 borderBottomLeftRadius: '6px',
