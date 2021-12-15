@@ -3,7 +3,11 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-export const Searchnput = () => (
+interface Props {
+  placeholder?: string;
+}
+
+export const Searchnput = ({placeholder}: Props) => (
   <Paper
     component="form"
     sx={{
@@ -20,7 +24,7 @@ export const Searchnput = () => (
     </IconButton>
     <InputBase
       sx={{ml: 1, flex: 1}}
-      placeholder="Type ‘Schindler’ or ‘Blue Plaza’"
+      placeholder={placeholder && placeholder}
       inputProps={{'aria-label': 'Type ‘Schindler’ or ‘Blue Plaza’'}}
     />
   </Paper>

@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 
 import {
   fetchContracts,
@@ -10,11 +12,12 @@ import {
 } from '../../hooks/useContract';
 import {ContractView} from '../../models/contract';
 import {ElevatorView} from '../../models/elevator';
-import {Page, Resource, StringMap} from '../../models/misc';
+import {BtnGroupType, Page, Resource, StringMap} from '../../models/misc';
 import {createEmptyResource, getNextPage} from '../../utils/paging-utils';
 import {getDay} from '../../utils/datetime';
 import {ContractHeader} from './ContractHeader';
 import {ContractRow} from './ContractRow';
+import {Widget} from '../../components/Widget';
 
 const pageSize = 50;
 interface ContractRecord {
@@ -67,14 +70,21 @@ export const Contracts = ({stopLoading}: ContractsProp) => {
 
   return (
     <Box>
-      <h2>Contracts</h2>
       <Box display="flex" justifyContent="space-between">
-        <div>Contracts /</div>
-        <Stack direction="row">
-          <div>Filter</div>
-          <div>Sort</div>
-          <input placeholder="Tyr 'Elevators'" />
-        </Stack>
+        <Box>
+          <Typography variant="h4">Contracts</Typography>
+          <Breadcrumbs aria-label="breadcrumb" sx={{mt: 1, mb: 2}}>
+            <Link underline="hover" color="inherit" href="/">
+              Contracts /
+            </Link>
+          </Breadcrumbs>
+        </Box>
+        <Box mt={1}>
+          <Widget
+            btnGroupType={BtnGroupType.ICON}
+            searchPlaceholder="Try ‘Delfar Elevators’"
+          />
+        </Box>
       </Box>
       <Box>
         <ContractHeader />
