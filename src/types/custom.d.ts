@@ -5,6 +5,8 @@ declare module '@mui/material/styles' {
     largeBtnText: React.CSSProperties;
     mediumBtnText: React.CSSProperties;
     smallBtnText: React.CSSProperties;
+    tableHeaderText: React.CSSProperties;
+    alertTitleText: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
@@ -12,6 +14,8 @@ declare module '@mui/material/styles' {
     largeBtnText?: React.CSSProperties;
     mediumBtnText?: React.CSSProperties;
     smallBtnText?: React.CSSProperties;
+    tableHeaderText?: React.CSSProperties;
+    alertTitleText?: React.CSSProperties;
   }
 
   interface Theme {
@@ -31,6 +35,8 @@ declare module '@mui/material/Typography' {
     largeBtnText: true;
     mediumBtnText: true;
     smallBtnText: true;
+    tableHeaderText: true;
+    alertTitleText: true;
   }
 }
 

@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import {Typography} from '@mui/material';
 import * as _ from 'lodash';
 import {createEmptyResource} from '../../utils/paging-utils';
 import {fetchServiceHistoryByElevator} from '../../hooks/useServiceHistory';
@@ -9,6 +9,7 @@ import {getDay} from '../../utils/datetime';
 import {ServiceOrderView} from '../../models/service-order';
 import {StringMap} from '../../models/misc';
 import {fetchServiceOrderByIds} from '../../hooks/useServiceOrder';
+import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 
 export interface ServiceHistorySectionProp {
   elevator: Elevator;
@@ -46,18 +47,33 @@ export const ServiceHistorySection = ({
   }
 
   return (
-    <Box>
-      <h2>Service History</h2>
-      {serviceHistories.data.map((history) => (
-        <Stack key={history.id} spacing={1}>
-          <Stack direction="row" spacing={3}>
-            <div>{getDay(history.createdAt)}</div>
-            <div>{serviceOrderMap[history.serviceOrderId]?.type}</div>
-            <div>{serviceOrderMap[history.serviceOrderId]?.status}</div>
-          </Stack>
-          <div>{history.description}</div>
-        </Stack>
-      ))}
+    <Box
+      sx={{
+        background: '#fff',
+        borderRadius: '8px',
+        height: 500,
+        pt: 2,
+        px: '20px',
+      }}
+      pt={2}
+      pb={3}
+      px={2}
+    >
+      <Box display="flex" justifyContent="space-between">
+        <Typography variant="h6">Maintenance History (12)</Typography>
+        <Elevation />
+      </Box>
     </Box>
   );
 };
+
+// {serviceHistories.data.map((history) => (
+//   <Stack key={history.id} spacing={1}>
+//     <Stack direction="row" spacing={3}>
+//       <div>{getDay(history.createdAt)}</div>
+//       <div>{serviceOrderMap[history.serviceOrderId]?.type}</div>
+//       <div>{serviceOrderMap[history.serviceOrderId]?.status}</div>
+//     </Stack>
+//     <div>{history.description}</div>
+//   </Stack>
+// ))}

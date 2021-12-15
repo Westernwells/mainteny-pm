@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import {Elevator} from '../../models/elevator';
 import {ServiceOrderView} from '../../models/service-order';
 import {fetchElevator} from '../../hooks/useElevator';
@@ -45,14 +48,46 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
     return <Box>Loading...</Box>;
   }
   return (
-    <Stack>
-      <ElevatorBasicSection elevator={elevator as Elevator} />
-      <ServiceHistorySection elevator={elevator as Elevator} />
-      {serviceOrders.data.length > 0 && (
-        <TechnicianSection serviceOrder={serviceOrders.data[0]} />
-      )}
-      <ElevatorBreakDownSection />
+    <Box>
+      <Box display="flex">
+        <Box mt={1}>
+          <ArrowBackIosIcon sx={{color: 'rgba(0, 0, 0, 0.54)'}} />
+        </Box>
+        <Box>
+          <Typography variant="h4">Unit Details</Typography>
+        </Box>
+      </Box>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link underline="hover" color="inherit" href="/">
+          Unit Overview
+        </Link>
+        <Link
+          underline="hover"
+          color="inherit"
+          href="/getting-started/installation/"
+        >
+          Unit Details
+        </Link>
+      </Breadcrumbs>
+
+      <Box mt={3} display="flex">
+        <Box mr={2}>
+          <ElevatorBasicSection elevator={elevator as Elevator} />
+        </Box>
+        <Box minWidth="20%" maxWidth="23%" mr={2}>
+          {serviceOrders.data.length > 0 && (
+            <TechnicianSection serviceOrder={serviceOrders.data[0]} />
+          )}
+        </Box>
+      </Box>
+      <Box mt={3} display="flex">
+        <Box width="54%">
+          <ServiceHistorySection elevator={elevator as Elevator} />
+        </Box>
+        <ElevatorBreakDownSection />
+      </Box>
+
       <ElevatorAvailabilitySection />
-    </Stack>
+    </Box>
   );
 };

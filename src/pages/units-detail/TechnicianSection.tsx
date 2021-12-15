@@ -1,6 +1,13 @@
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+
+import Typography from '@mui/material/Typography';
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
+import Avatar from '@mui/material/Avatar';
+
 import {ServiceOrderView} from '../../models/service-order';
+import technicianImage from '../../assets/images/tech.png';
 
 export interface TechnicianSectionProp {
   serviceOrder: ServiceOrderView;
@@ -13,14 +20,124 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
   }
 
   return (
-    <Box>
-      <h2>Technician</h2>
-      <Stack spacing={1}>
-        <div>{`${technician.userAccount.firstName} ${technician.userAccount.lastName}`}</div>
-        <div>{technician.address.fullName}</div>
-        <div>{technician.userAccount.contact.phone}</div>
-        <div>{technician.userAccount.contact.email}</div>
-      </Stack>
+    <Box
+      sx={{background: '#fff', borderRadius: '8px', height: 500}}
+      pt={2}
+      pb={3}
+      px={2}
+    >
+      <Box>
+        <Box display="flex" mt={1}>
+          <Typography variant="h6" mt={1} mr={8} flexGrow={1}>
+            Technician (1)
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="center" mt={3}>
+          <Box>
+            <Avatar
+              alt="Tech"
+              src={technicianImage}
+              sx={{width: 120, height: 120}}
+            />
+            <Typography variant="h6">{`${technician.userAccount.firstName} ${technician.userAccount.lastName}`}</Typography>
+            <Typography
+              variant="subtitle2"
+              textAlign="center"
+              color={(theme) => theme.palette.text.secondary}
+            >
+              Snr Technician
+            </Typography>
+          </Box>
+        </Box>
+
+        <Box display="flex" mr={3} mt={2}>
+          <Box
+            sx={{background: (theme) => theme.palette.background.default}}
+            width={35}
+            height={35}
+          >
+            <BadgeOutlinedIcon
+              sx={{
+                width: '18px',
+                height: '18px',
+                ml: 1,
+                mt: 1,
+                color: (theme) => theme.palette.text.primary,
+              }}
+            />
+          </Box>
+          <Typography
+            variant="tableHeaderText"
+            mt={1}
+            ml={2}
+            sx={{color: (theme) => theme.palette.text.secondary}}
+          >
+            astralift.nl
+          </Typography>
+        </Box>
+
+        <Box display="flex" mr={3} mt={2}>
+          <Box
+            sx={{background: (theme) => theme.palette.background.default}}
+            width={35}
+            height={35}
+          >
+            <EmailOutlinedIcon
+              sx={{
+                width: '18px',
+                height: '18px',
+                ml: 1,
+                mt: 1,
+                color: (theme) => theme.palette.text.primary,
+              }}
+            />
+          </Box>
+          <Typography
+            variant="tableHeaderText"
+            mt={1}
+            ml={2}
+            sx={{color: (theme) => theme.palette.text.secondary}}
+          >
+            {technician.userAccount.contact.email}
+          </Typography>
+        </Box>
+
+        <Box display="flex" mr={3} mt={2}>
+          <Box
+            sx={{background: (theme) => theme.palette.background.default}}
+            width={35}
+            height={35}
+          >
+            <CallOutlinedIcon
+              sx={{
+                width: '18px',
+                height: '18px',
+                ml: 1,
+                mt: 1,
+                color: (theme) => theme.palette.text.primary,
+              }}
+            />
+          </Box>
+          <Typography
+            variant="tableHeaderText"
+            mt={1}
+            ml={2}
+            sx={{color: (theme) => theme.palette.text.secondary}}
+          >
+            {technician.userAccount.contact.phone}
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   );
 };
+
+/* <Box>
+<h2>Technician</h2>
+<Stack spacing={1}>
+  <div>{`${technician.userAccount.firstName} ${technician.userAccount.lastName}`}</div>
+  <div>{technician.address.fullName}</div>
+  <div>{technician.userAccount.contact.phone}</div>
+  <div>{technician.userAccount.contact.email}</div>
+</Stack>
+</Box> */

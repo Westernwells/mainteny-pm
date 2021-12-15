@@ -80,14 +80,14 @@ export const AppDrawer = () => {
     {
       text: 'Units',
       icon: <Elevator sx={{color: '#fff'}} />,
-      path: 'my-units',
+      path: 'units',
       onClick: (
         e: React.MouseEvent<HTMLDivElement, MouseEvent>,
         index: number,
       ) => {
         e.preventDefault();
         setSelectedIndex(index);
-        navigate('/my-units');
+        navigate('/units');
       },
     },
     {

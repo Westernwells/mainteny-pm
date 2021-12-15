@@ -2,7 +2,7 @@ import {useRef} from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import LoadingBar, {LoadingBarRef} from 'react-top-loading-bar';
 import {Login} from './pages/Login';
-import {MyUnits} from './pages/my-units/MyUnits';
+import {MyUnits} from './pages/MyUnits';
 import {UnitsDetail} from './pages/units-detail/UnitsDetail';
 import {PageLayout} from './components/Layout';
 import {Contracts} from './pages/contracts/Contracts';
@@ -31,7 +31,7 @@ export const App = () => {
           }
         />
         <Route
-          path="/my-units"
+          path="/units"
           element={
             <PageLayout startPageLoad={() => ref.current!.continuousStart()}>
               <MyUnits stopLoading={() => ref.current!.complete()} />

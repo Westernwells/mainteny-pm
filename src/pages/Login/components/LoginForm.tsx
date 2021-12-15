@@ -90,7 +90,7 @@ export const LoginForm = ({
         <Button
           onClick={() => {
             startPageLoad();
-            navigate('/my-units');
+            navigate('/units');
           }}
           disabled={!!(!password || !email || emailError || passwordError)}
           sx={{marginTop: 5, width: '100%'}}

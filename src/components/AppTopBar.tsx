@@ -6,6 +6,7 @@ import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
 import AppBar from '@mui/material/AppBar';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import AvatarImg from '../assets/images/avatar.png';
 
 import {ReactComponent as Logo} from '../assets/icons/Logo.svg';
 
@@ -46,7 +47,7 @@ export const AppTopBar = () => (
           </Badge>
 
           <Box ml={8} display="flex">
-            <Avatar sx={{bgcolor: 'purple'}}>OP</Avatar>
+            <Avatar alt="Prasad Subhramanyam" src={AvatarImg} />
             <Box ml={2}>
               <Typography color="#222B45" variant="h6" gutterBottom={false}>
                 Prasad Subhramanyam

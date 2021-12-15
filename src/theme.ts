@@ -284,6 +284,26 @@ export const theme = createTheme({
             color: '#ED6C02',
           },
         },
+        {
+          props: {variant: 'tableHeaderText'},
+          style: {
+            fontFamily: 'Roboto',
+            fontWeight: 500,
+            fontSize: '14px',
+            lineHeight: '24px',
+            letterSpacing: '0.17px',
+          },
+        },
+        {
+          props: {variant: 'alertTitleText'},
+          style: {
+            fontFamily: 'Roboto',
+            fontWeight: 500,
+            fontSize: '16px',
+            lineHeight: '24px',
+            letterSpacing: '0.15px',
+          },
+        },
       ],
     },
   },
