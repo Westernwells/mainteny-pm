@@ -80,12 +80,6 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
               justifyContent: 'flex-end',
             }}
           >
-            <Grid item xs={1}>
-              <Typography variant="largeBtnText">
-                {elevatorOrder.elevator.number}
-              </Typography>
-            </Grid>
-
             <Grid item xs={2}>
               <Typography variant="largeBtnText">
                 {elevatorOrder.elevator.lastVisitDate || 'N/A'}
