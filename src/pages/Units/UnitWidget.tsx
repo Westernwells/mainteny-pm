@@ -6,7 +6,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import {Searchnput} from '../../components/SearchInput';
 
-export const MyUnitsWidget = () => (
+export const UnitWidget = () => (
   <Box mb={5} display="flex" justifyContent="space-between">
     <Typography variant="h4">Units</Typography>
 

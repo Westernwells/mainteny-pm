@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/system/Box';
 
-export const MyUnitsColumnTitles = () => (
+export const UnitColumns = () => (
   <Box
     // display="flex"
     sx={{

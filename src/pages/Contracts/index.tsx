@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+
 import {
   fetchContracts,
   fetchContractsElevatorMap,
@@ -12,6 +13,8 @@ import {ElevatorView} from '../../models/elevator';
 import {Page, Resource, StringMap} from '../../models/misc';
 import {createEmptyResource, getNextPage} from '../../utils/paging-utils';
 import {getDay} from '../../utils/datetime';
+import {ContractHeader} from './ContractHeader';
+import {ContractRow} from './ContractRow';
 
 const pageSize = 50;
 interface ContractRecord {
@@ -74,49 +77,31 @@ export const Contracts = ({stopLoading}: ContractsProp) => {
         </Stack>
       </Box>
       <Box>
-        <Grid container columns={12}>
-          <Grid item xs={3}>
-            <div>CONTRACTOR</div>
-          </Grid>
-          <Grid item xs={2}>
-            <div>CONTRACT NUMBER</div>
-          </Grid>
-          <Grid item xs={1}>
-            <div>UNITS</div>
-          </Grid>
-          <Grid item xs={2}>
-            <div>COST/YR</div>
-          </Grid>
-          <Grid item xs={2}>
-            <div>EXPIRY DATE</div>
-          </Grid>
-          <Grid item xs={2}>
-            <div>ACTIONS</div>
-          </Grid>
-        </Grid>
+        <ContractHeader />
         {contractResource.data.map((record) => (
-          <Grid container columns={12}>
-            <Grid item xs={3}>
-              <div>{record.contract.serviceCompany.name}</div>
-            </Grid>
-            <Grid item xs={2}>
-              {/* TODO: fix contract number */}
-              <div>abc-01</div>
-            </Grid>
-            <Grid item xs={1}>
-              <div>{record.elevators.length}</div>
-            </Grid>
-            <Grid item xs={2}>
-              <div>{`${record.contract.hourlyRate}/${record.contract.visitsNumber}`}</div>
-            </Grid>
-            <Grid item xs={2}>
-              <div>{getDay(record.contract.endTime)}</div>
-            </Grid>
-            <Grid item xs={2}>
-              <Button>View</Button>
-              <Button>Download</Button>
-            </Grid>
-          </Grid>
+          <ContractRow contract={record} />
+          // <Grid container>
+          //   <Grid item xs={3}>
+          //     <div>{record.contract.serviceCompany.name}</div>
+          //   </Grid>
+          //   <Grid item xs={2}>
+          //     {/* TODO: fix contract number */}
+          //     <div>abc-01</div>
+          //   </Grid>
+          //   <Grid item xs={1}>
+          //     <div>{record.elevators.length}</div>
+          //   </Grid>
+          //   <Grid item xs={2}>
+          //     <div>{`${record.contract.hourlyRate}/${record.contract.visitsNumber}`}</div>
+          //   </Grid>
+          //   <Grid item xs={2}>
+          //     <div>{getDay(record.contract.endTime)}</div>
+          //   </Grid>
+          //   <Grid item xs={2}>
+          //     <Button>View</Button>
+          //     <Button>Download</Button>
+          //   </Grid>
+          // </Grid>
         ))}
       </Box>
     </Box>

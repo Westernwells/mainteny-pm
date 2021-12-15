@@ -2,10 +2,10 @@ import {useRef} from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import LoadingBar, {LoadingBarRef} from 'react-top-loading-bar';
 import {Login} from './pages/Login';
-import {MyUnits} from './pages/MyUnits';
-import {UnitsDetail} from './pages/units-detail/UnitsDetail';
+import {MyUnits} from './pages/Units';
+import {UnitsDetail} from './pages/UnitDetails';
 import {PageLayout} from './components/Layout';
-import {Contracts} from './pages/contracts/Contracts';
+import {Contracts} from './pages/Contracts';
 
 interface LoadingProps extends LoadingBarRef {
   continuousStart: (startingValue?: number, refreshRate?: number) => void;

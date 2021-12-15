@@ -19,7 +19,7 @@ const randomizeAvailability = [
   100, 92, 100, 85, 98, 100, 88, 100, 99, 65, 100, 100, 90, 100, 100,
 ];
 
-export const UnitsSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
+export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
   const availability =
     randomizeAvailability[
       Math.floor(Math.random() * randomizeAvailability.length)
