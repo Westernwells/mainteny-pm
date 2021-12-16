@@ -81,10 +81,12 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
         </Box>
       </Box>
       <Box mt={3} display="flex">
-        <Box width="54%">
+        <Box width="55%" mr={2}>
           <ServiceHistorySection elevator={elevator as Elevator} />
         </Box>
-        <ElevatorBreakDownSection />
+        <Box sx={{}} flexGrow={1}>
+          <ElevatorBreakDownSection />
+        </Box>
       </Box>
 
       <ElevatorAvailabilitySection />

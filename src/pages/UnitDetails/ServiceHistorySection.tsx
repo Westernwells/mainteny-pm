@@ -104,7 +104,9 @@ export const ServiceHistorySection = ({
               </Typography>
               <Box flexGrow={1} mt={1} display="flex">
                 <ServiceOrderIcons
-                  serviceOrderType={ServiceOrderType.REPAIR}
+                  serviceOrderType={
+                    serviceOrderMap[history.serviceOrderId]?.type
+                  }
                   style={{width: '18px', height: '18px', mt: '3px', mr: 1}}
                 />
                 <Typography variant="largeBtnText">
