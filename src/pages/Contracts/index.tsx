@@ -86,9 +86,11 @@ export const Contracts = ({stopLoading}: ContractsProp) => {
       </Box>
       <Box>
         <ContractHeader />
-        {contractResource.data.map((record) => (
-          <ContractRow contract={record} />
-        ))}
+        <Box sx={{height: '73vh', overflowY: 'scroll'}}>
+          {contractResource.data.map((record) => (
+            <ContractRow contract={record} />
+          ))}
+        </Box>
       </Box>
     </Box>
   );
