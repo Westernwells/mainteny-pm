@@ -76,11 +76,11 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
       </Breadcrumbs>
 
       <Box>
-        <Box mt={3} display="flex" height="40%">
-          <Box mr={2}>
+        <Box mt={3} display="flex">
+          <Box mr={2} minWidth="32%">
             <ElevatorBasicSection elevator={elevator as Elevator} />
           </Box>
-          <Box minWidth="20%" maxWidth="23%" mr={2}>
+          <Box maxWidth="22%" mr={2}>
             {serviceOrders.data.length > 0 && (
               <TechnicianSection serviceOrder={serviceOrders.data[0]} />
             )}
@@ -89,7 +89,7 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
             <ElevatorAvailabilitySection />
           </Box>
         </Box>
-        <Box mt={3} display="flex" height="40%">
+        <Box mt={4} display="flex" height="40%">
           <Box width="55%" mr={2}>
             <ServiceHistorySection elevator={elevator as Elevator} />
           </Box>
