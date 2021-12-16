@@ -90,6 +90,10 @@ export function isFirstPage<T>(res: Resource<T>): Boolean {
   return res.page.pageIndex === 0;
 }
 
+export function makePage(pageIndex: number, pageSize: number): Page {
+  return {pageIndex, pageSize};
+}
+
 export function mergeResource<T>(
   targetRes: Resource<T>,
   sourceRes: Resource<T>,

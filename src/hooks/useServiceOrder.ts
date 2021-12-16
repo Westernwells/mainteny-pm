@@ -9,6 +9,7 @@ import {Priority, Resource, RestError, State} from '../models/misc';
 import {ElevatorCategory, ElevatorStatus} from '../models/elevator';
 import {ContractStatus, ContractType} from '../models/contract';
 import {UserAccountStatus} from '../models/user';
+import {createResource} from '../utils/paging-utils';
 
 const serviceOrders: Resource<ServiceOrderView> = {
   data: [
@@ -15434,8 +15435,13 @@ const serviceOrderByElevator: Resource<ServiceOrderView> = {
   page: {pageIndex: 0, pageSize: 500},
 };
 
-export function fetchServiceOrders(): Promise<Resource<ServiceOrderView>> {
-  return Promise.resolve(serviceOrders);
+export function fetchServiceOrders(
+  elevatorIds: string[],
+): Promise<ServiceOrderView[]> {
+  const data = serviceOrders.data.filter((order) =>
+    elevatorIds.includes(order.elevator.id),
+  );
+  return Promise.resolve(data);
 }
 
 export function fetchServiceOrderByIds(
@@ -15457,6 +15463,6 @@ export function fetchServiceOrdersByElevator(
 export function useServiceOrders() {
   return useQuery<Resource<ServiceOrderView>, RestError>(
     'fetchServiceOrders',
-    () => fetchServiceOrders(),
+    () => serviceOrders,
   );
 }

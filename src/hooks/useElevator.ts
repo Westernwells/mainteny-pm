@@ -1,4 +1,5 @@
 import {useQuery} from 'react-query';
+import * as _ from 'lodash';
 import {
   Elevator,
   ElevatorCategory,
@@ -8,11 +9,13 @@ import {
 import {
   DispatchStrategy,
   Language,
+  Page,
   Priority,
   Resource,
   RestError,
   State,
 } from '../models/misc';
+import {createResource, makePage} from '../utils/paging-utils';
 
 const elevators: Resource<ElevatorView> = {
   data: [
@@ -2587,8 +2590,26 @@ const elevator: Elevator = {
   },
 };
 
-export function fetchElevators(): Promise<Resource<ElevatorView>> {
-  return Promise.resolve(elevators);
+export function fetchElevators(
+  query: string,
+  page: Page,
+): Promise<Resource<ElevatorView>> {
+  let {data} = elevators;
+  if (query) {
+    const tokens = query
+      .toLowerCase()
+      .split(' ')
+      .map((item) => item.trim());
+    data = elevators.data
+      .filter((e) => _.every(tokens, (token) => e.search.includes(token)))
+      .sort((a, b) => a.address.id.localeCompare(b.address.id));
+  }
+
+  const result = _.take(
+    _.drop(data, page.pageIndex * page.pageSize),
+    page.pageSize,
+  );
+  return Promise.resolve(createResource(result, page, elevators.page.pageSize));
 }
 
 export function fetchElevator(elevatorId: string): Promise<Elevator> {
@@ -2598,6 +2619,6 @@ export function fetchElevator(elevatorId: string): Promise<Elevator> {
 
 export function useAllElevators() {
   return useQuery<Resource<ElevatorView>, RestError>('fetchAllElevators', () =>
-    fetchElevators(),
+    fetchElevators('', makePage(0, 10)),
   );
 }

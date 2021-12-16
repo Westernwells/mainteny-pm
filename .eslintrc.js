@@ -16,6 +16,7 @@ module.exports = {
   ignorePatterns: ['src/models/*.ts'],
   rules: {
     'react/react-in-jsx-scope': 'off',
+    'react/jsx-no-bind': 'off',
     'import/prefer-default-export': 'off',
     'react/jsx-fragments': 'off',
     'react/jsx-filename-extension': [1, {extensions: ['.tsx']}],

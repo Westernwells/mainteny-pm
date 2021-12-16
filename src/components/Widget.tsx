@@ -12,9 +12,14 @@ import {BtnGroupType} from '../models/misc';
 interface Props {
   btnGroupType?: BtnGroupType;
   searchPlaceholder?: string;
+  onSearchTextChanged?: (text: string) => void;
 }
 
-export const Widget = ({btnGroupType, searchPlaceholder}: Props) => (
+export const Widget = ({
+  btnGroupType,
+  searchPlaceholder,
+  onSearchTextChanged,
+}: Props) => (
   <Box display="flex">
     <Box display="flex" mr={3} mt={1}>
       <FilterListIcon sx={{color: '#8F9BB3'}} />
@@ -30,7 +35,10 @@ export const Widget = ({btnGroupType, searchPlaceholder}: Props) => (
     </Box>
 
     <Box mr={3}>
-      <Searchnput placeholder={searchPlaceholder} />
+      <Searchnput
+        placeholder={searchPlaceholder}
+        onValueChanged={onSearchTextChanged}
+      />
     </Box>
     <Box>
       <ButtonGroup variant="outlined" size="large" sx={{height: 48}}>
