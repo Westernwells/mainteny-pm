@@ -32,8 +32,14 @@ export const ElevatorBasicSection = ({elevator}: ElevatorBasicSectionProp) => {
           <Box mr={2}>
             <Escalator />
           </Box>
-          <Typography variant="h6" mt={1} mr={8} flexGrow={1}>
-            KONE TravelMaster 110
+          <Typography
+            variant="h6"
+            mt={1}
+            mr={8}
+            flexGrow={1}
+            color={theme.palette.primary.main}
+          >
+            {elevator.model}
           </Typography>
           <Box>
             <Elevation />

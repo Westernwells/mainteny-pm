@@ -48,7 +48,7 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
     return <Box>Loading...</Box>;
   }
   return (
-    <Box>
+    <Box mb={4}>
       <Box display="flex">
         <Box mt={1}>
           <ArrowBackIosIcon sx={{color: 'rgba(0, 0, 0, 0.54)'}} />
@@ -70,26 +70,29 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
         </Link>
       </Breadcrumbs>
 
-      <Box mt={3} display="flex">
-        <Box mr={2}>
-          <ElevatorBasicSection elevator={elevator as Elevator} />
+      <Box>
+        <Box mt={3} display="flex" height="40%">
+          <Box mr={2}>
+            <ElevatorBasicSection elevator={elevator as Elevator} />
+          </Box>
+          <Box minWidth="20%" maxWidth="23%" mr={2}>
+            {serviceOrders.data.length > 0 && (
+              <TechnicianSection serviceOrder={serviceOrders.data[0]} />
+            )}
+          </Box>
+          <Box flexGrow={1}>
+            <ElevatorAvailabilitySection />
+          </Box>
         </Box>
-        <Box minWidth="20%" maxWidth="23%" mr={2}>
-          {serviceOrders.data.length > 0 && (
-            <TechnicianSection serviceOrder={serviceOrders.data[0]} />
-          )}
+        <Box mt={3} display="flex" height="40%">
+          <Box width="55%" mr={2}>
+            <ServiceHistorySection elevator={elevator as Elevator} />
+          </Box>
+          <Box sx={{}} flexGrow={1}>
+            <ElevatorBreakDownSection />
+          </Box>
         </Box>
       </Box>
-      <Box mt={3} display="flex">
-        <Box width="55%" mr={2}>
-          <ServiceHistorySection elevator={elevator as Elevator} />
-        </Box>
-        <Box sx={{}} flexGrow={1}>
-          <ElevatorBreakDownSection />
-        </Box>
-      </Box>
-
-      <ElevatorAvailabilitySection />
     </Box>
   );
 };

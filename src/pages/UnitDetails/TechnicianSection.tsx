@@ -30,7 +30,13 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
     >
       <Box>
         <Box display="flex" mt={1}>
-          <Typography variant="h6" mt={1} mr={8} flexGrow={1}>
+          <Typography
+            variant="h6"
+            mt={1}
+            mr={8}
+            flexGrow={1}
+            color={theme.palette.primary.main}
+          >
             Technician (1)
           </Typography>
         </Box>
@@ -133,13 +139,3 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
     </Box>
   );
 };
-
-/* <Box>
-<h2>Technician</h2>
-<Stack spacing={1}>
-  <div>{`${technician.userAccount.firstName} ${technician.userAccount.lastName}`}</div>
-  <div>{technician.address.fullName}</div>
-  <div>{technician.userAccount.contact.phone}</div>
-  <div>{technician.userAccount.contact.email}</div>
-</Stack>
-</Box> */
