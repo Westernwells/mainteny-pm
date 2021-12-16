@@ -73,13 +73,16 @@ export const MyUnits = ({stopLoading}: Props) => {
           onSearchTextChanged={onSearchTextChanged}
         />
       </Box>
+
       <UnitColumns />
-      {elevatorsByAddressList.map((elevatorsByAddress) => (
-        <UnitSection
-          key={elevatorsByAddress.address.id}
-          elevatorsByAddress={elevatorsByAddress}
-        />
-      ))}
+      <Box sx={{height: '73vh', overflowY: 'scroll'}}>
+        {elevatorsByAddressList.map((elevatorsByAddress) => (
+          <UnitSection
+            key={elevatorsByAddress.address.id}
+            elevatorsByAddress={elevatorsByAddress}
+          />
+        ))}
+      </Box>
     </Box>
   );
 };
