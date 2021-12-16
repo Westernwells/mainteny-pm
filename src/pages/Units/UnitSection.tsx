@@ -9,6 +9,8 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import Chip from '@mui/material/Chip';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import {ElevatorsByAddress} from './Models';
 import {getDay} from '../../utils/datetime';
 import {ElevatorStatus} from '../../models/elevator';
@@ -28,6 +30,24 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
     randomizeAvailability[
       Math.floor(Math.random() * randomizeAvailability.length)
     ];
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <Box
       sx={{
@@ -141,6 +161,7 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
               <Button
                 variant="outlined"
                 sx={{background: theme.state.hover, px: 3}}
+                onClick={handleClick}
               >
                 <Typography
                   variant="largeBtnText"
@@ -154,6 +175,21 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
           </Grid>
         </Grid>
       ))}
+      <Snackbar
+        anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert
+          variant="filled"
+          onClose={handleClose}
+          severity="success"
+          sx={{width: '100%'}}
+        >
+          This is a success message!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
