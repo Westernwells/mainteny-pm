@@ -67,7 +67,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           state: State.ACTIVE,
         },
       },
-      description: 'll',
+      description: 'add a new rim to the engine at the bottom',
       attachments: [],
       technician: {
         id: '8db55be2-4ebf-4d38-af0b-34e48aef130c',
@@ -176,7 +176,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           state: State.ACTIVE,
         },
       },
-      description: 'I did some things',
+      description: 'Fixed the broken wedge around the elevator',
       attachments: [
         {
           id: 'ad708ede-4674-45f0-85a7-5d044d45d602',
@@ -297,7 +297,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           state: State.ACTIVE,
         },
       },
-      description: '',
+      description: 'Added  oil to the engine',
       attachments: [
         {
           id: 'df14b865-82a2-49c4-9abf-97f8d3fb95cd',
