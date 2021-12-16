@@ -60,24 +60,12 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
         borderRadius: '4px 4px 0px 0px',
       }}
     >
-      <Grid container sx={{mb: 3, width: '97%'}}>
-        <Grid item xs={11}>
-          <Box pl={2}>
-            <Typography variant="h5">Grant Hyatt Berlin,</Typography>
-            <Typography variant="largeBtnText" mt={1} color="textSecondary">
-              {elevatorsByAddress.address.fullName}
-            </Typography>
-          </Box>
-        </Grid>
+      <Box pl={2} mb={1}>
+        <Typography variant="largeBtnText" mt={1} color="textSecondary">
+          {elevatorsByAddress.address.fullName}
+        </Typography>
+      </Box>
 
-        <Grid item xs={1} sx={{width: '50%'}}>
-          <Box>
-            <Typography variant="h5" color="textSecondary" pr="13%">
-              {elevatorsByAddress.elevators.length} units
-            </Typography>
-          </Box>
-        </Grid>
-      </Grid>
       {elevatorsByAddress.elevators.map((elevatorOrder) => (
         <Grid
           container
