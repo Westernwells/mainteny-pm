@@ -55,9 +55,9 @@ export const MyUnits = ({stopLoading}: Props) => {
 
     setElevatorsByAddressList(elevatorByAddressList);
   }
-  function onSearchTextChanged(value: string) {
+  const onSearchTextChanged = (value: string) => {
     setSearch(value);
-  }
+  };
 
   useEffect(() => {
     doLoad().then(() => stopLoading());
