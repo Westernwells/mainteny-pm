@@ -1,5 +1,6 @@
 import React from 'react';
 import {styled} from '@mui/material';
+import {useNavigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Elevator from '@mui/icons-material/Elevator';
 import Grid from '@mui/material/Grid';
@@ -22,6 +23,7 @@ const randomizeAvailability = [
 
 export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const availability =
     randomizeAvailability[
       Math.floor(Math.random() * randomizeAvailability.length)
@@ -66,7 +68,15 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
             '&:hover': {background: 'rgba(0, 209, 255, 0.08)'},
           }}
         >
-          <Grid item xs={3} sx={{display: 'flex'}}>
+          <Grid
+            item
+            xs={3}
+            sx={{display: 'flex', cursor: 'pointer'}}
+            onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+              e.preventDefault();
+              navigate(`/units/${elevatorOrder.elevator.id}`);
+            }}
+          >
             <Box mr={2}>
               <Elevator />
             </Box>

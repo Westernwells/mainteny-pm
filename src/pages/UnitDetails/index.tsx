@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import {useNavigate} from 'react-router-dom';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
@@ -24,6 +25,7 @@ export interface UnitsDetailProps {
 // eslint-disable-next-line
 export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
   const [elevator, setElevator] = useState<Elevator>();
+  const navigate = useNavigate();
   const [serviceOrders, setServiceOrders] = useState<
     Resource<ServiceOrderView>
   >(createEmptyResource(pageSize));
@@ -50,7 +52,14 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
   return (
     <Box mb={4}>
       <Box display="flex">
-        <Box mt={1}>
+        <Box
+          mt={1}
+          sx={{cursor: 'pointer'}}
+          onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            e.preventDefault();
+            navigate(`/units`);
+          }}
+        >
           <ArrowBackIosIcon sx={{color: 'rgba(0, 0, 0, 0.54)'}} />
         </Box>
         <Box>
@@ -61,11 +70,7 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
         <Link underline="hover" color="inherit" href="/">
           Unit Overview
         </Link>
-        <Link
-          underline="hover"
-          color="inherit"
-          href="/getting-started/installation/"
-        >
+        <Link underline="hover" color="inherit" href="/">
           Unit Details
         </Link>
       </Breadcrumbs>
