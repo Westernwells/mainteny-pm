@@ -10,8 +10,8 @@ export const theme = createTheme({
       contrastText: '#FFFFFF',
     },
     secondary: {
-      light: '#0066ff',
-      main: '#6CFFFF',
+      light: '#6CFFFF',
+      main: '#00D1FF',
       dark: '#00A0CC',
       contrastText: '#FFFFFF',
     },
@@ -28,6 +28,7 @@ export const theme = createTheme({
       disabledBackground: 'rgba(34, 43, 69, 0.12)',
       focus: 'rgba(34, 43, 69, 0.12)',
     },
+
     error: {
       light: '#FF605A',
       main: '#FF182F',
@@ -38,6 +39,7 @@ export const theme = createTheme({
       light: '#64B6F7',
       main: '#2196F3',
       dark: '#0B79D0',
+      outlinedHoverBg: 'rgba(33, 150, 243, 0.08)',
       contrastText: '#FFFFFF',
     },
     warning: {

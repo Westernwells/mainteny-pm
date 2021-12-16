@@ -5,6 +5,7 @@ import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import Avatar from '@mui/material/Avatar';
+import useTheme from '@mui/material/styles/useTheme';
 
 import {ServiceOrderView} from '../../models/service-order';
 import technicianImage from '../../assets/images/tech.png';
@@ -14,6 +15,7 @@ export interface TechnicianSectionProp {
 }
 
 export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
+  const theme = useTheme();
   const technician = serviceOrder.schedules[0]?.technician;
   if (!technician) {
     return <Box>No Technician</Box>;
@@ -43,7 +45,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
             <Typography
               variant="subtitle2"
               textAlign="center"
-              color={(theme) => theme.palette.text.secondary}
+              color={theme.palette.text.secondary}
             >
               Snr Technician
             </Typography>
@@ -52,7 +54,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
 
         <Box display="flex" mr={3} mt={2}>
           <Box
-            sx={{background: (theme) => theme.palette.background.default}}
+            sx={{background: theme.palette.background.default}}
             width={35}
             height={35}
           >
@@ -62,7 +64,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
                 height: '18px',
                 ml: 1,
                 mt: 1,
-                color: (theme) => theme.palette.text.primary,
+                color: theme.palette.text.primary,
               }}
             />
           </Box>
@@ -70,7 +72,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
             variant="tableHeaderText"
             mt={1}
             ml={2}
-            sx={{color: (theme) => theme.palette.text.secondary}}
+            sx={{color: theme.palette.text.secondary}}
           >
             astralift.nl
           </Typography>
@@ -78,7 +80,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
 
         <Box display="flex" mr={3} mt={2}>
           <Box
-            sx={{background: (theme) => theme.palette.background.default}}
+            sx={{background: theme.palette.background.default}}
             width={35}
             height={35}
           >
@@ -88,7 +90,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
                 height: '18px',
                 ml: 1,
                 mt: 1,
-                color: (theme) => theme.palette.text.primary,
+                color: theme.palette.text.primary,
               }}
             />
           </Box>
@@ -96,7 +98,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
             variant="tableHeaderText"
             mt={1}
             ml={2}
-            sx={{color: (theme) => theme.palette.text.secondary}}
+            sx={{color: theme.palette.text.secondary}}
           >
             {technician.userAccount.contact.email}
           </Typography>
@@ -104,7 +106,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
 
         <Box display="flex" mr={3} mt={2}>
           <Box
-            sx={{background: (theme) => theme.palette.background.default}}
+            sx={{background: theme.palette.background.default}}
             width={35}
             height={35}
           >
@@ -114,7 +116,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
                 height: '18px',
                 ml: 1,
                 mt: 1,
-                color: (theme) => theme.palette.text.primary,
+                color: theme.palette.text.primary,
               }}
             />
           </Box>
@@ -122,7 +124,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
             variant="tableHeaderText"
             mt={1}
             ml={2}
-            sx={{color: (theme) => theme.palette.text.secondary}}
+            sx={{color: theme.palette.text.secondary}}
           >
             {technician.userAccount.contact.phone}
           </Typography>

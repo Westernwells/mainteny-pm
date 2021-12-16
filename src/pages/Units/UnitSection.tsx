@@ -3,6 +3,7 @@ import {styled} from '@mui/material';
 import Button from '@mui/material/Button';
 import Elevator from '@mui/icons-material/Elevator';
 import Grid from '@mui/material/Grid';
+import useTheme from '@mui/material/styles/useTheme';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
@@ -20,6 +21,7 @@ const randomizeAvailability = [
 ];
 
 export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
+  const theme = useTheme();
   const availability =
     randomizeAvailability[
       Math.floor(Math.random() * randomizeAvailability.length)
@@ -128,7 +130,7 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
             <Grid item xs={2}>
               <Button
                 variant="outlined"
-                sx={{background: (theme) => theme.state.hover, px: 3}}
+                sx={{background: theme.state.hover, px: 3}}
               >
                 <Typography
                   variant="largeBtnText"

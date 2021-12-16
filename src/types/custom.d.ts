@@ -18,6 +18,13 @@ declare module '@mui/material/styles' {
     alertTitleText?: React.CSSProperties;
   }
 
+  interface PaletteColor {
+    outlinedHoverBg?: string;
+  }
+  interface SimplePaletteColorOptions {
+    outlinedHoverBg?: string;
+  }
+
   interface Theme {
     state: {
       hover: string;
