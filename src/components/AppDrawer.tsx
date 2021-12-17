@@ -113,6 +113,20 @@ export const AppDrawer = () => {
         navigate('/contracts');
       },
     },
+    {
+      text: 'Invoices',
+      icon: <FileCopyIcon sx={{color: '#fff'}} />,
+      path: '/invoices',
+      onClick: (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        index: number,
+      ) => {
+        e.preventDefault();
+        setSelectedIndex(index);
+        setSelectedPath('/invoices');
+        navigate('/invoices');
+      },
+    },
   ];
 
   return (

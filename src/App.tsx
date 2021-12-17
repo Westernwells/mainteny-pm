@@ -7,6 +7,7 @@ import {UnitsDetail} from './pages/UnitDetails';
 import {PageLayout} from './components/Layout';
 import {Contracts} from './pages/Contracts';
 import {PasswordReset} from './pages/PsswordReset';
+import {Invoices} from './pages/Invoices';
 
 interface LoadingProps extends LoadingBarRef {
   continuousStart: (startingValue?: number, refreshRate?: number) => void;
@@ -54,6 +55,15 @@ export const App = () => {
           element={
             <PageLayout startPageLoad={() => ref.current!.continuousStart()}>
               <Contracts stopLoading={() => ref.current!.complete()} />
+            </PageLayout>
+          }
+        />
+
+        <Route
+          path="/invoices"
+          element={
+            <PageLayout startPageLoad={() => ref.current!.continuousStart()}>
+              <Invoices stopLoading={() => ref.current!.complete()} />
             </PageLayout>
           }
         />

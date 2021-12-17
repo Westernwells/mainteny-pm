@@ -1,0 +1,39 @@
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/system/Box';
+
+export const InvoiceHeader = () => (
+  <Box
+    // display="flex"
+    sx={{
+      backgroundColor: '#fff',
+      paddingTop: 2,
+      paddingBottom: 2,
+      // paddingLeft: '15px',
+      boxShadow: '0px 0px 0px 1px #E0E0E0',
+      borderRadius: '4px',
+    }}
+  >
+    <Grid container sx={{pl: 2}}>
+      <Grid item xs={3}>
+        <Typography variant="subtitle2">INVOICE DATE</Typography>
+      </Grid>
+
+      <Grid item xs={3}>
+        <Typography variant="subtitle2">INVOICE NUMBER</Typography>
+      </Grid>
+
+      <Grid item xs={2}>
+        <Typography variant="subtitle2">TOTAL AMOUNT</Typography>
+      </Grid>
+
+      <Grid item xs={2}>
+        <Typography variant="subtitle2">STATUS</Typography>
+      </Grid>
+
+      <Grid item xs={2}>
+        <Typography variant="subtitle2">ACTIONS</Typography>
+      </Grid>
+    </Grid>
+  </Box>
+);
