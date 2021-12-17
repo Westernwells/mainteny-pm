@@ -21,6 +21,7 @@
     "formik": "^2.2.9",
     "lint-staged": ">=10",
     "lodash": "^4.17.21",
+    "query-string": "^7.0.1",
     "react": "latest",
     "react-chartjs-2": "^4.0.0",
     "react-dom": "latest",

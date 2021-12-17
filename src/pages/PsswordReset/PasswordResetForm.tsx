@@ -8,6 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import {useNavigate} from 'react-router-dom';
 
 interface Props {
   handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
@@ -16,7 +17,6 @@ interface Props {
   password: string;
   passwordError: string | undefined;
   confirmPassword: string;
-  setPasswordResetDone: (state: boolean) => void;
 }
 
 export const PasswordResetForm = ({
@@ -25,17 +25,17 @@ export const PasswordResetForm = ({
   password,
   passwordError,
   confirmPassword,
-  setPasswordResetDone,
   handleBlur,
 }: Props) => {
   const [reEnterPassword, setReEnterPassword] = useState(false);
+  const navigate = useNavigate();
   return (
     <Box mt={3} display="flex" justifyContent="center" width="100%">
       <form style={{width: '34%'}} onSubmit={handleSubmit}>
         <TextField
           disabled={reEnterPassword}
-          id="resetPassword"
-          name="resetPassword"
+          id="password"
+          name="password"
           label="Password"
           size="medium"
           fullWidth
@@ -86,8 +86,8 @@ export const PasswordResetForm = ({
         ) : (
           <TextField
             sx={{marginTop: 4}}
-            id="confirmResetPassword"
-            name="confirmResetPassword"
+            id="confirmPassword"
+            name="confirmPassword"
             label="Re enter password"
             size="medium"
             fullWidth
@@ -123,7 +123,7 @@ export const PasswordResetForm = ({
               sx={{width: '100%'}}
               variant="contained"
               size="large"
-              onClick={() => setPasswordResetDone(true)}
+              onClick={() => navigate('/login?authType=reset')}
               endIcon={<ArrowForward />}
             >
               Go

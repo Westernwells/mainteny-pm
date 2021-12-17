@@ -6,6 +6,7 @@ import {MyUnits} from './pages/Units';
 import {UnitsDetail} from './pages/UnitDetails';
 import {PageLayout} from './components/Layout';
 import {Contracts} from './pages/Contracts';
+import {PasswordReset} from './pages/PsswordReset';
 
 interface LoadingProps extends LoadingBarRef {
   continuousStart: (startingValue?: number, refreshRate?: number) => void;
@@ -30,6 +31,7 @@ export const App = () => {
             <Login startPageLoad={() => ref.current!.continuousStart()} />
           }
         />
+        <Route path="/reset-password" element={<PasswordReset />} />
         <Route
           path="/units"
           element={
