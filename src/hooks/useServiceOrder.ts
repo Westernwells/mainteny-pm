@@ -1,4 +1,5 @@
 import {useQuery} from 'react-query';
+import * as _ from 'lodash';
 import {
   JobScheduleType,
   ServiceOrderStatus,
@@ -6,10 +7,15 @@ import {
   ServiceOrderView,
 } from '../models/service-order';
 import {Priority, Resource, RestError, State} from '../models/misc';
-import {ElevatorCategory, ElevatorStatus} from '../models/elevator';
+import {
+  ElevatorCategory,
+  ElevatorStatus,
+  ElevatorView,
+} from '../models/elevator';
 import {ContractStatus, ContractType} from '../models/contract';
 import {UserAccountStatus} from '../models/user';
 import {createResource} from '../utils/paging-utils';
+import {ElevatorOrderPair, ElevatorsByAddress} from '../pages/Units/Models';
 
 const serviceOrders: Resource<ServiceOrderView> = {
   data: [
@@ -15464,5 +15470,43 @@ export function useServiceOrders() {
   return useQuery<Resource<ServiceOrderView>, RestError>(
     'fetchServiceOrders',
     () => serviceOrders,
+  );
+}
+
+export function useFetchServiceOrdersByElevators(
+  elevatorRes: Resource<ElevatorView> | undefined,
+  stopLoading: () => void,
+) {
+  const elevatorIds = elevatorRes?.data.map((elevator) => elevator.id);
+  return useQuery<ServiceOrderView[], RestError, ElevatorsByAddress[]>(
+    ['fetchServiceOrders', elevatorIds],
+    () => fetchServiceOrders(elevatorIds!),
+    {
+      enabled: !!elevatorRes,
+      select: (data) => {
+        const serviceOrderMap = _.groupBy(
+          data,
+          (order: ServiceOrderView) => order.elevator.id,
+        );
+
+        const elevatorWithOrders = elevatorRes!.data.map((elevator) => {
+          const orders = serviceOrderMap[elevator.id];
+          const elevatorWithOrder: ElevatorOrderPair = {
+            elevator,
+            serviceOrder: orders && orders[0],
+          };
+          return elevatorWithOrder;
+        });
+
+        const elevatorByAddressList: ElevatorsByAddress[] = _.values(
+          _.groupBy(elevatorWithOrders, (record) => record.elevator.address.id),
+        ).map((elevators) => ({
+          elevators,
+          address: elevators[0].elevator.address,
+        }));
+        stopLoading();
+        return elevatorByAddressList;
+      },
+    },
   );
 }
