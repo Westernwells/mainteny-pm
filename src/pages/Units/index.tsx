@@ -30,8 +30,6 @@ export const MyUnits = ({stopLoading}: Props) => {
     stopLoading,
   );
 
-  console.log(elevatorsByAddressList, '>>>>>>>>>>?????');
-
   const onSearchTextChanged = (value: string) => {
     setSearch(value);
   };
