@@ -7,6 +7,7 @@ import {ServiceOrderView} from '../../models/service-order';
 import {fetchElevators, useAllElevators} from '../../hooks/useElevator';
 import {
   fetchServiceOrders,
+  useFetchServiceOrdersByElevators,
   useServiceOrders,
 } from '../../hooks/useServiceOrder';
 import {ElevatorsByAddress, ElevatorOrderPair} from './Models';
@@ -23,46 +24,17 @@ export const MyUnits = ({stopLoading}: Props) => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
 
-  const [elevatorsByAddressList, setElevatorsByAddressList] = useState<
-    ElevatorsByAddress[]
-  >([]);
+  const {data: elevatorResponse} = useAllElevators(search, page);
+  const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
+    elevatorResponse,
+    stopLoading,
+  );
 
-  async function doLoad() {
-    const elevatorRes = await fetchElevators(search, page);
-    const serviceOrders = await fetchServiceOrders(
-      elevatorRes.data.map((elevator) => elevator.id),
-    );
+  console.log(elevatorsByAddressList, '>>>>>>>>>>?????');
 
-    const serviceOrderMap = _.groupBy(
-      serviceOrders,
-      (order: ServiceOrderView) => order.elevator.id,
-    );
-
-    const elevatorWithOrders = elevatorRes!.data.map((elevator) => {
-      const orders = serviceOrderMap[elevator.id];
-      const elevatorWithOrder: ElevatorOrderPair = {
-        elevator,
-        serviceOrder: orders && orders[0],
-      };
-      return elevatorWithOrder;
-    });
-
-    const elevatorByAddressList: ElevatorsByAddress[] = _.values(
-      _.groupBy(elevatorWithOrders, (record) => record.elevator.address.id),
-    ).map((elevators) => ({
-      elevators,
-      address: elevators[0].elevator.address,
-    }));
-
-    setElevatorsByAddressList(elevatorByAddressList);
-  }
   const onSearchTextChanged = (value: string) => {
     setSearch(value);
   };
-
-  useEffect(() => {
-    doLoad().then(() => stopLoading());
-  }, [search, page]);
 
   return (
     <Box>
@@ -76,7 +48,7 @@ export const MyUnits = ({stopLoading}: Props) => {
 
       <UnitColumns />
       <Box sx={{height: '73vh', overflowY: 'scroll'}}>
-        {elevatorsByAddressList.map((elevatorsByAddress) => (
+        {elevatorsByAddressList?.map((elevatorsByAddress) => (
           <UnitSection
             key={elevatorsByAddress.address.id}
             elevatorsByAddress={elevatorsByAddress}

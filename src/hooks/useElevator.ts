@@ -2617,8 +2617,9 @@ export function fetchElevator(elevatorId: string): Promise<Elevator> {
   return Promise.resolve(elevator);
 }
 
-export function useAllElevators() {
-  return useQuery<Resource<ElevatorView>, RestError>('fetchAllElevators', () =>
-    fetchElevators('', makePage(0, 10)),
+export function useAllElevators(query: string, page: Page) {
+  return useQuery<Resource<ElevatorView>, RestError>(
+    ['fetchAllElevators', query, page],
+    () => fetchElevators(query, page),
   );
 }
