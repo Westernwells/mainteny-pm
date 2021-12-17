@@ -2594,7 +2594,6 @@ export function fetchElevators(
   query: string,
   page: Page,
 ): Promise<Resource<ElevatorView>> {
-  console.log(query, '==============)(');
   let {data} = elevators;
   if (query) {
     const tokens = query
@@ -2619,7 +2618,6 @@ export function fetchElevator(elevatorId: string): Promise<Elevator> {
 }
 
 export function useAllElevators(query: string, page: Page) {
-  console.log(query, '------------');
   return useQuery<Resource<ElevatorView>, RestError>(
     ['fetchAllElevators', query, page],
     () => fetchElevators(query, page),
