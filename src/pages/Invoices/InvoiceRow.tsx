@@ -1,11 +1,12 @@
 import Box from '@mui/system/Box';
+import Chip from '@mui/material/Chip';
 import useTheme from '@mui/material/styles/useTheme';
 import OpenInNewOffOutlinedIcon from '@mui/icons-material/OpenInNewOffOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import {getDay} from '../../utils/datetime';
-import {InvoiceView} from '../../models/invoice';
+import {InvoiceView, InvoiceStatus} from '../../models/invoice';
 
 interface InvoiceRowProps {
   invoice: InvoiceView;
@@ -42,7 +43,23 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="subtitle2">{invoice.status}</Typography>
+          <Chip
+            sx={{py: 2}}
+            label={
+              <Typography
+                variant="largeBtnText"
+                sx={{textTransform: 'capitalize'}}
+              >
+                {`${invoice.status.charAt(0)}${invoice.status
+                  .slice(1)
+                  .toLowerCase()}`}
+              </Typography>
+            }
+            color={
+              invoice.status === InvoiceStatus.PAID ? 'success' : 'warning'
+            }
+            size="medium"
+          />
         </Grid>
 
         <Grid item xs={2}>

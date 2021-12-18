@@ -26,7 +26,7 @@ export const Invoices = ({stopLoading}: InvoicesProp) => {
           <Typography variant="h4">Invoices</Typography>
           <Breadcrumbs aria-label="breadcrumb" sx={{mt: 1, mb: 2}}>
             <Link underline="hover" color="inherit" href="/">
-              Contracts /
+              Invoices /
             </Link>
           </Breadcrumbs>
         </Box>
