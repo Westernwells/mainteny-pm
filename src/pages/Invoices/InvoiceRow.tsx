@@ -44,7 +44,14 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
 
         <Grid item xs={2}>
           <Chip
-            sx={{py: 2}}
+            sx={{
+              py: 2,
+              color: '#fff',
+              backgroundColor:
+                invoice.status === InvoiceStatus.PAID
+                  ? theme.palette.success.main
+                  : theme.state.ratingActive,
+            }}
             label={
               <Typography
                 variant="largeBtnText"
@@ -54,9 +61,6 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
                   .slice(1)
                   .toLowerCase()}`}
               </Typography>
-            }
-            color={
-              invoice.status === InvoiceStatus.PAID ? 'success' : 'warning'
             }
             size="medium"
           />
