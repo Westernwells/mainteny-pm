@@ -1,4 +1,5 @@
 import {useQuery} from 'react-query';
+import * as _ from 'lodash';
 import {ContractOrderField} from '../types/contract';
 import {Order} from '../types/misc';
 import {paramsSerializer, request} from '../utils/axios-utils';
@@ -9,6 +10,7 @@ import {
   ElevatorStatus,
   ElevatorView,
 } from '../models/elevator';
+import {createResource} from '../utils/paging-utils';
 
 const contracts: Resource<ContractView> = {
   data: [
@@ -2471,11 +2473,26 @@ const contractElevatorMap: StringMap<ElevatorView[]> = {
 };
 
 export function fetchContracts(
-  search: string,
+  query: string,
   page: Page,
 ): Promise<Resource<ContractView>> {
-  console.log(`fetch contracts, search = ${search}, page = ${page}`);
-  return Promise.resolve(contracts);
+  console.log(`fetch contracts, query = ${query}, page = ${page}`);
+  let {data} = contracts;
+  if (query) {
+    const tokens = query
+      .toLowerCase()
+      .split(' ')
+      .map((item) => item.trim());
+    data = contracts.data.filter((c) =>
+      _.every(tokens, (token) => c.search.includes(token)),
+    );
+  }
+
+  const result = _.take(
+    _.drop(data, page.pageIndex * page.pageSize),
+    page.pageSize,
+  );
+  return Promise.resolve(createResource(result, page, contracts.page.pageSize));
 }
 
 export function fetchContractsElevatorMap(

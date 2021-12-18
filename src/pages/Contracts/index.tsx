@@ -11,13 +11,17 @@ import {
 import {ContractView} from '../../models/contract';
 import {ElevatorView} from '../../models/elevator';
 import {BtnGroupType, Page, Resource, StringMap} from '../../models/misc';
-import {createEmptyResource, getNextPage} from '../../utils/paging-utils';
+import {
+  createEmptyResource,
+  getNextPage,
+  makePage,
+} from '../../utils/paging-utils';
 import {getDay} from '../../utils/datetime';
 import {ContractHeader} from './ContractHeader';
 import {ContractRow} from './ContractRow';
 import {Widget} from '../../components/Widget';
 
-const pageSize = 50;
+const pageSize = 10;
 interface ContractRecord {
   contract: ContractView;
   elevators: ElevatorView[];
@@ -28,6 +32,8 @@ export interface ContractsProp {
 }
 
 export const Contracts = ({stopLoading}: ContractsProp) => {
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(makePage(0, pageSize));
   const [isLoading, setLoading] = useState(true);
   const [contractResource, setContractResource] = useState<
     Resource<ContractRecord>
@@ -35,8 +41,7 @@ export const Contracts = ({stopLoading}: ContractsProp) => {
 
   useEffect(() => {
     const doLoad = async () => {
-      const page = getNextPage(contractResource) as Page; // TODO: implement paging
-      const contracts = await fetchContracts('abc', page);
+      const contracts = await fetchContracts(search, page);
 
       let elevatorMap: StringMap<ElevatorView[]> = {};
       if (contracts.data.length > 0) {
@@ -60,7 +65,7 @@ export const Contracts = ({stopLoading}: ContractsProp) => {
     };
 
     doLoad();
-  }, []);
+  }, [search, page]);
 
   if (isLoading) {
     return <Box>Loading</Box>;
@@ -81,6 +86,7 @@ export const Contracts = ({stopLoading}: ContractsProp) => {
           <Widget
             btnGroupType={BtnGroupType.ICON}
             searchPlaceholder="Try ‘Delfar Elevators’"
+            onSearchTextChanged={setSearch}
           />
         </Box>
       </Box>
