@@ -23,7 +23,7 @@ export const Invoices = ({stopLoading}: InvoicesProp) => {
     <Box>
       <Box display="flex" justifyContent="space-between">
         <Box>
-          <Typography variant="h4">Contracts</Typography>
+          <Typography variant="h4">Invoices</Typography>
           <Breadcrumbs aria-label="breadcrumb" sx={{mt: 1, mb: 2}}>
             <Link underline="hover" color="inherit" href="/">
               Contracts /
