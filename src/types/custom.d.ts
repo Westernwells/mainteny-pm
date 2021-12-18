@@ -28,11 +28,13 @@ declare module '@mui/material/styles' {
   interface Theme {
     state: {
       hover: string;
+      ratingActive: string;
     };
   }
   interface ThemeOptions {
     state?: {
       hover: string;
+      ratingActive?: string;
     };
   }
 }
