@@ -59,7 +59,7 @@ export const AuthLayout = ({children}: Props) => {
         </Box>
       </Box>
 
-      <Box ml={10} flexGrow={1} pt={14}>
+      <Box ml={10} flexGrow={1} pt={27}>
         <Box>
           <Box display="flex" justifyContent="center">
             <Logo />

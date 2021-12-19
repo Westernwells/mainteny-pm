@@ -28,7 +28,8 @@ export const Login = ({startPageLoad}: Props) => {
       password: '',
       email: '',
     },
-    onSubmit: () => {
+    onSubmit: (value) => {
+      console.log(value, '?????????>>>>>.');
       // (values) => {}
     },
     validationSchema,
