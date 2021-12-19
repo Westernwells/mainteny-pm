@@ -41,7 +41,9 @@ export const ContractRow = ({contract}: Props) => {
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="subtitle2">abc-01</Typography>
+          <Typography variant="subtitle2">
+            CT-{contract.contract.id.split('-')[0].toUpperCase()}
+          </Typography>
         </Grid>
 
         <Grid item xs={1}>
