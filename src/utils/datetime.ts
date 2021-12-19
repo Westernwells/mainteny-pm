@@ -1,6 +1,6 @@
 import {format, parseISO} from 'date-fns';
 
-function getDateObject(input: any): Date {
+export function getDateObject(input: any): Date {
   const type = typeof input;
   if (type === 'string') {
     return parseISO(input);

@@ -76,7 +76,7 @@ export const ServiceHistorySection = ({
 
       <Box pt={4} height="84%" sx={{overflowY: 'scroll'}}>
         {serviceHistories.data.map((history, index) => (
-          <Box display="flex">
+          <Box display="flex" key={history.id}>
             {index === 0 ? (
               <Box mr={1}>
                 <Box

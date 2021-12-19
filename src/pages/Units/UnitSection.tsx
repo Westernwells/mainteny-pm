@@ -1,18 +1,17 @@
 import React from 'react';
-import {styled} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Elevator from '@mui/icons-material/Elevator';
 import Grid from '@mui/material/Grid';
 import useTheme from '@mui/material/styles/useTheme';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import {addDays} from 'date-fns';
 import {ElevatorsByAddress} from './Models';
-import {getDay} from '../../utils/datetime';
+import {getDateObject, getDay} from '../../utils/datetime';
 import {ElevatorStatus} from '../../models/elevator';
 
 export interface UnitsSectionProperty {
@@ -68,6 +67,7 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
 
       {elevatorsByAddress.elevators.map((elevatorOrder) => (
         <Grid
+          key={elevatorOrder.elevator.id}
           container
           sx={{
             paddingTop: 1,
@@ -109,8 +109,14 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
             <Grid item xs={2}>
               <Typography variant="largeBtnText">
                 {' '}
-                {getDay(elevatorOrder.serviceOrder?.schedules[0]?.startTime) ||
-                  '2021-08-21'}
+                {getDay(
+                  addDays(
+                    new Date(),
+                    getDateObject(
+                      elevatorOrder.serviceOrder?.schedules[0]?.startTime,
+                    ).getDay(),
+                  ),
+                )}
               </Typography>
             </Grid>
 

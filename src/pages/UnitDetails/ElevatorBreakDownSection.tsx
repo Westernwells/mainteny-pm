@@ -37,6 +37,7 @@ export const ElevatorBreakDownSection = () => {
       <Box pt={4} height="84%" sx={{overflowY: 'scroll'}}>
         {breakdownHistory.map((history, index) => (
           <Box
+            id={index.toString()}
             sx={{
               background: '#F7F9FC',
               borderRadius: '4px',
