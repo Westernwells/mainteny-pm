@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 
 import Link from '@mui/material/Link';
@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import {Elevator} from '../../models/elevator';
 import {ServiceOrderView} from '../../models/service-order';
 import {fetchElevator} from '../../hooks/useElevator';
-import {fetchServiceOrdersByElevator} from '../../hooks/useServiceOrder';
+import {fetchRunningServiceOrdersByElevator} from '../../hooks/useServiceOrder';
 import {Resource} from '../../models/misc';
 import {ElevatorBasicSection} from './ElevatorBasicSection';
 import {ServiceHistorySection} from './ServiceHistorySection';
@@ -27,20 +27,19 @@ export interface UnitsDetailProps {
 export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
   const [elevator, setElevator] = useState<Elevator>();
   const navigate = useNavigate();
-  const [serviceOrders, setServiceOrders] = useState<
-    Resource<ServiceOrderView>
-  >(createEmptyResource(pageSize));
+  const [runningServiceOrders, setRunningServiceOrders] = useState<
+    ServiceOrderView[]
+  >([]);
   const [isLoading, setLoading] = useState(true);
-
+  const {id: elevatorId} = useParams();
   useEffect(() => {
     const doLoad = async () => {
-      const elevatorId = 'mocked elevator id'; // TODO use real elevator id from url
       const data = await Promise.all([
-        fetchElevator(elevatorId),
-        fetchServiceOrdersByElevator(elevatorId),
+        fetchElevator(elevatorId!!),
+        fetchRunningServiceOrdersByElevator(elevatorId!!),
       ]);
       setElevator(data[0]);
-      setServiceOrders(data[1]);
+      setRunningServiceOrders(data[1]);
       setLoading(false);
       stopLoading();
     };
@@ -82,8 +81,8 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
             <ElevatorBasicSection elevator={elevator as Elevator} />
           </Box>
           <Box maxWidth="22%" mr={2}>
-            {serviceOrders.data.length > 0 && (
-              <TechnicianSection serviceOrder={serviceOrders.data[0]} />
+            {runningServiceOrders.length > 0 && (
+              <TechnicianSection serviceOrder={runningServiceOrders[0]} />
             )}
           </Box>
           <Box flexGrow={1}>
