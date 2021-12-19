@@ -78,7 +78,10 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
       <Box>
         <Box mt={3} display="flex">
           <Box mr={2} minWidth="32%">
-            <ElevatorBasicSection elevator={elevator as Elevator} />
+            <ElevatorBasicSection
+              elevator={elevator as Elevator}
+              serviceOrder={runningServiceOrders[0]}
+            />
           </Box>
           <Box maxWidth="22%" mr={2}>
             {runningServiceOrders.length > 0 && (

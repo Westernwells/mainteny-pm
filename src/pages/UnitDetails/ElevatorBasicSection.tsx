@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
+import {formatDistance} from 'date-fns';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
 import MonitorWeightOutlinedIcon from '@mui/icons-material/MonitorWeightOutlined';
@@ -14,12 +14,20 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {Elevator, ElevatorStatus} from '../../models/elevator';
 import {ReactComponent as Escalator} from '../../assets/icons/Escalator.svg';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
+import {ServiceOrder, ServiceOrderView} from '../../models/service-order';
+import {getDay} from '../../utils/datetime';
+
+import {calculateNextVisitDate} from '../Units/Models';
 
 export interface ElevatorBasicSectionProp {
   elevator: Elevator;
+  serviceOrder?: ServiceOrder | ServiceOrderView;
 }
 
-export const ElevatorBasicSection = ({elevator}: ElevatorBasicSectionProp) => {
+export const ElevatorBasicSection = ({
+  elevator,
+  serviceOrder,
+}: ElevatorBasicSectionProp) => {
   const theme = useTheme();
   return (
     <Box
@@ -223,13 +231,20 @@ export const ElevatorBasicSection = ({elevator}: ElevatorBasicSectionProp) => {
           </Typography>
         </Box>
 
-        <Box>
-          <Alert sx={{mt: 3}} icon={<CalendarTodayIcon />} severity="info">
-            <Typography variant="alertTitleText">
-              Upcoming visit in 2 weeks ( 24 Dec 2021){' '}
-            </Typography>
-          </Alert>
-        </Box>
+        {serviceOrder && (
+          <Box>
+            <Alert sx={{mt: 3}} icon={<CalendarTodayIcon />} severity="info">
+              <Typography variant="alertTitleText">
+                Upcoming visit in{' '}
+                {formatDistance(
+                  calculateNextVisitDate(serviceOrder),
+                  new Date(),
+                )}{' '}
+                ( {getDay(calculateNextVisitDate(serviceOrder))}){' '}
+              </Typography>
+            </Alert>
+          </Box>
+        )}
       </Box>
     </Box>
   );

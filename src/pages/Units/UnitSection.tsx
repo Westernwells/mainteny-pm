@@ -10,7 +10,7 @@ import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import {addDays} from 'date-fns';
-import {ElevatorsByAddress} from './Models';
+import {calculateNextVisitDate, ElevatorsByAddress} from './Models';
 import {getDateObject, getDay} from '../../utils/datetime';
 import {ElevatorStatus} from '../../models/elevator';
 
@@ -109,14 +109,9 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
             <Grid item xs={2}>
               <Typography variant="largeBtnText">
                 {' '}
-                {getDay(
-                  addDays(
-                    new Date(),
-                    getDateObject(
-                      elevatorOrder.serviceOrder?.schedules[0]?.startTime,
-                    ).getDay(),
-                  ),
-                )}
+                {(elevatorOrder.serviceOrder &&
+                  getDay(calculateNextVisitDate(elevatorOrder.serviceOrder))) ||
+                  ''}
               </Typography>
             </Grid>
 
