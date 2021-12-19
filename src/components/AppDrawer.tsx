@@ -15,6 +15,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {Typography} from '@mui/material';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 const drawerWidth = 240;
 
@@ -72,7 +73,6 @@ export const AppDrawer = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(location, '.........');
     setSelectedPath(location.pathname);
   }, []);
 
@@ -115,7 +115,7 @@ export const AppDrawer = () => {
     },
     {
       text: 'Invoices',
-      icon: <FileCopyIcon sx={{color: '#fff'}} />,
+      icon: <PaymentsIcon sx={{color: '#fff'}} />,
       path: '/invoices',
       onClick: (
         e: React.MouseEvent<HTMLDivElement, MouseEvent>,

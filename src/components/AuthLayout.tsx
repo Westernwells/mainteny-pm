@@ -1,9 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import Box from '@mui/material/Box';
-import {useFormik} from 'formik';
-import * as Yup from 'yup';
 import {ReactComponent as PolygonTop} from '../assets/icons/polygonTop.svg';
 import {ReactComponent as PolygonBottom} from '../assets/icons/polygonBottom.svg';
 import {ReactComponent as Logo} from '../assets/icons/Logo.svg';
