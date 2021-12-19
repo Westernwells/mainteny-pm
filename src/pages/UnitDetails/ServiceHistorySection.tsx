@@ -12,19 +12,26 @@ import {createEmptyResource} from '../../utils/paging-utils';
 import {fetchServiceHistoryByElevator} from '../../hooks/useServiceHistory';
 import {Elevator, ElevatorMaintenanceHistoryView} from '../../models/elevator';
 import {getDay} from '../../utils/datetime';
-import {ServiceOrderStatus, ServiceOrderView} from '../../models/service-order';
+import {
+  ServiceOrder,
+  ServiceOrderStatus,
+  ServiceOrderView,
+} from '../../models/service-order';
 import {StringMap} from '../../models/misc';
 import {fetchServiceOrderByIds} from '../../hooks/useServiceOrder';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {ServiceOrderIcons} from '../../components/ServiceOrderIcons';
+import {calculateNextVisitDate} from '../Units/Models';
 
 export interface ServiceHistorySectionProp {
   elevator: Elevator;
+  runningServiceOrder?: ServiceOrder | ServiceOrderView;
 }
 
 const pageSize = 50;
 export const ServiceHistorySection = ({
   elevator,
+  runningServiceOrder,
 }: ServiceHistorySectionProp) => {
   const theme = useTheme();
   const [isLoading, setLoading] = useState(true);
@@ -75,55 +82,110 @@ export const ServiceHistorySection = ({
       </Box>
 
       <Box pt={4} height="84%" sx={{overflowY: 'scroll'}}>
-        {serviceHistories.data.map((history, index) => (
-          <Box display="flex" key={history.id}>
-            {index === 0 ? (
-              <Box mr={1}>
-                <Box
-                  sx={{
-                    borderLeft: '1px dashed #9E9E9E',
-                    height: 60,
-                    ml: '11px',
-                    zIndex: 1000,
-                  }}
-                />
-                <RadioButtonCheckedIcon sx={{mr: 1}} color="secondary" />
-                <Box
-                  sx={{
-                    borderLeft: '1px dashed #9E9E9E',
-                    height: 100,
-                    ml: '11px',
-                  }}
-                />
-              </Box>
-            ) : (
-              <Box>
-                <Box
-                  sx={{
-                    borderLeft: '1px dashed #9E9E9E',
-                    height: 60,
-                    ml: '11px',
-                    zIndex: 1000,
-                  }}
-                />
-                <CheckCircleIcon
-                  sx={{mr: 1, color: theme.palette.text.disabled}}
-                />
-                <Box
-                  sx={{
-                    borderLeft: '1px dashed #9E9E9E',
-                    height: 100,
-                    ml: '11px',
-                  }}
-                />
-              </Box>
-            )}
+        {/* refactor this */}
+        {runningServiceOrder && (
+          <Box display="flex">
+            <Box mr={1}>
+              <Box
+                sx={{
+                  borderLeft: '1px dashed #9E9E9E',
+                  height: 60,
+                  ml: '11px',
+                  zIndex: 1000,
+                }}
+              />
+              <RadioButtonCheckedIcon sx={{mr: 1}} color="secondary" />
+              <Box
+                sx={{
+                  borderLeft: '1px dashed #9E9E9E',
+                  height: 100,
+                  ml: '11px',
+                }}
+              />
+            </Box>
             <Box
               sx={{
-                border:
-                  index === 0
-                    ? `1px solid  ${theme.palette.secondary.main}`
-                    : null,
+                border: `1px solid  ${theme.palette.secondary.main}`,
+                boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.4)',
+
+                background: '#F7F9FC',
+                borderRadius: '4px',
+                py: 2,
+                px: 3,
+                mt: 4,
+                flexGrow: 1,
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Typography variant="h4" mr={3}>
+                  {getDay(calculateNextVisitDate(runningServiceOrder))}
+                </Typography>
+                <Box flexGrow={1} mt={1} display="flex">
+                  <ServiceOrderIcons
+                    serviceOrderType={runningServiceOrder.type}
+                    style={{width: '18px', height: '18px', mt: '3px', mr: 1}}
+                  />
+                  <Typography variant="largeBtnText">
+                    {runningServiceOrder.type}
+                  </Typography>
+                </Box>
+                <Chip
+                  sx={{
+                    py: 2,
+                    color: theme.palette.secondary.main,
+                    background: theme.palette.info.outlinedHoverBg,
+                    mt: 1,
+                    border: `1px solid  ${theme.palette.secondary.main}`,
+                  }}
+                  label={
+                    <Typography
+                      variant="largeBtnText"
+                      sx={{textTransform: 'capitalize'}}
+                    >
+                      {runningServiceOrder.status}
+                    </Typography>
+                  }
+                  size="medium"
+                />
+              </Box>
+              <Divider sx={{mt: 1}} />
+              <Typography pb={3} pt={1}>
+                {runningServiceOrder.description}
+              </Typography>
+            </Box>
+          </Box>
+        )}
+
+        {serviceHistories.data.map((history, index) => (
+          <Box display="flex" key={history.id}>
+            <Box>
+              <Box
+                sx={{
+                  borderLeft: '1px dashed #9E9E9E',
+                  height: 60,
+                  ml: '11px',
+                  zIndex: 1000,
+                }}
+              />
+              <CheckCircleIcon
+                sx={{mr: 1, color: theme.palette.text.disabled}}
+              />
+              <Box
+                sx={{
+                  borderLeft: '1px dashed #9E9E9E',
+                  height: 100,
+                  ml: '11px',
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                border: null,
                 boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.4)',
 
                 background: '#F7F9FC',
@@ -157,29 +219,17 @@ export const ServiceHistorySection = ({
                 <Chip
                   sx={{
                     py: 2,
-                    color:
-                      index === 0
-                        ? theme.palette.secondary.main
-                        : theme.palette.text.secondary,
-                    background:
-                      index === 0
-                        ? theme.palette.info.outlinedHoverBg
-                        : '#FAFAFA',
+                    color: theme.palette.text.secondary,
+                    background: '#FAFAFA',
                     mt: 1,
-                    border:
-                      index === 0
-                        ? `1px solid  ${theme.palette.secondary.main}`
-                        : `1px solid  ${theme.palette.text.secondary}`,
+                    border: `1px solid  ${theme.palette.text.secondary}`,
                   }}
                   label={
                     <Typography
                       variant="largeBtnText"
                       sx={{textTransform: 'capitalize'}}
                     >
-                      {serviceOrderMap[history.serviceOrderId]?.status ===
-                      ServiceOrderStatus.SCHEDULED
-                        ? 'Upcoming'
-                        : ServiceOrderStatus.SCHEDULED}
+                      Completed
                     </Typography>
                   }
                   size="medium"

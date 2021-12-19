@@ -94,7 +94,10 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
         </Box>
         <Box mt={4} display="flex" height="40%">
           <Box width="55%" mr={2}>
-            <ServiceHistorySection elevator={elevator as Elevator} />
+            <ServiceHistorySection
+              elevator={elevator as Elevator}
+              runningServiceOrder={runningServiceOrders[0]}
+            />
           </Box>
           <Box sx={{}} flexGrow={1}>
             <ElevatorBreakDownSection />
