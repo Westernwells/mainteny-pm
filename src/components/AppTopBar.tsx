@@ -47,10 +47,10 @@ export const AppTopBar = () => (
           </Badge>
 
           <Box ml={8} display="flex">
-            <Avatar alt="Prasad Subhramanyam" src={AvatarImg} />
+            <Avatar alt="Bruce Wayne" src={AvatarImg} />
             <Box ml={2}>
               <Typography color="#222B45" variant="h6" gutterBottom={false}>
-                Prasad Subhramanyam
+                Bruce Wayne
               </Typography>
 
               <Button

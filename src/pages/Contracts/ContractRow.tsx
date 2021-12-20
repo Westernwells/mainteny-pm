@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import useTheme from '@mui/material/styles/useTheme';
-
+import * as _ from 'lodash';
 import OpenInNewOffOutlinedIcon from '@mui/icons-material/OpenInNewOffOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
@@ -18,9 +18,10 @@ interface ContractRecord {
 
 export interface Props {
   contract: ContractRecord;
+  index: number; // to mock the contract number
 }
 
-export const ContractRow = ({contract}: Props) => {
+export const ContractRow = ({contract, index}: Props) => {
   const theme = useTheme();
   return (
     <Box
@@ -42,7 +43,7 @@ export const ContractRow = ({contract}: Props) => {
 
         <Grid item xs={2}>
           <Typography variant="subtitle2">
-            CT-{contract.contract.id.split('-')[0].toUpperCase()}
+            CNT000{_.padStart(`${120 + index + 1}`, 3, '0')}
           </Typography>
         </Grid>
 

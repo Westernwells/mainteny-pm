@@ -235,12 +235,12 @@ export const ElevatorBasicSection = ({
           <Box>
             <Alert sx={{mt: 3}} icon={<CalendarTodayIcon />} severity="info">
               <Typography variant="alertTitleText">
-                Upcoming visit in{' '}
+                Upcoming visit in
                 {formatDistance(
                   calculateNextVisitDate(serviceOrder),
                   new Date(),
                 )}{' '}
-                ( {getDay(calculateNextVisitDate(serviceOrder))}){' '}
+                ({getDay(calculateNextVisitDate(serviceOrder))}){' '}
               </Typography>
             </Alert>
           </Box>

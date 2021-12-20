@@ -11,6 +11,7 @@ import {
   ElevatorView,
 } from '../models/elevator';
 import {createResource} from '../utils/paging-utils';
+import {elevators} from './useElevator';
 
 const contracts: Resource<ContractView> = {
   data: [
@@ -394,108 +395,17 @@ const contracts: Resource<ContractView> = {
   total: 8,
   page: {pageIndex: 0, pageSize: 50},
 };
-const contractElevatorMap: StringMap<ElevatorView[]> = {
-  'ff497b2a-2ed1-4693-90b3-5d4b10586716': [
-    {
-      id: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
-      number: '500',
-      model: '47NH6674 Aufzug',
-      type: '-',
-      capacity: '-',
-      category: ElevatorCategory.ELEVATOR,
-      technicianNumber: 1,
-      address: {
-        id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-        fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-        countryCode: 'DE',
-        location: {longitude: 13.3783028, latitude: 52.54852109999999},
-      },
-      propertyOwner: {
-        id: 'badb269b-1fbc-4c45-b19a-8cff185bb8cc',
-        name: 'ADAM Pankstraße Berlin GmbH',
-        serviceCompanyId: '4a156124-a1f1-4877-9059-595416996223',
-        address: {
-          id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-          fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-          countryCode: 'DE',
-          location: {longitude: 13.3783028, latitude: 52.54852109999999},
-        },
-        contact: {phone: '46901-125', email: 'email@company.com'},
-        labels: [],
-        additionalInfo: {priority: Priority.NONE},
-        meta: {
-          createdAt: '2021-05-30T22:45:24.258240Z',
-          lastUpdatedAt: '2021-05-30T22:45:25.909Z',
-          state: State.ACTIVE,
-        },
-      },
-      lastVisitDate: '2021-11-29',
-      serviceTime: 45,
-      status: ElevatorStatus.RUNNING,
-      labels: [],
-      additionalInfo: {
-        priority: Priority.NONE,
-        isServiceOrderGenerationEnabled: true,
-      },
-      search:
-        'pankstraße 32, 13357 berlin, germany de adam pankstraße berlin gmbh running 500 47nh6674 aufzug - - elevator []',
-      meta: {
-        createdAt: '2021-05-30T22:45:26.187794Z',
-        lastUpdatedAt: '2021-06-06T07:35:44.901345Z',
-        state: State.ACTIVE,
-      },
-    },
-    {
-      id: '795939e9-9b36-47a9-888a-24ebccd08d72',
-      number: '498',
-      model: '47NH8601 Aufzug',
-      type: '-',
-      capacity: '-',
-      category: ElevatorCategory.ELEVATOR,
-      technicianNumber: 1,
-      address: {
-        id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-        fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-        countryCode: 'DE',
-        location: {longitude: 13.3783028, latitude: 52.54852109999999},
-      },
-      propertyOwner: {
-        id: 'badb269b-1fbc-4c45-b19a-8cff185bb8cc',
-        name: 'ADAM Pankstraße Berlin GmbH',
-        serviceCompanyId: '4a156124-a1f1-4877-9059-595416996223',
-        address: {
-          id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-          fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-          countryCode: 'DE',
-          location: {longitude: 13.3783028, latitude: 52.54852109999999},
-        },
-        contact: {phone: '46901-125', email: 'email@company.com'},
-        labels: [],
-        additionalInfo: {priority: Priority.NONE},
-        meta: {
-          createdAt: '2021-05-30T22:45:24.258240Z',
-          lastUpdatedAt: '2021-05-30T22:45:25.909Z',
-          state: State.ACTIVE,
-        },
-      },
-      lastVisitDate: '2021-11-29',
-      serviceTime: 45,
-      status: ElevatorStatus.RUNNING,
-      labels: [],
-      additionalInfo: {
-        priority: Priority.NONE,
-        isServiceOrderGenerationEnabled: true,
-      },
-      search:
-        'pankstraße 32, 13357 berlin, germany de adam pankstraße berlin gmbh running 498 47nh8601 aufzug - - elevator []',
-      meta: {
-        createdAt: '2021-05-30T22:45:24.560958Z',
-        lastUpdatedAt: '2021-05-30T22:45:24.560958Z',
-        state: State.ACTIVE,
-      },
-    },
-  ],
-};
+const contractElevatorMap: StringMap<ElevatorView[]> = contracts.data
+  .map((contract) => {
+    const count = _.random(2, elevators.data.length - 1);
+    return [contract.id, _.take(elevators.data, count)];
+  })
+  .reduce((acc, current) => {
+    const key = current[0] as string;
+    const value = current[1] as ElevatorView[];
+    acc[key] = value;
+    return acc;
+  }, {} as StringMap<ElevatorView[]>);
 
 export function fetchContracts(
   query: string,

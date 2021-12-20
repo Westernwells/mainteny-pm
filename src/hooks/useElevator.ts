@@ -8,8 +8,6 @@ import {
   ElevatorView,
 } from '../models/elevator';
 import {
-  DispatchStrategy,
-  Language,
   Location,
   Page,
   Priority,
@@ -19,7 +17,7 @@ import {
 } from '../models/misc';
 import {createResource} from '../utils/paging-utils';
 
-const elevators: Resource<ElevatorView> = {
+export const elevators: Resource<ElevatorView> = {
   data: [
     {
       id: 'add6168d-d7c4-4434-975b-8fdcc72b7546',
@@ -373,20 +371,20 @@ const elevators: Resource<ElevatorView> = {
       category: ElevatorCategory.GARAGE_DOOR,
       technicianNumber: 1,
       address: {
-        id: '3db76dd0-259b-4ecf-b283-3a8eaf989ee5',
-        fullName: 'Barfusstraße 13, 13349 Berlin, Germany',
+        id: '6d73dd20-e271-4532-a6a2-54d113df8c29',
+        fullName: 'Scharnweberstraße 35, 10247 Berlin, Germany',
         countryCode: 'DE',
-        location: {longitude: 13.3465356, latitude: 52.555736},
+        location: {longitude: 13.4631665, latitude: 52.5131019},
       },
       propertyOwner: {
         id: '219f432f-8f32-4c28-8261-1b6f0793bfad',
         name: 'August Storck',
         serviceCompanyId: '9d85be2d-ceb9-4b19-a350-9f512b4b57e4',
         address: {
-          id: '3db76dd0-259b-4ecf-b283-3a8eaf989ee5',
-          fullName: 'Barfusstraße 13, 13349 Berlin, Germany',
+          id: '6d73dd20-e271-4532-a6a2-54d113df8c29',
+          fullName: 'Scharnweberstraße 35, 10247 Berlin, Germany',
           countryCode: 'DE',
-          location: {longitude: 13.3465356, latitude: 52.555736},
+          location: {longitude: 13.4631665, latitude: 52.5131019},
         },
         contact: {phone: '45082694', email: 'email@company.com'},
         labels: [],
@@ -406,7 +404,7 @@ const elevators: Resource<ElevatorView> = {
         isServiceOrderGenerationEnabled: true,
       },
       search:
-        'barfusstraße 13, 13349 berlin, germany de august storck running 291 mitsubishi - - garage_door []',
+        'Scharnweberstraße 35, 10247 Berlin, Germany de august storck running 291 mitsubishi - - garage_door []',
       meta: {
         createdAt: '2021-06-01T12:06:19.630961Z',
         lastUpdatedAt: '2021-06-01T12:06:19.630962Z',
