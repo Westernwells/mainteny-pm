@@ -32,15 +32,27 @@ export const UnitColumns = () => (
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="subtitle2">AVAILABILITY</Typography>
+          <Typography variant="subtitle2">
+            <Box display="flex" justifyContent="center">
+              AVAILABILITY
+            </Box>
+          </Typography>
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="subtitle2">STATUS</Typography>
+          <Typography variant="subtitle2">
+            <Box display="flex" justifyContent="center">
+              STATUS
+            </Box>
+          </Typography>
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="subtitle2">ACTIONS</Typography>
+          <Typography variant="subtitle2">
+            <Box display="flex" justifyContent="center">
+              ACTIONS
+            </Box>
+          </Typography>
         </Grid>
       </Grid>
     </Grid>

@@ -9,9 +9,8 @@ import Box from '@mui/system/Box';
 import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import {addDays} from 'date-fns';
 import {calculateNextVisitDate, ElevatorsByAddress} from './Models';
-import {getDateObject, getDay} from '../../utils/datetime';
+import {getDay} from '../../utils/datetime';
 import {ElevatorStatus} from '../../models/elevator';
 
 export interface UnitsSectionProperty {
@@ -120,46 +119,54 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
                 variant="largeBtnText"
                 color={availability < 100 ? 'textWarning' : 'textSuccess'}
               >
-                {availability}%
+                <Box display="flex" justifyContent="center">
+                  {availability}%
+                </Box>
               </Typography>
             </Grid>
 
             <Grid item xs={2}>
-              <Chip
-                sx={{py: 2}}
-                label={
+              <Box display="flex" justifyContent="center">
+                <Chip
+                  sx={{py: 2}}
+                  label={
+                    <Typography
+                      variant="largeBtnText"
+                      sx={{textTransform: 'capitalize'}}
+                    >
+                      {`${elevatorOrder.elevator.status.charAt(
+                        0,
+                      )}${elevatorOrder.elevator.status
+                        .slice(1)
+                        .toLowerCase()}`}
+                    </Typography>
+                  }
+                  color={
+                    elevatorOrder.elevator.status === ElevatorStatus.RUNNING
+                      ? 'success'
+                      : 'error'
+                  }
+                  size="medium"
+                />
+              </Box>
+            </Grid>
+
+            <Grid item xs={2}>
+              <Box display="flex" justifyContent="center">
+                <Button
+                  variant="outlined"
+                  sx={{background: theme.state.hover, px: 3}}
+                  onClick={handleClick}
+                >
                   <Typography
                     variant="largeBtnText"
                     sx={{textTransform: 'capitalize'}}
                   >
-                    {`${elevatorOrder.elevator.status.charAt(
-                      0,
-                    )}${elevatorOrder.elevator.status.slice(1).toLowerCase()}`}
+                    {' '}
+                    Notify{' '}
                   </Typography>
-                }
-                color={
-                  elevatorOrder.elevator.status === ElevatorStatus.RUNNING
-                    ? 'success'
-                    : 'error'
-                }
-                size="medium"
-              />
-            </Grid>
-
-            <Grid item xs={2}>
-              <Button
-                variant="outlined"
-                sx={{background: theme.state.hover, px: 3}}
-                onClick={handleClick}
-              >
-                <Typography
-                  variant="largeBtnText"
-                  sx={{textTransform: 'capitalize'}}
-                >
-                  {' '}
-                  Notify{' '}
-                </Typography>
-              </Button>
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </Grid>
