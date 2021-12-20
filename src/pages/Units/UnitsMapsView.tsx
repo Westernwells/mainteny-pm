@@ -3,14 +3,14 @@ import GoogleMapReact from 'google-map-react';
 import Box from '@mui/system/Box';
 import {LocationPin} from '../../components/LocationPin';
 import {Location} from '../../models/misc';
-import {ElevatorView} from '../../models/elevator';
+import {ElevatorsByAddress} from './Models';
 
 interface Props {
   centerCoord?: Location;
-  elevators?: ElevatorView[];
+  elevatorsByAddressList?: ElevatorsByAddress[];
 }
 
-export const UnitsMapsView = ({centerCoord, elevators}: Props) => {
+export const UnitsMapsView = ({centerCoord, elevatorsByAddressList}: Props) => {
   const [selectedLocation, setSelectedLocation] = useState<Location>();
   const defaultProps = {
     center: {
@@ -30,17 +30,25 @@ export const UnitsMapsView = ({centerCoord, elevators}: Props) => {
         }
         zoom={12}
       >
-        {elevators?.map((elevator) => (
+        {elevatorsByAddressList?.map((elevatorsByAddress) => (
           <LocationPin
-            lat={elevator.address.location.latitude}
-            lng={elevator.address.location.longitude}
-            model={elevator.model}
-            number={elevator.number}
-            id={elevator.id}
+            key={elevatorsByAddress.address.id}
+            elevatorsByAddress={elevatorsByAddress}
+            lat={
+              elevatorsByAddress.elevators[0].elevator.address.location.latitude
+            }
+            lng={
+              elevatorsByAddress.elevators[0].elevator.address.location
+                .longitude
+            }
             onPinClick={() =>
               setSelectedLocation({
-                latitude: elevator.address.location.latitude,
-                longitude: elevator.address.location.longitude,
+                latitude:
+                  elevatorsByAddress.elevators[0].elevator.address.location
+                    .latitude,
+                longitude:
+                  elevatorsByAddress.elevators[0].elevator.address.location
+                    .longitude,
               })
             }
             selectedLocation={selectedLocation}

@@ -66,7 +66,7 @@ export const MyUnits = ({stopLoading}: Props) => {
         </>
       ) : (
         <UnitsMapsView
-          elevators={elevatorResponse?.elevator.data}
+          elevatorsByAddressList={elevatorsByAddressList}
           centerCoord={elevatorResponse?.centerCoord}
         />
       )}
