@@ -2,7 +2,6 @@ import {useState} from 'react';
 import * as _ from 'lodash';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import getCenter from 'geolib/es/getCenter';
 
 import {useAllElevators} from '../../hooks/useElevator';
 import {useFetchServiceOrdersByElevators} from '../../hooks/useServiceOrder';
@@ -21,8 +20,6 @@ export const MyUnits = ({stopLoading}: Props) => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
   const [showMapview, setShowMapview] = useState(false);
-  const [viewPorts, setViewPorts] = useState<Location[]>();
-  const [center, setCenter] = useState<{lat: number; lng: number}>();
 
   const {data: elevatorResponse} = useAllElevators(search, page);
   const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
