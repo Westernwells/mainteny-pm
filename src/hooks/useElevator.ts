@@ -11,7 +11,6 @@ import {
   DispatchStrategy,
   Language,
   Location,
-  MapData,
   Page,
   Priority,
   Resource,
@@ -451,7 +450,7 @@ export function useAllElevators(query: string, page: Page) {
   return useQuery<
     Resource<ElevatorView>,
     RestError,
-    {elevator: Resource<ElevatorView>; mapData: MapData}
+    {elevator: Resource<ElevatorView>; centerCoord: Location}
   >(['fetchAllElevators', query, page], () => fetchElevators(query, page), {
     select: (elevatorResponse) => {
       const latLng = elevatorResponse?.data.map((elevator) => ({
@@ -462,10 +461,7 @@ export function useAllElevators(query: string, page: Page) {
 
       return {
         elevator: elevatorResponse,
-        mapData: {
-          viewPorts: latLng,
-          center: centerCoord,
-        },
+        centerCoord,
       };
     },
   });

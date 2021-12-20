@@ -66,8 +66,8 @@ export const MyUnits = ({stopLoading}: Props) => {
         </>
       ) : (
         <UnitsMapsView
-          viewPorts={elevatorResponse?.mapData.viewPorts}
-          centerCoord={elevatorResponse?.mapData.center}
+          elevators={elevatorResponse?.elevator.data}
+          centerCoord={elevatorResponse?.centerCoord}
         />
       )}
     </Box>

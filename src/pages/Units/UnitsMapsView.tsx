@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import GoogleMapReact from 'google-map-react';
 import Box from '@mui/system/Box';
 import {LocationPin} from '../../components/LocationPin';
 import {Location} from '../../models/misc';
+import {ElevatorView} from '../../models/elevator';
 
 interface Props {
   centerCoord?: Location;
-  viewPorts?: Location[];
+  elevators?: ElevatorView[];
 }
 
-export const UnitsMapsView = ({centerCoord, viewPorts}: Props) => {
+export const UnitsMapsView = ({centerCoord, elevators}: Props) => {
+  const [selectedLocation, setSelectedLocation] = useState<Location>();
   const defaultProps = {
     center: {
       lat: 10.99835602,
@@ -28,8 +30,21 @@ export const UnitsMapsView = ({centerCoord, viewPorts}: Props) => {
         }
         zoom={12}
       >
-        {viewPorts?.map((view) => (
-          <LocationPin lat={view.latitude} lng={view.longitude} />
+        {elevators?.map((elevator) => (
+          <LocationPin
+            lat={elevator.address.location.latitude}
+            lng={elevator.address.location.longitude}
+            model={elevator.model}
+            number={elevator.number}
+            id={elevator.id}
+            onPinClick={() =>
+              setSelectedLocation({
+                latitude: elevator.address.location.latitude,
+                longitude: elevator.address.location.longitude,
+              })
+            }
+            selectedLocation={selectedLocation}
+          />
         ))}
       </GoogleMapReact>
     </Box>

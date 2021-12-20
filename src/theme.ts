@@ -215,7 +215,6 @@ export const theme = createTheme({
         },
       },
     },
-    MuiTooltip: {},
     MuiDrawer: {
       styleOverrides: {
         paper: {

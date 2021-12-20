@@ -177,8 +177,3 @@ export interface Fee {
   amount: number;
   currency: string;
 }
-
-export interface MapData {
-  viewPorts: Location[];
-  center: Location;
-}
