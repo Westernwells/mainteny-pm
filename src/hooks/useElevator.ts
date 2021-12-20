@@ -1,5 +1,6 @@
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
+import getCenter from 'geolib/es/getCenter';
 import {
   Elevator,
   ElevatorCategory,
@@ -9,6 +10,8 @@ import {
 import {
   DispatchStrategy,
   Language,
+  Location,
+  MapData,
   Page,
   Priority,
   Resource,
@@ -445,8 +448,25 @@ export function fetchElevator(elevatorId: string): Promise<Elevator> {
 }
 
 export function useAllElevators(query: string, page: Page) {
-  return useQuery<Resource<ElevatorView>, RestError>(
-    ['fetchAllElevators', query, page],
-    () => fetchElevators(query, page),
-  );
+  return useQuery<
+    Resource<ElevatorView>,
+    RestError,
+    {elevator: Resource<ElevatorView>; mapData: MapData}
+  >(['fetchAllElevators', query, page], () => fetchElevators(query, page), {
+    select: (elevatorResponse) => {
+      const latLng = elevatorResponse?.data.map((elevator) => ({
+        latitude: elevator.address.location.latitude,
+        longitude: elevator.address.location.longitude,
+      }));
+      const centerCoord = getCenter(latLng) as unknown as Location;
+
+      return {
+        elevator: elevatorResponse,
+        mapData: {
+          viewPorts: latLng,
+          center: centerCoord,
+        },
+      };
+    },
+  });
 }
