@@ -29,7 +29,7 @@ requiredVariables.forEach(async (variable) => {
     );
     process.exit();
   }
-  await fs.writeFile(envFileName, `${variableName}=${value}\n`, {flag: 'a'});
+  await fs.writeFile(envFileName, `${variable}=${value}\n`, {flag: 'a'});
 });
 
 console.log(`Successfully Prepared ${envFileName}`);
