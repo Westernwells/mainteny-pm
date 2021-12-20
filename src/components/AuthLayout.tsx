@@ -25,15 +25,15 @@ export const AuthLayout = ({children}: Props) => {
   return (
     <Box display="flex" height="100vh" sx={{backgroundColor: '#fff'}}>
       <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
         className={classes.leftBackground}
         width="38vw"
         height="100%"
+        position="relative"
+        display="flex"
+        alignItems="center"
       >
-        <Box ml={15}>
-          <PolygonTop width="115%" />
+        <Box style={{position: 'absolute', top: 0, left: 0, right: 0}}>
+          <PolygonTop width="100%" />
         </Box>
 
         <Box>
@@ -46,18 +46,24 @@ export const AuthLayout = ({children}: Props) => {
             variant="h6"
             width="100%"
             textAlign="center"
-            mt={3}
+            paddingLeft={4}
+            paddingRight={4}
           >
-            Transparent, fast & real-time communication with your maintenance
-            company
+            All your physical assets and their maintenance data unified to
+            provide you transparency, easier reporting!
           </Typography>
         </Box>
-        <Box>
+        <Box style={{position: 'absolute', bottom: 0, left: 0, right: 0}}>
           <PolygonBottom width="100%" />
         </Box>
       </Box>
 
-      <Box ml={10} flexGrow={1} pt={27}>
+      <Box
+        display="flex"
+        flexGrow={1}
+        justifyContent="center"
+        alignItems="center"
+      >
         <Box>
           <Box display="flex" justifyContent="center">
             <Logo />
