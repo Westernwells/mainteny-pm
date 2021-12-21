@@ -181,7 +181,7 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
           severity="success"
           sx={{width: '100%'}}
         >
-          This is a success message!
+          Service company has been notified
         </Alert>
       </Snackbar>
     </Box>

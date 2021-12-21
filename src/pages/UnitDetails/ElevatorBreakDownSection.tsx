@@ -52,7 +52,7 @@ export const ElevatorBreakDownSection = () => {
                 alignItems: 'center',
               }}
             >
-              <Typography variant="h5" mr={3}>
+              <Typography variant="h6" mr={3}>
                 {getDay(history.datetime)}
               </Typography>
               <Box display="flex" alignItems="center">
@@ -70,7 +70,7 @@ export const ElevatorBreakDownSection = () => {
               </Box>
             </Box>
             <Divider sx={{mt: 1}} />
-            <Typography pb={3} pt={1}>
+            <Typography pb={1} pt={1}>
               {history.description}
             </Typography>
           </Box>

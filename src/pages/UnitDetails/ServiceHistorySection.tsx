@@ -131,7 +131,7 @@ export const ServiceHistorySection = ({
                   alignItems: 'center',
                 }}
               >
-                <Typography variant="h5" mr={3}>
+                <Typography variant="h6" mr={3}>
                   {getDay(calculateNextVisitDate(runningServiceOrder))}
                 </Typography>
                 <Box flexGrow={1} display="flex" alignItems="center">
@@ -162,7 +162,7 @@ export const ServiceHistorySection = ({
                 />
               </Box>
               <Divider sx={{mt: 1}} />
-              <Typography pb={3} pt={1}>
+              <Typography pb={1} pt={1}>
                 {runningServiceOrder.description}
               </Typography>
             </Box>
@@ -211,7 +211,7 @@ export const ServiceHistorySection = ({
                   alignItems: 'center',
                 }}
               >
-                <Typography variant="h5" mr={3}>
+                <Typography variant="h6" mr={3}>
                   {getDay(history.createdAt)}
                 </Typography>
                 <Box flexGrow={1} display="flex" alignItems="center">
@@ -244,7 +244,7 @@ export const ServiceHistorySection = ({
                 />
               </Box>
               <Divider sx={{mt: 1}} />
-              <Typography pb={3} pt={1}>
+              <Typography pb={1} pt={1}>
                 {history.description}
               </Typography>
             </Box>
