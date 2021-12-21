@@ -2,6 +2,7 @@ import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {
   JobScheduleType,
+  ServiceOrder,
   ServiceOrderStatus,
   ServiceOrderType,
   ServiceOrderView,
@@ -15,7 +16,6 @@ import {
 import {ContractStatus, ContractType} from '../models/contract';
 import {UserAccountStatus} from '../models/user';
 import {ElevatorOrderPair, ElevatorsByAddress} from '../pages/Units/Models';
-import {createResource} from '../utils/paging-utils';
 
 const serviceOrders: Resource<ServiceOrderView> = {
   data: [
@@ -1116,7 +1116,8 @@ const serviceOrders: Resource<ServiceOrderView> = {
           state: State.ACTIVE,
         },
       },
-      description: 'Regular Maintenance',
+      description:
+        'Checked the controller, did vacuum on the elevator car and replaced grease on the pulley',
       type: ServiceOrderType.REGULAR,
       status: ServiceOrderStatus.SCHEDULED,
       lastVisitDate: '2021-02-12',
@@ -1224,6 +1225,10 @@ export function useServiceOrders() {
     'fetchServiceOrders',
     () => serviceOrders,
   );
+}
+
+export function getServiceOrderById(id: string): ServiceOrderView {
+  return serviceOrders.data.filter((order) => order.id === id)[0];
 }
 
 export function useFetchServiceOrdersByElevators(

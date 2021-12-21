@@ -9,115 +9,6 @@ import {UserAccountStatus} from '../models/user';
 const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
   data: [
     {
-      id: '0d150395-b2e1-4a69-a02b-da5455623f60',
-      elevator: {
-        id: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
-        number: '500',
-        model: '47NH6674 Aufzug',
-        type: '-',
-        capacity: '-',
-        category: ElevatorCategory.ELEVATOR,
-        address: {
-          id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-          fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-          countryCode: 'DE',
-          location: {
-            longitude: 13.3783028,
-            latitude: 52.54852109999999,
-          },
-        },
-        propertyOwner: {
-          id: 'badb269b-1fbc-4c45-b19a-8cff185bb8cc',
-          name: 'ADAM Pankstraße Berlin GmbH',
-          serviceCompanyId: '4a156124-a1f1-4877-9059-595416996223',
-          address: {
-            id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-            fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-            countryCode: 'DE',
-            location: {
-              longitude: 13.3783028,
-              latitude: 52.54852109999999,
-            },
-          },
-          contact: {
-            phone: '46901-125',
-            email: 'email@company.com',
-          },
-          labels: [],
-          additionalInfo: {
-            priority: Priority.NONE,
-          },
-          meta: {
-            createdAt: '2021-05-30T22:45:24.258240Z',
-            lastUpdatedAt: '2021-05-30T22:45:25.909Z',
-            state: State.ACTIVE,
-          },
-        },
-        lastVisitDate: '2021-11-29',
-        serviceTime: 45,
-        status: ElevatorStatus.RUNNING,
-        labels: [],
-        additionalInfo: {
-          priority: Priority.NONE,
-          isServiceOrderGenerationEnabled: true,
-        },
-        meta: {
-          createdAt: '2021-05-30T22:45:26.187794Z',
-          lastUpdatedAt: '2021-06-06T07:35:44.901345Z',
-          state: State.ACTIVE,
-        },
-      },
-      description: 'add a new rim to the engine at the bottom',
-      attachments: [],
-      technician: {
-        id: '8db55be2-4ebf-4d38-af0b-34e48aef130c',
-        address: {
-          id: '14cbd6b2-1126-42e4-8084-ec88254baf95',
-          fullName: 'Ebelstraße 30, 14959 Trebbin, Germany',
-          countryCode: 'DE',
-          location: {
-            longitude: 13.2298868,
-            latitude: 52.22156769999999,
-          },
-        },
-        userAccount: {
-          id: '777cb16d-ad64-40ec-908e-ec45b80ee4ab',
-          username: 'dummy1-team2@graedler-foerdertechnik.de',
-          firstName: 'Dummy1',
-          lastName: 'Team2',
-          photoUrl: '01161BC5-237A-40D6-9579-19F6BD3B2CEF.jpg',
-          contact: {
-            phone: '+4900000000000',
-            email: 'dummy1-team2@graedler-foerdertechnik.de',
-          },
-          roles: ['TECHNICIAN'],
-          status: UserAccountStatus.NORMAL,
-          meta: {
-            createdAt: '2021-05-01T22:41:39.302051Z',
-            lastUpdatedAt: '2021-09-29T11:16:16.941201Z',
-            state: State.ACTIVE,
-          },
-        },
-        isOnline: true,
-        additionalInfo: {
-          leftVacationDays: 27,
-          assignedServiceOrderTypes: [],
-        },
-        meta: {
-          createdAt: '2021-05-01T22:41:39.341470Z',
-          lastUpdatedAt: '2021-09-29T11:16:16.955909Z',
-          state: State.ACTIVE,
-        },
-      },
-      fee: {
-        amount: 0,
-        currency: 'EUR',
-      },
-      serviceOrderId: '4f9c4552-089f-4447-9bfd-fd604ba35eec',
-      actualServiceTime: 120,
-      createdAt: '2021-11-29T12:58:10.120503Z',
-    },
-    {
       id: '95e0790a-4040-49af-b164-6211190c14ab',
       elevator: {
         id: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
@@ -176,7 +67,8 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           state: State.ACTIVE,
         },
       },
-      description: 'Fixed the broken wedge around the elevator',
+      description:
+        'Did a routine check of the elevator; everything is functioning normally.',
       attachments: [
         {
           id: 'ad708ede-4674-45f0-85a7-5d044d45d602',
@@ -234,7 +126,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
         amount: 0,
         currency: 'EUR',
       },
-      serviceOrderId: '7adf15ff-42cb-4c2a-a477-0c4e8fdef093',
+      serviceOrderId: '4f9c4552-089f-4447-9bfd-fd604ba35eec',
       actualServiceTime: 121,
       createdAt: '2021-09-02T11:45:46.854002Z',
     },
@@ -297,7 +189,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           state: State.ACTIVE,
         },
       },
-      description: 'Added  oil to the engine',
+      description: 'Door engine replaced as it went out of life',
       attachments: [
         {
           id: 'df14b865-82a2-49c4-9abf-97f8d3fb95cd',
@@ -366,7 +258,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
         amount: 0,
         currency: 'EUR',
       },
-      serviceOrderId: '6f0fea62-91ad-4f4d-8736-3d6ec0eb7c33',
+      serviceOrderId: '7adf15ff-42cb-4c2a-a477-0c4e8fdef093',
       actualServiceTime: 60,
       createdAt: '2021-08-17T08:12:09.462304Z',
     },
@@ -429,7 +321,8 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           state: State.ACTIVE,
         },
       },
-      description: '',
+      description:
+        '3 persons were stuck inside the elevator car. Rescue operation was successfully carried out without any injuries.',
       attachments: [
         {
           id: '590f8065-8194-45e1-b44e-2d334697d7ae',
@@ -550,7 +443,8 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           state: State.ACTIVE,
         },
       },
-      description: '',
+      description:
+        'Because of door alignment issue, elevator car stopped with deviation. The alignment was fixed to get the elevator running fine.',
       attachments: [
         {
           id: '7bbac98c-01e3-482e-b871-b94457d43d3b',
@@ -609,336 +503,9 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
         amount: 0,
         currency: 'EUR',
       },
-      serviceOrderId: '655699c6-cf21-419a-9719-2aaf262af974',
+      serviceOrderId: '6f0fea62-91ad-4f4d-8736-3d6ec0eb7c33',
       actualServiceTime: 60,
       createdAt: '2021-08-13T14:25:29.751841Z',
-    },
-    {
-      id: 'e9742b68-3851-48a2-87ec-cd8d907eecf8',
-      elevator: {
-        id: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
-        number: '500',
-        model: '47NH6674 Aufzug',
-        type: '-',
-        capacity: '-',
-        category: ElevatorCategory.ELEVATOR,
-        address: {
-          id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-          fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-          countryCode: 'DE',
-          location: {
-            longitude: 13.3783028,
-            latitude: 52.54852109999999,
-          },
-        },
-        propertyOwner: {
-          id: 'badb269b-1fbc-4c45-b19a-8cff185bb8cc',
-          name: 'ADAM Pankstraße Berlin GmbH',
-          serviceCompanyId: '4a156124-a1f1-4877-9059-595416996223',
-          address: {
-            id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-            fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-            countryCode: 'DE',
-            location: {
-              longitude: 13.3783028,
-              latitude: 52.54852109999999,
-            },
-          },
-          contact: {
-            phone: '46901-125',
-            email: 'email@company.com',
-          },
-          labels: [],
-          additionalInfo: {
-            priority: Priority.NONE,
-          },
-          meta: {
-            createdAt: '2021-05-30T22:45:24.258240Z',
-            lastUpdatedAt: '2021-05-30T22:45:25.909Z',
-            state: State.ACTIVE,
-          },
-        },
-        lastVisitDate: '2021-11-29',
-        serviceTime: 45,
-        status: ElevatorStatus.RUNNING,
-        labels: [],
-        additionalInfo: {
-          priority: Priority.NONE,
-          isServiceOrderGenerationEnabled: true,
-        },
-        meta: {
-          createdAt: '2021-05-30T22:45:26.187794Z',
-          lastUpdatedAt: '2021-06-06T07:35:44.901345Z',
-          state: State.ACTIVE,
-        },
-      },
-      description: '',
-      attachments: [],
-      technician: {
-        id: 'fb36d350-af7b-49de-a3f6-fb7f9eb1f517',
-        address: {
-          id: '8934e86e-3418-4236-9b82-16bd6d91564a',
-          fullName: 'Parkstraße 5, 14959 Trebbin, Germany',
-          countryCode: 'DE',
-          location: {
-            longitude: 13.2244631,
-            latitude: 52.2173497,
-          },
-        },
-        userAccount: {
-          id: 'c22ff787-2912-4072-a8f6-ed6403ae99df',
-          username: 'dummy1-team1@graedler-foerdertechnik.de',
-          firstName: 'Dummy1',
-          lastName: 'Team1',
-          photoUrl: 'A358B347-C54B-4433-85FD-E96EB1721544.jpg',
-          contact: {
-            phone: '+490587899986',
-            email: 'dummy1-team1@graedler-foerdertechnik.de',
-          },
-          roles: ['TECHNICIAN', 'SERVICE_MANAGER'],
-          status: UserAccountStatus.NORMAL,
-          meta: {
-            createdAt: '2021-05-01T22:25:46.992700Z',
-            lastUpdatedAt: '2021-09-16T14:39:13.724276Z',
-            state: State.ACTIVE,
-          },
-        },
-        isOnline: true,
-        additionalInfo: {
-          leftVacationDays: 30,
-          assignedServiceOrderTypes: [],
-        },
-        meta: {
-          createdAt: '2021-05-01T22:25:47.039729Z',
-          lastUpdatedAt: '2021-09-16T14:39:13.736058Z',
-          state: State.ACTIVE,
-        },
-      },
-      fee: {
-        amount: 0,
-        currency: 'EUR',
-      },
-      serviceOrderId: '955ba80a-1128-475e-8171-ff5277687927',
-      actualServiceTime: 120,
-      createdAt: '2021-06-30T16:10:36.108258Z',
-    },
-    {
-      id: 'a72a7f48-3835-4c82-bf31-9db58599b4af',
-      elevator: {
-        id: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
-        number: '500',
-        model: '47NH6674 Aufzug',
-        type: '-',
-        capacity: '-',
-        category: ElevatorCategory.ELEVATOR,
-        address: {
-          id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-          fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-          countryCode: 'DE',
-          location: {
-            longitude: 13.3783028,
-            latitude: 52.54852109999999,
-          },
-        },
-        propertyOwner: {
-          id: 'badb269b-1fbc-4c45-b19a-8cff185bb8cc',
-          name: 'ADAM Pankstraße Berlin GmbH',
-          serviceCompanyId: '4a156124-a1f1-4877-9059-595416996223',
-          address: {
-            id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-            fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-            countryCode: 'DE',
-            location: {
-              longitude: 13.3783028,
-              latitude: 52.54852109999999,
-            },
-          },
-          contact: {
-            phone: '46901-125',
-            email: 'email@company.com',
-          },
-          labels: [],
-          additionalInfo: {
-            priority: Priority.NONE,
-          },
-          meta: {
-            createdAt: '2021-05-30T22:45:24.258240Z',
-            lastUpdatedAt: '2021-05-30T22:45:25.909Z',
-            state: State.ACTIVE,
-          },
-        },
-        lastVisitDate: '2021-11-29',
-        serviceTime: 45,
-        status: ElevatorStatus.RUNNING,
-        labels: [],
-        additionalInfo: {
-          priority: Priority.NONE,
-          isServiceOrderGenerationEnabled: true,
-        },
-        meta: {
-          createdAt: '2021-05-30T22:45:26.187794Z',
-          lastUpdatedAt: '2021-06-06T07:35:44.901345Z',
-          state: State.ACTIVE,
-        },
-      },
-      description: '',
-      attachments: [],
-      technician: {
-        id: 'fb36d350-af7b-49de-a3f6-fb7f9eb1f517',
-        address: {
-          id: '8934e86e-3418-4236-9b82-16bd6d91564a',
-          fullName: 'Parkstraße 5, 14959 Trebbin, Germany',
-          countryCode: 'DE',
-          location: {
-            longitude: 13.2244631,
-            latitude: 52.2173497,
-          },
-        },
-        userAccount: {
-          id: 'c22ff787-2912-4072-a8f6-ed6403ae99df',
-          username: 'dummy1-team1@graedler-foerdertechnik.de',
-          firstName: 'Dummy1',
-          lastName: 'Team1',
-          photoUrl: 'A358B347-C54B-4433-85FD-E96EB1721544.jpg',
-          contact: {
-            phone: '+490587899986',
-            email: 'dummy1-team1@graedler-foerdertechnik.de',
-          },
-          roles: ['TECHNICIAN', 'SERVICE_MANAGER'],
-          status: UserAccountStatus.NORMAL,
-          meta: {
-            createdAt: '2021-05-01T22:25:46.992700Z',
-            lastUpdatedAt: '2021-09-16T14:39:13.724276Z',
-            state: State.ACTIVE,
-          },
-        },
-        isOnline: true,
-        additionalInfo: {
-          leftVacationDays: 30,
-          assignedServiceOrderTypes: [],
-        },
-        meta: {
-          createdAt: '2021-05-01T22:25:47.039729Z',
-          lastUpdatedAt: '2021-09-16T14:39:13.736058Z',
-          state: State.ACTIVE,
-        },
-      },
-      fee: {
-        amount: 0,
-        currency: 'EUR',
-      },
-      serviceOrderId: '3643c93b-fd4c-4c3d-84b5-c24c66d0cff9',
-      actualServiceTime: 120,
-      createdAt: '2021-06-30T15:53:02.237309Z',
-    },
-    {
-      id: '0a511d3e-caf2-4be6-88a0-c6befec6c50a',
-      elevator: {
-        id: 'b78ec9af-7c52-4607-bfb8-f382b7d47897',
-        number: '500',
-        model: '47NH6674 Aufzug',
-        type: '-',
-        capacity: '-',
-        category: ElevatorCategory.ELEVATOR,
-        address: {
-          id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-          fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-          countryCode: 'DE',
-          location: {
-            longitude: 13.3783028,
-            latitude: 52.54852109999999,
-          },
-        },
-        propertyOwner: {
-          id: 'badb269b-1fbc-4c45-b19a-8cff185bb8cc',
-          name: 'ADAM Pankstraße Berlin GmbH',
-          serviceCompanyId: '4a156124-a1f1-4877-9059-595416996223',
-          address: {
-            id: '1c6c8cb4-bb29-4c80-ac8e-d5925ef4f901',
-            fullName: 'Pankstraße 32, 13357 Berlin, Germany',
-            countryCode: 'DE',
-            location: {
-              longitude: 13.3783028,
-              latitude: 52.54852109999999,
-            },
-          },
-          contact: {
-            phone: '46901-125',
-            email: 'email@company.com',
-          },
-          labels: [],
-          additionalInfo: {
-            priority: Priority.NONE,
-          },
-          meta: {
-            createdAt: '2021-05-30T22:45:24.258240Z',
-            lastUpdatedAt: '2021-05-30T22:45:25.909Z',
-            state: State.ACTIVE,
-          },
-        },
-        lastVisitDate: '2021-11-29',
-        serviceTime: 45,
-        status: ElevatorStatus.RUNNING,
-        labels: [],
-        additionalInfo: {
-          priority: Priority.NONE,
-          isServiceOrderGenerationEnabled: true,
-        },
-        meta: {
-          createdAt: '2021-05-30T22:45:26.187794Z',
-          lastUpdatedAt: '2021-06-06T07:35:44.901345Z',
-          state: State.ACTIVE,
-        },
-      },
-      description: 'www',
-      attachments: [],
-      technician: {
-        id: 'fb36d350-af7b-49de-a3f6-fb7f9eb1f517',
-        address: {
-          id: '8934e86e-3418-4236-9b82-16bd6d91564a',
-          fullName: 'Parkstraße 5, 14959 Trebbin, Germany',
-          countryCode: 'DE',
-          location: {
-            longitude: 13.2244631,
-            latitude: 52.2173497,
-          },
-        },
-        userAccount: {
-          id: 'c22ff787-2912-4072-a8f6-ed6403ae99df',
-          username: 'dummy1-team1@graedler-foerdertechnik.de',
-          firstName: 'Dummy1',
-          lastName: 'Team1',
-          photoUrl: 'A358B347-C54B-4433-85FD-E96EB1721544.jpg',
-          contact: {
-            phone: '+490587899986',
-            email: 'dummy1-team1@graedler-foerdertechnik.de',
-          },
-          roles: ['TECHNICIAN', 'SERVICE_MANAGER'],
-          status: UserAccountStatus.NORMAL,
-          meta: {
-            createdAt: '2021-05-01T22:25:46.992700Z',
-            lastUpdatedAt: '2021-09-16T14:39:13.724276Z',
-            state: State.ACTIVE,
-          },
-        },
-        isOnline: true,
-        additionalInfo: {
-          leftVacationDays: 30,
-          assignedServiceOrderTypes: [],
-        },
-        meta: {
-          createdAt: '2021-05-01T22:25:47.039729Z',
-          lastUpdatedAt: '2021-09-16T14:39:13.736058Z',
-          state: State.ACTIVE,
-        },
-      },
-      fee: {
-        amount: 0,
-        currency: 'EUR',
-      },
-      serviceOrderId: '032e6ca0-28dc-4b6a-acbe-155ee75e1446',
-      actualServiceTime: 60,
-      createdAt: '2021-06-24T23:10:05.375333Z',
     },
   ],
   total: 11,

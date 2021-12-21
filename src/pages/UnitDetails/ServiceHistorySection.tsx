@@ -18,26 +18,33 @@ import {
   ServiceOrderView,
 } from '../../models/service-order';
 import {StringMap} from '../../models/misc';
-import {fetchServiceOrderByIds} from '../../hooks/useServiceOrder';
+import {
+  fetchServiceOrderByIds,
+  getServiceOrderById,
+} from '../../hooks/useServiceOrder';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {ServiceOrderIcons} from '../../components/ServiceOrderIcons';
 import {calculateNextVisitDate} from '../Units/Models';
 
+function getMockedRunningServiceOrder(): ServiceOrderView {
+  return getServiceOrderById('032e6ca0-28dc-4b6a-acbe-155ee75e1446');
+}
+
 export interface ServiceHistorySectionProp {
   elevator: Elevator;
-  runningServiceOrder?: ServiceOrder | ServiceOrderView;
 }
 
 const pageSize = 50;
 export const ServiceHistorySection = ({
   elevator,
-  runningServiceOrder,
 }: ServiceHistorySectionProp) => {
   const theme = useTheme();
   const [isLoading, setLoading] = useState(true);
   const [serviceHistories, setServiceHistories] = useState(
     createEmptyResource<ElevatorMaintenanceHistoryView>(pageSize),
   );
+  const [runningServiceOrder] = useState(getMockedRunningServiceOrder());
+
   const [serviceOrderMap, setServiceOrderMap] = useState<
     StringMap<ServiceOrderView>
   >({});
@@ -125,10 +132,10 @@ export const ServiceHistorySection = ({
                 <Typography variant="h4" mr={3}>
                   {getDay(calculateNextVisitDate(runningServiceOrder))}
                 </Typography>
-                <Box flexGrow={1} mt={1} display="flex">
+                <Box flexGrow={1} mt={1} display="flex" alignItems="center">
                   <ServiceOrderIcons
                     serviceOrderType={runningServiceOrder.type}
-                    style={{width: '18px', height: '18px', mt: '3px', mr: 1}}
+                    style={{width: '18px', height: '18px', marginRight: '4px'}}
                   />
                   <Typography variant="largeBtnText">
                     {runningServiceOrder.type}
@@ -205,12 +212,12 @@ export const ServiceHistorySection = ({
                 <Typography variant="h4" mr={3}>
                   {getDay(history.createdAt)}
                 </Typography>
-                <Box flexGrow={1} mt={1} display="flex">
+                <Box flexGrow={1} mt={1} display="flex" alignItems="center">
                   <ServiceOrderIcons
                     serviceOrderType={
                       serviceOrderMap[history.serviceOrderId]?.type
                     }
-                    style={{width: '18px', height: '18px', mt: '3px', mr: 1}}
+                    style={{width: '18px', height: '18px', marginRight: '4px'}}
                   />
                   <Typography variant="largeBtnText">
                     {serviceOrderMap[history.serviceOrderId]?.type}

@@ -15,7 +15,7 @@ export const breakDownHistoryResource: Resource<BreakdownHistoryView> = {
       datetime: '2021-10-29T00:00:00Z',
       durationInMinutes: 120,
       status: 'Resolved',
-      description: 'Controller Error',
+      description: 'Controller error',
     },
     {
       id: '3',
