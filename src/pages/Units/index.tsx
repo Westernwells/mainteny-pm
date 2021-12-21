@@ -44,7 +44,7 @@ export const MyUnits = ({stopLoading}: Props) => {
       <Box mb={5} display="flex" justifyContent="space-between">
         <Typography variant="h4">Units</Typography>
         <Widget
-          searchPlaceholder="Type ‘Schindler’ or ‘Blue Plaza’"
+          searchPlaceholder="Try ‘Schindler’ or ‘Mitsubishi’"
           onSearchTextChanged={onSearchTextChanged}
           openMapView={openMapView}
           closeMapView={closeMapView}

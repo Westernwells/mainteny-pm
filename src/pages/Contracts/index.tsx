@@ -80,7 +80,7 @@ export const Contracts = ({stopLoading}: ContractsProp) => {
         <Box mt={1}>
           <Widget
             btnGroupType={BtnGroupType.ICON}
-            searchPlaceholder="Try Elevator Services AG"
+            searchPlaceholder="Try 'Elevator Services AG'"
             onSearchTextChanged={setSearch}
           />
         </Box>

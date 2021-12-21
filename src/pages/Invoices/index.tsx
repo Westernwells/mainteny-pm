@@ -28,7 +28,7 @@ export const Invoices = ({stopLoading}: InvoicesProp) => {
         <Box mt={1}>
           <Widget
             btnGroupType={BtnGroupType.ICON}
-            searchPlaceholder="Try INV000001"
+            searchPlaceholder="Try 'INV000001'"
             onSearchTextChanged={setSearch}
           />
         </Box>
