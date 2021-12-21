@@ -1,12 +1,11 @@
 import Box from '@mui/system/Box';
 import Chip from '@mui/material/Chip';
 import useTheme from '@mui/material/styles/useTheme';
-import OpenInNewOffOutlinedIcon from '@mui/icons-material/OpenInNewOffOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import {getDay} from '../../utils/datetime';
-import {InvoiceView, InvoiceStatus} from '../../models/invoice';
+import {InvoiceStatus, InvoiceView} from '../../models/invoice';
 
 interface InvoiceRowProps {
   invoice: InvoiceView;
@@ -37,40 +36,41 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="subtitle2">
-            {invoice.amount.amount} {invoice.amount.currency}
-          </Typography>
+          <Box display="flex" justifyContent="center">
+            <Typography variant="subtitle2">
+              {invoice.amount.amount} {invoice.amount.currency}
+            </Typography>
+          </Box>
         </Grid>
 
         <Grid item xs={2}>
-          <Chip
-            sx={{
-              py: 2,
-              color: '#fff',
-              backgroundColor:
-                invoice.status === InvoiceStatus.PAID
-                  ? theme.palette.success.main
-                  : theme.state.ratingActive,
-            }}
-            label={
-              <Typography
-                variant="largeBtnText"
-                sx={{textTransform: 'capitalize'}}
-              >
-                {`${invoice.status.charAt(0)}${invoice.status
-                  .slice(1)
-                  .toLowerCase()}`}
-              </Typography>
-            }
-            size="medium"
-          />
-        </Grid>
-
-        <Grid item xs={2}>
-          <Box display="flex">
-            <OpenInNewOffOutlinedIcon
-              sx={{mr: 4, color: theme.palette.info.main}}
+          <Box display="flex" justifyContent="center">
+            <Chip
+              sx={{
+                py: 2,
+                color: '#fff',
+                backgroundColor:
+                  invoice.status === InvoiceStatus.PAID
+                    ? theme.palette.success.main
+                    : theme.state.ratingActive,
+              }}
+              label={
+                <Typography
+                  variant="largeBtnText"
+                  sx={{textTransform: 'capitalize'}}
+                >
+                  {`${invoice.status.charAt(0)}${invoice.status
+                    .slice(1)
+                    .toLowerCase()}`}
+                </Typography>
+              }
+              size="medium"
             />
+          </Box>
+        </Grid>
+
+        <Grid item xs={2}>
+          <Box display="flex" justifyContent="center">
             <FileDownloadOutlinedIcon sx={{color: theme.palette.info.main}} />
           </Box>
         </Grid>

@@ -24,15 +24,21 @@ export const InvoiceHeader = () => (
       </Grid>
 
       <Grid item xs={2}>
-        <Typography variant="subtitle2">TOTAL AMOUNT</Typography>
+        <Box display="flex" justifyContent="center">
+          <Typography variant="subtitle2">TOTAL AMOUNT</Typography>
+        </Box>
       </Grid>
 
       <Grid item xs={2}>
-        <Typography variant="subtitle2">STATUS</Typography>
+        <Box display="flex" justifyContent="center">
+          <Typography variant="subtitle2">STATUS</Typography>
+        </Box>
       </Grid>
 
       <Grid item xs={2}>
-        <Typography variant="subtitle2">ACTIONS</Typography>
+        <Box display="flex" justifyContent="center">
+          <Typography variant="subtitle2">ACTIONS</Typography>
+        </Box>
       </Grid>
     </Grid>
   </Box>

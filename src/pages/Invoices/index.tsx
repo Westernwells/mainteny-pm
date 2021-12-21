@@ -22,18 +22,13 @@ export const Invoices = ({stopLoading}: InvoicesProp) => {
   return (
     <Box>
       <Box display="flex" justifyContent="space-between">
-        <Box>
+        <Box sx={{mb: 6}}>
           <Typography variant="h4">Invoices</Typography>
-          <Breadcrumbs aria-label="breadcrumb" sx={{mt: 1, mb: 2}}>
-            <Link underline="hover" color="inherit" href="/">
-              Invoices /
-            </Link>
-          </Breadcrumbs>
         </Box>
         <Box mt={1}>
           <Widget
             btnGroupType={BtnGroupType.ICON}
-            searchPlaceholder="Try ‘Delfar Elevators’"
+            searchPlaceholder="Try INV000001"
             onSearchTextChanged={setSearch}
           />
         </Box>
