@@ -66,14 +66,6 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
           <Typography variant="h4">Unit Details</Typography>
         </Box>
       </Box>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href="/">
-          Unit Overview
-        </Link>
-        <Link underline="hover" color="inherit" href="/">
-          Unit Details
-        </Link>
-      </Breadcrumbs>
 
       <Box>
         <Box mt={3} display="flex">

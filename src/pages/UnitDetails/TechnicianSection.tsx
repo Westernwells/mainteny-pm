@@ -53,7 +53,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
               textAlign="center"
               color={theme.palette.text.secondary}
             >
-              Snr Technician
+              Sr. Technician
             </Typography>
           </Box>
         </Box>
