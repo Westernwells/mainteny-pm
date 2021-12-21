@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
 import {makePage} from '../../utils/paging-utils';
 import {InvoiceHeader} from './InvoiceHeader';
 import {useInvoices} from '../../hooks/useInvoice';

@@ -12,6 +12,10 @@ function generateInvoice(): InvoiceView[] {
   for (let i = 20; i > 0; i -= 1) {
     const number = `INV000${_.padStart(i.toString(), 3, '0')}`;
     const amount = _.random(20, 80) * 100;
+    let paid = InvoiceStatus.PAID;
+    if (i % 3 === 0 || i % 5 === 0) {
+      paid = InvoiceStatus.UNPAID;
+    }
     invoices.push({
       id: i.toString(),
       issueDate: addDays(startDate, i * 4).toISOString(),
@@ -20,8 +24,8 @@ function generateInvoice(): InvoiceView[] {
         amount,
         currency: 'EUR',
       },
-      status: InvoiceStatus.PAID,
-      search: `${number} ${amount} EUR`.toLowerCase(),
+      status: paid,
+      search: `${number} ${amount} EUR ${paid}`.toLowerCase(),
       meta: {
         createdAt: '2021-05-30T22:45:24.258240Z',
         lastUpdatedAt: '2021-05-30T22:45:25.909Z',

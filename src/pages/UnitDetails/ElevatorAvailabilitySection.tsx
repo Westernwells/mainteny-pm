@@ -1,24 +1,26 @@
-// TODO: we do not have the model in backend yet
+import {useState} from 'react';
+import {addDays, format} from 'date-fns';
 import Box from '@mui/material/Box';
 
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-
+import * as _ from 'lodash';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
 
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {SplitButton} from '../../components/BtnGroup';
+import {getDay} from '../../utils/datetime';
 
 ChartJS.register(
   CategoryScale,
@@ -44,21 +46,71 @@ export const options = {
   },
 };
 
+enum TimeFrame {
+  LAST_7_DAYS = 'LAST 7 DAYS',
+  LAST_14_DAYS = 'LAST 14 DAYS',
+  LAST_21_DAYS = 'LAST 21 DAYS',
+}
+
+function getDays(timeFrame: TimeFrame): Date[] {
+  let number: number;
+  switch (timeFrame) {
+    case TimeFrame.LAST_7_DAYS: {
+      number = 7;
+      break;
+    }
+    case TimeFrame.LAST_14_DAYS: {
+      number = 14;
+      break;
+    }
+    case TimeFrame.LAST_21_DAYS: {
+      number = 21;
+      break;
+    }
+    default: {
+      number = 7;
+    }
+  }
+
+  const currentDate = new Date();
+  const days: Date[] = [];
+  for (let i = number; i > 0; i -= 1) {
+    days.push(addDays(currentDate, -i));
+  }
+  return days;
+}
+
+function generateLabels(timeFrame: TimeFrame) {
+  return getDays(timeFrame).map((day) => day.getDate());
+}
+
+function generateData(timeFrame: TimeFrame) {
+  return getDays(timeFrame).map((day) => _.random(100, 800));
+}
+
 export const ElevatorAvailabilitySection = () => {
   const theme = useTheme();
-
+  const [timeFrame, setTimeFrame] = useState(TimeFrame.LAST_7_DAYS);
   const barData = {
-    labels: ['22', '23', '24', '25', '26', '27', '28'],
+    labels: generateLabels(timeFrame),
     datasets: [
       {
         id: 1,
         label: 'Runs',
-        data: [200, 400, 200, 600, 500, 300, 600],
+        data: generateData(timeFrame),
         backgroundColor: theme.palette.primary.main,
       },
     ],
   };
 
+  function getStartDate(): Date {
+    const days = getDays(timeFrame);
+    return days[0];
+  }
+  function getEndDate(): Date {
+    const days = getDays(timeFrame);
+    return days[days.length - 1];
+  }
   return (
     <Box
       sx={{
@@ -118,20 +170,26 @@ export const ElevatorAvailabilitySection = () => {
               ml="70px"
               mr="35px"
             >
-              <Typography>Nov</Typography>
-              <Typography>Nov</Typography>
+              <Typography>{format(getStartDate(), 'MMM')}</Typography>
+              <Typography>{format(getEndDate(), 'MMM')}</Typography>
             </Box>
           </Box>
         </Box>
       </Box>
       <Box sx={{background: '#F7F9FC', px: '20px', py: 1, display: 'flex'}}>
         <SplitButton
-          options={['Last 7 days', 'Last 14 days', 'Last 21 days']}
+          selectedOption={timeFrame}
+          options={[
+            TimeFrame.LAST_7_DAYS,
+            TimeFrame.LAST_14_DAYS,
+            TimeFrame.LAST_21_DAYS,
+          ]}
+          onSelectedOptionChanged={(value) => setTimeFrame(value as TimeFrame)}
         />
         <Box ml={4} display="flex">
           <ArrowBackIosIcon sx={{mt: 1}} />
           <Typography variant="tableHeaderText" mt={1}>
-            22 Nov 2021 - 28 Nov 2021
+            {`${getDay(getStartDate())} - ${getDay(getEndDate())}`}
           </Typography>
 
           <ArrowForwardIosIcon sx={{mt: 1}} />

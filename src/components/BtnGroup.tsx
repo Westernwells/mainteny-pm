@@ -11,22 +11,25 @@ import MenuList from '@mui/material/MenuList';
 
 interface Props {
   options: string[];
+  selectedOption: string;
+  onSelectedOptionChanged: (option: string) => void;
 }
 
-export const SplitButton = ({options}: Props) => {
+export const SplitButton = ({
+  options,
+  selectedOption,
+  onSelectedOptionChanged,
+}: Props) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
 
-  const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
-  };
+  const handleClick = () => {};
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    index: number,
+    option: string,
   ) => {
-    setSelectedIndex(index);
+    onSelectedOptionChanged(option);
     setOpen(false);
   };
 
@@ -52,7 +55,7 @@ export const SplitButton = ({options}: Props) => {
         ref={anchorRef}
         aria-label="split button"
       >
-        <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+        <Button onClick={handleClick}>{selectedOption}</Button>
         <Button
           size="small"
           aria-controls={open ? 'split-button-menu' : undefined}
@@ -85,8 +88,10 @@ export const SplitButton = ({options}: Props) => {
                   {options.map((option, index) => (
                     <MenuItem
                       key={option}
-                      selected={index === selectedIndex}
-                      onClick={(event) => handleMenuItemClick(event, index)}
+                      selected={options[index] === selectedOption}
+                      onClick={(event) =>
+                        handleMenuItemClick(event, options[index])
+                      }
                     >
                       {option}
                     </MenuItem>

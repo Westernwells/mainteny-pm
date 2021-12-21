@@ -56,7 +56,7 @@ export const ContractRow = ({contract, index}: Props) => {
 
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center">
-            <Typography variant="subtitle2">{`1200EUR/${contract.contract.visitsNumber}`}</Typography>
+            <Typography variant="subtitle2">1200EUR</Typography>
           </Box>
         </Grid>
 
