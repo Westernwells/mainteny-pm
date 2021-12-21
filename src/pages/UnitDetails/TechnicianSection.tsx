@@ -41,7 +41,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
           </Typography>
         </Box>
         <Box display="flex" justifyContent="center" mt={3}>
-          <Box>
+          <Box display="flex" flexDirection="column" alignItems="center">
             <Avatar
               alt="Tech"
               src={technicianImage}
