@@ -123,7 +123,7 @@ const serviceOrders: Resource<ServiceOrderView> = {
               lastName: 'Muller',
               photoUrl: '',
               contact: {
-                phone: ' +4900000000000',
+                phone: '+4915223433333',
                 email: 'robert@maintenance.com',
               },
               roles: ['TECHNICIAN'],
@@ -270,7 +270,7 @@ const serviceOrders: Resource<ServiceOrderView> = {
               firstName: 'Herman',
               lastName: 'Gunther',
               photoUrl: '',
-              contact: {phone: ' +4900000000000', email: 'herman@gunther.com'},
+              contact: {phone: '+4915223433333', email: 'herman@gunther.com'},
               roles: ['TECHNICIAN'],
               status: UserAccountStatus.NORMAL,
               meta: {
@@ -415,7 +415,7 @@ const serviceOrders: Resource<ServiceOrderView> = {
               firstName: 'Juergen',
               lastName: 'Ardal',
               photoUrl: '',
-              contact: {phone: ' +4900000000000', email: 'juergen@ardal.com'},
+              contact: {phone: '+4915223433333', email: 'juergen@ardal.com'},
               roles: ['TECHNICIAN'],
               status: UserAccountStatus.RESET_PASSWORD,
               meta: {
@@ -560,7 +560,7 @@ const serviceOrders: Resource<ServiceOrderView> = {
               firstName: 'Peter',
               lastName: 'Parker',
               photoUrl: '',
-              contact: {phone: ' +4900000000000', email: 'peter@parker.com'},
+              contact: {phone: '+4915223433333', email: 'peter@parker.com'},
               roles: ['TECHNICIAN'],
               status: UserAccountStatus.RESET_PASSWORD,
               meta: {
@@ -705,7 +705,7 @@ const serviceOrders: Resource<ServiceOrderView> = {
               firstName: 'Herman',
               lastName: 'Gunther',
               photoUrl: '',
-              contact: {phone: ' +4900000000000', email: 'herman@gunther.com'},
+              contact: {phone: '+4915223433333', email: 'herman@gunther.com'},
               roles: ['TECHNICIAN'],
               status: UserAccountStatus.NORMAL,
               meta: {
@@ -850,7 +850,7 @@ const serviceOrders: Resource<ServiceOrderView> = {
               firstName: 'Juergen',
               lastName: 'Ardal',
               photoUrl: '',
-              contact: {phone: ' +4900000000000', email: 'juergen@ardal.com'},
+              contact: {phone: '+4915223433333', email: 'juergen@ardal.com'},
               roles: ['TECHNICIAN'],
               status: UserAccountStatus.RESET_PASSWORD,
               meta: {
@@ -995,7 +995,7 @@ const serviceOrders: Resource<ServiceOrderView> = {
               firstName: 'Felix',
               lastName: 'Bond',
               photoUrl: '',
-              contact: {phone: ' +4900000000000', email: 'james@bond.com'},
+              contact: {phone: '+4915223433333', email: 'james@bond.com'},
               roles: ['TECHNICIAN'],
               status: UserAccountStatus.RESET_PASSWORD,
               meta: {
@@ -1142,7 +1142,7 @@ const serviceOrders: Resource<ServiceOrderView> = {
               firstName: 'Max',
               lastName: 'Mustermann',
               photoUrl: '',
-              contact: {phone: ' +4900000000000', email: 'max@mustermann.com'},
+              contact: {phone: '+4915223433333', email: 'max@mustermann.com'},
               roles: ['TECHNICIAN'],
               status: UserAccountStatus.RESET_PASSWORD,
               meta: {

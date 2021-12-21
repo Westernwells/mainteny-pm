@@ -25,14 +25,17 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
       }}
     >
       <Grid container sx={{pl: 2}}>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Typography variant="subtitle2">
             {getDay(invoice.issueDate)}
           </Typography>
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Typography variant="subtitle2">{invoice.number}</Typography>
+        </Grid>
+        <Grid item xs={2}>
+          <Typography variant="subtitle2">{invoice.serviceCompany}</Typography>
         </Grid>
 
         <Grid item xs={2}>

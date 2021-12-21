@@ -15,12 +15,16 @@ export const InvoiceHeader = () => (
     }}
   >
     <Grid container sx={{pl: 2}}>
-      <Grid item xs={3}>
+      <Grid item xs={2}>
         <Typography variant="subtitle2">INVOICE DATE</Typography>
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item xs={2}>
         <Typography variant="subtitle2">INVOICE NUMBER</Typography>
+      </Grid>
+
+      <Grid item xs={2}>
+        <Typography variant="subtitle2">SERVICE COMPANY</Typography>
       </Grid>
 
       <Grid item xs={2}>

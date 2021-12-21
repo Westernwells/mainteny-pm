@@ -11,6 +11,7 @@ export interface InvoiceView {
   amount: Fee;
   issueDate: string;
   status: InvoiceStatus;
+  serviceCompany: string;
   search: string;
   meta: Meta;
 }

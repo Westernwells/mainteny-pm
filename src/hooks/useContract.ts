@@ -128,7 +128,7 @@ const contracts: Resource<ContractView> = {
       },
       serviceCompany: {
         id: '9d85be2d-ceb9-4b19-a350-9f512b4b57e4',
-        name: 'Elevator Services AG',
+        name: 'Astralift BV',
         meta: {
           createdAt: '2021-05-31T08:32:55.193896Z',
           lastUpdatedAt: '2021-05-31T08:32:55.193897Z',
@@ -145,7 +145,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2022-05-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'elevator services ag basic eur valid',
+      search: 'astralift bv basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:07:52.068670Z',
         lastUpdatedAt: '2021-06-01T12:07:52.068670Z',
@@ -175,7 +175,7 @@ const contracts: Resource<ContractView> = {
       },
       serviceCompany: {
         id: '9d85be2d-ceb9-4b19-a350-9f512b4b57e4',
-        name: 'Elevator Services AG',
+        name: 'Astralift BV',
         meta: {
           createdAt: '2021-05-31T08:32:55.193896Z',
           lastUpdatedAt: '2021-05-31T08:32:55.193897Z',
@@ -192,7 +192,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2022-05-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'elevator services ag basic eur valid',
+      search: 'astralift bv basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:09:57.502411Z',
         lastUpdatedAt: '2021-06-01T12:09:57.502411Z',
@@ -222,7 +222,7 @@ const contracts: Resource<ContractView> = {
       },
       serviceCompany: {
         id: '9d85be2d-ceb9-4b19-a350-9f512b4b57e4',
-        name: 'Elevator Services AG',
+        name: 'Astralift BV',
         meta: {
           createdAt: '2021-05-31T08:32:55.193896Z',
           lastUpdatedAt: '2021-05-31T08:32:55.193897Z',
@@ -239,7 +239,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2023-01-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'elevator services ag basic eur valid',
+      search: 'astralift bv basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:11:01.637260Z',
         lastUpdatedAt: '2021-06-01T12:11:01.637260Z',
