@@ -26,6 +26,7 @@ export const elevators: Resource<ElevatorView> = {
       type: '-',
       capacity: '-',
       category: ElevatorCategory.ESCALATOR,
+      availability: 100,
       technicianNumber: 1,
       address: {
         id: '6d73dd20-e271-4532-a6a2-54d113df8c29',
@@ -75,6 +76,7 @@ export const elevators: Resource<ElevatorView> = {
       type: '-',
       capacity: '-',
       category: ElevatorCategory.REVOLVING_GATE,
+      availability: 65,
       technicianNumber: 1,
       address: {
         id: '14f4143b-ab4b-4324-a864-7342cbeec815',
@@ -103,7 +105,7 @@ export const elevators: Resource<ElevatorView> = {
       },
       lastVisitDate: '2021-02-12',
       serviceTime: 60,
-      status: ElevatorStatus.RUNNING,
+      status: ElevatorStatus.STOPPED,
       labels: [],
       additionalInfo: {
         priority: Priority.NONE,
@@ -124,6 +126,7 @@ export const elevators: Resource<ElevatorView> = {
       type: '-',
       capacity: '-',
       category: ElevatorCategory.FACADE_ACCESS_SYSTEM,
+      availability: 80,
       technicianNumber: 1,
       address: {
         id: '2caa6bf6-8bcf-4c5b-8eb2-71fccb68a594',
@@ -152,7 +155,7 @@ export const elevators: Resource<ElevatorView> = {
       },
       lastVisitDate: '2021-01-25',
       serviceTime: 60,
-      status: ElevatorStatus.RUNNING,
+      status: ElevatorStatus.STOPPED,
       labels: [],
       additionalInfo: {
         priority: Priority.NONE,
@@ -173,6 +176,7 @@ export const elevators: Resource<ElevatorView> = {
       type: '-',
       capacity: '-',
       category: ElevatorCategory.GARAGE_DOOR,
+      availability: 100,
       technicianNumber: 1,
       address: {
         id: '00edc0d9-f9cf-4a4f-aecf-1441edb0ca79',
@@ -222,6 +226,7 @@ export const elevators: Resource<ElevatorView> = {
       type: '-',
       capacity: '-',
       category: ElevatorCategory.MOVING_WALKWAY,
+      availability: 90,
       technicianNumber: 1,
       address: {
         id: '5db19fde-2d40-4c70-b539-ae0a477deefb',
@@ -271,6 +276,7 @@ export const elevators: Resource<ElevatorView> = {
       type: '-',
       capacity: '-',
       category: ElevatorCategory.MOVING_WALKWAY,
+      availability: 100,
       technicianNumber: 1,
       address: {
         id: '74f4a5fe-181d-4007-9439-dee5e5d4eb65',
@@ -320,6 +326,7 @@ export const elevators: Resource<ElevatorView> = {
       type: '-',
       capacity: '-',
       category: ElevatorCategory.HOMELIFT,
+      availability: 85,
       technicianNumber: 1,
       address: {
         id: 'c7d2d2cd-9eb9-47d9-ae25-58cec65c3de0',
@@ -369,6 +376,7 @@ export const elevators: Resource<ElevatorView> = {
       type: '-',
       capacity: '-',
       category: ElevatorCategory.GARAGE_DOOR,
+      availability: 75,
       technicianNumber: 1,
       address: {
         id: '6d73dd20-e271-4532-a6a2-54d113df8c29',

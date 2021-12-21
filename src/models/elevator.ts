@@ -47,6 +47,7 @@ export interface Elevator {
   capacity: string;
   category: ElevatorCategory;
   technicianNumber: number;
+  availability: number;
   address: Address;
   propertyOwner: Client;
   lastVisitDate: string;
@@ -68,6 +69,7 @@ export interface ElevatorView {
   capacity: string;
   category: ElevatorCategory;
   technicianNumber: number;
+  availability: number;
   address: Address;
   propertyOwner: ClientSimpleView;
   lastVisitDate: string;

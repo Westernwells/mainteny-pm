@@ -17,17 +17,9 @@ export interface UnitsSectionProperty {
   elevatorsByAddress: ElevatorsByAddress;
 }
 
-const randomizeAvailability = [
-  100, 92, 100, 85, 98, 100, 88, 100, 99, 65, 100, 100, 90, 100, 100,
-];
-
 export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const availability =
-    randomizeAvailability[
-      Math.floor(Math.random() * randomizeAvailability.length)
-    ];
 
   const [open, setOpen] = React.useState(false);
 
@@ -117,10 +109,14 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
             <Grid item xs={2}>
               <Typography
                 variant="largeBtnText"
-                color={availability < 100 ? 'textWarning' : 'textSuccess'}
+                color={
+                  elevatorOrder.elevator.availability < 100
+                    ? 'textWarning'
+                    : 'textSuccess'
+                }
               >
                 <Box display="flex" justifyContent="center">
-                  {availability}%
+                  {elevatorOrder.elevator.availability}%
                 </Box>
               </Typography>
             </Grid>
