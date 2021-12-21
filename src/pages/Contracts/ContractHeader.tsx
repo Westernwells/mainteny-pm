@@ -16,7 +16,7 @@ export const ContractHeader = () => (
   >
     <Grid container sx={{pl: 2}}>
       <Grid item xs={3}>
-        <Typography variant="subtitle2">CONTRACTOR</Typography>
+        <Typography variant="subtitle2">SERVICE COMPANY</Typography>
       </Grid>
 
       <Grid item xs={2}>
@@ -24,19 +24,27 @@ export const ContractHeader = () => (
       </Grid>
 
       <Grid item xs={1}>
-        <Typography variant="subtitle2">UNITS</Typography>
+        <Box display="flex" justifyContent="center">
+          <Typography variant="subtitle2">UNITS</Typography>
+        </Box>
       </Grid>
 
       <Grid item xs={2}>
-        <Typography variant="subtitle2">COST/YR</Typography>
+        <Box display="flex" justifyContent="center">
+          <Typography variant="subtitle2">COST/YR</Typography>
+        </Box>
       </Grid>
 
       <Grid item xs={2}>
-        <Typography variant="subtitle2">EXPIRY DATE</Typography>
+        <Box display="flex" justifyContent="center">
+          <Typography variant="subtitle2">EXPIRY DATE</Typography>
+        </Box>
       </Grid>
 
       <Grid item xs={2}>
-        <Typography variant="subtitle2">ACTIONS</Typography>
+        <Box display="flex" justifyContent="center">
+          <Typography variant="subtitle2">ACTIONS</Typography>
+        </Box>
       </Grid>
     </Grid>
   </Box>

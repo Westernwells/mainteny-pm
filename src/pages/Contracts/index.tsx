@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
@@ -74,18 +74,13 @@ export const Contracts = ({stopLoading}: ContractsProp) => {
   return (
     <Box>
       <Box display="flex" justifyContent="space-between">
-        <Box>
+        <Box sx={{mb: 6}}>
           <Typography variant="h4">Contracts</Typography>
-          <Breadcrumbs aria-label="breadcrumb" sx={{mt: 1, mb: 2}}>
-            <Link underline="hover" color="inherit" href="/">
-              Contracts /
-            </Link>
-          </Breadcrumbs>
         </Box>
         <Box mt={1}>
           <Widget
             btnGroupType={BtnGroupType.ICON}
-            searchPlaceholder="Try ‘Delfar Elevators’"
+            searchPlaceholder="Try Elevator Services AG"
             onSearchTextChanged={setSearch}
           />
         </Box>

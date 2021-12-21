@@ -5,11 +5,7 @@ import {Order} from '../types/misc';
 import {paramsSerializer, request} from '../utils/axios-utils';
 import {ContractStatus, ContractType, ContractView} from '../models/contract';
 import {Page, Priority, Resource, State, StringMap} from '../models/misc';
-import {
-  ElevatorCategory,
-  ElevatorStatus,
-  ElevatorView,
-} from '../models/elevator';
+import {ElevatorView} from '../models/elevator';
 import {createResource} from '../utils/paging-utils';
 import {elevators} from './useElevator';
 
@@ -55,7 +51,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2022-03-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'august storck basic eur valid',
+      search: 'maintenance experts gmbh basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:01:08.860505Z',
         lastUpdatedAt: '2021-06-01T12:01:08.860505Z',
@@ -102,7 +98,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2022-04-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'august storck basic eur valid',
+      search: 'maintenance experts gmbh basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:06:19.940524Z',
         lastUpdatedAt: '2021-06-01T12:06:19.940524Z',
@@ -132,7 +128,7 @@ const contracts: Resource<ContractView> = {
       },
       serviceCompany: {
         id: '9d85be2d-ceb9-4b19-a350-9f512b4b57e4',
-        name: 'Maintenance Experts GmbH',
+        name: 'Elevator Services AG',
         meta: {
           createdAt: '2021-05-31T08:32:55.193896Z',
           lastUpdatedAt: '2021-05-31T08:32:55.193897Z',
@@ -149,7 +145,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2022-05-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'august storck basic eur valid',
+      search: 'elevator services ag basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:07:52.068670Z',
         lastUpdatedAt: '2021-06-01T12:07:52.068670Z',
@@ -179,7 +175,7 @@ const contracts: Resource<ContractView> = {
       },
       serviceCompany: {
         id: '9d85be2d-ceb9-4b19-a350-9f512b4b57e4',
-        name: 'Maintenance Experts GmbH',
+        name: 'Elevator Services AG',
         meta: {
           createdAt: '2021-05-31T08:32:55.193896Z',
           lastUpdatedAt: '2021-05-31T08:32:55.193897Z',
@@ -196,7 +192,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2022-05-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'august storck basic eur valid',
+      search: 'elevator services ag basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:09:57.502411Z',
         lastUpdatedAt: '2021-06-01T12:09:57.502411Z',
@@ -226,7 +222,7 @@ const contracts: Resource<ContractView> = {
       },
       serviceCompany: {
         id: '9d85be2d-ceb9-4b19-a350-9f512b4b57e4',
-        name: 'Maintenance Experts GmbH',
+        name: 'Elevator Services AG',
         meta: {
           createdAt: '2021-05-31T08:32:55.193896Z',
           lastUpdatedAt: '2021-05-31T08:32:55.193897Z',
@@ -243,7 +239,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2023-01-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'august storck basic eur valid',
+      search: 'elevator services ag basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:11:01.637260Z',
         lastUpdatedAt: '2021-06-01T12:11:01.637260Z',
@@ -290,7 +286,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2023-01-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'august storck basic eur valid',
+      search: 'maintenance experts gmbh basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:02:39.563039Z',
         lastUpdatedAt: '2021-06-01T12:02:39.563039Z',
@@ -337,7 +333,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2023-01-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'august storck basic eur valid',
+      search: 'maintenance experts gmbh basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:05:13.079344Z',
         lastUpdatedAt: '2021-06-01T12:05:13.079344Z',
@@ -384,7 +380,7 @@ const contracts: Resource<ContractView> = {
       startTime: '2020-12-03T00:00:00Z',
       endTime: '2023-01-01T00:00:00Z',
       status: ContractStatus.VALID,
-      search: 'august storck basic eur valid',
+      search: 'maintenance experts gmbh basic eur valid',
       meta: {
         createdAt: '2021-06-01T12:07:23.340216Z',
         lastUpdatedAt: '2021-06-01T12:07:23.340216Z',

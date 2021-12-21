@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import useTheme from '@mui/material/styles/useTheme';
 import * as _ from 'lodash';
-import OpenInNewOffOutlinedIcon from '@mui/icons-material/OpenInNewOffOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
 import {getDay} from '../../utils/datetime';
@@ -48,26 +47,29 @@ export const ContractRow = ({contract, index}: Props) => {
         </Grid>
 
         <Grid item xs={1}>
-          <Typography variant="subtitle2">
-            {contract.elevators.length}
-          </Typography>
+          <Box display="flex" justifyContent="center">
+            <Typography variant="subtitle2">
+              {contract.elevators.length}
+            </Typography>
+          </Box>
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="subtitle2">{`${contract.contract.hourlyRate}/${contract.contract.visitsNumber}`}</Typography>
+          <Box display="flex" justifyContent="center">
+            <Typography variant="subtitle2">{`1200EUR/${contract.contract.visitsNumber}`}</Typography>
+          </Box>
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="subtitle2">
-            {getDay(contract.contract.endTime)}
-          </Typography>
+          <Box display="flex" justifyContent="center">
+            <Typography variant="subtitle2">
+              {getDay(contract.contract.endTime)}
+            </Typography>
+          </Box>
         </Grid>
 
         <Grid item xs={2}>
-          <Box display="flex">
-            <OpenInNewOffOutlinedIcon
-              sx={{mr: 4, color: theme.palette.info.main}}
-            />
+          <Box display="flex" justifyContent="center">
             <FileDownloadOutlinedIcon sx={{color: theme.palette.info.main}} />
           </Box>
         </Grid>
