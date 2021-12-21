@@ -33,7 +33,7 @@ export const Invoices = ({stopLoading}: InvoicesProp) => {
       </Box>
       <Box>
         <InvoiceHeader />
-        <Box sx={{height: '73vh', overflowY: 'scroll'}}>
+        <Box sx={{height: '73vh', overflowY: 'scroll', paddingBottom: '1rem'}}>
           {invoiceResource?.data.map((invoice) => (
             <InvoiceRow invoice={invoice} key={invoice.id} />
           ))}

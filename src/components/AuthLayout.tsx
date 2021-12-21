@@ -37,7 +37,7 @@ export const AuthLayout = ({children}: Props) => {
         </Box>
 
         <Box>
-          <Typography color="#fff" variant="h2" textAlign="center">
+          <Typography color="#fff" variant="h4" textAlign="center">
             Mainteny CX
           </Typography>
 

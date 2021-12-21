@@ -43,14 +43,14 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
       sx={{
         backgroundColor: '#FAFAFA',
         border: '1px solid #E4E9F2',
-        paddingTop: 2,
-        paddingBottom: 2,
-        marginTop: 2,
-        paddingLeft: '15px',
+        paddingTop: 0.5,
+        paddingBottom: 0.5,
+        marginTop: 1,
+        paddingLeft: '8px',
         borderRadius: '4px 4px 0px 0px',
       }}
     >
-      <Box pl={2} mb={1}>
+      <Box pl={2}>
         <Typography variant="largeBtnText" mt={1} color="textSecondary">
           {elevatorsByAddress.address.fullName}
         </Typography>
@@ -61,8 +61,8 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
           key={elevatorOrder.elevator.id}
           container
           sx={{
-            paddingTop: 1,
-            paddingBottom: 1,
+            paddingTop: 0.5,
+            paddingBottom: 0.5,
             paddingLeft: 2,
             '&:hover': {background: 'rgba(0, 209, 255, 0.08)'},
           }}
@@ -70,16 +70,18 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
           <Grid
             item
             xs={3}
-            sx={{display: 'flex', cursor: 'pointer'}}
+            sx={{cursor: 'pointer'}}
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
               e.preventDefault();
               navigate(`/units/${elevatorOrder.elevator.id}`);
             }}
           >
-            <Box mr={2}>
-              <Elevator />
+            <Box display="flex" alignItems="center">
+              <Elevator style={{marginRight: '10px'}} />
+              <Typography variant="h6">
+                {elevatorOrder.elevator.model}
+              </Typography>
             </Box>
-            <Typography variant="h6">{elevatorOrder.elevator.model}</Typography>
           </Grid>
           <Grid
             item

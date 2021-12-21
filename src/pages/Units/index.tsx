@@ -57,7 +57,9 @@ export const MyUnits = ({stopLoading}: Props) => {
       {!showMapview ? (
         <>
           <UnitColumns />
-          <Box sx={{height: '73vh', overflowY: 'scroll'}}>
+          <Box
+            sx={{height: '69vh', overflowY: 'scroll', paddingBottom: '1rem'}}
+          >
             {elevatorsByAddressList?.map((elevatorsByAddress) => (
               <UnitSection
                 key={elevatorsByAddress.address.id}

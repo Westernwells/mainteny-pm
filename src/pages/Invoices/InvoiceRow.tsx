@@ -18,10 +18,10 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
       sx={{
         backgroundColor: '#FAFAFA',
         border: '1px solid #E4E9F2',
-        paddingTop: 2,
-        paddingBottom: 2,
-        marginTop: 2,
-        borderRadius: '15px',
+        paddingTop: 1,
+        paddingBottom: 1,
+        marginTop: 1,
+        borderRadius: '4px',
       }}
     >
       <Grid container sx={{pl: 2}}>

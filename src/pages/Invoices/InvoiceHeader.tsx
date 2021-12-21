@@ -7,8 +7,8 @@ export const InvoiceHeader = () => (
     // display="flex"
     sx={{
       backgroundColor: '#fff',
-      paddingTop: 2,
-      paddingBottom: 2,
+      paddingTop: 1,
+      paddingBottom: 1,
       // paddingLeft: '15px',
       boxShadow: '0px 0px 0px 1px #E0E0E0',
       borderRadius: '4px',

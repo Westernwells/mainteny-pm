@@ -65,6 +65,7 @@ export const AppTopBar = () => {
                   variant="text"
                   sx={{
                     textTransform: 'capitalize',
+                    fontSize: '12px',
                     padding: 0,
                     marginTop: -2,
                     color: '#8F9BB3',

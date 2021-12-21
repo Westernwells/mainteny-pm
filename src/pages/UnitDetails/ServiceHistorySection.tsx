@@ -88,11 +88,11 @@ export const ServiceHistorySection = ({
         <Elevation />
       </Box>
 
-      <Box pt={4} height="84%" sx={{overflowY: 'scroll'}}>
+      <Box height="84%" sx={{overflowY: 'scroll'}}>
         {/* refactor this */}
         {runningServiceOrder && (
           <Box display="flex">
-            <Box mr={1}>
+            <Box>
               <Box
                 sx={{
                   borderLeft: '1px dashed #9E9E9E',
@@ -119,7 +119,8 @@ export const ServiceHistorySection = ({
                 borderRadius: '4px',
                 py: 2,
                 px: 3,
-                mt: 4,
+                mt: 1,
+                mb: 2,
                 flexGrow: 1,
               }}
             >
@@ -127,12 +128,13 @@ export const ServiceHistorySection = ({
                 sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
+                  alignItems: 'center',
                 }}
               >
-                <Typography variant="h4" mr={3}>
+                <Typography variant="h5" mr={3}>
                   {getDay(calculateNextVisitDate(runningServiceOrder))}
                 </Typography>
-                <Box flexGrow={1} mt={1} display="flex" alignItems="center">
+                <Box flexGrow={1} display="flex" alignItems="center">
                   <ServiceOrderIcons
                     serviceOrderType={runningServiceOrder.type}
                     style={{width: '18px', height: '18px', marginRight: '4px'}}
@@ -146,7 +148,6 @@ export const ServiceHistorySection = ({
                     py: 2,
                     color: theme.palette.secondary.main,
                     background: theme.palette.info.outlinedHoverBg,
-                    mt: 1,
                     border: `1px solid  ${theme.palette.secondary.main}`,
                   }}
                   label={
@@ -199,7 +200,7 @@ export const ServiceHistorySection = ({
                 borderRadius: '4px',
                 py: 2,
                 px: 3,
-                mt: 4,
+                mb: 2,
                 flexGrow: 1,
               }}
             >
@@ -207,12 +208,13 @@ export const ServiceHistorySection = ({
                 sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
+                  alignItems: 'center',
                 }}
               >
-                <Typography variant="h4" mr={3}>
+                <Typography variant="h5" mr={3}>
                   {getDay(history.createdAt)}
                 </Typography>
-                <Box flexGrow={1} mt={1} display="flex" alignItems="center">
+                <Box flexGrow={1} display="flex" alignItems="center">
                   <ServiceOrderIcons
                     serviceOrderType={
                       serviceOrderMap[history.serviceOrderId]?.type
@@ -228,7 +230,6 @@ export const ServiceHistorySection = ({
                     py: 2,
                     color: theme.palette.text.secondary,
                     background: '#FAFAFA',
-                    mt: 1,
                     border: `1px solid  ${theme.palette.text.secondary}`,
                   }}
                   label={
@@ -249,15 +250,15 @@ export const ServiceHistorySection = ({
             </Box>
           </Box>
         ))}
+        <Typography
+          variant="h6"
+          py={2}
+          textAlign="center"
+          color={theme.palette.info.main}
+        >
+          More...
+        </Typography>
       </Box>
-      <Typography
-        variant="h6"
-        py={2}
-        textAlign="center"
-        color={theme.palette.info.main}
-      >
-        More...
-      </Typography>
     </Box>
   );
 };

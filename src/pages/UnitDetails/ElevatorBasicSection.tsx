@@ -131,7 +131,7 @@ export const ElevatorBasicSection = ({
           </Box>
 
           <Typography variant="subtitle1" mt={1} width="50%">
-            George Cooper
+            Bruce Wayne
           </Typography>
         </Box>
 

@@ -86,7 +86,7 @@ export const theme = createTheme({
     },
     h4: {
       fontWeight: 600,
-      fontSize: '34px',
+      fontSize: '30px',
       lineHeight: '41.99px',
       letterSpacing: '0.25px',
     },
@@ -98,7 +98,7 @@ export const theme = createTheme({
     },
     h6: {
       fontWeight: 600,
-      fontSize: '20px',
+      fontSize: '18px',
       lineHeight: '32px',
       letterSpacing: '0.15px',
     },
