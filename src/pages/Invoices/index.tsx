@@ -20,7 +20,7 @@ export const Invoices = ({stopLoading}: InvoicesProp) => {
   return (
     <Box>
       <Box display="flex" justifyContent="space-between">
-        <Box sx={{mb: 6}}>
+        <Box sx={{mb: 4}}>
           <Typography variant="h4">Invoices</Typography>
         </Box>
         <Box mt={1}>

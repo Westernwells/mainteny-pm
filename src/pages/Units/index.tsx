@@ -1,5 +1,4 @@
-import {useState} from 'react';
-import * as _ from 'lodash';
+import React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -10,7 +9,6 @@ import {UnitColumns} from './UnitColumns';
 import {Widget} from '../../components/Widget';
 import {makePage} from '../../utils/paging-utils';
 import {UnitsMapsView} from './UnitsMapsView';
-import {Location} from '../../models/misc';
 
 interface Props {
   stopLoading: () => void;
@@ -41,15 +39,19 @@ export const MyUnits = ({stopLoading}: Props) => {
 
   return (
     <Box>
-      <Box mb={5} display="flex" justifyContent="space-between">
-        <Typography variant="h4">Units</Typography>
-        <Widget
-          searchPlaceholder="Try ‘Schindler’ or ‘Mitsubishi’"
-          onSearchTextChanged={onSearchTextChanged}
-          openMapView={openMapView}
-          closeMapView={closeMapView}
-          mapViewActive={showMapview}
-        />
+      <Box display="flex" justifyContent="space-between">
+        <Box sx={{mb: 4}}>
+          <Typography variant="h4">Units</Typography>
+        </Box>
+        <Box mt={1}>
+          <Widget
+            searchPlaceholder="Try ‘Schindler’ or ‘Mitsubishi’"
+            onSearchTextChanged={onSearchTextChanged}
+            openMapView={openMapView}
+            closeMapView={closeMapView}
+            mapViewActive={showMapview}
+          />
+        </Box>
       </Box>
 
       {!showMapview ? (

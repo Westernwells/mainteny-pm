@@ -12,7 +12,7 @@ export const PageLayout = ({children, startPageLoad}: Props) => (
   <Box display="flex">
     <AppTopBar />
     <AppDrawer />
-    <Box sx={{flexGrow: 1}} pt={15} pl={5} pr={5}>
+    <Box sx={{flexGrow: 1}} pt={12} pl={5} pr={5}>
       {children}
     </Box>
   </Box>
