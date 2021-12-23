@@ -52,9 +52,9 @@ const CardHeader = ({
         label={
           <Typography
             variant="largeBtnText"
-            sx={{textTransform: active ? null : 'uppercase'}}
+            sx={{textTransform: active ? 'uppercase' : 'capitalize'}}
           >
-            {status}
+            {status.toLowerCase()}
           </Typography>
         }
         size="medium"
