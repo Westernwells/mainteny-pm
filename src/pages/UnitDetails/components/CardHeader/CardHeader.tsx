@@ -40,13 +40,13 @@ const CardHeader = ({
         sx={{
           py: 2,
           color: active
-            ? theme.palette.text.secondary
-            : theme.palette.secondary.main,
+            ? theme.palette.secondary.main
+            : theme.palette.text.secondary,
           background: `${
-            active ? '#FAFAFA' : theme.palette.info.outlinedHoverBg
+            active ? theme.palette.info.outlinedHoverBg : '#FAFAFA'
           }`,
           border: `1px solid  ${
-            active ? theme.palette.text.secondary : theme.palette.secondary.main
+            active ? theme.palette.secondary.main : theme.palette.text.secondary
           }`,
         }}
         label={
