@@ -1,8 +1,8 @@
 import {Box} from '@mui/system';
 import useTheme from '@mui/material/styles/useTheme';
 import {Chip, Typography} from '@mui/material';
-import {ServiceOrderIcons} from '../ServiceOrderIcons';
-import {ServiceOrderType} from '../../models/service-order';
+import {ServiceOrderIcons} from '../../../../components/ServiceOrderIcons';
+import {ServiceOrderType} from '../../../../models/service-order';
 
 interface HeaderProps {
   createdAt?: string;

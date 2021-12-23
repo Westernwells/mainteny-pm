@@ -7,7 +7,7 @@ import {CardContent, CardHeader, CardActions, Collapse} from '@mui/material';
 import {useState} from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import {ServiceOrderType} from '../../models/service-order';
+import {ServiceOrderType} from '../../../../models/service-order';
 import {ExpandMore} from './ExpandMore';
 import {Sidebar} from './Sidebar';
 import {Header} from './Header';
@@ -65,16 +65,18 @@ const ServiceHistoryCard = ({
         <CardContent sx={{py: 1, px: 0}}>
           <Typography>{description}</Typography>
         </CardContent>
-        <CardActions disableSpacing sx={{m: 0, p: 0}}>
-          <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </ExpandMore>
-        </CardActions>
+        {isCompleted && (
+          <CardActions disableSpacing sx={{m: 0, p: 0}}>
+            <ExpandMore
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </CardActions>
+        )}
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <Divider sx={{mt: 1}} />
           <HistoryDetails

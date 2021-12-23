@@ -16,7 +16,7 @@ import {
 } from '../../hooks/useServiceOrder';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {calculateNextVisitDate} from '../Units/Models';
-import {ServiceHistoryCard} from '../../components/ServiceHistoryCard';
+import {ServiceHistoryCard} from './components/ServiceHistoryCard';
 
 function getMockedRunningServiceOrder(): ServiceOrderView {
   return getServiceOrderById('032e6ca0-28dc-4b6a-acbe-155ee75e1446');
