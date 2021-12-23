@@ -5,13 +5,18 @@ import {ServiceOrderIcons} from '../../../../components/ServiceOrderIcons';
 import {ServiceOrderType} from '../../../../models/service-order';
 
 interface HeaderProps {
-  createdAt?: string;
+  createdAt: string;
   serviceOrderType: ServiceOrderType;
-  status: 'Completed' | 'Scheduled';
+  active?: boolean;
+  status: string;
 }
 
-const Header = ({createdAt, serviceOrderType, status}: HeaderProps) => {
-  const isCompleted = status === 'Completed';
+const CardHeader = ({
+  createdAt,
+  serviceOrderType,
+  active,
+  status,
+}: HeaderProps) => {
   const theme = useTheme();
   return (
     <Box
@@ -34,22 +39,20 @@ const Header = ({createdAt, serviceOrderType, status}: HeaderProps) => {
       <Chip
         sx={{
           py: 2,
-          color: isCompleted
+          color: active
             ? theme.palette.text.secondary
             : theme.palette.secondary.main,
           background: `${
-            isCompleted ? '#FAFAFA' : theme.palette.info.outlinedHoverBg
+            active ? '#FAFAFA' : theme.palette.info.outlinedHoverBg
           }`,
           border: `1px solid  ${
-            isCompleted
-              ? theme.palette.text.secondary
-              : theme.palette.secondary.main
+            active ? theme.palette.text.secondary : theme.palette.secondary.main
           }`,
         }}
         label={
           <Typography
             variant="largeBtnText"
-            sx={{textTransform: isCompleted ? null : 'uppercase'}}
+            sx={{textTransform: active ? null : 'uppercase'}}
           >
             {status}
           </Typography>
@@ -60,4 +63,4 @@ const Header = ({createdAt, serviceOrderType, status}: HeaderProps) => {
   );
 };
 
-export {Header};
+export {CardHeader};

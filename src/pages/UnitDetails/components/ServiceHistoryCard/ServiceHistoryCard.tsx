@@ -6,42 +6,37 @@ import {Box} from '@mui/system';
 import {CardContent, CardHeader, CardActions, Collapse} from '@mui/material';
 import {useState} from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {getDay} from '../../../../utils/datetime';
 
-import {ServiceOrderType} from '../../../../models/service-order';
-import {ExpandMore} from './ExpandMore';
-import {Sidebar} from './Sidebar';
-import {Header} from './Header';
+import {ServiceOrderView} from '../../../../models/service-order';
+import {ExpandMore} from '../ExpandMore';
+import {Sidebar} from '../Sidebar';
+import {CardHeader as Header} from '../CardHeader';
 import {HistoryDetails} from './HistoryDetails';
+import {ElevatorMaintenanceHistoryView} from '../../../../models/elevator';
 
 interface Props {
-  createdAt?: string;
-  serviceOrderType: ServiceOrderType;
-  status: 'Completed' | 'Scheduled';
-  description?: string;
+  serviceOrder: ServiceOrderView;
+  serviceHistory: ElevatorMaintenanceHistoryView;
 }
 
-const ServiceHistoryCard = ({
-  createdAt,
-  serviceOrderType,
-  status,
-  description,
-}: Props) => {
+const ServiceHistoryCard = ({serviceHistory, serviceOrder}: Props) => {
   const theme = useTheme();
-  const isCompleted = status === 'Completed';
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const {createdAt: createdAtDate, description} = serviceHistory;
+  const createdAt = getDay(createdAtDate)!;
+  const {type: serviceOrderType, status} = serviceOrder;
+  const {firstName: technicianFirstName, lastName: technicianLastName} =
+    serviceHistory.technician.userAccount;
   return (
     <Box display="flex">
-      <Sidebar isCompleted={isCompleted} />
+      <Sidebar />
       <Card
         sx={{
-          border: isCompleted
-            ? null
-            : `1px solid  ${theme.palette.secondary.main}`,
           boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.4)',
-
           background: '#F7F9FC',
           borderRadius: '4px',
           py: 2,
@@ -55,9 +50,9 @@ const ServiceHistoryCard = ({
           sx={{py: 0, px: 0}}
           title={
             <Header
+              status={status}
               createdAt={createdAt}
               serviceOrderType={serviceOrderType}
-              status={status}
             />
           }
         />
@@ -65,25 +60,25 @@ const ServiceHistoryCard = ({
         <CardContent sx={{py: 1, px: 0}}>
           <Typography>{description}</Typography>
         </CardContent>
-        {isCompleted && (
-          <CardActions disableSpacing sx={{m: 0, p: 0}}>
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-          </CardActions>
-        )}
+        <CardActions disableSpacing sx={{m: 0, p: 0}}>
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </ExpandMore>
+        </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <Divider sx={{mt: 1}} />
           <HistoryDetails
-            cost="200"
-            technician="Joe"
-            images={[]}
-            duration="1min"
+            cost={`${serviceHistory.fee.amount} ${serviceHistory.fee.currency}`}
+            technician={`${technicianFirstName} ${technicianLastName}`}
+            images={serviceHistory.attachments.map(
+              (attchment) => attchment.fileResource.uri,
+            )}
+            duration={serviceHistory.actualServiceTime.toString()}
           />
         </Collapse>
       </Card>

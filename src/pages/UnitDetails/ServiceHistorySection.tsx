@@ -17,6 +17,7 @@ import {
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {calculateNextVisitDate} from '../Units/Models';
 import {ServiceHistoryCard} from './components/ServiceHistoryCard';
+import {RunningServiceOrderCard} from './components/RunningServiceOrderCard';
 
 function getMockedRunningServiceOrder(): ServiceOrderView {
   return getServiceOrderById('032e6ca0-28dc-4b6a-acbe-155ee75e1446');
@@ -81,23 +82,15 @@ export const ServiceHistorySection = ({
       </Box>
 
       <Box height="84%" sx={{overflowY: 'scroll'}}>
-        {/* refactor this */}
         {runningServiceOrder && (
-          <ServiceHistoryCard
-            createdAt={getDay(calculateNextVisitDate(runningServiceOrder))}
-            serviceOrderType={runningServiceOrder.type}
-            status="Scheduled"
-            description={runningServiceOrder.description}
-          />
+          <RunningServiceOrderCard serviceOrder={runningServiceOrder} />
         )}
 
         {serviceHistories.data.map((history, index) => (
           <ServiceHistoryCard
             key={history.id}
-            createdAt={getDay(history.createdAt)}
-            serviceOrderType={serviceOrderMap[history.serviceOrderId]?.type}
-            status="Completed"
-            description={history.description}
+            serviceHistory={history}
+            serviceOrder={serviceOrderMap[history.serviceOrderId]}
           />
         ))}
         <Typography

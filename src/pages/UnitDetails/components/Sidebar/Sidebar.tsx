@@ -3,12 +3,12 @@ import {RadioButtonChecked, CheckCircle} from '@mui/icons-material';
 import useTheme from '@mui/material/styles/useTheme';
 
 interface SidebarProps {
-  isCompleted: boolean;
+  active?: boolean;
 }
 
-const Sidebar = ({isCompleted}: SidebarProps) => {
+const Sidebar = ({active}: SidebarProps) => {
   const theme = useTheme();
-  const Icon = isCompleted ? CheckCircle : RadioButtonChecked;
+  const Icon = active ? RadioButtonChecked : CheckCircle;
   return (
     <Box>
       <Box
@@ -22,9 +22,9 @@ const Sidebar = ({isCompleted}: SidebarProps) => {
       <Icon
         sx={{
           mr: 1,
-          color: isCompleted
-            ? theme.palette.text.disabled
-            : theme.palette.secondary.main,
+          color: active
+            ? theme.palette.secondary.main
+            : theme.palette.text.disabled,
         }}
       />
       <Box
