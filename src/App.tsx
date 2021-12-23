@@ -8,6 +8,7 @@ import {PageLayout} from './components/Layout';
 import {Contracts} from './pages/Contracts';
 import {PasswordReset} from './pages/PsswordReset';
 import {Invoices} from './pages/Invoices';
+import {Loading} from './components/Loading';
 
 interface LoadingProps extends LoadingBarRef {
   continuousStart: (startingValue?: number, refreshRate?: number) => void;
@@ -18,34 +19,25 @@ export const App = () => {
 
   return (
     <BrowserRouter basename="/pm">
-      <LoadingBar color="#222B45" ref={ref} />
+      <Loading />
+      {/* <LoadingBar color="#222B45" ref={ref} /> */}
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Login startPageLoad={() => ref.current!.continuousStart()} />
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <Login startPageLoad={() => ref.current!.continuousStart()} />
-          }
-        />
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<PasswordReset />} />
         <Route
           path="/units"
           element={
-            <PageLayout startPageLoad={() => ref.current!.continuousStart()}>
-              <MyUnits stopLoading={() => ref.current!.complete()} />
+            <PageLayout>
+              <MyUnits />
             </PageLayout>
           }
         />
         <Route
           path="/units/:id"
           element={
-            <PageLayout startPageLoad={() => ref.current!.continuousStart()}>
-              <UnitsDetail stopLoading={() => ref.current!.complete()} />
+            <PageLayout>
+              <UnitsDetail />
             </PageLayout>
           }
         />
@@ -53,8 +45,8 @@ export const App = () => {
         <Route
           path="/contracts"
           element={
-            <PageLayout startPageLoad={() => ref.current!.continuousStart()}>
-              <Contracts stopLoading={() => ref.current!.complete()} />
+            <PageLayout>
+              <Contracts />
             </PageLayout>
           }
         />
@@ -62,8 +54,8 @@ export const App = () => {
         <Route
           path="/invoices"
           element={
-            <PageLayout startPageLoad={() => ref.current!.continuousStart()}>
-              <Invoices stopLoading={() => ref.current!.complete()} />
+            <PageLayout>
+              <Invoices />
             </PageLayout>
           }
         />

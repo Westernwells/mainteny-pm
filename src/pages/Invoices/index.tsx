@@ -8,11 +8,7 @@ import {InvoiceRow} from './InvoiceRow';
 import {Widget} from '../../components/Widget';
 import {BtnGroupType} from '../../models/misc';
 
-interface InvoicesProp {
-  stopLoading: () => void;
-}
-
-export const Invoices = ({stopLoading}: InvoicesProp) => {
+export const Invoices = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
   const {data: invoiceResource} = useInvoices(search, page);

@@ -10,11 +10,7 @@ import {Widget} from '../../components/Widget';
 import {makePage} from '../../utils/paging-utils';
 import {UnitsMapsView} from './UnitsMapsView';
 
-interface Props {
-  stopLoading: () => void;
-}
-
-export const MyUnits = ({stopLoading}: Props) => {
+export const MyUnits = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
   const [showMapview, setShowMapview] = useState(false);
@@ -22,7 +18,6 @@ export const MyUnits = ({stopLoading}: Props) => {
   const {data: elevatorResponse} = useAllElevators(search, page);
   const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
     elevatorResponse?.elevator,
-    stopLoading,
   );
 
   const onSearchTextChanged = (value: string) => {

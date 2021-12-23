@@ -17,7 +17,6 @@ interface Props {
   emailError: string | undefined;
   password: string;
   passwordError: string | undefined;
-  startPageLoad: () => void;
 }
 
 export const LoginForm = ({
@@ -29,7 +28,6 @@ export const LoginForm = ({
   emailError,
   handleBlur,
   emailTouched,
-  startPageLoad,
 }: Props) => {
   const navigate = useNavigate();
   return (
@@ -89,7 +87,6 @@ export const LoginForm = ({
 
         <Button
           onClick={() => {
-            startPageLoad();
             navigate('/units');
           }}
           disabled={!!(!password || !email || emailError || passwordError)}

@@ -19,12 +19,9 @@ import {ElevatorBreakDownSection} from './ElevatorBreakDownSection';
 import {ElevatorAvailabilitySection} from './ElevatorAvailabilitySection';
 
 const pageSize = 10;
-export interface UnitsDetailProps {
-  stopLoading: () => void;
-}
 // TODO: enable the rule again
 // eslint-disable-next-line
-export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
+export const UnitsDetail = () => {
   const [elevator, setElevator] = useState<Elevator>();
   const navigate = useNavigate();
   const [runningServiceOrders, setRunningServiceOrders] = useState<
@@ -41,7 +38,6 @@ export const UnitsDetail = ({stopLoading}: UnitsDetailProps) => {
       setElevator(data[0]);
       setRunningServiceOrders(data[1]);
       setLoading(false);
-      stopLoading();
     };
     doLoad();
   }, []);

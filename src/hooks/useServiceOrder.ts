@@ -1233,7 +1233,6 @@ export function getServiceOrderById(id: string): ServiceOrderView {
 
 export function useFetchServiceOrdersByElevators(
   elevatorRes: Resource<ElevatorView> | undefined,
-  stopLoading: () => void,
 ) {
   const elevatorIds = elevatorRes?.data.map((elevator) => elevator.id);
   return useQuery<ServiceOrderView[], RestError, ElevatorsByAddress[]>(

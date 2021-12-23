@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required('field is required'),
 });
 
-export const Login = ({startPageLoad}: Props) => {
+export const Login = () => {
   const {search} = useLocation();
   const {authType} = queryString.parse(search);
 
@@ -66,7 +66,6 @@ export const Login = ({startPageLoad}: Props) => {
         email={formik.values.email}
         emailError={formik.errors.email}
         emailTouched={formik.touched.email}
-        startPageLoad={startPageLoad}
       />
     </AuthLayout>
   );

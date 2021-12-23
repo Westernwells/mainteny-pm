@@ -27,11 +27,7 @@ interface ContractRecord {
   elevators: ElevatorView[];
 }
 
-export interface ContractsProp {
-  stopLoading: () => void;
-}
-
-export const Contracts = ({stopLoading}: ContractsProp) => {
+export const Contracts = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, pageSize));
   const [isLoading, setLoading] = useState(true);
@@ -61,7 +57,6 @@ export const Contracts = ({stopLoading}: ContractsProp) => {
         total: contracts.total,
       });
       setLoading(false);
-      stopLoading();
     };
 
     doLoad();

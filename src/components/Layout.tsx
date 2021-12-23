@@ -5,10 +5,9 @@ import {AppTopBar} from './AppTopBar';
 
 interface Props {
   children: ReactElement;
-  startPageLoad: () => void;
 }
 
-export const PageLayout = ({children, startPageLoad}: Props) => (
+export const PageLayout = ({children}: Props) => (
   <Box display="flex">
     <AppTopBar />
     <AppDrawer />
