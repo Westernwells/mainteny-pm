@@ -1,16 +1,28 @@
 import {Box} from '@mui/system';
 import useTheme from '@mui/material/styles/useTheme';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card';
-import {CardContent, CardHeader, CardActions, Collapse} from '@mui/material';
+import {
+  CardContent,
+  CardHeader,
+  CardActions,
+  Collapse,
+  SvgIconProps,
+  Stack,
+} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {useState} from 'react';
 import IconButton, {IconButtonProps} from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+  PersonPinOutlined,
+  Money,
+  Timer,
+  RadioButtonChecked,
+  CheckCircle,
+} from '@mui/icons-material';
 
 import {ServiceOrderIcons} from './ServiceOrderIcons';
 import {ServiceOrderType} from '../models/service-order';
@@ -47,9 +59,22 @@ interface CardHeaderProps {
   status: 'Completed' | 'Scheduled';
 }
 
+interface ServiceHistoryDetailsProps {
+  technician: string;
+  cost: string;
+  duration: string;
+  images: string[];
+}
+
+interface HistoryInfoArgs {
+  title: string;
+  value: string;
+  Icon: (props: SvgIconProps) => JSX.Element;
+}
+
 const Sidebar = ({isCompleted}: SidebarProps) => {
   const theme = useTheme();
-  const Icon = isCompleted ? CheckCircleIcon : RadioButtonCheckedIcon;
+  const Icon = isCompleted ? CheckCircle : RadioButtonChecked;
   return (
     <Box>
       <Box
@@ -133,6 +158,52 @@ const ServiceHistoryCardHeader = ({
   );
 };
 
+const HistoryInfo = ({Icon, title, value}: HistoryInfoArgs) => (
+    <Box
+      display="flex"
+      flexDirection="row"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Box
+        alignItems="center"
+        justifyContent="center"
+        sx={{p: 2, backgroundColor: 'secondary'}}
+      >
+        <Icon />
+      </Box>
+
+      <Box display="flex" flexDirection="column">
+        <Typography variant="tableHeaderText">{title}</Typography>
+        <Typography variant="subtitle1">{value}</Typography>
+      </Box>
+    </Box>
+  );
+
+const ServiceHistoryDetails = ({
+  technician,
+  cost,
+  duration,
+  images,
+}: ServiceHistoryDetailsProps) => (
+    <CardContent sx={{m: 0, p: 0}}>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-between"
+        sx={{width: '100%'}}
+      >
+        <HistoryInfo
+          title="Technician"
+          Icon={PersonPinOutlined}
+          value={technician}
+        />
+        <HistoryInfo title="Cost" Icon={Money} value={cost} />
+        <HistoryInfo title="Duration" Icon={Timer} value={duration} />
+      </Box>
+    </CardContent>
+  );
+
 const ServiceHistoryCard = ({
   createdAt,
   serviceOrderType,
@@ -189,7 +260,13 @@ const ServiceHistoryCard = ({
           </ExpandMore>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>Hi</CardContent>
+          <Divider sx={{mt: 1}} />
+          <ServiceHistoryDetails
+            cost="200"
+            technician="Joe"
+            images={[]}
+            duration="1min"
+          />
         </Collapse>
       </Card>
     </Box>
