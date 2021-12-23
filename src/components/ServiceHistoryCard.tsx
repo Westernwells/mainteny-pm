@@ -37,6 +37,102 @@ interface Props {
   description?: string;
 }
 
+interface SidebarProps {
+  isCompleted: boolean;
+}
+
+interface CardHeaderProps {
+  createdAt?: string;
+  serviceOrderType: ServiceOrderType;
+  status: 'Completed' | 'Scheduled';
+}
+
+const Sidebar = ({isCompleted}: SidebarProps) => {
+  const theme = useTheme();
+  const Icon = isCompleted ? CheckCircleIcon : RadioButtonCheckedIcon;
+  return (
+    <Box>
+      <Box
+        sx={{
+          borderLeft: '1px dashed #9E9E9E',
+          height: 60,
+          ml: '11px',
+          zIndex: 1000,
+        }}
+      />
+      <Icon
+        sx={{
+          mr: 1,
+          color: isCompleted
+            ? theme.palette.text.disabled
+            : theme.palette.secondary.main,
+        }}
+      />
+      <Box
+        sx={{
+          borderLeft: '1px dashed #9E9E9E',
+          height: '100%',
+          ml: '11px',
+        }}
+      />
+    </Box>
+  );
+};
+
+const ServiceHistoryCardHeader = ({
+  createdAt,
+  serviceOrderType,
+  status,
+}: CardHeaderProps) => {
+  const isCompleted = status === 'Completed';
+  const theme = useTheme();
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      <Typography variant="h6" mr={3}>
+        {createdAt}
+      </Typography>
+      <Box flexGrow={1} display="flex" alignItems="center">
+        <ServiceOrderIcons
+          serviceOrderType={serviceOrderType}
+          style={{width: '18px', height: '18px', marginRight: '4px'}}
+        />
+        <Typography variant="largeBtnText">{serviceOrderType}</Typography>
+      </Box>
+      <Chip
+        sx={{
+          py: 2,
+          color: isCompleted
+            ? theme.palette.text.secondary
+            : theme.palette.secondary.main,
+          background: `${
+            isCompleted ? '#FAFAFA' : theme.palette.info.outlinedHoverBg
+          }`,
+          border: `1px solid  ${
+            isCompleted
+              ? theme.palette.text.secondary
+              : theme.palette.secondary.main
+          }`,
+        }}
+        label={
+          <Typography
+            variant="largeBtnText"
+            sx={{textTransform: isCompleted ? null : 'uppercase'}}
+          >
+            {status}
+          </Typography>
+        }
+        size="medium"
+      />
+    </Box>
+  );
+};
+
 const ServiceHistoryCard = ({
   createdAt,
   serviceOrderType,
@@ -49,34 +145,9 @@ const ServiceHistoryCard = ({
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const Icon = isCompleted ? CheckCircleIcon : RadioButtonCheckedIcon;
   return (
     <Box display="flex">
-      <Box>
-        <Box
-          sx={{
-            borderLeft: '1px dashed #9E9E9E',
-            height: 60,
-            ml: '11px',
-            zIndex: 1000,
-          }}
-        />
-        <Icon
-          sx={{
-            mr: 1,
-            color: isCompleted
-              ? theme.palette.text.disabled
-              : theme.palette.secondary.main,
-          }}
-        />
-        <Box
-          sx={{
-            borderLeft: '1px dashed #9E9E9E',
-            height: 100,
-            ml: '11px',
-          }}
-        />
-      </Box>
+      <Sidebar isCompleted={isCompleted} />
       <Card
         sx={{
           border: isCompleted
@@ -96,58 +167,18 @@ const ServiceHistoryCard = ({
           disableTypography
           sx={{py: 0, px: 0}}
           title={
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Typography variant="h6" mr={3}>
-                {createdAt}
-              </Typography>
-              <Box flexGrow={1} display="flex" alignItems="center">
-                <ServiceOrderIcons
-                  serviceOrderType={serviceOrderType}
-                  style={{width: '18px', height: '18px', marginRight: '4px'}}
-                />
-                <Typography variant="largeBtnText">
-                  {serviceOrderType}
-                </Typography>
-              </Box>
-              <Chip
-                sx={{
-                  py: 2,
-                  color: isCompleted
-                    ? theme.palette.text.secondary
-                    : theme.palette.secondary.main,
-                  background: `${
-                    isCompleted ? '#FAFAFA' : theme.palette.info.outlinedHoverBg
-                  }`,
-                  border: `1px solid  ${
-                    isCompleted
-                      ? theme.palette.text.secondary
-                      : theme.palette.secondary.main
-                  }`,
-                }}
-                label={
-                  <Typography
-                    variant="largeBtnText"
-                    sx={{textTransform: isCompleted ? null : 'uppercase'}}
-                  >
-                    {status}
-                  </Typography>
-                }
-                size="medium"
-              />
-            </Box>
+            <ServiceHistoryCardHeader
+              createdAt={createdAt}
+              serviceOrderType={serviceOrderType}
+              status={status}
+            />
           }
         />
         <Divider sx={{mt: 1}} />
         <CardContent sx={{py: 1, px: 0}}>
           <Typography>{description}</Typography>
         </CardContent>
-        <CardActions disableSpacing sx={{my: 0, py: 0}}>
+        <CardActions disableSpacing sx={{m: 0, p: 0}}>
           <ExpandMore
             expand={expanded}
             onClick={handleExpandClick}
