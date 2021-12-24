@@ -3,16 +3,13 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card';
 import {Box} from '@mui/system';
-import {CardContent, CardHeader, CardActions, Collapse} from '@mui/material';
+import {CardContent, CardHeader} from '@mui/material';
 import {useState} from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {getDay} from '../../../../utils/datetime';
 
 import {ServiceOrderView} from '../../../../models/service-order';
-import {ExpandMore} from '../ExpandMore';
 import {Sidebar} from '../Sidebar';
 import {CardHeader as Header} from '../CardHeader';
-import {HistoryDetails} from './HistoryDetails';
 import {calculateNextVisitDate} from '../../../Units/Models';
 
 interface Props {
@@ -21,10 +18,6 @@ interface Props {
 
 const RunningServiceOrderCard = ({serviceOrder}: Props) => {
   const theme = useTheme();
-  const [expanded, setExpanded] = useState(false);
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
   const createdAt = getDay(calculateNextVisitDate(serviceOrder))!;
   const {type: serviceOrderType, status, description} = serviceOrder;
   return (

@@ -21,7 +21,6 @@ interface Props {
 }
 
 const ServiceHistoryCard = ({serviceHistory, serviceOrder}: Props) => {
-  const theme = useTheme();
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
