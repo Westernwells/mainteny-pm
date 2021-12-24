@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import {useAllElevators} from '../../hooks/useElevator';
-import {useFetchServiceOrdersByElevators} from '../../hooks/useServiceOrder';
+import {Widget} from 'components/Widget';
+import {useFetchServiceOrdersByElevators} from 'hooks/useServiceOrder';
+import {makePage} from 'utils/paging-utils';
+import {useAllElevators} from 'hooks/useElevator';
 import {UnitSection} from './UnitSection';
-import {UnitColumns} from './UnitColumns';
-import {Widget} from '../../components/Widget';
-import {makePage} from '../../utils/paging-utils';
 import {UnitsMapsView} from './UnitsMapsView';
+import {UnitColumns} from './UnitColumns';
 
 export const MyUnits = () => {
   const [search, setSearch] = useState('');
