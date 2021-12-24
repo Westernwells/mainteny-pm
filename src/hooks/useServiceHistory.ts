@@ -75,7 +75,40 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           elevatorMaintenanceHistoryId: '95e0790a-4040-49af-b164-6211190c14ab',
           fileResource: {
             id: '367dd404-2fe6-482f-b2c3-5b485f798106',
-            uri: '0033E00F-8132-4432-BB9A-C74D2B019299.png',
+            uri: 'images/1.png',
+            type: 'image/png',
+            description: '',
+            createdAt: '2021-09-02T11:45:46.853880Z',
+          },
+        },
+        {
+          id: 'ad708ede-4674-45f0-84a7-5d044da5d602',
+          elevatorMaintenanceHistoryId: '95e0790a-4040-49af-b164-6211190c14ab',
+          fileResource: {
+            id: '367dd404-2fe6-482f-b2c3-5b485f798106',
+            uri: 'images/2.png',
+            type: 'image/png',
+            description: '',
+            createdAt: '2021-09-02T11:45:46.853880Z',
+          },
+        },
+        {
+          id: 'af7083de-4674-45f0-84a7-5d044da5d602',
+          elevatorMaintenanceHistoryId: '95e0790a-4040-49af-b164-6211190c14ab',
+          fileResource: {
+            id: '367dd404-2fe6-482f-b2c3-5b485f798106',
+            uri: 'images/3.png',
+            type: 'image/png',
+            description: '',
+            createdAt: '2021-09-02T11:45:46.853880Z',
+          },
+        },
+        {
+          id: 'af70856e-4674-45f0-84a7-5da44da5dd02',
+          elevatorMaintenanceHistoryId: '95e0790a-4040-49af-b164-6211190c14ab',
+          fileResource: {
+            id: '367dd404-2fe6-482f-b2c3-5b485f798106',
+            uri: 'images/4.png',
             type: 'image/png',
             description: '',
             createdAt: '2021-09-02T11:45:46.853880Z',
@@ -196,7 +229,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           elevatorMaintenanceHistoryId: '13cd9665-d3cb-4d54-894d-59dfcf97421a',
           fileResource: {
             id: '91c50b72-a63d-46b9-886c-16573f8c92c9',
-            uri: 'B4CFB141-3133-46C0-8AA1-37427CEBF5A1.jpg',
+            uri: 'images/2.png',
             type: 'image/jpg',
             description: '',
             createdAt: '2021-08-17T08:13:51.254371Z',
@@ -207,7 +240,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           elevatorMaintenanceHistoryId: '13cd9665-d3cb-4d54-894d-59dfcf97421a',
           fileResource: {
             id: 'b7004eed-b800-4211-8b60-53532f2a24d5',
-            uri: '6BCAD91C-5999-433A-9DA4-3D3DCE9D86C1.jpg',
+            uri: 'images/3.png',
             type: 'image/jpg',
             description: '',
             createdAt: '2021-08-17T08:13:51.253768Z',
@@ -329,7 +362,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           elevatorMaintenanceHistoryId: '5e6a549d-8572-4867-92a4-51ffd68ee007',
           fileResource: {
             id: 'd38c816c-8c83-46d5-a684-a44b49aedc0e',
-            uri: 'FFE7F4FF-E9DA-4FB7-AE58-55DB21CCA25B.jpg',
+            uri: 'images/4.png',
             type: 'image/jpg',
             description: '',
             createdAt: '2021-08-16T22:45:32.473689Z',
@@ -451,7 +484,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           elevatorMaintenanceHistoryId: '96a7c266-c9dc-4eff-b697-f1200b3b4058',
           fileResource: {
             id: '92cef1df-4021-41ab-ad35-2266ee68b24a',
-            uri: 'rn_image_picker_lib_temp_c7da07ec-e136-4628-88c2-ac449f2f7f4d.jpg',
+            uri: 'images/2.png',
             type: 'image/jpeg',
             description: '',
             createdAt: '2021-08-13T14:25:29.751574Z',
