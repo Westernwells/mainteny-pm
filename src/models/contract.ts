@@ -1,7 +1,7 @@
 import {Client, ClientSimpleView} from './client';
 import {ServiceCompany, ServiceCompanySimpleView} from './service-company';
 import {Meta, TimeWindowRecord, TimeWindowType} from './misc';
-import {Elevator} from './elevator';
+import {Elevator, ElevatorView} from './elevator';
 
 export enum ContractStatus {
   PENDING = 'PENDING',
@@ -123,4 +123,9 @@ export interface UpdateContractRecord {
   startDate: string;
   endDate: string;
   timePreference: TimeWindowRecord[];
+}
+
+export interface ContractRecord {
+  contract: ContractView;
+  elevators: ElevatorView[];
 }

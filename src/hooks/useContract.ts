@@ -1,9 +1,14 @@
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
-import {ContractOrderField} from '../types/contract';
 import {Order} from '../types/misc';
 import {paramsSerializer, request} from '../utils/axios-utils';
-import {ContractStatus, ContractType, ContractView} from '../models/contract';
+import {
+  ContractRecord,
+  ContractStatus,
+  ContractType,
+  ContractView,
+  CreateContractRecord,
+} from '../models/contract';
 import {Page, Priority, Resource, State, StringMap} from '../models/misc';
 import {ElevatorView} from '../models/elevator';
 import {createResource} from '../utils/paging-utils';
@@ -447,22 +452,36 @@ const fetchContractDetails = (contractId: string) =>
     url: `/api/contracts/${contractId}`,
   });
 
-export const useQueryContract = () =>
-  useQuery('query-contract', () =>
-    queryContracts({
-      query: '',
-      status: [
-        ContractStatus.EXPIRED,
-        ContractStatus.PENDING,
-        ContractStatus.VALID,
-      ],
-      pageIndex: 0,
-      pageSize: 30,
-      orderBy: ContractOrderField.EXPIRY_TIME,
-      order: Order.ASC,
-      serviceCompanyId: '4a156124-a1f1-4877-9059-595416996223',
-    }),
+export const useQueryContract = (query: string, page: Page) =>
+  useQuery(['query-contract', query, page], () => fetchContracts(query, page));
+
+export const useFetchContractsElevatorMap = (
+  contractsRes: Resource<ContractView> | undefined,
+) => {
+  let contractIds: string[] = [];
+  if (contractsRes) {
+    contractIds = contractsRes.data.map((c) => c.id);
+  }
+  return useQuery(
+    ['fetch-contract-by-elevator-map'],
+    () => fetchContractsElevatorMap(contractIds),
+    {
+      enabled: !!contractsRes,
+      select: (elevatorMap) => {
+        const contractElevatorMapResult: ContractRecord[] =
+          contractsRes!.data.map((contract) => {
+            const elevatorsResult = elevatorMap[contract.id] || [];
+            return {contract, elevators: elevatorsResult};
+          });
+        return {
+          data: contractElevatorMapResult,
+          page: contracts.page,
+          total: contracts.total,
+        };
+      },
+    },
   );
+};
 
 export const useFetchContractDetails = (contractId: string) =>
   useQuery('contract-details', () => fetchContractDetails(contractId), {

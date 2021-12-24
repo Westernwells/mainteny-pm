@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import {BtnGroupType} from 'models/misc';
 import {makePage} from '../../utils/paging-utils';
 import {InvoiceHeader} from './InvoiceHeader';
 import {useInvoices} from '../../hooks/useInvoice';
 import {InvoiceRow} from './InvoiceRow';
 import {Widget} from '../../components/Widget';
-import {BtnGroupType} from '../../models/misc';
 
 export const Invoices = () => {
   const [search, setSearch] = useState('');

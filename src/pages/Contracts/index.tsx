@@ -1,22 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import {useRef, useState} from 'react';
 import Box from '@mui/material/Box';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 
 import {
-  fetchContracts,
-  fetchContractsElevatorMap,
+  useFetchContractsElevatorMap,
+  useQueryContract,
 } from '../../hooks/useContract';
 import {ContractView} from '../../models/contract';
 import {ElevatorView} from '../../models/elevator';
-import {BtnGroupType, Page, Resource, StringMap} from '../../models/misc';
-import {
-  createEmptyResource,
-  getNextPage,
-  makePage,
-} from '../../utils/paging-utils';
-import {getDay} from '../../utils/datetime';
+import {BtnGroupType, Resource} from '../../models/misc';
+import {createEmptyResource, makePage} from '../../utils/paging-utils';
 import {ContractHeader} from './ContractHeader';
 import {ContractRow} from './ContractRow';
 import {Widget} from '../../components/Widget';
@@ -29,42 +22,14 @@ interface ContractRecord {
 
 export const Contracts = () => {
   const [search, setSearch] = useState('');
+  const fallback = useRef<Resource<ContractRecord>>(
+    createEmptyResource(10),
+  ).current;
   const [page, setPage] = useState(makePage(0, pageSize));
-  const [isLoading, setLoading] = useState(true);
-  const [contractResource, setContractResource] = useState<
-    Resource<ContractRecord>
-  >(createEmptyResource(pageSize));
 
-  useEffect(() => {
-    const doLoad = async () => {
-      const contracts = await fetchContracts(search, page);
-
-      let elevatorMap: StringMap<ElevatorView[]> = {};
-      if (contracts.data.length > 0) {
-        elevatorMap = await fetchContractsElevatorMap(
-          contracts.data.map((c) => c.id),
-        );
-      }
-      const contractElevatorMap: ContractRecord[] = contracts.data.map(
-        (contract) => {
-          const elevators = elevatorMap[contract.id] || [];
-          return {contract, elevators};
-        },
-      );
-      setContractResource({
-        data: contractElevatorMap,
-        page: contracts.page,
-        total: contracts.total,
-      });
-      setLoading(false);
-    };
-
-    doLoad();
-  }, [search, page]);
-
-  if (isLoading) {
-    return <Box>Loading</Box>;
-  }
+  const {data: contracts} = useQueryContract(search, page);
+  const {data: contractResource = fallback, isLoading} =
+    useFetchContractsElevatorMap(contracts);
 
   return (
     <Box>
