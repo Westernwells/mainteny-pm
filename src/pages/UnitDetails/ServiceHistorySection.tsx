@@ -7,7 +7,6 @@ import * as _ from 'lodash';
 import {createEmptyResource} from '../../utils/paging-utils';
 import {fetchServiceHistoryByElevator} from '../../hooks/useServiceHistory';
 import {Elevator, ElevatorMaintenanceHistoryView} from '../../models/elevator';
-import {getDay} from '../../utils/datetime';
 import {ServiceOrderView} from '../../models/service-order';
 import {StringMap} from '../../models/misc';
 import {
@@ -15,7 +14,6 @@ import {
   getServiceOrderById,
 } from '../../hooks/useServiceOrder';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
-import {calculateNextVisitDate} from '../Units/Models';
 import {ServiceHistoryCard} from './components/ServiceHistoryCard';
 import {RunningServiceOrderCard} from './components/RunningServiceOrderCard';
 
