@@ -1,6 +1,8 @@
-import {Box} from '@mui/system';
+import Box from '@mui/system/Box';
 import useTheme from '@mui/material/styles/useTheme';
-import {Chip, Typography} from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
+
 import {ServiceOrderIcons} from '../../../../components/ServiceOrderIcons';
 import {ServiceOrderType} from '../../../../models/service-order';
 

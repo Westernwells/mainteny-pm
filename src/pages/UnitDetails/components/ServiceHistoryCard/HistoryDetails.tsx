@@ -1,6 +1,9 @@
-import {Money, PersonPinOutlined, Timer} from '@mui/icons-material';
-import {CardContent} from '@mui/material';
-import {Box} from '@mui/system';
+import Money from '@mui/icons-material/Money';
+import PersonPinOutlined from '@mui/icons-material/PersonPinOutlined';
+import Timer from '@mui/icons-material/Timer';
+import CardContent from '@mui/material/CardContent';
+import Box from '@mui/system/Box';
+
 import {HistoryInfo} from './HistoryInfo';
 
 interface HistoryDetailsProps {

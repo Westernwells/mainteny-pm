@@ -1,5 +1,6 @@
-import {Box} from '@mui/system';
-import {RadioButtonChecked, CheckCircle} from '@mui/icons-material';
+import Box from '@mui/system/Box';
+import RadioButtonChecked from '@mui/icons-material/RadioButtonChecked';
+import CheckCircle from '@mui/icons-material/CheckCircle';
 import useTheme from '@mui/material/styles/useTheme';
 
 interface SidebarProps {

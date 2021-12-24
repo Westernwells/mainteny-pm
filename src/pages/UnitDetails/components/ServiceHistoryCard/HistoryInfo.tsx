@@ -1,4 +1,5 @@
-import {SvgIconProps, Typography} from '@mui/material';
+import {SvgIconProps} from '@mui/material';
+import Typography from '@mui/material/Typography';
 import {Box} from '@mui/system';
 
 interface HistoryInfoArgs {
