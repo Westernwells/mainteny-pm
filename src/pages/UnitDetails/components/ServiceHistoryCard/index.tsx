@@ -8,14 +8,14 @@ import CardHeader from '@mui/material/CardHeader';
 import Collapse from '@mui/material/Collapse';
 import {useState} from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {getDay} from '../../../../utils/datetime';
+import {getDay} from 'utils/datetime';
 
-import {ServiceOrderView} from '../../../../models/service-order';
+import {ServiceOrderView} from 'models/service-order';
+import {ElevatorMaintenanceHistoryView} from 'models/elevator';
 import {ExpandMore} from '../ExpandMore';
 import {Sidebar} from '../Sidebar';
 import {CardHeader as Header} from '../CardHeader';
 import {HistoryDetails} from './HistoryDetails';
-import {ElevatorMaintenanceHistoryView} from '../../../../models/elevator';
 
 interface Props {
   serviceOrder: ServiceOrderView;

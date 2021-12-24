@@ -5,9 +5,9 @@ import Card from '@mui/material/Card';
 import Box from '@mui/system/Box';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
-import {getDay} from '../../../../utils/datetime';
 
-import {ServiceOrderView} from '../../../../models/service-order';
+import {getDay} from 'utils/datetime';
+import {ServiceOrderView} from 'models/service-order';
 import {Sidebar} from '../Sidebar';
 import {CardHeader as Header} from '../CardHeader';
 import {calculateNextVisitDate} from '../../../Units/Models';

@@ -4,16 +4,16 @@ import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 
 import * as _ from 'lodash';
-import {createEmptyResource} from '../../utils/paging-utils';
-import {fetchServiceHistoryByElevator} from '../../hooks/useServiceHistory';
-import {Elevator, ElevatorMaintenanceHistoryView} from '../../models/elevator';
-import {ServiceOrderView} from '../../models/service-order';
-import {StringMap} from '../../models/misc';
+import {createEmptyResource} from 'utils/paging-utils';
+import {fetchServiceHistoryByElevator} from 'hooks/useServiceHistory';
+import {Elevator, ElevatorMaintenanceHistoryView} from 'models/elevator';
+import {ServiceOrderView} from 'models/service-order';
+import {StringMap} from 'models/misc';
 import {
   fetchServiceOrderByIds,
   getServiceOrderById,
-} from '../../hooks/useServiceOrder';
-import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
+} from 'hooks/useServiceOrder';
+import {ReactComponent as Elevation} from 'assets/icons/Elevation.svg';
 import {ServiceHistoryCard} from './components/ServiceHistoryCard';
 import {RunningServiceOrderCard} from './components/RunningServiceOrderCard';
 

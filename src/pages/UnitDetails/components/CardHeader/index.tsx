@@ -3,8 +3,8 @@ import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 
-import {ServiceOrderIcons} from '../../../../components/ServiceOrderIcons';
-import {ServiceOrderType} from '../../../../models/service-order';
+import {ServiceOrderIcons} from 'components/ServiceOrderIcons';
+import {ServiceOrderType} from 'models/service-order';
 
 interface HeaderProps {
   createdAt: string;
