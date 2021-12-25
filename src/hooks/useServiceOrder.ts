@@ -1,3 +1,4 @@
+import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {
@@ -1231,6 +1232,35 @@ export function getServiceOrderById(id: string): ServiceOrderView {
   return serviceOrders.data.filter((order) => order.id === id)[0];
 }
 
+const groupElevatorByAddressList = (
+  serviceOrderView: ServiceOrderView[],
+  elevatorRes?: Resource<ElevatorView>,
+) => {
+  const serviceOrderMap = _.groupBy(
+    serviceOrderView,
+    (order: ServiceOrderView) => order.elevator.id,
+  );
+
+  const elevatorWithOrders = elevatorRes!.data.map((elevator) => {
+    const orders = serviceOrderMap[elevator.id];
+    const elevatorWithOrder: ElevatorOrderPair = {
+      elevator,
+      serviceOrder: orders && orders[0],
+    };
+    return elevatorWithOrder;
+  });
+
+  const elevatorByAddressList: ElevatorsByAddress[] = _.values(
+    _.groupBy(elevatorWithOrders, (record) => record.elevator.address.id),
+  ).map((elevators) => ({
+    elevators,
+    address: elevators[0].elevator.address,
+  }));
+  // TODO: there is an exception when calling stopLoading here
+  //                stopLoading();
+  return elevatorByAddressList;
+};
+
 export function useFetchServiceOrdersByElevators(
   elevatorRes: Resource<ElevatorView> | undefined,
 ) {
@@ -1240,31 +1270,11 @@ export function useFetchServiceOrdersByElevators(
     () => fetchServiceOrders(elevatorIds!),
     {
       enabled: !!elevatorRes,
-      select: (data) => {
-        const serviceOrderMap = _.groupBy(
-          data,
-          (order: ServiceOrderView) => order.elevator.id,
-        );
-
-        const elevatorWithOrders = elevatorRes!.data.map((elevator) => {
-          const orders = serviceOrderMap[elevator.id];
-          const elevatorWithOrder: ElevatorOrderPair = {
-            elevator,
-            serviceOrder: orders && orders[0],
-          };
-          return elevatorWithOrder;
-        });
-
-        const elevatorByAddressList: ElevatorsByAddress[] = _.values(
-          _.groupBy(elevatorWithOrders, (record) => record.elevator.address.id),
-        ).map((elevators) => ({
-          elevators,
-          address: elevators[0].elevator.address,
-        }));
-        // TODO: there is an exception when calling stopLoading here
-        //                stopLoading();
-        return elevatorByAddressList;
-      },
+      select: useCallback(
+        (serviceOrderView) =>
+          groupElevatorByAddressList(serviceOrderView, elevatorRes),
+        [elevatorRes],
+      ),
     },
   );
 }

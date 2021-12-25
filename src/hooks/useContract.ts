@@ -1,3 +1,4 @@
+import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {Order} from '../types/misc';
@@ -455,6 +456,23 @@ const fetchContractDetails = (contractId: string) =>
 export const useQueryContract = (query: string, page: Page) =>
   useQuery(['query-contract', query, page], () => fetchContracts(query, page));
 
+const mapContractElevator = (
+  elevatorMap: StringMap<ElevatorView[]>,
+  contractsRes?: Resource<ContractView>,
+) => {
+  const contractElevatorMapResult: ContractRecord[] = contractsRes!.data.map(
+    (contract) => {
+      const elevatorsResult = elevatorMap[contract.id] || [];
+      return {contract, elevators: elevatorsResult};
+    },
+  );
+  return {
+    data: contractElevatorMapResult,
+    page: contracts.page,
+    total: contracts.total,
+  };
+};
+
 export const useFetchContractsElevatorMap = (
   contractsRes: Resource<ContractView> | undefined,
 ) => {
@@ -467,18 +485,10 @@ export const useFetchContractsElevatorMap = (
     () => fetchContractsElevatorMap(contractIds),
     {
       enabled: !!contractsRes,
-      select: (elevatorMap) => {
-        const contractElevatorMapResult: ContractRecord[] =
-          contractsRes!.data.map((contract) => {
-            const elevatorsResult = elevatorMap[contract.id] || [];
-            return {contract, elevators: elevatorsResult};
-          });
-        return {
-          data: contractElevatorMapResult,
-          page: contracts.page,
-          total: contracts.total,
-        };
-      },
+      select: useCallback(
+        (elevatorMap) => mapContractElevator(elevatorMap, contractsRes),
+        [contractsRes],
+      ),
     },
   );
 };
