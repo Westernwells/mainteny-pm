@@ -40,7 +40,7 @@ const HistoryDetails = ({
       display="flex"
       flexDirection="row"
       gap={3}
-      sx={{height: 100, width: '100%', overflowX: 'scroll', mt: 2}}
+      sx={{height: 100, width: '100%', overflowX: 'auto', mt: 2}}
     >
       {images.map((image) => (
         <Box key={image} sx={{width: 100, overflow: 'hidden', borderRadius: 1}}>
