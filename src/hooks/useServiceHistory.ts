@@ -75,7 +75,40 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           elevatorMaintenanceHistoryId: '95e0790a-4040-49af-b164-6211190c14ab',
           fileResource: {
             id: '367dd404-2fe6-482f-b2c3-5b485f798106',
-            uri: '0033E00F-8132-4432-BB9A-C74D2B019299.png',
+            uri: 'images/1.png',
+            type: 'image/png',
+            description: '',
+            createdAt: '2021-09-02T11:45:46.853880Z',
+          },
+        },
+        {
+          id: 'ad708ede-4674-45f0-84a7-5d044da5d602',
+          elevatorMaintenanceHistoryId: '95e0790a-4040-49af-b164-6211190c14ab',
+          fileResource: {
+            id: '367dd404-2fe6-482f-b2c3-5b485f798106',
+            uri: 'images/2.png',
+            type: 'image/png',
+            description: '',
+            createdAt: '2021-09-02T11:45:46.853880Z',
+          },
+        },
+        {
+          id: 'af7083de-4674-45f0-84a7-5d044da5d602',
+          elevatorMaintenanceHistoryId: '95e0790a-4040-49af-b164-6211190c14ab',
+          fileResource: {
+            id: '367dd404-2fe6-482f-b2c3-5b485f798106',
+            uri: 'images/3.png',
+            type: 'image/png',
+            description: '',
+            createdAt: '2021-09-02T11:45:46.853880Z',
+          },
+        },
+        {
+          id: 'af70856e-4674-45f0-84a7-5da44da5dd02',
+          elevatorMaintenanceHistoryId: '95e0790a-4040-49af-b164-6211190c14ab',
+          fileResource: {
+            id: '367dd404-2fe6-482f-b2c3-5b485f798106',
+            uri: 'images/4.png',
             type: 'image/png',
             description: '',
             createdAt: '2021-09-02T11:45:46.853880Z',
@@ -95,13 +128,13 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
         },
         userAccount: {
           id: 'c22ff787-2912-4072-a8f6-ed6403ae99df',
-          username: 'dummy1-team1@graedler-foerdertechnik.de',
-          firstName: 'Dummy1',
-          lastName: 'Team1',
+          username: 'arya-stark@got.de',
+          firstName: 'Arya',
+          lastName: 'Stark',
           photoUrl: 'A358B347-C54B-4433-85FD-E96EB1721544.jpg',
           contact: {
             phone: '+490587899986',
-            email: 'dummy1-team1@graedler-foerdertechnik.de',
+            email: 'arya-stark@got.de',
           },
           roles: ['TECHNICIAN', 'SERVICE_MANAGER'],
           status: UserAccountStatus.NORMAL,
@@ -123,7 +156,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
         },
       },
       fee: {
-        amount: 0,
+        amount: 50,
         currency: 'EUR',
       },
       serviceOrderId: '4f9c4552-089f-4447-9bfd-fd604ba35eec',
@@ -196,7 +229,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           elevatorMaintenanceHistoryId: '13cd9665-d3cb-4d54-894d-59dfcf97421a',
           fileResource: {
             id: '91c50b72-a63d-46b9-886c-16573f8c92c9',
-            uri: 'B4CFB141-3133-46C0-8AA1-37427CEBF5A1.jpg',
+            uri: 'images/2.png',
             type: 'image/jpg',
             description: '',
             createdAt: '2021-08-17T08:13:51.254371Z',
@@ -207,7 +240,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           elevatorMaintenanceHistoryId: '13cd9665-d3cb-4d54-894d-59dfcf97421a',
           fileResource: {
             id: 'b7004eed-b800-4211-8b60-53532f2a24d5',
-            uri: '6BCAD91C-5999-433A-9DA4-3D3DCE9D86C1.jpg',
+            uri: 'images/3.png',
             type: 'image/jpg',
             description: '',
             createdAt: '2021-08-17T08:13:51.253768Z',
@@ -227,13 +260,13 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
         },
         userAccount: {
           id: '7d0f696b-a081-4af7-b154-be0702bfb3d4',
-          username: 'dummy5-team2@graedler-foerdertechnik.de',
-          firstName: 'Dummy5',
-          lastName: 'Team2',
+          username: 'john-snow@got.de',
+          firstName: 'John',
+          lastName: 'Snow',
           photoUrl: 'C772BD54-BB7C-4841-A68F-F042F12A9F9C.jpg',
           contact: {
             phone: '+4900000',
-            email: 'dummy5-team2@graedler-foerdertechnik.de',
+            email: 'john-snow@got.de',
           },
           roles: ['TECHNICIAN'],
           status: UserAccountStatus.NORMAL,
@@ -255,7 +288,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
         },
       },
       fee: {
-        amount: 0,
+        amount: 80,
         currency: 'EUR',
       },
       serviceOrderId: '7adf15ff-42cb-4c2a-a477-0c4e8fdef093',
@@ -329,7 +362,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           elevatorMaintenanceHistoryId: '5e6a549d-8572-4867-92a4-51ffd68ee007',
           fileResource: {
             id: 'd38c816c-8c83-46d5-a684-a44b49aedc0e',
-            uri: 'FFE7F4FF-E9DA-4FB7-AE58-55DB21CCA25B.jpg',
+            uri: 'images/4.png',
             type: 'image/jpg',
             description: '',
             createdAt: '2021-08-16T22:45:32.473689Z',
@@ -349,13 +382,13 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
         },
         userAccount: {
           id: 'c22ff787-2912-4072-a8f6-ed6403ae99df',
-          username: 'dummy1-team1@graedler-foerdertechnik.de',
-          firstName: 'Dummy1',
-          lastName: 'Team1',
+          username: 'cersi-lannister@got.de',
+          firstName: 'Cersi',
+          lastName: 'Lannister',
           photoUrl: 'A358B347-C54B-4433-85FD-E96EB1721544.jpg',
           contact: {
             phone: '+490587899986',
-            email: 'dummy1-team1@graedler-foerdertechnik.de',
+            email: 'cersi-lannister@got.de',
           },
           roles: ['TECHNICIAN', 'SERVICE_MANAGER'],
           status: UserAccountStatus.NORMAL,
@@ -377,7 +410,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
         },
       },
       fee: {
-        amount: 0,
+        amount: 25,
         currency: 'EUR',
       },
       serviceOrderId: '59da767b-9f08-485b-8f50-b9e1c3a98069',
@@ -451,7 +484,7 @@ const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
           elevatorMaintenanceHistoryId: '96a7c266-c9dc-4eff-b697-f1200b3b4058',
           fileResource: {
             id: '92cef1df-4021-41ab-ad35-2266ee68b24a',
-            uri: 'rn_image_picker_lib_temp_c7da07ec-e136-4628-88c2-ac449f2f7f4d.jpg',
+            uri: 'images/2.png',
             type: 'image/jpeg',
             description: '',
             createdAt: '2021-08-13T14:25:29.751574Z',

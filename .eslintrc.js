@@ -12,6 +12,9 @@ module.exports = {
     ecmaVersion: 13,
     sourceType: 'module',
   },
+  globals: {
+    JSX: 'readonly',
+  },
   plugins: ['react', '@typescript-eslint'],
   ignorePatterns: ['src/models/*.ts'],
   rules: {
