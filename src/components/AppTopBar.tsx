@@ -19,7 +19,7 @@ export const AppTopBar = () => {
       sx={{
         backgroundColor: '#fff',
         zIndex: (theme) => theme.zIndex.drawer + 1,
-        boxShadow: 0,
+        boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
         paddingRight: 5,
         paddingLeft: 3,
       }}
