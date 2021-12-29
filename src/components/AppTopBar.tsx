@@ -49,7 +49,13 @@ export const AppTopBar = () => {
               badgeContent={1}
               overlap="circular"
               color="error"
-              sx={{marginLeft: 4, marginTop: 1, color: '#FF4B55'}}
+              sx={{
+                marginLeft: 4,
+                marginTop: 1,
+                color: '#FF4B55',
+                cursor: 'pointer',
+              }}
+              onClick={() => navigate('/notifications')}
             >
               <NotificationsNoneIcon color="primary" />
             </Badge>

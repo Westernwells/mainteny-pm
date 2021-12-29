@@ -55,7 +55,7 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
                 backgroundColor:
                   invoice.status === InvoiceStatus.PAID
                     ? theme.palette.success.main
-                    : theme.state.ratingActive,
+                    : theme.state?.ratingActive,
               }}
               label={
                 <Typography

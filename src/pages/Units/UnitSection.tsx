@@ -153,7 +153,7 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
               <Box display="flex" justifyContent="center">
                 <Button
                   variant="outlined"
-                  sx={{background: theme.state.hover, px: 3}}
+                  sx={{background: theme.state?.hover, px: 3}}
                   onClick={handleClick}
                 >
                   <Typography
