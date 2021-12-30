@@ -10,6 +10,7 @@ import {PasswordReset} from 'pages/PsswordReset';
 import {Invoices} from 'pages/Invoices';
 import {Loading} from 'components/Loading';
 import {Notifications} from 'pages/Notifications';
+import {ProtectedRoutes} from 'ProtectedRoutes';
 
 interface LoadingProps extends LoadingBarRef {
   continuousStart: (startingValue?: number, refreshRate?: number) => void;
@@ -25,49 +26,51 @@ export const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<PasswordReset />} />
-        <Route
-          path="/units"
-          element={
-            <PageLayout>
-              <MyUnits />
-            </PageLayout>
-          }
-        />
-        <Route
-          path="/units/:id"
-          element={
-            <PageLayout>
-              <UnitsDetail />
-            </PageLayout>
-          }
-        />
+        <Route element={<ProtectedRoutes />}>
+          <Route
+            path="/units"
+            element={
+              <PageLayout>
+                <MyUnits />
+              </PageLayout>
+            }
+          />
+          <Route
+            path="/units/:id"
+            element={
+              <PageLayout>
+                <UnitsDetail />
+              </PageLayout>
+            }
+          />
 
-        <Route
-          path="/contracts"
-          element={
-            <PageLayout>
-              <Contracts />
-            </PageLayout>
-          }
-        />
+          <Route
+            path="/contracts"
+            element={
+              <PageLayout>
+                <Contracts />
+              </PageLayout>
+            }
+          />
 
-        <Route
-          path="/invoices"
-          element={
-            <PageLayout>
-              <Invoices />
-            </PageLayout>
-          }
-        />
+          <Route
+            path="/invoices"
+            element={
+              <PageLayout>
+                <Invoices />
+              </PageLayout>
+            }
+          />
 
-        <Route
-          path="/notifications"
-          element={
-            <PageLayout excludeSidebar>
-              <Notifications />
-            </PageLayout>
-          }
-        />
+          <Route
+            path="/notifications"
+            element={
+              <PageLayout excludeSidebar>
+                <Notifications />
+              </PageLayout>
+            }
+          />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
