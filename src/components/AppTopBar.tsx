@@ -19,7 +19,7 @@ export const AppTopBar = () => {
       sx={{
         backgroundColor: '#fff',
         zIndex: (theme) => theme.zIndex.drawer + 1,
-        boxShadow: 0,
+        boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
         paddingRight: 5,
         paddingLeft: 3,
       }}
@@ -49,7 +49,13 @@ export const AppTopBar = () => {
               badgeContent={1}
               overlap="circular"
               color="error"
-              sx={{marginLeft: 4, marginTop: 1, color: '#FF4B55'}}
+              sx={{
+                marginLeft: 4,
+                marginTop: 1,
+                color: '#FF4B55',
+                cursor: 'pointer',
+              }}
+              onClick={() => navigate('/notifications')}
             >
               <NotificationsNoneIcon color="primary" />
             </Badge>

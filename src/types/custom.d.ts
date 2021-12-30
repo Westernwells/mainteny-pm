@@ -7,6 +7,7 @@ declare module '@mui/material/styles' {
     smallBtnText: React.CSSProperties;
     tableHeaderText: React.CSSProperties;
     alertTitleText: React.CSSProperties;
+    helperText: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
@@ -16,27 +17,30 @@ declare module '@mui/material/styles' {
     smallBtnText?: React.CSSProperties;
     tableHeaderText?: React.CSSProperties;
     alertTitleText?: React.CSSProperties;
+    helperText?: React.CSSProperties;
   }
 
-  interface PaletteColor {
+  interface CustomPalleteColor {
     outlinedHoverBg?: string;
   }
-  interface SimplePaletteColorOptions {
-    outlinedHoverBg?: string;
-  }
+  interface PaletteColor extends CustomPalleteColor {}
+  interface SimplePaletteColorOptions extends CustomPalleteColor {}
 
-  interface Theme {
-    state: {
-      hover: string;
-      ratingActive: string;
-    };
+  interface CustomPalette {
+    danger?: SimplePaletteColorOptions;
   }
-  interface ThemeOptions {
+  interface Palette extends CustomPalette {}
+  interface PaletteOptions extends CustomPalette {}
+
+  interface CustomTheme {
     state?: {
-      hover: string;
+      hover?: string;
       ratingActive?: string;
     };
   }
+
+  interface Theme extends CustomTheme {}
+  interface ThemeOptions extends CustomTheme {}
 }
 
 declare module '@mui/material/Typography' {
@@ -46,7 +50,16 @@ declare module '@mui/material/Typography' {
     smallBtnText: true;
     tableHeaderText: true;
     alertTitleText: true;
+    helperText: true;
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    danger: true;
   }
 }
 
 // ButtonPropsVariantOverrides
+
+// ButtonPropsColorOverrides

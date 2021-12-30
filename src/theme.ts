@@ -8,6 +8,7 @@ export const theme = createTheme({
       main: '#0F4C64',
       dark: '#00243A',
       contrastText: '#FFFFFF',
+      outlinedHoverBg: 'rgba(15, 76, 100, 0.08)',
     },
     secondary: {
       light: '#6CFFFF',
@@ -173,6 +174,21 @@ export const theme = createTheme({
             letterSpacing: '0.46px',
           },
         },
+        {
+          props: {variant: 'outlined'},
+          style: {
+            background: 'rgba(15, 76, 100, 0.08)',
+            border: '1px solid rgba(15, 76, 100, 0.5)',
+            boxSizing: 'border-box',
+            borderRadius: '4px',
+          },
+        },
+        {
+          props: {color: 'danger'},
+          style: {
+            background: '#FF605A',
+          },
+        },
       ],
     },
     MuiInputLabel: {
@@ -237,7 +253,6 @@ export const theme = createTheme({
     MuiGrid: {
       styleOverrides: {
         root: {
-          // 'background': 'red',
           '&.MuiGrid-item': {
             // background: 'red',
           },
@@ -304,6 +319,16 @@ export const theme = createTheme({
             fontSize: '16px',
             lineHeight: '24px',
             letterSpacing: '0.15px',
+          },
+        },
+        {
+          props: {variant: 'helperText'},
+          style: {
+            fontFamily: 'Roboto',
+            fontWeight: 400,
+            fontSize: '12px',
+            lineHeight: '20px',
+            letterSpacing: '0.4px',
           },
         },
       ],

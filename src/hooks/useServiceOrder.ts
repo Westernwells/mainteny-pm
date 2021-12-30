@@ -1,6 +1,7 @@
 import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
+import {axiosClient} from 'utils/axios-utils';
 import {
   JobScheduleType,
   ServiceOrder,
@@ -1194,6 +1195,7 @@ const serviceOrders: Resource<ServiceOrderView> = {
 export function fetchServiceOrders(
   elevatorIds: string[],
 ): Promise<ServiceOrderView[]> {
+  // axiosClient({method: 'get', url: '/api'});
   const data = serviceOrders.data.filter((order) =>
     elevatorIds.includes(order.elevator.id),
   );

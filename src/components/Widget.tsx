@@ -55,7 +55,7 @@ export const Widget = ({
             <>
               <Button
                 variant="outlined"
-                sx={{background: (theme) => theme.state.hover}}
+                sx={{background: (theme) => theme.state?.hover}}
               >
                 <FormatListBulletedIcon />
               </Button>
@@ -71,7 +71,7 @@ export const Widget = ({
                 onClick={() => (closeMapView ? closeMapView() : () => {})}
                 sx={{
                   background: (theme) =>
-                    !mapViewActive ? theme.state.hover : '',
+                    !mapViewActive ? theme.state?.hover : '',
                 }}
               >
                 <Typography
@@ -86,7 +86,7 @@ export const Widget = ({
                 variant="outlined"
                 sx={{
                   background: (theme) =>
-                    mapViewActive ? theme.state.hover : '',
+                    mapViewActive ? theme.state?.hover : '',
                 }}
                 onClick={() => (openMapView ? openMapView() : () => {})}
               >

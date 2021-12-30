@@ -2,7 +2,7 @@ import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {Order} from '../types/misc';
-import {paramsSerializer, request} from '../utils/axios-utils';
+import {axiosClient} from '../utils/axios-utils';
 import {
   ContractRecord,
   ContractStatus,
@@ -440,15 +440,14 @@ export function fetchContractsElevatorMap(
 }
 
 const queryContracts = (params: any) =>
-  request({
+  axiosClient({
     method: 'get',
     url: '/api/contracts',
     params,
-    paramsSerializer,
   });
 
 const fetchContractDetails = (contractId: string) =>
-  request({
+  axiosClient({
     method: 'get',
     url: `/api/contracts/${contractId}`,
   });
