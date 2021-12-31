@@ -20,6 +20,7 @@ export const useAuth = (): UseAuth => {
         url: urlEndpoint,
         method: 'POST',
         data: {username: email, password},
+        baseURL: 'https://staging.mainteny.com',
       });
 
       if (status === 400) {
