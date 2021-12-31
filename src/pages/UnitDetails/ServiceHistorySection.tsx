@@ -5,14 +5,14 @@ import useTheme from '@mui/material/styles/useTheme';
 
 import * as _ from 'lodash';
 import {createEmptyResource} from 'utils/paging-utils';
-import {fetchServiceHistoryByElevator} from 'hooks/useServiceHistory';
+import {fetchServiceHistoryByElevator} from 'hooks/reactQuery/useServiceHistory';
 import {Elevator, ElevatorMaintenanceHistoryView} from 'models/elevator';
 import {ServiceOrderView} from 'models/service-order';
 import {StringMap} from 'models/misc';
 import {
   fetchServiceOrderByIds,
   getServiceOrderById,
-} from 'hooks/useServiceOrder';
+} from 'hooks/reactQuery/useServiceOrder';
 import {ReactComponent as Elevation} from 'assets/icons/Elevation.svg';
 import {ServiceHistoryCard} from './components/ServiceHistoryCard';
 import {RunningServiceOrderCard} from './components/RunningServiceOrderCard';

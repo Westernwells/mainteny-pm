@@ -4,9 +4,11 @@ import {useFormik} from 'formik';
 import {useLocation} from 'react-router-dom';
 import queryString from 'query-string';
 import * as Yup from 'yup';
+
+import {ReactComponent as CheckMark} from 'assets/icons/CheckMark.svg';
+import {useAuth} from 'hooks/useAuth';
+import {AuthLayout} from 'components/AuthLayout';
 import {LoginForm} from './components/LoginForm';
-import {ReactComponent as CheckMark} from '../../assets/icons/CheckMark.svg';
-import {AuthLayout} from '../../components/AuthLayout';
 
 interface Props {
   startPageLoad: () => void;
@@ -22,15 +24,15 @@ const validationSchema = Yup.object().shape({
 export const Login = () => {
   const {search} = useLocation();
   const {authType} = queryString.parse(search);
+  const {signin} = useAuth();
 
   const formik = useFormik({
     initialValues: {
       password: '',
       email: '',
     },
-    onSubmit: (value) => {
-      console.log(value, '?????????>>>>>.');
-      // (values) => {}
+    onSubmit: (values) => {
+      signin(values.email, values.password);
     },
     validationSchema,
   });

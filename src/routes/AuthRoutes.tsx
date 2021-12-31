@@ -1,13 +1,12 @@
-import React from 'react';
-import {Navigate, Outlet, Route} from 'react-router-dom';
+import {Navigate, Outlet} from 'react-router-dom';
 
-export const AuthRoutes = () => (
-  // TODO: make use of this when auth is done
+import {useUser} from 'hooks/reactQuery/useUser';
 
-  // const auth = true;
-  // if (auth) {
-  //   return ( <Outlet />)
-  // }
-  // return <Navigate to="/login" />
-  <Outlet />
-);
+export const AuthRoutes = () => {
+  const {user} = useUser();
+
+  if (user?.token) {
+    return <Navigate to="/units" />;
+  }
+  return <Outlet />;
+};

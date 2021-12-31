@@ -7,17 +7,17 @@ import {PasswordReset} from 'pages/PsswordReset';
 import {UnitsDetail} from 'pages/UnitDetails';
 import {MyUnits} from 'pages/Units';
 import {ProtectedRoutes} from 'routes/ProtectedRoutes';
-import {Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import {AuthRoutes} from './AuthRoutes';
 
 export const Router = () => (
   <Routes>
     <Route element={<AuthRoutes />}>
-      <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/reset-password" element={<PasswordReset />} />
     </Route>
     <Route element={<ProtectedRoutes />}>
+      <Route path="/" element={<Navigate to="/units" />} />
       <Route
         path="/units"
         element={

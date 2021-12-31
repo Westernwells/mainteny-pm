@@ -1,5 +1,5 @@
-import {BreakdownHistoryView} from '../models/breakdownHistory';
-import {Resource} from '../models/misc';
+import {BreakdownHistoryView} from '../../models/breakdownHistory';
+import {Resource} from '../../models/misc';
 
 export const breakDownHistoryResource: Resource<BreakdownHistoryView> = {
   data: [

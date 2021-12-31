@@ -8,16 +8,16 @@ import {
   ServiceOrderStatus,
   ServiceOrderType,
   ServiceOrderView,
-} from '../models/service-order';
-import {Priority, Resource, RestError, State} from '../models/misc';
+} from '../../models/service-order';
+import {Priority, Resource, RestError, State} from '../../models/misc';
 import {
   ElevatorCategory,
   ElevatorStatus,
   ElevatorView,
-} from '../models/elevator';
-import {ContractStatus, ContractType} from '../models/contract';
-import {UserAccountStatus} from '../models/user';
-import {ElevatorOrderPair, ElevatorsByAddress} from '../pages/Units/Models';
+} from '../../models/elevator';
+import {ContractStatus, ContractType} from '../../models/contract';
+import {UserAccountStatus} from '../../models/user';
+import {ElevatorOrderPair, ElevatorsByAddress} from '../../pages/Units/Models';
 
 const serviceOrders: Resource<ServiceOrderView> = {
   data: [

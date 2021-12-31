@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEye';
 import ArrowForward from '@mui/icons-material/ArrowForward';
@@ -30,6 +30,7 @@ export const LoginForm = ({
   emailTouched,
 }: Props) => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <Box display="flex" justifyContent="center" width="100%">
       <form style={{width: '18rem'}} onSubmit={handleSubmit}>
@@ -62,13 +63,17 @@ export const LoginForm = ({
             label="Password"
             size="medium"
             fullWidth
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             onChange={handleChange}
             onBlur={handleBlur}
             value={password}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment
+                  position="start"
+                  onClick={() => setShowPassword(!showPassword)}
+                  sx={{cursor: 'pointer'}}
+                >
                   <RemoveRedEye />
                 </InputAdornment>
               ),
@@ -86,9 +91,7 @@ export const LoginForm = ({
         </Box>
 
         <Button
-          onClick={() => {
-            navigate('/units');
-          }}
+          type="submit"
           disabled={!!(!password || !email || emailError || passwordError)}
           sx={{marginTop: 5, width: '100%'}}
           variant="contained"

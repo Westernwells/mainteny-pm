@@ -5,7 +5,7 @@ import Divider from '@mui/material/Divider';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {ReactComponent as ArrowDownward} from '../../assets/icons/ArrowDownward.svg';
-import {breakDownHistoryResource} from '../../hooks/useBreakdownHistory';
+import {breakDownHistoryResource} from '../../hooks/reactQuery/useBreakdownHistory';
 import {getDay} from '../../utils/datetime';
 
 const breakdownHistory = breakDownHistoryResource.data;

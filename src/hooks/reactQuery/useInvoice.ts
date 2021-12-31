@@ -1,10 +1,10 @@
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {addDays} from 'date-fns';
-import {Page, Resource, RestError, State} from '../models/misc';
-import {InvoiceStatus, InvoiceView} from '../models/invoice';
-import {createResource, makePage} from '../utils/paging-utils';
-import {getDateObject} from '../utils/datetime';
+import {Page, Resource, RestError, State} from '../../models/misc';
+import {InvoiceStatus, InvoiceView} from '../../models/invoice';
+import {createResource, makePage} from '../../utils/paging-utils';
+import {getDateObject} from '../../utils/datetime';
 
 function generateInvoice(): InvoiceView[] {
   const startDate = getDateObject('2021-05-23T00:00:00Z');

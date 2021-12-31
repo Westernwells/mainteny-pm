@@ -6,7 +6,7 @@ import {
   ElevatorCategory,
   ElevatorStatus,
   ElevatorView,
-} from '../models/elevator';
+} from '../../models/elevator';
 import {
   Location,
   Page,
@@ -14,8 +14,8 @@ import {
   Resource,
   RestError,
   State,
-} from '../models/misc';
-import {createResource} from '../utils/paging-utils';
+} from '../../models/misc';
+import {createResource} from '../../utils/paging-utils';
 
 export const elevators: Resource<ElevatorView> = {
   data: [

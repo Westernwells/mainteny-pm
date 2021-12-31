@@ -2,9 +2,9 @@ import {
   ElevatorCategory,
   ElevatorMaintenanceHistoryView,
   ElevatorStatus,
-} from '../models/elevator';
-import {Priority, Resource, State} from '../models/misc';
-import {UserAccountStatus} from '../models/user';
+} from '../../models/elevator';
+import {Priority, Resource, State} from '../../models/misc';
+import {UserAccountStatus} from '../../models/user';
 
 const serviceHistories: Resource<ElevatorMaintenanceHistoryView> = {
   data: [

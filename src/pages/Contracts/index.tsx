@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import {
   useFetchContractsElevatorMap,
   useQueryContract,
-} from '../../hooks/useContract';
+} from '../../hooks/reactQuery/useContract';
 import {ContractView} from '../../models/contract';
 import {ElevatorView} from '../../models/elevator';
 import {BtnGroupType, Resource} from '../../models/misc';

@@ -2,18 +2,17 @@ import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {queryKeys} from 'reactQuery/constants';
-import {Order} from '../types/misc';
-import {axiosClient, paramsSerializer} from '../utils/axios-utils';
+import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
 import {
   ContractRecord,
   ContractStatus,
   ContractType,
   ContractView,
   CreateContractRecord,
-} from '../models/contract';
-import {Page, Priority, Resource, State, StringMap} from '../models/misc';
-import {ElevatorView} from '../models/elevator';
-import {createResource} from '../utils/paging-utils';
+} from '../../models/contract';
+import {Page, Priority, Resource, State, StringMap} from '../../models/misc';
+import {ElevatorView} from '../../models/elevator';
+import {createResource} from '../../utils/paging-utils';
 import {elevators} from './useElevator';
 
 const contracts: Resource<ContractView> = {

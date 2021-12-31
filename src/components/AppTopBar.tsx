@@ -7,13 +7,15 @@ import Badge from '@mui/material/Badge';
 import AppBar from '@mui/material/AppBar';
 import {useNavigate} from 'react-router-dom';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import AvatarImg from '../assets/images/avatar.png';
-import {ReactComponent as LogoutIcon} from '../assets/icons/Logout.svg';
 
-import {ReactComponent as Logo} from '../assets/icons/Logo.svg';
+import AvatarImg from 'assets/images/avatar.png';
+import {ReactComponent as LogoutIcon} from 'assets/icons/Logout.svg';
+import {ReactComponent as Logo} from 'assets/icons/Logo.svg';
+import {useAuth} from 'hooks/useAuth';
 
 export const AppTopBar = () => {
   const navigate = useNavigate();
+  const {signout} = useAuth();
   return (
     <AppBar
       sx={{
@@ -84,7 +86,7 @@ export const AppTopBar = () => {
             <Box sx={{marginLeft: 6}}>
               <LogoutIcon
                 style={{cursor: 'pointer'}}
-                onClick={() => navigate('/')}
+                onClick={() => signout()}
               />
             </Box>
           </Box>

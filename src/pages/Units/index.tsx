@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import {Widget} from 'components/Widget';
-import {useFetchServiceOrdersByElevators} from 'hooks/useServiceOrder';
+import {useFetchServiceOrdersByElevators} from 'hooks/reactQuery/useServiceOrder';
 import {makePage} from 'utils/paging-utils';
-import {useAllElevators} from 'hooks/useElevator';
+import {useAllElevators} from 'hooks/reactQuery/useElevator';
 import {UnitSection} from './UnitSection';
 import {UnitsMapsView} from './UnitsMapsView';
 import {UnitColumns} from './UnitColumns';

@@ -1,5 +1,5 @@
 import {axiosClient} from 'utils/axios-utils';
-import {useUser} from './useUser';
+import {useUser} from './reactQuery/useUser';
 
 interface UseAuth {
   signin: (email: string, password: string) => Promise<void>;
@@ -16,10 +16,10 @@ export const useAuth = (): UseAuth => {
     password: string,
   ): Promise<void> => {
     try {
-      const {data, status} = await axiosClient({
+      const {data: user, status} = await axiosClient({
         url: urlEndpoint,
         method: 'POST',
-        data: {email, password},
+        data: {username: email, password},
       });
 
       if (status === 400) {
@@ -27,11 +27,12 @@ export const useAuth = (): UseAuth => {
         return;
       }
 
-      if (data?.user?.token) {
+      if (user?.token) {
         // show success toast
 
         // update stored user data
-        updateUser(data.user);
+
+        updateUser(user);
       }
     } catch (errorResponse) {
       console.log(errorResponse);
