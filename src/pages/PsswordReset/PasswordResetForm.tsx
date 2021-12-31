@@ -31,7 +31,7 @@ export const PasswordResetForm = ({
   const navigate = useNavigate();
   return (
     <Box mt={3} display="flex" justifyContent="center" width="100%">
-      <form style={{width: '34%'}} onSubmit={handleSubmit}>
+      <form style={{width: '18rem'}} onSubmit={handleSubmit}>
         <TextField
           disabled={reEnterPassword}
           id="password"

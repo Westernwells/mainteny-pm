@@ -58,12 +58,7 @@ export const AuthLayout = ({children}: Props) => {
         </Box>
       </Box>
 
-      <Box
-        display="flex"
-        flexGrow={1}
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Box display="flex" flexGrow={1} justifyContent="center" mt={23}>
         <Box>
           <Box display="flex" justifyContent="center">
             <Logo />

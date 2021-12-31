@@ -1,4 +1,5 @@
 import Axios, {Method} from 'axios';
+import {getStoredUser} from 'userStorage';
 
 interface RequestConfig<T = any, K = any> {
   url: string;
@@ -8,12 +9,12 @@ interface RequestConfig<T = any, K = any> {
 }
 
 const header = {} as any;
-// header.Authorization = `Bearer c0ee5840f84143caa2f8e0efda7f1836`;
-if (localStorage.token) {
-  header.Authorization = `Bearer c0ee5840f84143caa2f8e0efda7f1836`;
+const user = getStoredUser();
+if (user) {
+  header.Authorization = `Bearer ${user.token}`;
 }
 
-export const request = Axios.create({
+export const axiosClient = Axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
     Accept: 'application/json',
@@ -34,17 +35,3 @@ export const paramsSerializer = (parameters: {[key: string]: any}) => {
 
   return items.flat().join('&');
 };
-
-export const axiosClient = <T = any, K = any>({
-  url,
-  method,
-  data,
-  params,
-}: RequestConfig) =>
-  request({
-    url,
-    method,
-    data,
-    params,
-    paramsSerializer,
-  });

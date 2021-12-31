@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {useIsFetching} from 'react-query';
+import {useIsFetching, useIsMutating} from 'react-query';
 import LoadingBar, {LoadingBarRef} from 'react-top-loading-bar';
 
 interface LoadingProps extends LoadingBarRef {
@@ -8,9 +8,10 @@ interface LoadingProps extends LoadingBarRef {
 
 export const Loading = () => {
   const isFetching = useIsFetching();
+  const isMutating = useIsMutating();
   const ref = useRef<LoadingProps>(null);
 
-  if (isFetching) {
+  if (isFetching || isMutating) {
     ref.current!.continuousStart();
   } else if (ref.current) {
     ref.current.complete();

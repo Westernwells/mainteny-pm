@@ -1,8 +1,9 @@
 import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
+import {queryKeys} from 'reactQuery/constants';
 import {Order} from '../types/misc';
-import {axiosClient} from '../utils/axios-utils';
+import {axiosClient, paramsSerializer} from '../utils/axios-utils';
 import {
   ContractRecord,
   ContractStatus,
@@ -440,20 +441,18 @@ export function fetchContractsElevatorMap(
 }
 
 const queryContracts = (params: any) =>
-  axiosClient({
-    method: 'get',
-    url: '/api/contracts',
+  axiosClient.get('/api/contracts', {
     params,
+    paramsSerializer,
   });
 
 const fetchContractDetails = (contractId: string) =>
-  axiosClient({
-    method: 'get',
-    url: `/api/contracts/${contractId}`,
-  });
+  axiosClient.get(`/api/contracts/${contractId}`);
 
 export const useQueryContract = (query: string, page: Page) =>
-  useQuery(['query-contract', query, page], () => fetchContracts(query, page));
+  useQuery([queryKeys.contracts, query, page], () =>
+    fetchContracts(query, page),
+  );
 
 const mapContractElevator = (
   elevatorMap: StringMap<ElevatorView[]>,
@@ -480,7 +479,7 @@ export const useFetchContractsElevatorMap = (
     contractIds = contractsRes.data.map((c) => c.id);
   }
   return useQuery(
-    ['fetch-contract-by-elevator-map'],
+    [queryKeys.contractsByElevatorMap],
     () => fetchContractsElevatorMap(contractIds),
     {
       enabled: !!contractsRes,
@@ -493,6 +492,6 @@ export const useFetchContractsElevatorMap = (
 };
 
 export const useFetchContractDetails = (contractId: string) =>
-  useQuery('contract-details', () => fetchContractDetails(contractId), {
+  useQuery(queryKeys.contractDetails, () => fetchContractDetails(contractId), {
     enabled: false,
   });
