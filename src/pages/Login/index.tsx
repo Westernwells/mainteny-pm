@@ -24,7 +24,7 @@ const validationSchema = Yup.object().shape({
 export const Login = () => {
   const {search} = useLocation();
   const {authType} = queryString.parse(search);
-  const {signin} = useAuth();
+  const {signin, loading} = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -68,6 +68,7 @@ export const Login = () => {
         email={formik.values.email}
         emailError={formik.errors.email}
         emailTouched={formik.touched.email}
+        loading={loading}
       />
     </AuthLayout>
   );

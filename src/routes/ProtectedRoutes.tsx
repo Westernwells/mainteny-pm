@@ -1,9 +1,8 @@
-import {useUser} from 'hooks/reactQuery/useUser';
-import React from 'react';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {Navigate, Outlet, Route} from 'react-router-dom';
 
 export const ProtectedRoutes = () => {
-  const {user} = useUser();
+  const {user} = useUserSession();
 
   if (user?.token) {
     return <Outlet />;

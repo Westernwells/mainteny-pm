@@ -1,9 +1,8 @@
 import {Navigate, Outlet} from 'react-router-dom';
-
-import {useUser} from 'hooks/reactQuery/useUser';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 
 export const AuthRoutes = () => {
-  const {user} = useUser();
+  const {user} = useUserSession();
 
   if (user?.token) {
     return <Navigate to="/units" />;

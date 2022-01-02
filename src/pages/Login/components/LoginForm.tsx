@@ -7,6 +7,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import EmailSharp from '@mui/icons-material/EmailSharp';
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface Props {
   handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
@@ -17,6 +18,7 @@ interface Props {
   emailError: string | undefined;
   password: string;
   passwordError: string | undefined;
+  loading: boolean;
 }
 
 export const LoginForm = ({
@@ -28,8 +30,8 @@ export const LoginForm = ({
   emailError,
   handleBlur,
   emailTouched,
+  loading,
 }: Props) => {
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   return (
     <Box display="flex" justifyContent="center" width="100%">
@@ -92,11 +94,19 @@ export const LoginForm = ({
 
         <Button
           type="submit"
-          disabled={!!(!password || !email || emailError || passwordError)}
+          disabled={
+            !!(!password || !email || emailError || passwordError || loading)
+          }
           sx={{marginTop: 5, width: '100%'}}
           variant="contained"
           size="large"
-          endIcon={<ArrowForward />}
+          endIcon={
+            loading ? (
+              <CircularProgress size={20} sx={{color: 'gray'}} />
+            ) : (
+              <ArrowForward />
+            )
+          }
         >
           Login
         </Button>

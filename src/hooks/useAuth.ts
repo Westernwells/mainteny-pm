@@ -1,14 +1,17 @@
+import {useState} from 'react';
 import {axiosClient} from 'utils/axios-utils';
-import {useUser} from './reactQuery/useUser';
+import {useUserSession} from './reactQuery/useUserSession';
 
 interface UseAuth {
   signin: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string) => Promise<void>;
   signout: () => void;
+  loading: boolean;
 }
 
 export const useAuth = (): UseAuth => {
-  const {clearUser, updateUser} = useUser();
+  const {clearUser, updateUser} = useUserSession();
+  const [loading, setLoading] = useState(false);
 
   const authRequest = async (
     urlEndpoint: string,
@@ -16,6 +19,7 @@ export const useAuth = (): UseAuth => {
     password: string,
   ): Promise<void> => {
     try {
+      setLoading(true);
       const {data: user, status} = await axiosClient({
         url: urlEndpoint,
         method: 'POST',
@@ -29,14 +33,16 @@ export const useAuth = (): UseAuth => {
       }
 
       if (user?.token) {
+        axiosClient.defaults.headers.common.Authorization = `Bearer ${user.token}`;
         // show success toast
 
         // update stored user data
-
         updateUser(user);
       }
     } catch (errorResponse) {
       console.log(errorResponse);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,5 +65,6 @@ export const useAuth = (): UseAuth => {
     signin,
     signup,
     signout,
+    loading,
   };
 };
