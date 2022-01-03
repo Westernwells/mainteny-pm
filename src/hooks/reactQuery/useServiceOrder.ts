@@ -1,7 +1,10 @@
 import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
-import {axiosClient} from 'utils/axios-utils';
+import {AxiosResponse} from 'axios';
+import {axiosClient, paramsSerializer} from 'utils/axios-utils';
+import {addDays} from 'date-fns';
+import {toRestDateTime} from 'utils/datetime';
 import {
   JobScheduleType,
   ServiceOrder,
@@ -18,6 +21,7 @@ import {
 import {ContractStatus, ContractType} from '../../models/contract';
 import {UserAccountStatus} from '../../models/user';
 import {ElevatorOrderPair, ElevatorsByAddress} from '../../pages/Units/Models';
+import {usePropertyManager} from './usePropertyManager';
 
 const serviceOrders: Resource<ServiceOrderView> = {
   data: [
@@ -1192,15 +1196,22 @@ const serviceOrders: Resource<ServiceOrderView> = {
   page: {pageIndex: 0, pageSize: 50},
 };
 
-export function fetchServiceOrders(
-  elevatorIds: string[],
-): Promise<ServiceOrderView[]> {
+export const fetchServiceOrders = async (
+  params: any,
+): Promise<Resource<ServiceOrderView>> => {
   // axiosClient({method: 'get', url: '/api'});
-  const data = serviceOrders.data.filter((order) =>
-    elevatorIds.includes(order.elevator.id),
-  );
-  return Promise.resolve(data);
-}
+  const response: AxiosResponse<Resource<ServiceOrderView>> =
+    await axiosClient.get(`/api/serviceOrders/schedule/orders`, {
+      params,
+      paramsSerializer,
+      baseURL: 'https://staging.mainteny.com', // TODO: remove this as soon as staging env is updated
+    });
+  return response.data;
+  // const data = serviceOrders.data.filter((order) =>
+  //   elevatorIds.includes(order.elevator.id),
+  // );
+  // return Promise.resolve(data);
+};
 
 export function fetchServiceOrderByIds(
   serviceOrderIds: string[],
@@ -1258,23 +1269,34 @@ const groupElevatorByAddressList = (
     elevators,
     address: elevators[0].elevator.address,
   }));
-  // TODO: there is an exception when calling stopLoading here
-  //                stopLoading();
+
   return elevatorByAddressList;
 };
 
 export function useFetchServiceOrdersByElevators(
   elevatorRes: Resource<ElevatorView> | undefined,
 ) {
+  const {data: user} = usePropertyManager();
   const elevatorIds = elevatorRes?.data.map((elevator) => elevator.id);
-  return useQuery<ServiceOrderView[], RestError, ElevatorsByAddress[]>(
+  const start = toRestDateTime(new Date());
+  const end = toRestDateTime(addDays(new Date(), 7));
+  return useQuery<Resource<ServiceOrderView>, RestError, ElevatorsByAddress[]>(
     ['fetchServiceOrders', elevatorIds],
-    () => fetchServiceOrders(elevatorIds!),
+    () =>
+      fetchServiceOrders({
+        start,
+        end,
+        pageSize: 500,
+        pageIndex: 0,
+        elevatorIds,
+        query: '',
+        serviceCompanyId: user?.propertyOwner.serviceCompany.id,
+      }),
     {
       enabled: !!elevatorRes,
       select: useCallback(
-        (serviceOrderView) =>
-          groupElevatorByAddressList(serviceOrderView, elevatorRes),
+        (serviceOrderView: Resource<ServiceOrderView>) =>
+          groupElevatorByAddressList(serviceOrderView.data, elevatorRes),
         [elevatorRes],
       ),
     },

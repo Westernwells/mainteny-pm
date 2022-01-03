@@ -1,6 +1,8 @@
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import getCenter from 'geolib/es/getCenter';
+import {AxiosResponse} from 'axios';
+import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {
   Elevator,
   ElevatorCategory,
@@ -16,6 +18,7 @@ import {
   State,
 } from '../../models/misc';
 import {createResource} from '../../utils/paging-utils';
+import {usePropertyManager} from './usePropertyManager';
 
 export const elevators: Resource<ElevatorView> = {
   data: [
@@ -424,51 +427,47 @@ export const elevators: Resource<ElevatorView> = {
   page: {pageIndex: 0, pageSize: 50},
 };
 
-export function fetchElevators(
-  query: string,
-  page: Page,
-): Promise<Resource<ElevatorView>> {
-  let {data} = elevators;
-  if (query) {
-    const tokens = query
-      .toLowerCase()
-      .split(' ')
-      .map((item) => item.trim());
-    data = elevators.data
-      .filter((e) => _.every(tokens, (token) => e.search.includes(token)))
-      .sort((a, b) => a.address.id.localeCompare(b.address.id));
-  }
-
-  const result = _.take(
-    _.drop(data, page.pageIndex * page.pageSize),
-    page.pageSize,
+export const fetchElevators = async (query: string, page: Page, id: string) => {
+  const response: AxiosResponse<Resource<ElevatorView>> = await axiosClient.get(
+    `/api/propertyOwners/${id}/elevators`,
+    {
+      params: {query, ...page},
+      paramsSerializer,
+      baseURL: 'https://staging.mainteny.com', // TODO: remove this as soon as staging env is updated
+    },
   );
-  return Promise.resolve(createResource(result, page, elevators.page.pageSize));
-}
+  return response.data;
+};
 
-export function fetchElevator(elevatorId: string): Promise<Elevator> {
+export const fetchElevator = async (elevatorId: string): Promise<Elevator> => {
   console.log(`fetch elevator, elevator id = ${elevatorId}`);
   const elevator: any = elevators.data.filter((e) => e.id === elevatorId)[0];
   return Promise.resolve(elevator as Elevator);
-}
+};
 
 export function useAllElevators(query: string, page: Page) {
+  const {data: user} = usePropertyManager();
   return useQuery<
     Resource<ElevatorView>,
     RestError,
     {elevator: Resource<ElevatorView>; centerCoord: Location}
-  >(['fetchAllElevators', query, page], () => fetchElevators(query, page), {
-    select: (elevatorResponse) => {
-      const latLng = elevatorResponse?.data.map((elevator) => ({
-        latitude: elevator.address.location.latitude,
-        longitude: elevator.address.location.longitude,
-      }));
-      const centerCoord = getCenter(latLng) as unknown as Location;
+  >(
+    ['fetchAllElevators', query, page, user?.propertyOwner.id],
+    () => fetchElevators(query, page, user!.propertyOwner.id),
+    {
+      enabled: !!user,
+      select: (elevatorResponse) => {
+        const latLng = elevatorResponse?.data.map((elevator) => ({
+          latitude: elevator.address.location.latitude,
+          longitude: elevator.address.location.longitude,
+        }));
+        const centerCoord = getCenter(latLng) as unknown as Location;
 
-      return {
-        elevator: elevatorResponse,
-        centerCoord,
-      };
+        return {
+          elevator: elevatorResponse,
+          centerCoord,
+        };
+      },
     },
-  });
+  );
 }
