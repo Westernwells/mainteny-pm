@@ -435,7 +435,6 @@ export const fetchElevators = async (query: string, page: Page, id: string) => {
     {
       params: {query, ...page},
       paramsSerializer,
-      baseURL: 'https://staging.mainteny.com', // TODO: remove this as soon as staging env is updated
     },
   );
   return response.data;
@@ -455,21 +454,21 @@ export const fetchElevatorMaintenanceHistory = async (
     await axiosClient.get(`/api/elevators/${elevatorId}/maintenanceHistories`, {
       params: {...page},
       paramsSerializer,
-      baseURL: 'https://staging.mainteny.com', // TODO: remove this as soon as staging env is updated
     });
   return response.data;
 };
 
-export const fetchElevatorBreakdownHistory = async (
-  elevatorId: string,
-  page: Page,
-) => {
-  const response: AxiosResponse<Resource<any>> = await axiosClient.get(
-    `/api/elevators/${elevatorId}/breakHistories`,
+export const fetchElevatorBreakdownHistory = async (elevatorId: string) => {
+  const response: AxiosResponse<Resource<any>> = await axiosClient.post(
+    `/api/elevators/${elevatorId}/breakdownHistories`,
     {
-      params: {...page},
-      paramsSerializer,
-      baseURL: 'https://staging.mainteny.com', // TODO: remove this as soon as staging env is updated
+      data: {
+        breakdownDate: '2022-01-03',
+        createdAt: '2022-01-03T16:22:56.410Z',
+        durationInMinutes: 0,
+        serviceOrderId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        status: 'REPORTED',
+      },
     },
   );
   return response.data;
@@ -482,13 +481,6 @@ export const useElevatorMaintenanceHistory = (
   useQuery(
     [queryKeys.fetchElevatorMaintenanceHistory, elevatorId],
     () => fetchElevatorMaintenanceHistory(elevatorId!, page),
-    {enabled: !!elevatorId},
-  );
-
-export const useElevatorBreakdownHistory = (page: Page, elevatorId?: string) =>
-  useQuery(
-    [queryKeys.fetchElevatorMaintenanceHistory, elevatorId],
-    () => fetchElevatorBreakdownHistory(elevatorId!, page),
     {enabled: !!elevatorId},
   );
 

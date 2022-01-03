@@ -10,7 +10,6 @@ import {
 export const ProtectedRoutes = () => {
   const {user} = useUserSession();
   const location = useLocation();
-  const navigate = useNavigate();
 
   if (user?.token) {
     return <Outlet />;

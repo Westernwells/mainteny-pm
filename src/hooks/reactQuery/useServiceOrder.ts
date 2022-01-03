@@ -1204,7 +1204,6 @@ export const fetchServiceOrders = async (
     await axiosClient.get(`/api/serviceOrders/schedule/orders`, {
       params,
       paramsSerializer,
-      baseURL: 'https://staging.mainteny.com', // TODO: remove this as soon as staging env is updated
     });
   return response.data;
   // const data = serviceOrders.data.filter((order) =>
