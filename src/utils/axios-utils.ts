@@ -15,7 +15,10 @@ if (user) {
 }
 
 export const axiosClient = Axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL:
+    process.env.NODE_ENV === 'development'
+      ? process.env.REACT_APP_API_URL
+      : process.env.REACT_APP_BASE_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

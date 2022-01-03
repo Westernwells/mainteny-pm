@@ -9,7 +9,6 @@ const fetchPropertyManager = async (username: string) => {
   const response: AxiosResponse<PropertyManager> = await axiosClient({
     method: 'GET',
     url: `/api/users/propertyManager/${username}`,
-    baseURL: 'https://staging.mainteny.com', // TODO: remove this as soon as staging env is updated
   });
   return response.data;
 };
