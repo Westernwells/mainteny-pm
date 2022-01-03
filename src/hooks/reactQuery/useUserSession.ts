@@ -14,7 +14,7 @@ export function useUserSession(): UseUserSession {
   const queryClient = useQueryClient();
 
   // TODO: call useQuery to update user data from server
-  const {data: user} = useQuery([queryKeys.userSession], getStoredUser, {
+  const {data: user} = useQuery(queryKeys.userSession, getStoredUser, {
     onSuccess: (data) => {
       if (data) {
         const currentDate = new Date();

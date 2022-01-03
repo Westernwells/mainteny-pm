@@ -3,5 +3,5 @@ export const queryKeys = {
   contracts: 'contracts',
   contractsByElevatorMap: 'contractsByElevatorMap',
   contractDetails: 'contractDetails',
-  PropertyOwnerByUsername: 'PropertyOwnerByUsername',
+  propertManager: 'propertManager',
 };

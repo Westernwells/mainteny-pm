@@ -12,10 +12,12 @@ import AvatarImg from 'assets/images/avatar.png';
 import {ReactComponent as LogoutIcon} from 'assets/icons/Logout.svg';
 import {ReactComponent as Logo} from 'assets/icons/Logo.svg';
 import {useAuth} from 'hooks/useAuth';
+import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
 
 export const AppTopBar = () => {
   const navigate = useNavigate();
   const {signout} = useAuth();
+  const {data: user} = usePropertyManager();
   return (
     <AppBar
       sx={{
@@ -66,7 +68,7 @@ export const AppTopBar = () => {
               <Avatar alt="Bruce Wayne" src={AvatarImg} />
               <Box ml={2}>
                 <Typography color="#222B45" variant="h6" gutterBottom={false}>
-                  Bruce Wayne
+                  {user?.userAccount.firstName} {user?.userAccount.lastName}
                 </Typography>
 
                 <Button
@@ -79,7 +81,10 @@ export const AppTopBar = () => {
                     color: '#8F9BB3',
                   }}
                 >
-                  Facility Manager
+                  {user?.userAccount.roles[0]
+                    .split('_')
+                    .join(' ')
+                    .toLowerCase()}
                 </Button>
               </Box>
             </Box>
