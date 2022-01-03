@@ -45,7 +45,7 @@ const HistoryDetails = ({
       {images.map((image) => (
         <Box key={image} sx={{width: 100, overflow: 'hidden', borderRadius: 1}}>
           <img
-            src={`/pm/${image}`}
+            src={`${process.env.REACT_APP_BASE_URL}/${image}`}
             alt=""
             style={{objectFit: 'cover', height: '100%', width: '100%'}}
           />
