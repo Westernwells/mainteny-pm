@@ -3,16 +3,27 @@ import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 import Divider from '@mui/material/Divider';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import {useElevatorBreakdownHistory} from 'hooks/reactQuery/useElevator';
+import {makePage} from 'utils/paging-utils';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {ReactComponent as ArrowDownward} from '../../assets/icons/ArrowDownward.svg';
 import {breakDownHistoryResource} from '../../hooks/reactQuery/useBreakdownHistory';
 import {getDay} from '../../utils/datetime';
 
+interface Props {
+  elevatorId?: string;
+}
+
 const breakdownHistory = breakDownHistoryResource.data;
 
 // TODO: we do not have the model in backend yet
-export const ElevatorBreakDownSection = () => {
+export const ElevatorBreakDownSection = ({elevatorId}: Props) => {
   const theme = useTheme();
+  const {data: elevatorBreakdownHistory} = useElevatorBreakdownHistory(
+    makePage(0, 10),
+    elevatorId,
+  );
+  console.log(elevatorBreakdownHistory, '>>');
   return (
     <Box
       sx={{

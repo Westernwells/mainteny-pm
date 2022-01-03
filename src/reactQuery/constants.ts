@@ -4,4 +4,6 @@ export const queryKeys = {
   contractsByElevatorMap: 'contractsByElevatorMap',
   contractDetails: 'contractDetails',
   propertManager: 'propertManager',
+  fetchAllElevators: 'fetchAllElevators',
+  fetchElevatorMaintenanceHistory: 'fetchElevatorMaintenanceHistory',
 };

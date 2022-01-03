@@ -3,9 +3,11 @@ import * as _ from 'lodash';
 import getCenter from 'geolib/es/getCenter';
 import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
+import {queryKeys} from 'reactQuery/constants';
 import {
   Elevator,
   ElevatorCategory,
+  ElevatorMaintenanceHistoryView,
   ElevatorStatus,
   ElevatorView,
 } from '../../models/elevator';
@@ -445,6 +447,51 @@ export const fetchElevator = async (elevatorId: string): Promise<Elevator> => {
   return Promise.resolve(elevator as Elevator);
 };
 
+export const fetchElevatorMaintenanceHistory = async (
+  elevatorId: string,
+  page: Page,
+) => {
+  const response: AxiosResponse<Resource<ElevatorMaintenanceHistoryView>> =
+    await axiosClient.get(`/api/elevators/${elevatorId}/maintenanceHistories`, {
+      params: {...page},
+      paramsSerializer,
+      baseURL: 'https://staging.mainteny.com', // TODO: remove this as soon as staging env is updated
+    });
+  return response.data;
+};
+
+export const fetchElevatorBreakdownHistory = async (
+  elevatorId: string,
+  page: Page,
+) => {
+  const response: AxiosResponse<Resource<any>> = await axiosClient.get(
+    `/api/elevators/${elevatorId}/breakHistories`,
+    {
+      params: {...page},
+      paramsSerializer,
+      baseURL: 'https://staging.mainteny.com', // TODO: remove this as soon as staging env is updated
+    },
+  );
+  return response.data;
+};
+
+export const useElevatorMaintenanceHistory = (
+  page: Page,
+  elevatorId?: string,
+) =>
+  useQuery(
+    [queryKeys.fetchElevatorMaintenanceHistory, elevatorId],
+    () => fetchElevatorMaintenanceHistory(elevatorId!, page),
+    {enabled: !!elevatorId},
+  );
+
+export const useElevatorBreakdownHistory = (page: Page, elevatorId?: string) =>
+  useQuery(
+    [queryKeys.fetchElevatorMaintenanceHistory, elevatorId],
+    () => fetchElevatorBreakdownHistory(elevatorId!, page),
+    {enabled: !!elevatorId},
+  );
+
 export function useAllElevators(query: string, page: Page) {
   const {data: user} = usePropertyManager();
   return useQuery<
@@ -452,7 +499,7 @@ export function useAllElevators(query: string, page: Page) {
     RestError,
     {elevator: Resource<ElevatorView>; centerCoord: Location}
   >(
-    ['fetchAllElevators', query, page, user?.propertyOwner.id],
+    [queryKeys.fetchAllElevators, query, page, user?.propertyOwner.id],
     () => fetchElevators(query, page, user!.propertyOwner.id),
     {
       enabled: !!user,

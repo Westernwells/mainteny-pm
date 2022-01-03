@@ -4,8 +4,10 @@ import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 
 import * as _ from 'lodash';
-import {createEmptyResource} from 'utils/paging-utils';
+import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {fetchServiceHistoryByElevator} from 'hooks/reactQuery/useServiceHistory';
+
+import {useElevatorMaintenanceHistory} from 'hooks/reactQuery/useElevator';
 import {Elevator, ElevatorMaintenanceHistoryView} from 'models/elevator';
 import {ScrollableCard} from 'components/ScrollableCard';
 import {ServiceOrderView} from 'models/service-order';
@@ -21,6 +23,7 @@ export interface ServiceHistorySectionProp {
   showAll?: boolean;
   hideMoreDetailArrow?: boolean;
   cardHeight?: number;
+  elevatorId?: string;
 }
 
 const pageSize = 50;
@@ -32,8 +35,13 @@ export const ServiceHistorySection = ({
   showAll,
   hideMoreDetailArrow,
   cardHeight = 650,
+  elevatorId,
 }: ServiceHistorySectionProp) => {
   const theme = useTheme();
+  const {data: elevatorMaintenanceHistory} = useElevatorMaintenanceHistory(
+    makePage(0, 10),
+    elevatorId,
+  );
   const [isLoading, setLoading] = useState(true);
   const [activeCard, setActiveCard] = useState<string | undefined>();
   const [serviceHistories, setServiceHistories] = useState(
