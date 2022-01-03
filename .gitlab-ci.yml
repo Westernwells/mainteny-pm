@@ -20,7 +20,8 @@ variables:
     paths:
       - build/
       - Dockerfile
-      - nginx.conf
+      - nginx.prod.conf
+      - nginx.stage.conf
 
 .build-images: &build-image-template
   stage: build-images
@@ -39,6 +40,7 @@ variables:
       --context $CI_PROJECT_DIR 
       --dockerfile Dockerfile 
       --destination ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${ENV}
+      --build-arg ENV=${ENV}
 
 .deploy_project: &deploy-template
   stage: deploy
