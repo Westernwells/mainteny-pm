@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {axiosClient} from 'utils/axios-utils';
 import {useUserSession} from './reactQuery/useUserSession';
 
@@ -12,6 +13,8 @@ interface UseAuth {
 export const useAuth = (): UseAuth => {
   const {clearUser, updateUser} = useUserSession();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const authRequest = async (
     urlEndpoint: string,
@@ -38,6 +41,12 @@ export const useAuth = (): UseAuth => {
 
         // update stored user data
         updateUser(user);
+        if (location.state?.from) {
+          console.log(location.state, '>>>>>>>>>><');
+          navigate(`/${location.state.from.pathname}`, {replace: true});
+        } else {
+          navigate('/', {replace: true});
+        }
       }
     } catch (errorResponse) {
       console.log(errorResponse);
