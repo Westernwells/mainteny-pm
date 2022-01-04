@@ -153,7 +153,12 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
               <Box display="flex" justifyContent="center">
                 <Button
                   variant="outlined"
-                  sx={{background: theme.state?.hover, px: 3}}
+                  color="warning"
+                  sx={{
+                    background: theme.palette.warning.outlinedHoverBg,
+                    px: 3,
+                    border: 'none',
+                  }}
                   onClick={handleClick}
                 >
                   <Typography
@@ -161,7 +166,7 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
                     sx={{textTransform: 'capitalize'}}
                   >
                     {' '}
-                    Notify{' '}
+                    Log issue{' '}
                   </Typography>
                 </Button>
               </Box>
