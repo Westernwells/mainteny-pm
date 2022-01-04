@@ -6,13 +6,24 @@ import {AppTopBar} from './AppTopBar';
 interface Props {
   children: ReactElement;
   excludeSidebar?: boolean;
+  excludeDefaultSpacing?: boolean;
 }
 
-export const PageLayout = ({children, excludeSidebar}: Props) => (
+export const PageLayout = ({
+  children,
+  excludeSidebar,
+  excludeDefaultSpacing,
+}: Props) => (
   <Box display="flex">
     <AppTopBar />
     {!excludeSidebar ? <AppDrawer /> : null}
-    <Box sx={{flexGrow: 1}} pt={12} pl={5} pr={5}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        pt: !excludeDefaultSpacing ? 12 : null,
+        px: !excludeDefaultSpacing ? 5 : null,
+      }}
+    >
       {children}
     </Box>
   </Box>

@@ -1,4 +1,4 @@
-import {PageLayout} from 'components/Layout';
+import {PageLayout} from 'components/PageLayout';
 import {Contracts} from 'pages/Contracts';
 import {Invoices} from 'pages/Invoices';
 import {Login} from 'pages/Login';
@@ -29,7 +29,7 @@ export const Router = () => (
       <Route
         path="/units/:id"
         element={
-          <PageLayout>
+          <PageLayout excludeDefaultSpacing>
             <UnitsDetail />
           </PageLayout>
         }

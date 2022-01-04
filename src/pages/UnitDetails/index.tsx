@@ -1,29 +1,92 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState, SyntheticEvent} from 'react';
 import Box from '@mui/material/Box';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {useNavigate, useParams} from 'react-router-dom';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-
-import Link from '@mui/material/Link';
+import makeStyles from '@mui/styles/makeStyles';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import {Elevator} from '../../models/elevator';
-import {ServiceOrderView} from '../../models/service-order';
-import {fetchElevator} from '../../hooks/reactQuery/useElevator';
+import {Theme} from '@mui/material/styles';
+import useTheme from '@mui/material/styles/useTheme';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import ElevatorIcon from '@mui/icons-material/Elevator';
+import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
+import GridOffIcon from '@mui/icons-material/GridOff';
+import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import {Elevator} from 'models/elevator';
+import {ServiceOrderView} from 'models/service-order';
+import {fetchElevator} from 'hooks/reactQuery/useElevator';
 import {fetchRunningServiceOrdersByElevator} from '../../hooks/reactQuery/useServiceOrder';
-import {Resource} from '../../models/misc';
 import {ElevatorBasicSection} from './ElevatorBasicSection';
 import {ServiceHistorySection} from './ServiceHistorySection';
 import {TechnicianSection} from './TechnicianSection';
-import {createEmptyResource} from '../../utils/paging-utils';
 import {ElevatorBreakDownSection} from './ElevatorBreakDownSection';
 import {ElevatorAvailabilitySection} from './ElevatorAvailabilitySection';
 
 const pageSize = 10;
+
+const useStyles = makeStyles((theme: Theme) => ({
+  tabs: {
+    '& .MuiTabs-indicator': {
+      display: 'flex',
+      justifyContent: 'center',
+      backgroundColor: 'transparent',
+    },
+  },
+  tab: {
+    '&.MuiTab-textColorPrimary': {
+      color: theme.palette.primary.main,
+    },
+    '&.Mui-selected': {
+      color: '#fff',
+      background: theme.palette.primary.main,
+      // borderBottom: '2px solid red',
+    },
+  },
+}));
+
+const tabItem = [
+  {
+    label: 'Overview',
+    icon: <ManageSearchIcon />,
+  },
+  {
+    label: 'Unit Info',
+    icon: <ElevatorIcon />,
+  },
+  {
+    label: 'Maintenance History',
+    icon: <EngineeringOutlinedIcon />,
+  },
+  {
+    label: 'Breakdown History',
+    icon: <GridOffIcon />,
+  },
+  {
+    label: 'Performance',
+    icon: <GraphicEqIcon />,
+  },
+  {
+    label: 'Logged Service Calls',
+    icon: <MiscellaneousServicesIcon />,
+  },
+];
+
+const a11yProps = (index: number) => ({
+  id: `simple-tab-${index}`,
+  'aria-controls': `simple-tabpanel-${index}`,
+});
+
 // TODO: enable the rule again
 // eslint-disable-next-line
 export const UnitsDetail = () => {
+  const classes = useStyles();
+  const theme = useTheme();
   const [elevator, setElevator] = useState<Elevator>();
-  const navigate = useNavigate();
+  const [value, setValue] = useState(0);
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
   const [runningServiceOrders, setRunningServiceOrders] = useState<
     ServiceOrderView[]
   >([]);
@@ -47,20 +110,48 @@ export const UnitsDetail = () => {
   }
   return (
     <Box mb={4}>
-      <Box display="flex">
-        <Box
-          mt={1}
-          sx={{cursor: 'pointer'}}
-          onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-            e.preventDefault();
-            navigate(`/units`);
-          }}
+      <Box
+        sx={{
+          backgroundColor: '#fff',
+          paddingTop: 2,
+          paddingBottom: 1,
+          paddingLeft: '15px',
+          boxShadow: '0px 0px 0px 1px #E0E0E0',
+          borderRadius: '4px',
+          mt: 10,
+          transition: theme.transitions.create('all', {
+            duration: theme.transitions.duration.shortest,
+          }),
+        }}
+      >
+        <Tabs
+          className={classes.tabs}
+          value={value}
+          onChange={handleChange}
+          textColor="secondary"
+          aria-label="basic tabs example"
         >
-          <ArrowBackIosIcon sx={{color: 'rgba(0, 0, 0, 0.54)'}} />
-        </Box>
-        <Box>
-          <Typography variant="h4">Unit Details</Typography>
-        </Box>
+          {tabItem.map((item) => (
+            <Tab
+              disableRipple
+              iconPosition="start"
+              label={
+                <Box
+                  display="flex"
+                  sx={{borderBottom: '2px solid #fff', px: 1}}
+                >
+                  {item.icon}
+                  <Typography mb={1} sx={{ml: 1}}>
+                    {item.label}
+                  </Typography>
+                </Box>
+              }
+              sx={{height: 30, textTransform: 'capitalize'}}
+              {...a11yProps(0)}
+              className={classes.tab}
+            />
+          ))}
+        </Tabs>
       </Box>
 
       <Box>
