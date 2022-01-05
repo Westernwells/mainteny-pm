@@ -33,14 +33,15 @@ export const ElevatorBreakDownSection = () => {
         <Elevation />
       </Box>
 
-      <Box pt={2} height="84%" sx={{overflowY: 'scroll'}}>
+      <Box pt={2} height="90%" sx={{overflowY: 'scroll'}}>
         {breakdownHistory.map((history) => (
           <Box
             key={history.id}
             sx={{
               background: '#F7F9FC',
               borderRadius: '4px',
-              py: 2,
+              pt: 2,
+              pb: 3,
               px: 3,
               mb: 2,
             }}
@@ -50,6 +51,8 @@ export const ElevatorBreakDownSection = () => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                pt: '24px',
+                pb: '5px',
               }}
             >
               <Typography variant="h6" mr={3}>
@@ -77,7 +80,6 @@ export const ElevatorBreakDownSection = () => {
         ))}
         <Typography
           variant="h6"
-          py={2}
           textAlign="center"
           color={theme.palette.info.main}
         >

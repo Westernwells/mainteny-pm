@@ -65,7 +65,6 @@ export const ServiceHistorySection = ({
         background: '#fff',
         borderRadius: '8px',
         height: 650,
-        pt: 2,
         px: '20px',
       }}
       pt={2}
@@ -79,21 +78,24 @@ export const ServiceHistorySection = ({
         <Elevation />
       </Box>
 
-      <Box height="84%" sx={{overflowY: 'scroll'}}>
+      <Box pt={2} height="90%" sx={{overflowY: 'scroll'}}>
         {runningServiceOrder && (
-          <RunningServiceOrderCard serviceOrder={runningServiceOrder} />
+          <Box mb={1}>
+            <RunningServiceOrderCard serviceOrder={runningServiceOrder} />
+          </Box>
         )}
 
-        {serviceHistories.data.map((history, index) => (
-          <ServiceHistoryCard
-            key={history.id}
-            serviceHistory={history}
-            serviceOrder={serviceOrderMap[history.serviceOrderId]}
-          />
+        {serviceHistories.data.slice(0, 2).map((history, index) => (
+          <Box mb={1}>
+            <ServiceHistoryCard
+              key={history.id}
+              serviceHistory={history}
+              serviceOrder={serviceOrderMap[history.serviceOrderId]}
+            />
+          </Box>
         ))}
         <Typography
           variant="h6"
-          py={2}
           textAlign="center"
           color={theme.palette.info.main}
         >

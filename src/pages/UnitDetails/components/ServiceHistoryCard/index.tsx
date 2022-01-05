@@ -40,7 +40,7 @@ const ServiceHistoryCard = ({serviceHistory, serviceOrder}: Props) => {
           boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.4)',
           background: '#F7F9FC',
           borderRadius: '4px',
-          py: 2,
+          py: 1,
           px: 3,
           mb: 2,
           flexGrow: 1,

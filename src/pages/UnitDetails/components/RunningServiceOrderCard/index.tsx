@@ -37,7 +37,7 @@ const RunningServiceOrderCard = ({serviceOrder}: Props) => {
       >
         <CardHeader
           disableTypography
-          sx={{py: 0, px: 0}}
+          sx={{py: 1, px: 0}}
           title={
             <Header
               status={status}

@@ -1,6 +1,6 @@
 import {useEffect, useState, SyntheticEvent} from 'react';
 import Box from '@mui/material/Box';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -17,11 +17,8 @@ import {Elevator} from 'models/elevator';
 import {ServiceOrderView} from 'models/service-order';
 import {fetchElevator} from 'hooks/reactQuery/useElevator';
 import {fetchRunningServiceOrdersByElevator} from '../../hooks/reactQuery/useServiceOrder';
-import {ElevatorBasicSection} from './ElevatorBasicSection';
-import {ServiceHistorySection} from './ServiceHistorySection';
-import {TechnicianSection} from './TechnicianSection';
-import {ElevatorBreakDownSection} from './ElevatorBreakDownSection';
-import {ElevatorAvailabilitySection} from './ElevatorAvailabilitySection';
+import {OverviewTab} from './components/Tabs/OverviewTab';
+import {MaintenanceHistoryTab} from './components/Tabs/MaintenanceHistoryTab';
 
 const pageSize = 10;
 
@@ -40,12 +37,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     '&.Mui-selected': {
       color: '#fff',
       background: theme.palette.primary.main,
-      // borderBottom: '2px solid red',
     },
   },
 }));
 
-const tabItem = [
+const tabItems = [
   {
     label: 'Overview',
     icon: <ManageSearchIcon />,
@@ -81,7 +77,6 @@ const a11yProps = (index: number) => ({
 // eslint-disable-next-line
 export const UnitsDetail = () => {
   const classes = useStyles();
-  const theme = useTheme();
   const [elevator, setElevator] = useState<Elevator>();
   const [value, setValue] = useState(0);
   const handleChange = (event: SyntheticEvent, newValue: number) => {
@@ -108,6 +103,24 @@ export const UnitsDetail = () => {
   if (isLoading) {
     return <Box>Loading...</Box>;
   }
+
+  const tabPanel = () => {
+    switch (value) {
+      case 0:
+        return (
+          <OverviewTab
+            elevator={elevator as Elevator}
+            runningServiceOrders={runningServiceOrders}
+          />
+        );
+      case 2:
+        return <MaintenanceHistoryTab elevator={elevator as Elevator} />;
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <Box mb={4}>
       <Box
@@ -116,12 +129,9 @@ export const UnitsDetail = () => {
           paddingTop: 2,
           paddingBottom: 1,
           paddingLeft: '15px',
-          boxShadow: '0px 0px 0px 1px #E0E0E0',
+          boxShadow: '0px 4px 15px  rgba(144, 144, 144, 0.2)',
           borderRadius: '4px',
           mt: 10,
-          transition: theme.transitions.create('all', {
-            duration: theme.transitions.duration.shortest,
-          }),
         }}
       >
         <Tabs
@@ -131,10 +141,9 @@ export const UnitsDetail = () => {
           textColor="secondary"
           aria-label="basic tabs example"
         >
-          {tabItem.map((item) => (
+          {tabItems.map((item, index) => (
             <Tab
               disableRipple
-              iconPosition="start"
               label={
                 <Box
                   display="flex"
@@ -147,38 +156,14 @@ export const UnitsDetail = () => {
                 </Box>
               }
               sx={{height: 30, textTransform: 'capitalize'}}
-              {...a11yProps(0)}
+              {...a11yProps(index)}
               className={classes.tab}
             />
           ))}
         </Tabs>
       </Box>
-
-      <Box>
-        <Box mt={3} display="flex">
-          <Box mr={2} minWidth="32%">
-            <ElevatorBasicSection
-              elevator={elevator as Elevator}
-              serviceOrder={runningServiceOrders[0]}
-            />
-          </Box>
-          <Box maxWidth="22%" mr={2}>
-            {runningServiceOrders.length > 0 && (
-              <TechnicianSection serviceOrder={runningServiceOrders[0]} />
-            )}
-          </Box>
-          <Box flexGrow={1}>
-            <ElevatorAvailabilitySection />
-          </Box>
-        </Box>
-        <Box mt={4} display="flex" height="40%">
-          <Box width="55%" mr={2}>
-            <ServiceHistorySection elevator={elevator as Elevator} />
-          </Box>
-          <Box sx={{}} flexGrow={1}>
-            <ElevatorBreakDownSection />
-          </Box>
-        </Box>
+      <Box sx={{height: '80vh', overflowY: 'scroll', px: 5, mt: '1px'}}>
+        {tabPanel()}
       </Box>
     </Box>
   );
