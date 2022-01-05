@@ -11,6 +11,6 @@ export const MaintenanceHistoryDetail = () => (
       px: '20px',
     }}
   >
-    <Typography>Maintenance Details</Typography>
+    <Typography variant="h5">Maintenance Details</Typography>
   </Box>
 );

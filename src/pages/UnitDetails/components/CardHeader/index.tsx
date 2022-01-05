@@ -10,6 +10,7 @@ interface HeaderProps {
   createdAt: string;
   serviceOrderType: ServiceOrderType;
   active?: boolean;
+  running?: boolean;
   status: string;
 }
 
@@ -18,6 +19,7 @@ const CardHeader = ({
   serviceOrderType,
   active,
   status,
+  running,
 }: HeaderProps) => {
   const theme = useTheme();
   return (
@@ -28,7 +30,7 @@ const CardHeader = ({
         alignItems: 'center',
       }}
     >
-      <Typography variant="h6" mr={3}>
+      <Typography variant={running ? 'h5' : 'h6'} mr={3}>
         {createdAt}
       </Typography>
       <Box flexGrow={1} display="flex" alignItems="center">
@@ -41,20 +43,22 @@ const CardHeader = ({
       <Chip
         sx={{
           py: 2,
-          color: active
+          color: running
             ? theme.palette.secondary.main
             : theme.palette.text.secondary,
           background: `${
-            active ? theme.palette.info.outlinedHoverBg : '#FAFAFA'
+            running ? theme.palette.info.outlinedHoverBg : '#FAFAFA'
           }`,
           border: `1px solid  ${
-            active ? theme.palette.secondary.main : theme.palette.text.secondary
+            running
+              ? theme.palette.secondary.main
+              : theme.palette.text.secondary
           }`,
         }}
         label={
           <Typography
             variant="largeBtnText"
-            sx={{textTransform: active ? 'uppercase' : 'capitalize'}}
+            sx={{textTransform: running ? 'uppercase' : 'capitalize'}}
           >
             {status.toLowerCase()}
           </Typography>

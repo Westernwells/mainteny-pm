@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     '&.Mui-selected': {
       color: '#fff',
       background: theme.palette.primary.main,
+      borderRadius: '8px',
     },
   },
 }));

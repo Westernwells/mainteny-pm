@@ -4,7 +4,7 @@ import {ServiceOrderView} from 'models/service-order';
 import {ElevatorAvailabilitySection} from '../../ElevatorAvailabilitySection';
 import {ElevatorBasicSection} from '../../ElevatorBasicSection';
 import {ElevatorBreakDownSection} from '../../ElevatorBreakDownSection';
-import {ServiceHistorySection} from '../../ServiceHistorySection';
+import {ServiceHistorySection} from '../ServiceHistory';
 import {TechnicianSection} from '../../TechnicianSection';
 
 interface Props {

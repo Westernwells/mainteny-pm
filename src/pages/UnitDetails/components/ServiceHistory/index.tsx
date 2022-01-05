@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
@@ -14,27 +14,32 @@ import {
   getServiceOrderById,
 } from 'hooks/reactQuery/useServiceOrder';
 import {ReactComponent as Elevation} from 'assets/icons/Elevation.svg';
-import {ServiceHistoryCard} from './components/ServiceHistoryCard';
-import {RunningServiceOrderCard} from './components/RunningServiceOrderCard';
-
-function getMockedRunningServiceOrder(): ServiceOrderView {
-  return getServiceOrderById('032e6ca0-28dc-4b6a-acbe-155ee75e1446');
-}
+import {ServiceHistoryCard} from './ServiceHistoryCard';
 
 export interface ServiceHistorySectionProp {
   elevator: Elevator;
+  renderIcon?: () => React.ReactChild;
+  renderHeaderText?: (serviceHistoryTotal: number) => React.ReactChild;
+  addShadowToCard?: boolean;
+  showAll?: boolean;
+  hideMoreDetailArrow?: boolean;
 }
 
 const pageSize = 50;
 export const ServiceHistorySection = ({
   elevator,
+  renderIcon,
+  renderHeaderText,
+  addShadowToCard,
+  showAll,
+  hideMoreDetailArrow,
 }: ServiceHistorySectionProp) => {
   const theme = useTheme();
   const [isLoading, setLoading] = useState(true);
+  const [activeCard, setActiveCard] = useState<string | undefined>();
   const [serviceHistories, setServiceHistories] = useState(
     createEmptyResource<ElevatorMaintenanceHistoryView>(pageSize),
   );
-  const [runningServiceOrder] = useState(getMockedRunningServiceOrder());
 
   const [serviceOrderMap, setServiceOrderMap] = useState<
     StringMap<ServiceOrderView>
@@ -66,41 +71,53 @@ export const ServiceHistorySection = ({
         borderRadius: '8px',
         height: 650,
         px: '20px',
+        boxShadow: addShadowToCard
+          ? '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12)'
+          : null,
       }}
       pt={2}
       pb={3}
       px={2}
     >
       <Box display="flex" justifyContent="space-between">
-        <Typography variant="h6">
-          Maintenance History ({serviceHistories.total})
-        </Typography>
-        <Elevation />
+        {renderHeaderText ? (
+          renderHeaderText(serviceHistories.total)
+        ) : (
+          <Typography variant="h6">
+            Maintenance History ({serviceHistories.total})
+          </Typography>
+        )}{' '}
+        :{renderIcon ? renderIcon() : <Elevation />}
       </Box>
 
       <Box pt={2} height="90%" sx={{overflowY: 'scroll'}}>
-        {runningServiceOrder && (
-          <Box mb={1}>
-            <RunningServiceOrderCard serviceOrder={runningServiceOrder} />
-          </Box>
-        )}
-
-        {serviceHistories.data.slice(0, 2).map((history, index) => (
-          <Box mb={1}>
-            <ServiceHistoryCard
-              key={history.id}
-              serviceHistory={history}
-              serviceOrder={serviceOrderMap[history.serviceOrderId]}
-            />
-          </Box>
-        ))}
-        <Typography
-          variant="h6"
-          textAlign="center"
-          color={theme.palette.info.main}
-        >
-          More...
-        </Typography>
+        {serviceHistories.data
+          .slice(0, !showAll ? 3 : undefined)
+          .map((history, index) => (
+            <Box
+              mb={1}
+              sx={{cursor: hideMoreDetailArrow ? 'pointer' : 'default'}}
+              onClick={() => setActiveCard(history.id)}
+            >
+              <ServiceHistoryCard
+                key={history.id}
+                serviceHistory={history}
+                serviceOrder={serviceOrderMap[history.serviceOrderId]}
+                running={!!(index === 0)}
+                hideMoreDetailArrow={hideMoreDetailArrow}
+                active={activeCard === history.id && hideMoreDetailArrow}
+              />
+            </Box>
+          ))}
+        {!showAll ? (
+          <Typography
+            variant="h6"
+            textAlign="center"
+            color={theme.palette.info.main}
+          >
+            More...
+          </Typography>
+        ) : null}
       </Box>
     </Box>
   );

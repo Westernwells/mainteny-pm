@@ -9,7 +9,6 @@ interface SidebarProps {
 
 const Sidebar = ({active}: SidebarProps) => {
   const theme = useTheme();
-  const Icon = active ? RadioButtonChecked : CheckCircle;
   return (
     <Box>
       <Box
@@ -20,7 +19,7 @@ const Sidebar = ({active}: SidebarProps) => {
           zIndex: 1000,
         }}
       />
-      <Icon
+      <CheckCircle
         sx={{
           mr: 1,
           color: active
@@ -31,7 +30,7 @@ const Sidebar = ({active}: SidebarProps) => {
       <Box
         sx={{
           borderLeft: '1px dashed #9E9E9E',
-          height: '100%',
+          height: '47%',
           ml: '11px',
         }}
       />

@@ -8,21 +8,33 @@ import CardHeader from '@mui/material/CardHeader';
 import Collapse from '@mui/material/Collapse';
 import {useState} from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import useTheme from '@mui/material/styles/useTheme';
 import {getDay} from 'utils/datetime';
 
 import {ServiceOrderView} from 'models/service-order';
 import {ElevatorMaintenanceHistoryView} from 'models/elevator';
-import {ExpandMore} from '../ExpandMore';
-import {Sidebar} from '../Sidebar';
-import {CardHeader as Header} from '../CardHeader';
+import {ExpandMore} from '../../ExpandMore';
+
+import {CardHeader as Header} from '../../CardHeader';
 import {HistoryDetails} from './HistoryDetails';
+import {Sidebar} from '../Sidebar';
 
 interface Props {
   serviceOrder: ServiceOrderView;
   serviceHistory: ElevatorMaintenanceHistoryView;
+  running?: boolean;
+  active?: boolean;
+  hideMoreDetailArrow?: boolean;
 }
 
-const ServiceHistoryCard = ({serviceHistory, serviceOrder}: Props) => {
+const ServiceHistoryCard = ({
+  serviceHistory,
+  serviceOrder,
+  active,
+  running,
+  hideMoreDetailArrow,
+}: Props) => {
+  const theme = useTheme();
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -37,13 +49,16 @@ const ServiceHistoryCard = ({serviceHistory, serviceOrder}: Props) => {
       <Sidebar />
       <Card
         sx={{
-          boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.4)',
-          background: '#F7F9FC',
+          boxShadow: 'none',
           borderRadius: '4px',
           py: 1,
           px: 3,
           mb: 2,
           flexGrow: 1,
+          background: active
+            ? theme.palette.secondary.outlinedHoverBg
+            : '#F7F9FC',
+          border: active ? ' 2px solid #00D1FF' : 'none',
         }}
       >
         <CardHeader
@@ -54,6 +69,7 @@ const ServiceHistoryCard = ({serviceHistory, serviceOrder}: Props) => {
               status={status}
               createdAt={createdAt}
               serviceOrderType={serviceOrderType}
+              running={running}
             />
           }
         />
@@ -63,6 +79,7 @@ const ServiceHistoryCard = ({serviceHistory, serviceOrder}: Props) => {
         </CardContent>
         <CardActions disableSpacing sx={{m: 0, p: 0}}>
           <ExpandMore
+            sx={{visibility: hideMoreDetailArrow ? 'hidden' : 'visible'}}
             expand={expanded}
             onClick={handleExpandClick}
             aria-expanded={expanded}
