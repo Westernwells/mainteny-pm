@@ -23,6 +23,7 @@ export interface ServiceHistorySectionProp {
   addShadowToCard?: boolean;
   showAll?: boolean;
   hideMoreDetailArrow?: boolean;
+  cardHeight?: number;
 }
 
 const pageSize = 50;
@@ -33,6 +34,7 @@ export const ServiceHistorySection = ({
   addShadowToCard,
   showAll,
   hideMoreDetailArrow,
+  cardHeight = 650,
 }: ServiceHistorySectionProp) => {
   const theme = useTheme();
   const [isLoading, setLoading] = useState(true);
@@ -69,7 +71,7 @@ export const ServiceHistorySection = ({
       sx={{
         background: '#fff',
         borderRadius: '8px',
-        height: 650,
+        height: cardHeight,
         px: '20px',
         boxShadow: addShadowToCard
           ? '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12)'

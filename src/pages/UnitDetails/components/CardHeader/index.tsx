@@ -9,7 +9,6 @@ import {ServiceOrderType} from 'models/service-order';
 interface HeaderProps {
   createdAt: string;
   serviceOrderType: ServiceOrderType;
-  active?: boolean;
   running?: boolean;
   status: string;
 }
@@ -17,7 +16,6 @@ interface HeaderProps {
 const CardHeader = ({
   createdAt,
   serviceOrderType,
-  active,
   status,
   running,
 }: HeaderProps) => {
@@ -38,6 +36,7 @@ const CardHeader = ({
           serviceOrderType={serviceOrderType}
           style={{width: '18px', height: '18px', marginRight: '4px'}}
         />
+
         <Typography variant="largeBtnText">{serviceOrderType}</Typography>
       </Box>
       <Chip

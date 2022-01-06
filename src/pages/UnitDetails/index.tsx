@@ -115,7 +115,12 @@ export const UnitsDetail = () => {
           />
         );
       case 2:
-        return <MaintenanceHistoryTab elevator={elevator as Elevator} />;
+        return (
+          <MaintenanceHistoryTab
+            runningServiceOrders={runningServiceOrders}
+            elevator={elevator as Elevator}
+          />
+        );
 
       default:
         return null;
