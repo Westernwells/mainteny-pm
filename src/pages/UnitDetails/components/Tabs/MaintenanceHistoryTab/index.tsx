@@ -32,11 +32,8 @@ export const MaintenanceHistoryTab = ({
         elevator={elevator}
       />
     </Box>
-    <Box sx={{minHeight: '100%'}} flexGrow={1}>
-      <MaintenanceHistoryDetail
-        runningServiceOrders={runningServiceOrders}
-        cardHeight={710}
-      />
+    <Box flexGrow={1}>
+      <MaintenanceHistoryDetail runningServiceOrders={runningServiceOrders} />
     </Box>
   </Box>
 );
