@@ -3,7 +3,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import {Widget} from 'components/Widget';
+import {LogIssue} from 'components/LogIssue';
 import {useFetchServiceOrdersByElevators} from 'hooks/reactQuery/useServiceOrder';
+import Modal from '@mui/material/Modal';
 import {makePage} from 'utils/paging-utils';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
 import {UnitSection} from './UnitSection';
@@ -14,11 +16,15 @@ export const MyUnits = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
   const [showMapview, setShowMapview] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const {data: elevatorResponse} = useAllElevators(search, page);
   const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
     elevatorResponse?.elevator,
   );
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const onSearchTextChanged = (value: string) => {
     setSearch(value);
@@ -69,6 +75,23 @@ export const MyUnits = () => {
           centerCoord={elevatorResponse?.centerCoord}
         />
       )}
+
+      <Modal open={open} onClose={handleClose}>
+        <Box
+          width={400}
+          sx={{
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            position: 'absolute' as 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <LogIssue />
+        </Box>
+      </Modal>
     </Box>
   );
 };
