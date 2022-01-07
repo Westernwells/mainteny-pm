@@ -1,11 +1,15 @@
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import getCenter from 'geolib/es/getCenter';
-import {AxiosResponse} from 'axios';
+import {Axios, AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {queryKeys} from 'reactQuery/constants';
+import {ServiceOrderView} from 'models/service-order';
+import {ElevatorOrderPair, ElevatorsByAddress} from 'pages/Units/Models';
 import {
   Elevator,
+  ElevatorAvailability,
+  ElevatorAvailabilityParams,
   ElevatorCategory,
   ElevatorMaintenanceHistoryView,
   ElevatorStatus,
@@ -430,7 +434,7 @@ export const elevators: Resource<ElevatorView> = {
 };
 
 export const fetchElevators = async (query: string, page: Page, id: string) => {
-  const response: AxiosResponse<Resource<ElevatorView>> = await axiosClient.get(
+  const response = await axiosClient.get<Resource<ElevatorView>>(
     `/api/propertyOwners/${id}/elevators`,
     {
       params: {query, ...page},

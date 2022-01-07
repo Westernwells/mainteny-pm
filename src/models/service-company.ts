@@ -22,6 +22,7 @@ export enum ServiceCompanyTimeUnit {
   QUARTERLY = 'QUARTERLY',
   WEEKLY = 'WEEKLY',
   YEARLY = 'YEARLY',
+  MONTHLY = 'MONTHLY',
 }
 export enum ActivityMessageType {
   SERVICE_ORDER_COMPLETED = 'SERVICE_ORDER_COMPLETED',

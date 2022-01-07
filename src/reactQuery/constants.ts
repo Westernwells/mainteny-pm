@@ -6,4 +6,6 @@ export const queryKeys = {
   propertManager: 'propertManager',
   fetchAllElevators: 'fetchAllElevators',
   fetchElevatorMaintenanceHistory: 'fetchElevatorMaintenanceHistory',
+  fetchServiceOrders: 'fetchServiceOrders',
+  fetchElevatorAvailability: 'fetchElevatorAvailability',
 };

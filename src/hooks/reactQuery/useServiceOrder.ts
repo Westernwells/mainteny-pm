@@ -3,8 +3,10 @@ import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
-import {addDays} from 'date-fns';
-import {toRestDateTime} from 'utils/datetime';
+import {addDays, endOfMonth, startOfMonth} from 'date-fns';
+import {queryKeys} from 'reactQuery/constants';
+import {ServiceCompanyTimeUnit} from 'models/service-company';
+import {toRestDate, toRestDateTime} from 'utils/datetime';
 import {
   JobScheduleType,
   ServiceOrder,
@@ -14,6 +16,8 @@ import {
 } from '../../models/service-order';
 import {Priority, Resource, RestError, State} from '../../models/misc';
 import {
+  ElevatorAvailability,
+  ElevatorAvailabilityParams,
   ElevatorCategory,
   ElevatorStatus,
   ElevatorView,
@@ -1233,12 +1237,18 @@ export function fetchRunningServiceOrdersByElevator(
   return Promise.resolve(orders);
 }
 
-export function useServiceOrders() {
-  return useQuery<Resource<ServiceOrderView>, RestError>(
-    'fetchServiceOrders',
-    () => serviceOrders,
+export const fetchElevatorAvailability = async (
+  params: ElevatorAvailabilityParams,
+) => {
+  const response = await axiosClient.get<ElevatorAvailability>(
+    `api/availabilities/elevators`,
+    {
+      params,
+      paramsSerializer,
+    },
   );
-}
+  return response.data;
+};
 
 export function getServiceOrderById(id: string): ServiceOrderView {
   return serviceOrders.data.filter((order) => order.id === id)[0];
@@ -1247,6 +1257,7 @@ export function getServiceOrderById(id: string): ServiceOrderView {
 const groupElevatorByAddressList = (
   serviceOrderView: ServiceOrderView[],
   elevatorRes?: Resource<ElevatorView>,
+  elevatorAvailability?: ElevatorAvailability,
 ) => {
   const serviceOrderMap = _.groupBy(
     serviceOrderView,
@@ -1255,8 +1266,12 @@ const groupElevatorByAddressList = (
 
   const elevatorWithOrders = elevatorRes!.data.map((elevator) => {
     const orders = serviceOrderMap[elevator.id];
+    const availability = elevatorAvailability![elevator.id];
     const elevatorWithOrder: ElevatorOrderPair = {
-      elevator,
+      elevator: {
+        ...elevator,
+        availability: Object.values(availability)[0],
+      },
       serviceOrder: orders && orders[0],
     };
     return elevatorWithOrder;
@@ -1272,15 +1287,39 @@ const groupElevatorByAddressList = (
   return elevatorByAddressList;
 };
 
+export const useFetchElevatorAvailability = (elevatorIds: string[]) => {
+  const params = {
+    elevatorId: elevatorIds,
+    start: toRestDate(startOfMonth(new Date())),
+    end: toRestDate(endOfMonth(new Date())),
+    timeUnit: ServiceCompanyTimeUnit.MONTHLY,
+  };
+  return useQuery(
+    [queryKeys.fetchElevatorAvailability, params],
+    () => fetchElevatorAvailability(params),
+    {
+      enabled: !!elevatorIds.length,
+    },
+  );
+};
+
+export function useServiceOrders() {
+  return useQuery<Resource<ServiceOrderView>, RestError>(
+    queryKeys.fetchServiceOrders,
+    () => serviceOrders,
+  );
+}
+
 export function useFetchServiceOrdersByElevators(
-  elevatorRes: Resource<ElevatorView> | undefined,
+  elevatorRes: Resource<ElevatorView>,
 ) {
   const {data: user} = usePropertyManager();
   const elevatorIds = elevatorRes?.data.map((elevator) => elevator.id);
+  const {data: availability} = useFetchElevatorAvailability(elevatorIds);
   const start = toRestDateTime(new Date());
   const end = toRestDateTime(addDays(new Date(), 7));
   return useQuery<Resource<ServiceOrderView>, RestError, ElevatorsByAddress[]>(
-    ['fetchServiceOrders', elevatorIds],
+    [queryKeys.fetchServiceOrders, elevatorIds],
     () =>
       fetchServiceOrders({
         start,
@@ -1292,11 +1331,16 @@ export function useFetchServiceOrdersByElevators(
         serviceCompanyId: user?.propertyOwner.serviceCompany.id,
       }),
     {
-      enabled: !!elevatorRes,
+      enabled: !!user && !!availability,
       select: useCallback(
         (serviceOrderView: Resource<ServiceOrderView>) =>
-          groupElevatorByAddressList(serviceOrderView.data, elevatorRes),
-        [elevatorRes],
+          groupElevatorByAddressList(
+            serviceOrderView.data,
+            elevatorRes,
+            availability,
+          ),
+
+        [availability, user],
       ),
     },
   );

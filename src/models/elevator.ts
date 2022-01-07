@@ -2,6 +2,7 @@ import {Address, AddressRecord, Fee, Meta, Priority, StringMap} from './misc';
 import {Client, ClientSimpleView} from './client';
 import {TechnicianSimpleView} from './technician';
 import {FileResource} from './media';
+import {ServiceCompanyTimeUnit} from './service-company';
 
 export enum ElevatorStatus {
   RUNNING = 'RUNNING',
@@ -147,4 +148,19 @@ export interface ElevatorMaintenanceHistoryView {
   serviceOrderId: string;
   actualServiceTime: number;
   createdAt: string;
+}
+
+export interface ElevatorAvailabilityParams {
+  elevatorId: string[];
+  end: string;
+  start: string;
+  timeUnit: ServiceCompanyTimeUnit;
+}
+
+export interface ElevatorAvailabilityAdditionalProps {
+  [key: string]: number;
+}
+
+export interface ElevatorAvailability {
+  [key: string]: ElevatorAvailabilityAdditionalProps;
 }
