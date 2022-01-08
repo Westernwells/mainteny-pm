@@ -17,8 +17,8 @@ import {Elevator} from 'models/elevator';
 import {ServiceOrderView} from 'models/service-order';
 import {fetchElevator} from 'hooks/reactQuery/useElevator';
 import {fetchRunningServiceOrdersByElevator} from '../../hooks/reactQuery/useServiceOrder';
-import {OverviewTab} from './components/Tabs/OverviewTab';
-import {MaintenanceHistoryTab} from './components/Tabs/MaintenanceHistoryTab';
+import {OverviewTab} from './Tabs/OverviewTab';
+import {MaintenanceHistoryTab} from './Tabs/MaintenanceHistoryTab';
 
 const pageSize = 10;
 

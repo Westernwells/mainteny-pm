@@ -3,7 +3,7 @@ import {Elevator} from 'models/elevator';
 import Typography from '@mui/material/Typography';
 import {ServiceOrderView} from 'models/service-order';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {ServiceHistorySection} from 'pages/UnitDetails/components/ServiceHistory';
+import {ServiceHistorySection} from 'pages/UnitDetails/ServiceHistory';
 import {MaintenanceHistoryDetail} from './MaintenanceHistoryDetail';
 
 interface Props {

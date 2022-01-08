@@ -3,7 +3,7 @@ import {Contracts} from 'pages/Contracts';
 import {Invoices} from 'pages/Invoices';
 import {Login} from 'pages/Login';
 import {Notifications} from 'pages/Notifications';
-import {PasswordReset} from 'pages/PsswordReset';
+import {PasswordReset} from 'pages/PasswordReset';
 import {UnitsDetail} from 'pages/UnitDetails';
 import {MyUnits} from 'pages/Units';
 import {ProtectedRoutes} from 'routes/ProtectedRoutes';

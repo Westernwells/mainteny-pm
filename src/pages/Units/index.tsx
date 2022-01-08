@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import {Widget} from 'components/Widget';
-import {LogIssue} from 'components/LogIssue';
+import {LogIssue} from 'pages/Units/LogIssue';
 import {useFetchServiceOrdersByElevators} from 'hooks/reactQuery/useServiceOrder';
 import Modal from '@mui/material/Modal';
 import {makePage} from 'utils/paging-utils';
@@ -16,15 +16,12 @@ export const MyUnits = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
   const [showMapview, setShowMapview] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   const {data: elevatorResponse} = useAllElevators(search, page);
   const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
     elevatorResponse?.elevator,
   );
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const onSearchTextChanged = (value: string) => {
     setSearch(value);
@@ -65,6 +62,7 @@ export const MyUnits = () => {
               <UnitSection
                 key={elevatorsByAddress.address.id}
                 elevatorsByAddress={elevatorsByAddress}
+                setModalOpen={setModalOpen}
               />
             ))}
           </Box>
@@ -76,16 +74,17 @@ export const MyUnits = () => {
         />
       )}
 
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <Box
-          width={400}
+          width={750}
           sx={{
             bgcolor: 'background.paper',
             boxShadow: 24,
-            p: 4,
             position: 'absolute' as 'absolute',
-            top: '50%',
+            top: '45%',
             left: '50%',
+            height: '80vh',
+            borderRadius: '20px',
             transform: 'translate(-50%, -50%)',
           }}
         >

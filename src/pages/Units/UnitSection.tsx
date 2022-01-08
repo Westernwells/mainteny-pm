@@ -15,27 +15,18 @@ import {ElevatorStatus} from '../../models/elevator';
 
 export interface UnitsSectionProperty {
   elevatorsByAddress: ElevatorsByAddress;
+  setModalOpen: (state: boolean) => void;
 }
 
-export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
+export const UnitSection = ({
+  elevatorsByAddress,
+  setModalOpen,
+}: UnitsSectionProperty) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [open, setOpen] = React.useState(false);
-
   const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string,
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
+    setModalOpen(true);
   };
 
   return (
@@ -174,21 +165,6 @@ export const UnitSection = ({elevatorsByAddress}: UnitsSectionProperty) => {
           </Grid>
         </Grid>
       ))}
-      <Snackbar
-        anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert
-          variant="filled"
-          onClose={handleClose}
-          severity="success"
-          sx={{width: '100%'}}
-        >
-          Service company has been notified
-        </Alert>
-      </Snackbar>
     </Box>
   );
 };

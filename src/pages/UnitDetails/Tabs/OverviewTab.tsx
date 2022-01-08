@@ -1,11 +1,12 @@
 import Box from '@mui/material/Box';
 import {Elevator} from 'models/elevator';
 import {ServiceOrderView} from 'models/service-order';
-import {ElevatorAvailabilitySection} from '../../ElevatorAvailabilitySection';
-import {ElevatorBasicSection} from '../../ElevatorBasicSection';
-import {ElevatorBreakDownSection} from '../../ElevatorBreakDownSection';
+import {ReactComponent as Elevation} from 'assets/icons/Elevation.svg';
+import {ElevatorAvailabilitySection} from '../ElevatorAvailabilitySection';
+import {ElevatorBasicSection} from '../ElevatorBasicSection';
+import {ElevatorBreakDownSection} from '../ElevatorBreakDownSection';
 import {ServiceHistorySection} from '../ServiceHistory';
-import {TechnicianSection} from '../../TechnicianSection';
+import {TechnicianSection} from '../TechnicianSection';
 
 interface Props {
   runningServiceOrders: ServiceOrderView[];
@@ -32,7 +33,10 @@ export const OverviewTab = ({runningServiceOrders, elevator}: Props) => (
     </Box>
     <Box mt={4} display="flex" height="40%">
       <Box width="55%" mr={2}>
-        <ServiceHistorySection elevator={elevator} />
+        <ServiceHistorySection
+          renderIcon={() => <Elevation />}
+          elevator={elevator}
+        />
       </Box>
       <Box sx={{}} flexGrow={1}>
         <ElevatorBreakDownSection />
