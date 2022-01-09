@@ -66,9 +66,9 @@ const HistoryCard = ({
           sx={{py: 0, px: 0}}
           title={
             <Header
-              status={ServiceOrderStatus.COMPLETED}
+              status={serviceHistory.serviceOrder.status}
               createdAt={getDay(createdAtDate, 'dd MMM YYY')}
-              serviceOrderType={ServiceOrderType.REGULAR}
+              serviceOrderType={serviceHistory.serviceOrder.type}
               running={running}
             />
           }
