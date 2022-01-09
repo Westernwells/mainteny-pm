@@ -1,46 +1,57 @@
-import Box from '@mui/material/Box';
-import {Elevator} from 'models/elevator';
+import {Elevator, ElevatorMaintenanceHistoryView} from 'models/elevator';
 import {ServiceOrderView} from 'models/service-order';
+import Grid from '@mui/material/Grid';
+import {Resource} from 'models/misc';
 import {ReactComponent as Elevation} from 'assets/icons/Elevation.svg';
 import {ElevatorAvailabilitySection} from '../ElevatorAvailabilitySection';
 import {ElevatorBasicSection} from '../ElevatorBasicSection';
 import {ElevatorBreakDownSection} from '../ElevatorBreakDownSection';
-import {ServiceHistorySection} from '../ServiceHistory';
+import {ServiceHistory} from '../ServiceHistory';
 import {TechnicianSection} from '../TechnicianSection';
 
 interface Props {
+  setSelectedServiceHistory: (state: ElevatorMaintenanceHistoryView) => void;
+  selectedServiceHistory?: ElevatorMaintenanceHistoryView;
+  serviceHistories: Resource<ElevatorMaintenanceHistoryView>;
+  elevator?: Elevator;
   runningServiceOrders: ServiceOrderView[];
-  elevator: Elevator;
 }
 
-export const OverviewTab = ({runningServiceOrders, elevator}: Props) => (
-  <Box>
-    <Box mt={3} display="flex">
-      <Box mr={2} minWidth="32%">
+export const OverviewTab = ({
+  setSelectedServiceHistory,
+  selectedServiceHistory,
+  serviceHistories,
+  elevator,
+  runningServiceOrders,
+}: Props) => (
+  <>
+    <Grid container spacing={2} sx={{mt: 2}}>
+      <Grid item xs={4}>
         <ElevatorBasicSection
           elevator={elevator}
           serviceOrder={runningServiceOrders[0]}
         />
-      </Box>
-      <Box maxWidth="22%" mr={2}>
-        {runningServiceOrders.length > 0 && (
-          <TechnicianSection serviceOrder={runningServiceOrders[0]} />
-        )}
-      </Box>
-      <Box flexGrow={1}>
+      </Grid>
+      <Grid item xs={3}>
+        <TechnicianSection serviceOrder={runningServiceOrders[0]} />
+      </Grid>
+      <Grid item xs={5}>
         <ElevatorAvailabilitySection />
-      </Box>
-    </Box>
-    <Box mt={4} display="flex" height="40%">
-      <Box width="55%" mr={2}>
-        <ServiceHistorySection
+      </Grid>
+    </Grid>
+
+    <Grid container spacing={2} sx={{mt: 2}}>
+      <Grid item xs={6}>
+        <ServiceHistory
+          setSelectedServiceHistory={setSelectedServiceHistory}
+          selectedServiceHistory={selectedServiceHistory}
+          serviceHistories={serviceHistories}
           renderIcon={() => <Elevation />}
-          elevator={elevator}
         />
-      </Box>
-      <Box sx={{}} flexGrow={1}>
+      </Grid>
+      <Grid item xs={6}>
         <ElevatorBreakDownSection />
-      </Box>
-    </Box>
-  </Box>
+      </Grid>
+    </Grid>
+  </>
 );

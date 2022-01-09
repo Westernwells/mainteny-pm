@@ -444,21 +444,10 @@ export const fetchElevators = async (query: string, page: Page, id: string) => {
   return response.data;
 };
 
-export const fetchElevator = async (elevatorId: string): Promise<Elevator> => {
-  console.log(`fetch elevator, elevator id = ${elevatorId}`);
-  const elevator: any = elevators.data.filter((e) => e.id === elevatorId)[0];
-  return Promise.resolve(elevator as Elevator);
-};
-
-export const fetchElevatorMaintenanceHistory = async (
-  elevatorId: string,
-  page: Page,
-) => {
-  const response: AxiosResponse<Resource<ElevatorMaintenanceHistoryView>> =
-    await axiosClient.get(`/api/elevators/${elevatorId}/maintenanceHistories`, {
-      params: {...page},
-      paramsSerializer,
-    });
+export const fetchElevator = async (elevatorId: string) => {
+  const response = await axiosClient.get<Elevator>(
+    `/api/elevators/${elevatorId}`,
+  );
   return response.data;
 };
 
@@ -478,14 +467,13 @@ export const fetchElevatorBreakdownHistory = async (elevatorId: string) => {
   return response.data;
 };
 
-export const useElevatorMaintenanceHistory = (
-  page: Page,
-  elevatorId?: string,
-) =>
+export const useElevatorById = (elevatorId?: string) =>
   useQuery(
-    [queryKeys.fetchElevatorMaintenanceHistory, elevatorId],
-    () => fetchElevatorMaintenanceHistory(elevatorId!, page),
-    {enabled: !!elevatorId},
+    [queryKeys.elevatorById, elevatorId],
+    () => fetchElevator(elevatorId!),
+    {
+      enabled: !!elevatorId,
+    },
   );
 
 export function useAllElevators(query: string, page: Page) {

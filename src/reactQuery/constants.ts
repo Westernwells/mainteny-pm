@@ -8,4 +8,5 @@ export const queryKeys = {
   fetchElevatorMaintenanceHistory: 'fetchElevatorMaintenanceHistory',
   fetchServiceOrders: 'fetchServiceOrders',
   fetchElevatorAvailability: 'fetchElevatorAvailability',
+  elevatorById: 'elevatorById',
 };

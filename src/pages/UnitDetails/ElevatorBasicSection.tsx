@@ -20,7 +20,7 @@ import {getDay} from '../../utils/datetime';
 import {calculateNextVisitDate} from '../Units/Models';
 
 export interface ElevatorBasicSectionProp {
-  elevator: Elevator;
+  elevator?: Elevator;
   serviceOrder?: ServiceOrder | ServiceOrderView;
 }
 
@@ -47,7 +47,7 @@ export const ElevatorBasicSection = ({
             flexGrow={1}
             color={theme.palette.primary.main}
           >
-            {elevator.model}
+            {elevator?.model || null}
           </Typography>
           <Box>
             <Elevation />
@@ -60,13 +60,15 @@ export const ElevatorBasicSection = ({
               variant="largeBtnText"
               sx={{textTransform: 'capitalize'}}
             >
-              {`${elevator.status.charAt(0)}${elevator.status
-                .slice(1)
-                .toLowerCase()}`}
+              {elevator
+                ? `${elevator.status.charAt(0)}${elevator.status
+                    .slice(1)
+                    .toLowerCase()}`
+                : null}
             </Typography>
           }
           color={
-            elevator.status === ElevatorStatus.RUNNING ? 'success' : 'error'
+            elevator?.status === ElevatorStatus.RUNNING ? 'success' : 'error'
           }
           size="medium"
         />
@@ -99,7 +101,7 @@ export const ElevatorBasicSection = ({
           </Box>
 
           <Typography variant="subtitle1" mt={1} width="50%">
-            {elevator.address.fullName}
+            {elevator?.address.fullName}
           </Typography>
         </Box>
 
@@ -163,7 +165,7 @@ export const ElevatorBasicSection = ({
           </Box>
 
           <Typography variant="subtitle1" mt={1} width="50%">
-            {elevator.number}
+            {elevator?.number}
           </Typography>
         </Box>
 
@@ -195,7 +197,7 @@ export const ElevatorBasicSection = ({
           </Box>
 
           <Typography variant="subtitle1" mt={1} width="50%">
-            {elevator.capacity}
+            {elevator?.capacity}
           </Typography>
         </Box>
 
@@ -240,7 +242,7 @@ export const ElevatorBasicSection = ({
                   calculateNextVisitDate(serviceOrder),
                   new Date(),
                 )}{' '}
-                ({getDay(calculateNextVisitDate(serviceOrder))}){' '}
+                ({getDay(calculateNextVisitDate(serviceOrder), 'dd MMM YYY')}){' '}
               </Typography>
             </Alert>
           </Box>

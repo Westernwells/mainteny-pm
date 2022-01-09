@@ -1,3 +1,4 @@
+import {Fragment} from 'react';
 import Box from '@mui/material/Box';
 
 import Typography from '@mui/material/Typography';
@@ -11,15 +12,13 @@ import {ServiceOrderView} from '../../models/service-order';
 import technicianImage from '../../assets/images/tech.png';
 
 export interface TechnicianSectionProp {
-  serviceOrder: ServiceOrderView;
+  serviceOrder?: ServiceOrderView;
 }
 
 export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
   const theme = useTheme();
-  const technician = serviceOrder.schedules[0]?.technician;
-  if (!technician) {
-    return <Box>No Technician</Box>;
-  }
+
+  const technician = serviceOrder?.schedules[0]?.technician;
 
   return (
     <Box
@@ -40,101 +39,111 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
             Technician (1)
           </Typography>
         </Box>
-        <Box display="flex" justifyContent="center" mt={3}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Avatar
-              alt="Tech"
-              src={technicianImage}
-              sx={{width: 120, height: 120}}
-            />
-            <Typography variant="h6">{`${technician.userAccount.firstName} ${technician.userAccount.lastName}`}</Typography>
-            <Typography
-              variant="subtitle2"
-              textAlign="center"
-              color={theme.palette.text.secondary}
-            >
-              Sr. Technician
+        {technician ? (
+          <Fragment>
+            <Box display="flex" justifyContent="center" mt={3}>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <Avatar
+                  alt="Tech"
+                  src={technicianImage}
+                  sx={{width: 120, height: 120}}
+                />
+                <Typography variant="h6">{`${technician.userAccount.firstName} ${technician.userAccount.lastName}`}</Typography>
+                <Typography
+                  variant="subtitle2"
+                  textAlign="center"
+                  color={theme.palette.text.secondary}
+                >
+                  Sr. Technician
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box display="flex" mr={3} mt={2}>
+              <Box
+                sx={{background: theme.palette.background.default}}
+                width={35}
+                height={35}
+              >
+                <BadgeOutlinedIcon
+                  sx={{
+                    width: '18px',
+                    height: '18px',
+                    ml: 1,
+                    mt: 1,
+                    color: theme.palette.text.primary,
+                  }}
+                />
+              </Box>
+              <Typography
+                variant="tableHeaderText"
+                mt={1}
+                ml={2}
+                sx={{color: theme.palette.text.secondary}}
+              >
+                astralift.nl
+              </Typography>
+            </Box>
+
+            <Box display="flex" mr={3} mt={2}>
+              <Box
+                sx={{background: theme.palette.background.default}}
+                width={35}
+                height={35}
+              >
+                <EmailOutlinedIcon
+                  sx={{
+                    width: '18px',
+                    height: '18px',
+                    ml: 1,
+                    mt: 1,
+                    color: theme.palette.text.primary,
+                  }}
+                />
+              </Box>
+              <Typography
+                variant="tableHeaderText"
+                mt={1}
+                ml={2}
+                sx={{color: theme.palette.text.secondary}}
+              >
+                {technician.userAccount.contact.email}
+              </Typography>
+            </Box>
+
+            <Box display="flex" mr={3} mt={2}>
+              <Box
+                sx={{background: theme.palette.background.default}}
+                width={35}
+                height={35}
+              >
+                <CallOutlinedIcon
+                  sx={{
+                    width: '18px',
+                    height: '18px',
+                    ml: 1,
+                    mt: 1,
+                    color: theme.palette.text.primary,
+                  }}
+                />
+              </Box>
+              <Typography
+                variant="tableHeaderText"
+                mt={1}
+                ml={2}
+                sx={{color: theme.palette.text.secondary}}
+              >
+                {technician.userAccount.contact.phone}
+              </Typography>
+            </Box>
+          </Fragment>
+        ) : (
+          <Box>
+            <Typography>
+              No technician is currently running a service order
             </Typography>
           </Box>
-        </Box>
-
-        <Box display="flex" mr={3} mt={2}>
-          <Box
-            sx={{background: theme.palette.background.default}}
-            width={35}
-            height={35}
-          >
-            <BadgeOutlinedIcon
-              sx={{
-                width: '18px',
-                height: '18px',
-                ml: 1,
-                mt: 1,
-                color: theme.palette.text.primary,
-              }}
-            />
-          </Box>
-          <Typography
-            variant="tableHeaderText"
-            mt={1}
-            ml={2}
-            sx={{color: theme.palette.text.secondary}}
-          >
-            astralift.nl
-          </Typography>
-        </Box>
-
-        <Box display="flex" mr={3} mt={2}>
-          <Box
-            sx={{background: theme.palette.background.default}}
-            width={35}
-            height={35}
-          >
-            <EmailOutlinedIcon
-              sx={{
-                width: '18px',
-                height: '18px',
-                ml: 1,
-                mt: 1,
-                color: theme.palette.text.primary,
-              }}
-            />
-          </Box>
-          <Typography
-            variant="tableHeaderText"
-            mt={1}
-            ml={2}
-            sx={{color: theme.palette.text.secondary}}
-          >
-            {technician.userAccount.contact.email}
-          </Typography>
-        </Box>
-
-        <Box display="flex" mr={3} mt={2}>
-          <Box
-            sx={{background: theme.palette.background.default}}
-            width={35}
-            height={35}
-          >
-            <CallOutlinedIcon
-              sx={{
-                width: '18px',
-                height: '18px',
-                ml: 1,
-                mt: 1,
-                color: theme.palette.text.primary,
-              }}
-            />
-          </Box>
-          <Typography
-            variant="tableHeaderText"
-            mt={1}
-            ml={2}
-            sx={{color: theme.palette.text.secondary}}
-          >
-            {technician.userAccount.contact.phone}
-          </Typography>
-        </Box>
+        )}
       </Box>
     </Box>
   );

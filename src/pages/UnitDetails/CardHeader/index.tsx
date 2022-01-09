@@ -7,7 +7,7 @@ import {ServiceOrderIcons} from 'components/ServiceOrderIcons';
 import {ServiceOrderType} from 'models/service-order';
 
 interface HeaderProps {
-  createdAt: string;
+  createdAt?: string;
   serviceOrderType: ServiceOrderType;
   running?: boolean;
   status: string;

@@ -13,11 +13,13 @@ export function getDateObject(input: any): Date {
   return <Date>input;
 }
 
-export function getDay(input?: String | Date) {
+export function getDay(input?: String | Date, formatType?: string) {
   if (!input) {
     return undefined;
   }
-  return format(getDateObject(input), 'yyyy-MM-dd');
+  return formatType
+    ? format(getDateObject(input), formatType)
+    : format(getDateObject(input), 'yyyy-MM-dd');
 }
 
 export function setDateTime(date: Date, hourMinute: string): Date {
