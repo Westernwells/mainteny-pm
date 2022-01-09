@@ -36,7 +36,7 @@ export const fetchElevatorAvailability = async (
   params: ElevatorAvailabilityParams,
 ) => {
   const response = await axiosClient.get<ElevatorAvailability>(
-    `api/availabilities/elevators`,
+    `/api/availabilities/elevators`,
     {
       params,
       paramsSerializer,
