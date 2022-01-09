@@ -11,25 +11,27 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useTheme from '@mui/material/styles/useTheme';
 import {getDay} from 'utils/datetime';
 
-import {ServiceOrderView} from 'models/service-order';
+import {
+  ServiceOrderStatus,
+  ServiceOrderType,
+  ServiceOrderView,
+} from 'models/service-order';
 import {ElevatorMaintenanceHistoryView} from 'models/elevator';
-import {ExpandMore} from '../../ExpandMore';
+import {ExpandMore} from '../ExpandMore';
 
-import {CardHeader as Header} from '../../CardHeader';
+import {CardHeader as Header} from '../CardHeader';
 import {HistoryDetails} from './HistoryDetails';
-import {Sidebar} from '../Sidebar';
+import {Sidebar} from './Sidebar';
 
 interface Props {
-  serviceOrder: ServiceOrderView;
   serviceHistory: ElevatorMaintenanceHistoryView;
   running?: boolean;
   active?: boolean;
   hideMoreDetailArrow?: boolean;
 }
 
-const ServiceHistoryCard = ({
+const HistoryCard = ({
   serviceHistory,
-  serviceOrder,
   active,
   running,
   hideMoreDetailArrow,
@@ -40,8 +42,6 @@ const ServiceHistoryCard = ({
     setExpanded(!expanded);
   };
   const {createdAt: createdAtDate, description} = serviceHistory;
-  const createdAt = getDay(createdAtDate)!;
-  const {type: serviceOrderType, status} = serviceOrder;
   const {firstName: technicianFirstName, lastName: technicianLastName} =
     serviceHistory.technician.userAccount;
   return (
@@ -66,9 +66,9 @@ const ServiceHistoryCard = ({
           sx={{py: 0, px: 0}}
           title={
             <Header
-              status={status}
-              createdAt={createdAt}
-              serviceOrderType={serviceOrderType}
+              status={serviceHistory.serviceOrder.status}
+              createdAt={getDay(createdAtDate, 'dd MMM YYY')}
+              serviceOrderType={serviceHistory.serviceOrder.type}
               running={running}
             />
           }
@@ -96,7 +96,7 @@ const ServiceHistoryCard = ({
             images={serviceHistory.attachments.map(
               (attchment) => attchment.fileResource.uri,
             )}
-            duration={serviceHistory.actualServiceTime.toString()}
+            duration={`${serviceHistory.actualServiceTime / 60} hrs`}
           />
         </Collapse>
       </Card>
@@ -104,4 +104,4 @@ const ServiceHistoryCard = ({
   );
 };
 
-export {ServiceHistoryCard};
+export {HistoryCard};

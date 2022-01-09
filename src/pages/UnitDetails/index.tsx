@@ -6,17 +6,23 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import {Theme} from '@mui/material/styles';
-import useTheme from '@mui/material/styles/useTheme';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ElevatorIcon from '@mui/icons-material/Elevator';
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import GridOffIcon from '@mui/icons-material/GridOff';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+import {startOfDay, endOfMonth} from 'date-fns';
+import {toRestDateTime} from 'utils/datetime';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
-import {Elevator} from 'models/elevator';
+import {
+  Elevator,
+  ElevatorMaintenanceHistoryView as ServiceHistoryView,
+} from 'models/elevator';
 import {ServiceOrderView} from 'models/service-order';
-import {fetchElevator} from 'hooks/reactQuery/useElevator';
-import {fetchRunningServiceOrdersByElevator} from '../../hooks/reactQuery/useServiceOrder';
+import {createEmptyResource, makePage} from 'utils/paging-utils';
+import {useServiceHistory} from 'hooks/reactQuery/useServiceHistory';
+import {useElevatorById} from 'hooks/reactQuery/useElevator';
+import {useServiceOrders} from '../../hooks/reactQuery/useServiceOrder';
 import {OverviewTab} from './Tabs/OverviewTab';
 import {MaintenanceHistoryTab} from './Tabs/MaintenanceHistoryTab';
 
@@ -78,47 +84,47 @@ const a11yProps = (index: number) => ({
 // eslint-disable-next-line
 export const UnitsDetail = () => {
   const classes = useStyles();
-  const [elevator, setElevator] = useState<Elevator>();
+  const {id: elevatorId} = useParams();
   const [value, setValue] = useState(0);
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const [runningServiceOrders, setRunningServiceOrders] = useState<
-    ServiceOrderView[]
-  >([]);
-  const [isLoading, setLoading] = useState(true);
-  const {id: elevatorId} = useParams();
-  useEffect(() => {
-    const doLoad = async () => {
-      const data = await Promise.all([
-        fetchElevator(elevatorId!!),
-        fetchRunningServiceOrdersByElevator(elevatorId!!),
-      ]);
-      setElevator(data[0]);
-      setRunningServiceOrders(data[1]);
-      setLoading(false);
-    };
-    doLoad();
-  }, []);
+  const [selectedServiceHistory, setSelectedServiceHistory] =
+    useState<ServiceHistoryView>();
+  const {
+    data: serviceHistories = createEmptyResource<ServiceHistoryView>(pageSize),
+  } = useServiceHistory(makePage(0, 10), elevatorId);
+  const {data: elevator} = useElevatorById(elevatorId);
 
-  if (isLoading) {
-    return <Box>Loading...</Box>;
-  }
+  const {data: serviceOrder = createEmptyResource<ServiceOrderView>(pageSize)} =
+    useServiceOrders({
+      elevatorIds: elevatorId,
+      start: toRestDateTime(startOfDay(new Date())),
+      end: toRestDateTime(endOfMonth(new Date())),
+      pageSize: 4,
+      pageIndex: 0,
+      query: '',
+    });
 
   const tabPanel = () => {
     switch (value) {
       case 0:
         return (
           <OverviewTab
-            elevator={elevator as Elevator}
-            runningServiceOrders={runningServiceOrders}
+            elevator={elevator}
+            runningServiceOrders={serviceOrder.data}
+            selectedServiceHistory={selectedServiceHistory}
+            setSelectedServiceHistory={setSelectedServiceHistory}
+            serviceHistories={serviceHistories}
           />
         );
       case 2:
         return (
           <MaintenanceHistoryTab
-            runningServiceOrders={runningServiceOrders}
-            elevator={elevator as Elevator}
+            runningServiceOrders={serviceOrder.data}
+            selectedServiceHistory={selectedServiceHistory}
+            setSelectedServiceHistory={setSelectedServiceHistory}
+            serviceHistories={serviceHistories}
           />
         );
 
@@ -149,6 +155,7 @@ export const UnitsDetail = () => {
         >
           {tabItems.map((item, index) => (
             <Tab
+              key={`${item.label}`}
               disableRipple
               label={
                 <Box

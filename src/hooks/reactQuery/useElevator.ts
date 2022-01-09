@@ -1,9 +1,17 @@
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import getCenter from 'geolib/es/getCenter';
+import {Axios, AxiosResponse} from 'axios';
+import {axiosClient, paramsSerializer} from 'utils/axios-utils';
+import {queryKeys} from 'reactQuery/constants';
+import {ServiceOrderView} from 'models/service-order';
+import {ElevatorOrderPair, ElevatorsByAddress} from 'pages/Units/Models';
 import {
   Elevator,
+  ElevatorAvailability,
+  ElevatorAvailabilityParams,
   ElevatorCategory,
+  ElevatorMaintenanceHistoryView,
   ElevatorStatus,
   ElevatorView,
 } from '../../models/elevator';
@@ -16,6 +24,7 @@ import {
   State,
 } from '../../models/misc';
 import {createResource} from '../../utils/paging-utils';
+import {usePropertyManager} from './usePropertyManager';
 
 export const elevators: Resource<ElevatorView> = {
   data: [
@@ -424,51 +433,72 @@ export const elevators: Resource<ElevatorView> = {
   page: {pageIndex: 0, pageSize: 50},
 };
 
-export function fetchElevators(
-  query: string,
-  page: Page,
-): Promise<Resource<ElevatorView>> {
-  let {data} = elevators;
-  if (query) {
-    const tokens = query
-      .toLowerCase()
-      .split(' ')
-      .map((item) => item.trim());
-    data = elevators.data
-      .filter((e) => _.every(tokens, (token) => e.search.includes(token)))
-      .sort((a, b) => a.address.id.localeCompare(b.address.id));
-  }
-
-  const result = _.take(
-    _.drop(data, page.pageIndex * page.pageSize),
-    page.pageSize,
+export const fetchElevators = async (query: string, page: Page, id: string) => {
+  const response = await axiosClient.get<Resource<ElevatorView>>(
+    `/api/propertyOwners/${id}/elevators`,
+    {
+      params: {query, ...page},
+      paramsSerializer,
+    },
   );
-  return Promise.resolve(createResource(result, page, elevators.page.pageSize));
-}
+  return response.data;
+};
 
-export function fetchElevator(elevatorId: string): Promise<Elevator> {
-  console.log(`fetch elevator, elevator id = ${elevatorId}`);
-  const elevator: any = elevators.data.filter((e) => e.id === elevatorId)[0];
-  return Promise.resolve(elevator as Elevator);
-}
+export const fetchElevator = async (elevatorId: string) => {
+  const response = await axiosClient.get<Elevator>(
+    `/api/elevators/${elevatorId}`,
+  );
+  return response.data;
+};
+
+export const fetchElevatorBreakdownHistory = async (elevatorId: string) => {
+  const response: AxiosResponse<Resource<any>> = await axiosClient.post(
+    `/api/elevators/${elevatorId}/breakdownHistories`,
+    {
+      data: {
+        breakdownDate: '2022-01-03',
+        createdAt: '2022-01-03T16:22:56.410Z',
+        durationInMinutes: 0,
+        serviceOrderId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        status: 'REPORTED',
+      },
+    },
+  );
+  return response.data;
+};
+
+export const useElevatorById = (elevatorId?: string) =>
+  useQuery(
+    [queryKeys.elevatorById, elevatorId],
+    () => fetchElevator(elevatorId!),
+    {
+      enabled: !!elevatorId,
+    },
+  );
 
 export function useAllElevators(query: string, page: Page) {
+  const {data: user} = usePropertyManager();
   return useQuery<
     Resource<ElevatorView>,
     RestError,
     {elevator: Resource<ElevatorView>; centerCoord: Location}
-  >(['fetchAllElevators', query, page], () => fetchElevators(query, page), {
-    select: (elevatorResponse) => {
-      const latLng = elevatorResponse?.data.map((elevator) => ({
-        latitude: elevator.address.location.latitude,
-        longitude: elevator.address.location.longitude,
-      }));
-      const centerCoord = getCenter(latLng) as unknown as Location;
+  >(
+    [queryKeys.fetchAllElevators, query, page, user?.propertyOwner.id],
+    () => fetchElevators(query, page, user!.propertyOwner.id),
+    {
+      enabled: !!user,
+      select: (elevatorResponse) => {
+        const latLng = elevatorResponse?.data.map((elevator) => ({
+          latitude: elevator.address.location.latitude,
+          longitude: elevator.address.location.longitude,
+        }));
+        const centerCoord = getCenter(latLng) as unknown as Location;
 
-      return {
-        elevator: elevatorResponse,
-        centerCoord,
-      };
+        return {
+          elevator: elevatorResponse,
+          centerCoord,
+        };
+      },
     },
-  });
+  );
 }

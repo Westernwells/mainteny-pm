@@ -1,11 +1,12 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useFormik} from 'formik';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import queryString from 'query-string';
 import * as Yup from 'yup';
 
 import {ReactComponent as CheckMark} from 'assets/icons/CheckMark.svg';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {useAuth} from 'hooks/useAuth';
 import {AuthLayout} from 'components/AuthLayout';
 import {LoginForm} from './components/LoginForm';
@@ -25,6 +26,8 @@ export const Login = () => {
   const {search} = useLocation();
   const {authType} = queryString.parse(search);
   const {signin, loading} = useAuth();
+  const {user} = useUserSession();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {

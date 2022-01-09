@@ -3,36 +3,32 @@ import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 import Divider from '@mui/material/Divider';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import {ScrollableCard} from 'components/ScrollableCard';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {ReactComponent as ArrowDownward} from '../../assets/icons/ArrowDownward.svg';
 import {breakDownHistoryResource} from '../../hooks/reactQuery/useBreakdownHistory';
 import {getDay} from '../../utils/datetime';
 
+interface Props {
+  elevatorId?: string;
+}
+
 const breakdownHistory = breakDownHistoryResource.data;
 
 // TODO: we do not have the model in backend yet
-export const ElevatorBreakDownSection = () => {
+export const ElevatorBreakDownSection = ({elevatorId}: Props) => {
   const theme = useTheme();
   return (
-    <Box
-      sx={{
-        background: '#fff',
-        borderRadius: '8px',
-        height: 650,
-        pt: 2,
-        px: '20px',
-      }}
-      pt={2}
-      pb={3}
-      px={2}
-    >
-      <Box display="flex" justifyContent="space-between">
+    <ScrollableCard
+      renderIcon={() => <Elevation />}
+      addShadowToCard
+      showMoreBtn
+      renderHeaderText={() => (
         <Typography variant="h6">
           Breakdown History ({breakdownHistory.length})
         </Typography>
-        <Elevation />
-      </Box>
-
+      )}
+    >
       <Box pt={2} height="90%" sx={{overflowY: 'scroll'}}>
         {breakdownHistory.map((history) => (
           <Box
@@ -78,14 +74,7 @@ export const ElevatorBreakDownSection = () => {
             </Typography>
           </Box>
         ))}
-        <Typography
-          variant="h6"
-          textAlign="center"
-          color={theme.palette.info.main}
-        >
-          More...
-        </Typography>
       </Box>
-    </Box>
+    </ScrollableCard>
   );
 };

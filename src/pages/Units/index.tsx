@@ -1,26 +1,31 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import {ElevatorView} from 'models/elevator';
 
 import {Widget} from 'components/Widget';
 import {LogIssue} from 'pages/Units/LogIssue';
 import {useFetchServiceOrdersByElevators} from 'hooks/reactQuery/useServiceOrder';
 import Modal from '@mui/material/Modal';
-import {makePage} from 'utils/paging-utils';
+import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
 import {UnitSection} from './UnitSection';
 import {UnitsMapsView} from './UnitsMapsView';
 import {UnitColumns} from './UnitColumns';
 
 export const MyUnits = () => {
+  const fallback = useRef({
+    elevator: createEmptyResource<ElevatorView>(10),
+    centerCoord: {longitude: 0, latitude: 0},
+  }).current;
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
   const [showMapview, setShowMapview] = useState(false);
   const [modalOpen, setModalOpen] = React.useState(false);
 
-  const {data: elevatorResponse} = useAllElevators(search, page);
+  const {data: elevatorResponse = fallback} = useAllElevators(search, page);
   const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
-    elevatorResponse?.elevator,
+    elevatorResponse.elevator,
   );
 
   const onSearchTextChanged = (value: string) => {

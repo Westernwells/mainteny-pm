@@ -41,7 +41,6 @@ export const useAuth = (): UseAuth => {
         // update stored user data
         updateUser(user);
         if (location.state?.from) {
-          console.log(location.state, '>>>>>>>>>><');
           navigate(`/${location.state.from.pathname}`, {replace: true});
         } else {
           navigate('/', {replace: true});
