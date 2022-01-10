@@ -22,7 +22,6 @@ export interface ServiceHistoryProp {
   serviceHistories: Resource<ElevatorMaintenanceHistoryView>;
 }
 
-const pageSize = 50;
 export const ServiceHistory = ({
   renderIcon,
   renderHeaderText,
