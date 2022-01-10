@@ -29,7 +29,7 @@ export const ElevatorBreakDownSection = ({elevatorId}: Props) => {
       )}
     >
       <Box pt={2} height="90%" sx={{overflowY: 'scroll'}}>
-        {breakdownHistory.slice(0, 1).map((history) => (
+        {breakdownHistory.map((history) => (
           <Box
             key={history.id}
             sx={{

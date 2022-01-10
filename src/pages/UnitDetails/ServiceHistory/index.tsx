@@ -29,7 +29,6 @@ export const ServiceHistory = ({
   addShadowToCard,
   showAll,
   hideMoreDetailArrow,
-  cardHeight = '100%',
   setSelectedServiceHistory,
   selectedServiceHistory,
   serviceHistories,
@@ -37,7 +36,6 @@ export const ServiceHistory = ({
   <ScrollableCard
     renderIcon={renderIcon}
     addShadowToCard={addShadowToCard}
-    cardHeight={cardHeight}
     showMoreBtn={!showAll && serviceHistories.total > 3}
     renderHeaderText={() =>
       renderHeaderText ? (
