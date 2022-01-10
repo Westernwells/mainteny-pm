@@ -36,14 +36,13 @@ export const useAuth = (): UseAuth => {
 
       if (user?.token) {
         axiosClient.defaults.headers.common.Authorization = `Bearer ${user.token}`;
-        // show success toast
 
         // update stored user data
         updateUser(user);
         if (location.state?.from) {
           navigate(`/${location.state.from.pathname}`, {replace: true});
         } else {
-          navigate('/', {replace: true});
+          navigate('/units', {replace: true});
         }
       }
     } catch (errorResponse) {
@@ -61,10 +60,8 @@ export const useAuth = (): UseAuth => {
   };
 
   const signout = (): void => {
-    // show toast
-
-    // clear user from stored user data
     clearUser();
+    navigate('/', {replace: true}); // This resets the location state
   };
 
   // Return the user object and auth methods
