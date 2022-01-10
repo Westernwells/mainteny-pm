@@ -20,9 +20,12 @@ export const axiosClient = Axios.create({
     Accept: 'application/json',
     'Content-Type': 'application/json',
     source: 'WEB',
-    ...header,
+    // ...header,
   },
 });
+if (user) {
+  axiosClient.defaults.headers.common.Authorization = `Bearer ${user.token}`;
+}
 
 export const paramsSerializer = (parameters: {[key: string]: any}) => {
   const items = Object.keys(parameters).map((key) => {
