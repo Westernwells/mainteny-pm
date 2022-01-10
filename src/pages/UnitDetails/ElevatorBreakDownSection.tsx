@@ -21,7 +21,6 @@ export const ElevatorBreakDownSection = ({elevatorId}: Props) => {
   return (
     <ScrollableCard
       renderIcon={() => <Elevation />}
-      addShadowToCard
       showMoreBtn
       renderHeaderText={() => (
         <Typography variant="h6">
@@ -30,7 +29,7 @@ export const ElevatorBreakDownSection = ({elevatorId}: Props) => {
       )}
     >
       <Box pt={2} height="90%" sx={{overflowY: 'scroll'}}>
-        {breakdownHistory.map((history) => (
+        {breakdownHistory.slice(0, 1).map((history) => (
           <Box
             key={history.id}
             sx={{

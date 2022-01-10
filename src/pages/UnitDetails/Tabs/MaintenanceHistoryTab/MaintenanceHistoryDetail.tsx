@@ -91,7 +91,6 @@ export const MaintenanceHistoryDetail = ({
       ) : (
         <>
           <Box display="flex" justifyContent="space-between" mt={6} ml={2}>
-            {console.log(selectedServiceHistory, '<_______++++++++++++++')}
             <Box display="flex">
               <Typography variant="h6" mr={2}>
                 {getDay(selectedServiceHistory.createdAt, 'dd MMM YYY')}

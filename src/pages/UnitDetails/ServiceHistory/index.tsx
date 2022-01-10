@@ -1,14 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {useParams} from 'react-router-dom';
 
 import * as _ from 'lodash';
-import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {Resource} from 'models/misc';
-import {useServiceHistory} from 'hooks/reactQuery/useServiceHistory';
+import {EmptyItem} from 'components/EmptyItem';
 
-import {Elevator, ElevatorMaintenanceHistoryView} from 'models/elevator';
+import {ElevatorMaintenanceHistoryView} from 'models/elevator';
 import {ScrollableCard} from 'components/ScrollableCard';
 import {HistoryCard} from './HistoryCard';
 
@@ -51,25 +49,29 @@ export const ServiceHistory = ({
       )
     }
   >
-    {serviceHistories.data
-      .slice(0, !showAll ? 3 : undefined)
-      .map((history, index) => (
-        <Box
-          key={history.id}
-          mb={1}
-          sx={{cursor: hideMoreDetailArrow ? 'pointer' : 'default'}}
-          onClick={() => setSelectedServiceHistory(history)}
-        >
-          <HistoryCard
+    {serviceHistories.total ? (
+      serviceHistories.data
+        .slice(0, !showAll ? 3 : undefined)
+        .map((history, index) => (
+          <Box
             key={history.id}
-            serviceHistory={history}
-            running={!!(index === 0)}
-            hideMoreDetailArrow={hideMoreDetailArrow}
-            active={
-              selectedServiceHistory?.id === history.id && hideMoreDetailArrow
-            }
-          />
-        </Box>
-      ))}
+            mb={1}
+            sx={{cursor: hideMoreDetailArrow ? 'pointer' : 'default'}}
+            onClick={() => setSelectedServiceHistory(history)}
+          >
+            <HistoryCard
+              key={history.id}
+              serviceHistory={history}
+              running={!!(index === 0)}
+              hideMoreDetailArrow={hideMoreDetailArrow}
+              active={
+                selectedServiceHistory?.id === history.id && hideMoreDetailArrow
+              }
+            />
+          </Box>
+        ))
+    ) : (
+      <EmptyItem label="No service history for this elevator" />
+    )}
   </ScrollableCard>
 );
