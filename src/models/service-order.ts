@@ -95,6 +95,7 @@ export interface ServiceOrderView {
   lastVisitDate: string;
   expectedVisitDate: string;
   actualStartTime?: string;
+  actualEndTime?: string;
   dueDate: string;
   serviceTime?: number;
   schedules: ServiceOrderScheduleSimpleView[];

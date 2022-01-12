@@ -17,7 +17,8 @@ export interface ServiceHistoryProp {
   showAll?: boolean;
   hideMoreDetailArrow?: boolean;
   cardHeight?: number | string;
-  setSelectedServiceHistory: (state: ElevatorMaintenanceHistoryView) => void;
+  contentHeight?: number | string;
+  setSelectedServiceHistory?: (state: ElevatorMaintenanceHistoryView) => void;
   selectedServiceHistory?: ElevatorMaintenanceHistoryView;
   serviceHistories: Resource<ElevatorMaintenanceHistoryView>;
 }
@@ -31,10 +32,14 @@ export const ServiceHistory = ({
   setSelectedServiceHistory,
   selectedServiceHistory,
   serviceHistories,
+  cardHeight,
+  contentHeight,
 }: ServiceHistoryProp) => (
   <ScrollableCard
     renderIcon={renderIcon}
     addShadowToCard={addShadowToCard}
+    cardHeight={cardHeight}
+    contentHeight={contentHeight}
     showMoreBtn={!showAll && serviceHistories.total > 3}
     renderHeaderText={() =>
       renderHeaderText ? (
@@ -54,7 +59,11 @@ export const ServiceHistory = ({
             key={history.id}
             mb={1}
             sx={{cursor: hideMoreDetailArrow ? 'pointer' : 'default'}}
-            onClick={() => setSelectedServiceHistory(history)}
+            onClick={() =>
+              setSelectedServiceHistory
+                ? setSelectedServiceHistory(history)
+                : () => {}
+            }
           >
             <HistoryCard
               key={history.id}

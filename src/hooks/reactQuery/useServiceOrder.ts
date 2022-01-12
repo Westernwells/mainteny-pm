@@ -97,7 +97,7 @@ export const useFetchElevatorAvailability = (elevatorIds: string[]) => {
 export function useServiceOrders(params: any) {
   const {data: user} = usePropertyManager();
   return useQuery<Resource<ServiceOrderView>, RestError>(
-    queryKeys.fetchServiceOrders,
+    [queryKeys.fetchServiceOrders, params],
     () => fetchServiceOrders(params, user!.propertyOwner.id),
     {enabled: !!user && !!params.elevatorIds},
   );

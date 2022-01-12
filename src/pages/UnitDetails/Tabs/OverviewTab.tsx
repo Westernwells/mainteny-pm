@@ -10,16 +10,12 @@ import {ServiceHistory} from '../ServiceHistory';
 import {TechnicianSection} from '../TechnicianSection';
 
 interface Props {
-  setSelectedServiceHistory: (state: ElevatorMaintenanceHistoryView) => void;
-  selectedServiceHistory?: ElevatorMaintenanceHistoryView;
   serviceHistories: Resource<ElevatorMaintenanceHistoryView>;
   elevator?: Elevator;
   runningServiceOrders: ServiceOrderView[];
 }
 
 export const OverviewTab = ({
-  setSelectedServiceHistory,
-  selectedServiceHistory,
   serviceHistories,
   elevator,
   runningServiceOrders,
@@ -43,8 +39,6 @@ export const OverviewTab = ({
     <Grid container spacing={2} sx={{mt: 2}}>
       <Grid item xs={6}>
         <ServiceHistory
-          setSelectedServiceHistory={setSelectedServiceHistory}
-          selectedServiceHistory={selectedServiceHistory}
           serviceHistories={serviceHistories}
           renderIcon={() => <Elevation />}
         />

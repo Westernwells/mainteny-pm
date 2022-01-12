@@ -25,6 +25,7 @@ import {useElevatorById} from 'hooks/reactQuery/useElevator';
 import {useServiceOrders} from '../../hooks/reactQuery/useServiceOrder';
 import {OverviewTab} from './Tabs/OverviewTab';
 import {MaintenanceHistoryTab} from './Tabs/MaintenanceHistoryTab';
+import {IssueHistory} from './Tabs/IssueHistory';
 
 const pageSize = 10;
 
@@ -62,7 +63,7 @@ const tabItems = [
     icon: <EngineeringOutlinedIcon />,
   },
   {
-    label: 'Breakdown History',
+    label: 'Issue History',
     icon: <GridOffIcon />,
   },
   {
@@ -113,8 +114,6 @@ export const UnitsDetail = () => {
           <OverviewTab
             elevator={elevator}
             runningServiceOrders={serviceOrder.data}
-            selectedServiceHistory={selectedServiceHistory}
-            setSelectedServiceHistory={setSelectedServiceHistory}
             serviceHistories={serviceHistories}
           />
         );
@@ -127,6 +126,9 @@ export const UnitsDetail = () => {
             serviceHistories={serviceHistories}
           />
         );
+
+      case 3:
+        return <IssueHistory />;
 
       default:
         return null;

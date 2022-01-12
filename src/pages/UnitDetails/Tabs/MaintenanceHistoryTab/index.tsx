@@ -29,7 +29,8 @@ export const MaintenanceHistoryTab = ({
         hideMoreDetailArrow
         addShadowToCard
         showAll
-        cardHeight={710}
+        cardHeight={700}
+        contentHeight="67vh"
         renderIcon={() => <MoreVertIcon />}
         renderHeaderText={(historyTotal: number) => (
           <Typography variant="largeBtnText" color="textSecondary">

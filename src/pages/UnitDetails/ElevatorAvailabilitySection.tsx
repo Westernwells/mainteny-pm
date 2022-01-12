@@ -19,7 +19,7 @@ import {
 import {Bar} from 'react-chartjs-2';
 
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
-import {SplitButton} from '../../components/BtnGroup';
+import {SplitButton} from '../../components/SplitButton';
 import {getDay} from '../../utils/datetime';
 
 ChartJS.register(

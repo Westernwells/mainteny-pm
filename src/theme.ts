@@ -42,6 +42,8 @@ export const theme = createTheme({
       main: '#2196F3',
       dark: '#0B79D0',
       outlinedHoverBg: 'rgba(33, 150, 243, 0.08)',
+      infoAlert:
+        'linear-gradient(0deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), #2196F3',
       contrastText: '#FFFFFF',
     },
     warning: {

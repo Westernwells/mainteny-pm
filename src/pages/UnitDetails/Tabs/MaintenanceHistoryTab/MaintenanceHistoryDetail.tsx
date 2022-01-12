@@ -9,8 +9,9 @@ import useTheme from '@mui/material/styles/useTheme';
 import Divider from '@mui/material/Divider';
 import {ScrollableCard} from 'components/ScrollableCard';
 import {ElevatorMaintenanceHistoryView} from 'models/elevator';
-import {EmptyDetails} from './EmptyDetails';
+import {EmptyIllustration} from '../../../../components/EmptyIllustration';
 
+// TODO: create sub components
 interface Props {
   runningServiceOrders: ServiceOrderView[];
   selectedServiceHistory?: ElevatorMaintenanceHistoryView;
@@ -75,7 +76,7 @@ export const MaintenanceHistoryDetail = ({
     <ScrollableCard
       renderIcon={() => <MoreVertIcon />}
       addShadowToCard
-      cardHeight={710}
+      cardHeight={700}
       disableScroll
       renderHeaderText={() => (
         <Typography variant="h5">Maintenance Details</Typography>
@@ -83,10 +84,7 @@ export const MaintenanceHistoryDetail = ({
     >
       {!selectedServiceHistory ? (
         <Box display="flex" flexDirection="column" alignItems="center" mt={3}>
-          <EmptyDetails />
-          <Typography variant="h5">
-            Please select a maintenance to see details!
-          </Typography>
+          <EmptyIllustration label="Please select a maintenance to see details!" />
         </Box>
       ) : (
         <>
@@ -137,7 +135,7 @@ export const MaintenanceHistoryDetail = ({
               variant="body1"
               color="primary"
               sx={{
-                background: '#F7F9FC',
+                background: theme.palette.inputBackground.main,
                 mt: 2,
                 pt: 3,
                 pl: 2,

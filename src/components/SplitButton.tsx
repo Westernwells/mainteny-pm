@@ -13,12 +13,18 @@ interface Props {
   options: string[];
   selectedOption: string;
   onSelectedOptionChanged: (option: string) => void;
+  variant?: 'text' | 'contained' | 'outlined' | undefined;
+  selectionStyle?: {[key: string]: string | number};
+  disableRipple?: boolean;
 }
 
 export const SplitButton = ({
   options,
   selectedOption,
   onSelectedOptionChanged,
+  variant,
+  selectionStyle,
+  disableRipple,
 }: Props) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
@@ -51,11 +57,17 @@ export const SplitButton = ({
   return (
     <React.Fragment>
       <ButtonGroup
-        variant="contained"
+        variant={variant || 'contained'}
         ref={anchorRef}
         aria-label="split button"
       >
-        <Button onClick={handleClick}>{selectedOption}</Button>
+        <Button
+          disableRipple={disableRipple}
+          onClick={handleClick}
+          sx={{...(selectionStyle || null)}}
+        >
+          {selectedOption}
+        </Button>
         <Button
           size="small"
           aria-controls={open ? 'split-button-menu' : undefined}
