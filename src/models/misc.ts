@@ -162,6 +162,11 @@ export interface DateRange {
   end: Date;
 }
 
+export interface Fee {
+  amount: number;
+  currency: string;
+}
+
 export enum Priority {
   A = 'A',
   B = 'B',

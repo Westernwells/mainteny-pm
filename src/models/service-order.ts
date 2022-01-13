@@ -3,9 +3,9 @@ import {
   ServiceCompanySimpleView,
   ServiceCompanyView,
 } from './service-company';
-import {Elevator, ElevatorSimpleView} from './elevator';
+import {AttachmentResource, Elevator, ElevatorSimpleView} from './elevator';
 import {Contract, ContractSimpleView} from './contract';
-import {JobStatus, Meta, Priority} from './misc';
+import {Fee, JobStatus, Meta, Priority} from './misc';
 import {Technician, TechnicianSimpleView} from './technician';
 import {UserAccount} from './user';
 
@@ -230,4 +230,16 @@ export interface ServiceOrderSummary {
   numberOfUpcomingOrders: string;
   overDueOrderStartDate?: string;
   upcomingOrderEndDate?: string;
+}
+
+export interface ServiceOrderReport {
+  id: string;
+  elevator: ElevatorSimpleView;
+  description: string;
+  attachments: AttachmentResource[];
+  technician: TechnicianSimpleView;
+  createdAt: number;
+  actualServiceTime: number;
+  serviceOrderId: string;
+  fee: Fee;
 }

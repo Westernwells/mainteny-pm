@@ -1,8 +1,13 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import useTheme from '@mui/material/styles/useTheme';
+import {ServiceOrderReport} from 'models/service-order';
 
-const ServiceDone = () => {
+interface Props {
+  serviceOrderReports?: ServiceOrderReport[];
+}
+
+const ServiceDone = ({serviceOrderReports}: Props) => {
   const theme = useTheme();
   return (
     <Box>
@@ -24,8 +29,9 @@ const ServiceDone = () => {
 
       <Box pl={2} py={4}>
         <Typography variant="subtitle1">
-          Checked the inner shaft of the elevator engine door. The ends have
-          broken loose
+          {serviceOrderReports && serviceOrderReports.length
+            ? serviceOrderReports[0].description
+            : 'No report yet'}
         </Typography>
       </Box>
     </Box>

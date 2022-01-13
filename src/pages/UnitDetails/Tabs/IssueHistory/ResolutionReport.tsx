@@ -5,4 +5,4 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const ResoltutionReport = ({children}: Props) => <Box>{children}</Box>;
+export const ResolutionReport = ({children}: Props) => <Box>{children}</Box>;

@@ -7,7 +7,7 @@ import {addDays, endOfMonth, startOfMonth} from 'date-fns';
 import {queryKeys} from 'reactQuery/constants';
 import {ServiceCompanyTimeUnit} from 'models/service-company';
 import {toRestDate, toRestDateTime} from 'utils/datetime';
-import {ServiceOrderView} from '../../models/service-order';
+import {ServiceOrderReport, ServiceOrderView} from '../../models/service-order';
 import {Resource, RestError} from '../../models/misc';
 import {
   ElevatorAvailability,
@@ -16,6 +16,10 @@ import {
 } from '../../models/elevator';
 import {ElevatorOrderPair, ElevatorsByAddress} from '../../pages/Units/Models';
 import {usePropertyManager} from './usePropertyManager';
+
+interface ServiceOrderReportPayload {
+  serviceOrderId: string | string[];
+}
 
 export const fetchServiceOrders = async (
   params: any,
@@ -29,6 +33,19 @@ export const fetchServiceOrders = async (
         paramsSerializer,
       },
     );
+  return response.data;
+};
+
+export const fetchServiceOrderReport = async (
+  params: ServiceOrderReportPayload,
+) => {
+  const response = await axiosClient.get<ServiceOrderReport[]>(
+    `/api/serviceOrders/reports`,
+    {
+      params,
+      paramsSerializer,
+    },
+  );
   return response.data;
 };
 
@@ -93,6 +110,14 @@ export const useFetchElevatorAvailability = (elevatorIds: string[]) => {
     },
   );
 };
+
+export function useServiceOrderReport(params?: ServiceOrderReportPayload) {
+  return useQuery<ServiceOrderReport[], RestError>(
+    [queryKeys.fetchServiceOrderReport, params],
+    () => fetchServiceOrderReport(params as ServiceOrderReportPayload),
+    {enabled: !!params && !!params.serviceOrderId.length},
+  );
+}
 
 export function useServiceOrders(params: any) {
   const {data: user} = usePropertyManager();

@@ -165,3 +165,9 @@ export interface ElevatorAvailabilityAdditionalProps {
 export interface ElevatorAvailability {
   [key: string]: ElevatorAvailabilityAdditionalProps;
 }
+
+export interface AttachmentResource {
+  id: string;
+  elevatorMaintenanceHistoryId: string;
+  fileResource: FileResource;
+}

@@ -1,25 +1,39 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import useTheme from '@mui/material/styles/useTheme';
+import {ServiceOrderReport} from 'models/service-order';
 
 const fields = ['Technician', 'Cost', 'Duration'];
 
-export const AdditionalDetails = () => {
+interface Props {
+  serviceOrderReports?: ServiceOrderReport[];
+}
+
+export const AdditionalDetails = ({serviceOrderReports}: Props) => {
   const theme = useTheme();
+  const serviceTime =
+    serviceOrderReports && serviceOrderReports.length
+      ? serviceOrderReports[0].actualServiceTime / 60
+      : null;
 
   const renderFieldValue = (field: string) => {
     switch (field) {
       case 'Technician':
         return (
           <Typography variant="largeBtnText" mr={2}>
-            Chris Anderson
+            {serviceOrderReports && serviceOrderReports.length
+              ? `${serviceOrderReports[0].technician.userAccount.firstName} ${serviceOrderReports[0].technician.userAccount.firstName}`
+              : null}
           </Typography>
         );
 
       case 'Duration':
         return (
           <Typography variant="largeBtnText" mr={2}>
-            45 min
+            {serviceTime
+              ? `${Math.floor(serviceTime)}h
+           ${Math.floor((serviceTime - Math.floor(serviceTime)) * 60)}m`
+              : null}
           </Typography>
         );
 
@@ -27,7 +41,9 @@ export const AdditionalDetails = () => {
         return (
           <>
             <Typography variant="largeBtnText" mr={2}>
-              400 EUR
+              {serviceOrderReports && serviceOrderReports.length
+                ? `${serviceOrderReports[0].fee.amount}${serviceOrderReports[0].fee.currency}`
+                : null}
             </Typography>
             <Typography
               variant="subtitle1"
@@ -62,7 +78,7 @@ export const AdditionalDetails = () => {
 
       <Box width="30vw" ml={15} mt={3}>
         {fields.map((field) => (
-          <Box display="flex">
+          <Box key={field} display="flex">
             <Typography
               variant="largeBtnText"
               mr={1}

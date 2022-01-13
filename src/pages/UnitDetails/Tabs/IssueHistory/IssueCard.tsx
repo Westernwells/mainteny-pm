@@ -27,7 +27,6 @@ export const IssueCard = ({serviceOrder, selectedIssueHistory}: Props) => {
     ? toDate(serviceOrder.actualEndTime)
     : new Date();
   const diffInHrs = differenceInMinutes(endTime, startTime) / 60;
-  console.log(startTime, endTime, diffInHrs, '..........');
   return (
     <CustomCard
       containerStyles={{

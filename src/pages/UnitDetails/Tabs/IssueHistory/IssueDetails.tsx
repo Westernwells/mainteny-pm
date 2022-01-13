@@ -7,11 +7,12 @@ import {ServiceOrderStatus, ServiceOrderView} from 'models/service-order';
 import {ScrollableCard} from 'components/ScrollableCard';
 import {EmptyIllustration} from 'components/EmptyIllustration';
 import {SyntheticEvent, useState} from 'react';
+import {useServiceOrderReport} from 'hooks/reactQuery/useServiceOrder';
 import {IssueOverview} from './IssueOverview';
 import {IssueInfo} from './IssueInfo';
 import {UnitInfo} from './UnitInfo';
 import {IssueAlert} from './IssueAlert';
-import {ResoltutionReport} from './ResolutionReport';
+import {ResolutionReport} from './ResolutionReport';
 import ServiceDone from './ServiceDone';
 import {AdditionalDetails} from './AdditionalDetails';
 
@@ -21,6 +22,10 @@ interface Props {
 
 export const IssueDetails = ({selectedIssueHistory}: Props) => {
   const [value, setValue] = useState(0);
+  const {data: serviceOrderReports} = useServiceOrderReport(
+    selectedIssueHistory && {serviceOrderId: selectedIssueHistory?.id},
+  );
+  console.log(serviceOrderReports, '.......................>>>>>>>>>>>>');
 
   return (
     <ScrollableCard
@@ -60,10 +65,10 @@ export const IssueDetails = ({selectedIssueHistory}: Props) => {
               </IssueOverview>
             </>
           ) : (
-            <ResoltutionReport>
-              <ServiceDone />
-              <AdditionalDetails />
-            </ResoltutionReport>
+            <ResolutionReport>
+              <ServiceDone serviceOrderReports={serviceOrderReports} />
+              <AdditionalDetails serviceOrderReports={serviceOrderReports} />
+            </ResolutionReport>
           )}
         </>
       )}
