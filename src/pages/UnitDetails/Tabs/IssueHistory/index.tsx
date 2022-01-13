@@ -9,7 +9,7 @@ import {ServiceOrderStatus, ServiceOrderView} from 'models/service-order';
 import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
 import {ScrollableCard} from 'components/ScrollableCard';
 import {SplitButton} from 'components/SplitButton';
-import {endOfMonth, startOfYear} from 'date-fns';
+import {endOfMonth, startOfYear, endOfYear} from 'date-fns';
 import {createEmptyResource} from 'utils/paging-utils';
 import {toRestDateTime} from 'utils/datetime';
 import {IssueDetails} from './IssueDetails';
@@ -19,8 +19,8 @@ const pageSize = 10;
 
 export const IssueHistory = () => {
   const theme = useTheme();
-  const [year, setYear] = useState('2020');
-  const [status, setStatus] = useState('All');
+  const [year, setYear] = useState('2022');
+  const [status, setStatus] = useState('ALL');
   const {id: elevatorId} = useParams();
   const [selectedIssueHistory, setSelectedIssueHistory] =
     useState<ServiceOrderView>();
@@ -28,11 +28,15 @@ export const IssueHistory = () => {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
     elevatorIds: elevatorId,
-    start: toRestDateTime(startOfYear(new Date())),
-    end: toRestDateTime(endOfMonth(new Date())),
+    start: toRestDateTime(startOfYear(new Date(year))),
+    end: toRestDateTime(endOfYear(new Date(year))),
     pageSize,
     pageIndex: 0,
     query: '',
+    status:
+      status.toUpperCase() === ServiceOrderStatus.ALL
+        ? []
+        : [status.toUpperCase().split(' ').join('_')],
   });
 
   return (
@@ -67,14 +71,10 @@ export const IssueHistory = () => {
                   variant="outlined"
                   disableRipple
                   selectionStyle={{background: '#fff', cursor: 'default'}}
-                  selectedOption={`Status: ${status}`}
-                  options={Object.keys(ServiceOrderStatus).map((item) => {
-                    const serviceOrderStatus = item.split('_').join(' ');
-                    return (
-                      serviceOrderStatus.charAt(0) +
-                      serviceOrderStatus.slice(1).toLowerCase()
-                    );
-                  })}
+                  selectedOption={`Status: ${status.toLowerCase()}`}
+                  options={Object.keys(ServiceOrderStatus).map((item) =>
+                    item.split('_').join(' ').toLowerCase(),
+                  )}
                   onSelectedOptionChanged={(value) => setStatus(value)}
                 />
               </Box>
@@ -82,19 +82,25 @@ export const IssueHistory = () => {
           )}
           renderIcon={() => <MoreVertIcon />}
         >
-          {serviceOrders?.data.map((serviceOrder) => (
-            <Box
-              mt={3}
-              key={serviceOrder.id}
-              onClick={() => setSelectedIssueHistory(serviceOrder)}
-              sx={{}}
-            >
-              <IssueCard
-                serviceOrder={serviceOrder}
-                selectedIssueHistory={selectedIssueHistory}
-              />
+          {serviceOrders?.data.length ? (
+            serviceOrders?.data.map((serviceOrder) => (
+              <Box
+                mt={3}
+                key={serviceOrder.id}
+                onClick={() => setSelectedIssueHistory(serviceOrder)}
+                sx={{}}
+              >
+                <IssueCard
+                  serviceOrder={serviceOrder}
+                  selectedIssueHistory={selectedIssueHistory}
+                />
+              </Box>
+            ))
+          ) : (
+            <Box>
+              <Typography>No Issue history</Typography>
             </Box>
-          ))}
+          )}
         </ScrollableCard>
       </Grid>
 

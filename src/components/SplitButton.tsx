@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
+import Typography from '@mui/material/Typography';
 
 interface Props {
   options: string[];
@@ -66,7 +67,10 @@ export const SplitButton = ({
           onClick={handleClick}
           sx={{...(selectionStyle || null)}}
         >
-          {selectedOption}
+          <Typography sx={{textTransform: 'capitalize'}}>
+            {' '}
+            {selectedOption}
+          </Typography>
         </Button>
         <Button
           size="small"
@@ -105,7 +109,10 @@ export const SplitButton = ({
                         handleMenuItemClick(event, options[index])
                       }
                     >
-                      {option}
+                      <Typography sx={{textTransform: 'capitalize'}}>
+                        {' '}
+                        {option}
+                      </Typography>
                     </MenuItem>
                   ))}
                 </MenuList>
