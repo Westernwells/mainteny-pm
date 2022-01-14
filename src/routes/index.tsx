@@ -1,6 +1,7 @@
 import {PageLayout} from 'components/PageLayout';
 import {Contracts} from 'pages/Contracts';
 import {Invoices} from 'pages/Invoices';
+import {InvoiceDetails} from 'pages/InvoiceDetails';
 import {Login} from 'pages/Login';
 import {Notifications} from 'pages/Notifications';
 import {PasswordReset} from 'pages/PasswordReset';
@@ -59,6 +60,15 @@ export const Router = () => (
         element={
           <PageLayout>
             <Invoices />
+          </PageLayout>
+        }
+      />
+
+      <Route
+        path="/invoices/:id"
+        element={
+          <PageLayout excludeDefaultSpacing>
+            <InvoiceDetails />
           </PageLayout>
         }
       />
