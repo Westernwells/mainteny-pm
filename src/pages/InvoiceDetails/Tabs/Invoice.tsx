@@ -15,7 +15,7 @@ export const Invoice = () => (
       justifyContent: 'center',
     }}
   >
-    <form method="get" action="/pm/InvoiceSample.pdf">
+    <form method="get" action="/pm/INV000128.pdf">
       <Button
         variant="contained"
         size="large"
@@ -35,7 +35,7 @@ export const Invoice = () => (
       }}
     >
       {' '}
-      <Document file="/pm/InvoiceSample.pdf">
+      <Document file="/pm/INV000128.pdf">
         <Page pageNumber={1} />
       </Document>
     </Box>
