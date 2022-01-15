@@ -4,12 +4,10 @@ import Box from '@mui/system/Box';
 
 export const ContractHeader = () => (
   <Box
-    // display="flex"
     sx={{
       backgroundColor: '#fff',
       paddingTop: 1,
       paddingBottom: 1,
-      // paddingLeft: '15px',
       boxShadow: '0px 0px 0px 1px #E0E0E0',
       borderRadius: '4px',
     }}
@@ -20,7 +18,7 @@ export const ContractHeader = () => (
       </Grid>
 
       <Grid item xs={2}>
-        <Typography variant="subtitle2">CONTRACT NUMBER</Typography>
+        <Typography variant="subtitle2">CONTRACT NO</Typography>
       </Grid>
 
       <Grid item xs={1}>

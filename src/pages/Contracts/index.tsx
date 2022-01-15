@@ -1,14 +1,14 @@
-import {useRef, useState} from 'react';
+import {useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import {
-  useFetchContractsElevatorMap,
+  useContractElevatorCount,
   useQueryContract,
 } from '../../hooks/reactQuery/useContract';
-import {ContractView} from '../../models/contract';
+import {ContractOrderField, ContractView} from '../../models/contract';
 import {ElevatorView} from '../../models/elevator';
-import {BtnGroupType, Resource} from '../../models/misc';
+import {BtnGroupType, Order, Resource} from '../../models/misc';
 import {createEmptyResource, makePage} from '../../utils/paging-utils';
 import {ContractHeader} from './ContractHeader';
 import {ContractRow} from './ContractRow';
@@ -22,14 +22,19 @@ interface ContractRecord {
 
 export const Contracts = () => {
   const [search, setSearch] = useState('');
-  const fallback = useRef<Resource<ContractRecord>>(
-    createEmptyResource(10),
-  ).current;
   const [page, setPage] = useState(makePage(0, pageSize));
+  const {data: contractResource = createEmptyResource<ContractView>(10)} =
+    useQueryContract({
+      order: Order.DESC,
+      orderBy: ContractOrderField.CREATED_TIME,
+      pageIndex: page.pageIndex,
+      pageSize: page.pageSize,
+      query: search,
+    });
 
-  const {data: contracts} = useQueryContract(search, page);
-  const {data: contractResource = fallback, isLoading} =
-    useFetchContractsElevatorMap(contracts);
+  const {data: contractWithUnits} = useContractElevatorCount(
+    contractResource.data,
+  );
 
   return (
     <Box>
@@ -48,12 +53,8 @@ export const Contracts = () => {
       <Box>
         <ContractHeader />
         <Box sx={{height: '73vh', overflowY: 'scroll', paddingBottom: '1rem'}}>
-          {contractResource.data.map((record, index) => (
-            <ContractRow
-              key={record.contract.id}
-              contract={record}
-              index={index}
-            />
+          {contractWithUnits?.map((contract, index) => (
+            <ContractRow key={contract.id} contract={contract} />
           ))}
         </Box>
       </Box>

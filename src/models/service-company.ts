@@ -37,6 +37,7 @@ export interface ServiceCompanyView {
   id: string;
   name: string;
   language: Language;
+  contact: CompanyContact;
   meta: Meta;
 }
 

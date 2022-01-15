@@ -15,6 +15,7 @@ export interface Props {
   containerStyles?: {[key: string | number]: string | number};
   headerStyles?: {[key: string | number]: string | number};
   showMoreBtn?: boolean;
+  minHeight?: number | string;
 }
 
 export const ScrollableCard = ({
@@ -28,6 +29,7 @@ export const ScrollableCard = ({
   containerStyles,
   headerStyles,
   showMoreBtn,
+  minHeight,
 }: Props) => {
   const theme = useTheme();
   return (
@@ -35,7 +37,8 @@ export const ScrollableCard = ({
       sx={{
         background: '#fff',
         borderRadius: '8px',
-        height: cardHeight,
+        // height: cardHeight,
+        minHeight,
         boxShadow: addShadowToCard
           ? '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12)'
           : null,

@@ -58,6 +58,7 @@ export const theme = createTheme({
       main: '#00D68F',
       dark: '#00A361',
       contrastText: '#FFFFFF',
+      outlinedHoverBg: 'rgba(97, 255, 192, 0.08)',
     },
     background: {
       default: '#F2F6F8',

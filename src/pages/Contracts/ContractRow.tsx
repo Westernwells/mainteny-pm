@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import useTheme from '@mui/material/styles/useTheme';
 import * as _ from 'lodash';
+import {useNavigate} from 'react-router-dom';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
 import {getDay} from '../../utils/datetime';
@@ -16,14 +17,15 @@ interface ContractRecord {
 }
 
 export interface Props {
-  contract: ContractRecord;
-  index: number; // to mock the contract number
+  contract: ContractView;
 }
 
-export const ContractRow = ({contract, index}: Props) => {
+export const ContractRow = ({contract}: Props) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <Box
+      onClick={() => navigate(contract.id)}
       sx={{
         backgroundColor: '#FAFAFA',
         border: '1px solid #E4E9F2',
@@ -34,22 +36,20 @@ export const ContractRow = ({contract, index}: Props) => {
       }}
     >
       <Grid container sx={{pl: 2}}>
-        <Grid item xs={3}>
+        <Grid item xs={3} sx={{cursor: 'pointer'}}>
           <Typography variant="subtitle2">
-            {contract.contract.serviceCompany.name}
+            {contract.serviceCompany.name}
           </Typography>
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="subtitle2">
-            CNT000{_.padStart(`${120 + index + 1}`, 3, '0')}
-          </Typography>
+          <Typography variant="subtitle2">{contract.number}</Typography>
         </Grid>
 
         <Grid item xs={1}>
           <Box display="flex" justifyContent="center">
             <Typography variant="subtitle2">
-              {contract.elevators.length}
+              {contract.units ? contract.units : 0}
             </Typography>
           </Box>
         </Grid>
@@ -57,7 +57,10 @@ export const ContractRow = ({contract, index}: Props) => {
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center">
             <Typography variant="subtitle2">
-              {contract.elevators.length * 800} EUR
+              {contract.price.toLocaleString('en-US', {
+                style: 'currency',
+                currency: contract.currency,
+              })}
             </Typography>
           </Box>
         </Grid>
@@ -65,7 +68,7 @@ export const ContractRow = ({contract, index}: Props) => {
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center">
             <Typography variant="subtitle2">
-              {getDay(contract.contract.endTime)}
+              {getDay(contract.endTime)}
             </Typography>
           </Box>
         </Grid>

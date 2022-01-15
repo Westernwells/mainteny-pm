@@ -10,4 +10,5 @@ export const queryKeys = {
   fetchElevatorAvailability: 'fetchElevatorAvailability',
   elevatorById: 'elevatorById',
   fetchServiceOrderReport: 'fetchServiceOrderReport',
+  fetchContractElevatorCount: 'fetchContractElevatorCount',
 };

@@ -25,7 +25,6 @@ export const IssueDetails = ({selectedIssueHistory}: Props) => {
   const {data: serviceOrderReports} = useServiceOrderReport(
     selectedIssueHistory && {serviceOrderId: selectedIssueHistory?.id},
   );
-  console.log(serviceOrderReports, '.......................>>>>>>>>>>>>');
 
   return (
     <ScrollableCard

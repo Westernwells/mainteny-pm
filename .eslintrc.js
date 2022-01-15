@@ -39,6 +39,7 @@ module.exports = {
     ],
     'import/extensions': 'off',
     'arrow-body-style': 1,
+    'no-nested-ternary': 0,
   },
   settings: {
     react: {

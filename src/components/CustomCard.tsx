@@ -5,10 +5,10 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import GridOffIcon from '@mui/icons-material/GridOff';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
 import Divider from '@mui/material/Divider';
-import {ReactChild} from 'react';
+import {ReactChild, ReactNode} from 'react';
 
 interface Props {
-  children: ReactChild;
+  children: ReactNode;
   containerStyles?: {[key: string]: string | number | undefined};
   handleClick?: () => void;
 }

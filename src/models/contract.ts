@@ -1,6 +1,6 @@
-import {Client, ClientSimpleView} from './client';
-import {ServiceCompany, ServiceCompanySimpleView} from './service-company';
-import {Meta, TimeWindowRecord, TimeWindowType} from './misc';
+import {Client, ClientView} from './client';
+import {ServiceCompany, ServiceCompanyView} from './service-company';
+import {Meta, Order, TimeWindowRecord, TimeWindowType} from './misc';
 import {Elevator, ElevatorView} from './elevator';
 
 export enum ContractStatus {
@@ -53,12 +53,22 @@ export interface Contract {
   meta: Meta;
 }
 
+export interface QueryContractParams {
+  order?: Order;
+  orderBy?: ContractOrderField;
+  pageIndex?: number;
+  pageSize?: number;
+  query?: string;
+  status?: string[];
+}
+
 export interface ContractView {
   id: string;
-  propertyOwner: ClientSimpleView;
-  serviceCompany: ServiceCompanySimpleView;
+  propertyOwner: ClientView;
+  serviceCompany: ServiceCompanyView;
   type: ContractType;
   visitsNumber: number;
+  number: number;
 
   sla: number;
   spendingLimit: number;
@@ -68,6 +78,7 @@ export interface ContractView {
   currency: string;
   startTime: string;
   endTime: string;
+  units?: number;
 
   status: ContractStatus;
   search: string;

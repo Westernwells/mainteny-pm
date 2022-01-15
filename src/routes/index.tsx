@@ -5,6 +5,7 @@ import {Login} from 'pages/Login';
 import {Notifications} from 'pages/Notifications';
 import {PasswordReset} from 'pages/PasswordReset';
 import {UnitsDetail} from 'pages/UnitDetails';
+import {ContractDetails} from 'pages/Contracts/ContractDetails';
 import {MyUnits} from 'pages/Units';
 import {ProtectedRoutes} from 'routes/ProtectedRoutes';
 import {Navigate, Route, Routes} from 'react-router-dom';
@@ -40,6 +41,15 @@ export const Router = () => (
         element={
           <PageLayout>
             <Contracts />
+          </PageLayout>
+        }
+      />
+
+      <Route
+        path="/contracts/:id"
+        element={
+          <PageLayout>
+            <ContractDetails />
           </PageLayout>
         }
       />
