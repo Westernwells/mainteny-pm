@@ -1,3 +1,5 @@
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
 import Box from '@mui/system/Box';
 import Chip from '@mui/material/Chip';
 import useTheme from '@mui/material/styles/useTheme';
@@ -13,6 +15,7 @@ interface InvoiceRowProps {
 
 export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -22,6 +25,12 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
         paddingBottom: 1,
         marginTop: 1,
         borderRadius: '4px',
+        cursor: 'pointer',
+        '&:hover': {background: 'rgba(0, 209, 255, 0.08)'},
+      }}
+      onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.preventDefault();
+        navigate(`/invoices/${invoice.id}`);
       }}
     >
       <Grid container sx={{pl: 2}}>
