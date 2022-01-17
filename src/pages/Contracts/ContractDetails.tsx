@@ -61,6 +61,7 @@ export const ContractDetails = () => {
           <ScrollableCard
             disableScroll
             minHeight="20%"
+            cardHeight={500}
             contentHeight="100%"
             renderHeaderText={() => (
               <Box

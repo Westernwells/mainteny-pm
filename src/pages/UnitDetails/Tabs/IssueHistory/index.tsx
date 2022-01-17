@@ -9,6 +9,7 @@ import {ServiceOrderStatus, ServiceOrderView} from 'models/service-order';
 import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
 import {ScrollableCard} from 'components/ScrollableCard';
 import {SplitButton} from 'components/SplitButton';
+import {EmptyItem} from 'components/EmptyItem';
 import {endOfMonth, startOfYear, endOfYear} from 'date-fns';
 import {createEmptyResource} from 'utils/paging-utils';
 import {toRestDateTime} from 'utils/datetime';
@@ -97,9 +98,7 @@ export const IssueHistory = () => {
               </Box>
             ))
           ) : (
-            <Box>
-              <Typography>No Issue history</Typography>
-            </Box>
+            <EmptyItem label="No issue history for this elevator" />
           )}
         </ScrollableCard>
       </Grid>

@@ -22,7 +22,7 @@ export const ScrollableCard = ({
   renderIcon,
   renderHeaderText,
   addShadowToCard,
-  cardHeight = 650,
+  cardHeight = 450,
   contentHeight = '55vh',
   children,
   disableScroll,
@@ -37,7 +37,7 @@ export const ScrollableCard = ({
       sx={{
         background: '#fff',
         borderRadius: '8px',
-        // height: cardHeight,
+        height: cardHeight,
         minHeight,
         boxShadow: addShadowToCard
           ? '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12)'

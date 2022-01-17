@@ -24,7 +24,7 @@ export const ContractScope = () => {
         </Typography>
       </Box>
 
-      <Typography variant="subtitle1" mt={2}>
+      <Typography variant="subtitle1" mt={2} sx={{textAlign: 'justify'}}>
         The Contractor shall diligently undertake, perform and complete all
         preventative and routine maintenance including all material, labor,
         supervision, tools, supplies and all other expenses necessary to provide

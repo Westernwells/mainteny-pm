@@ -7,6 +7,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import Avatar from '@mui/material/Avatar';
 import useTheme from '@mui/material/styles/useTheme';
+import {EmptyItem} from 'components/EmptyItem';
 
 import {ServiceOrderView} from '../../models/service-order';
 import technicianImage from '../../assets/images/tech.png';
@@ -36,7 +37,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
             flexGrow={1}
             color={theme.palette.primary.main}
           >
-            Technician (1)
+            Technician ({technician ? 1 : 0})
           </Typography>
         </Box>
         {technician ? (
@@ -138,11 +139,7 @@ export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
             </Box>
           </Fragment>
         ) : (
-          <Box>
-            <Typography>
-              No technician is currently running a service order
-            </Typography>
-          </Box>
+          <EmptyItem label=" No technician" />
         )}
       </Box>
     </Box>
