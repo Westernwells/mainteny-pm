@@ -34,7 +34,7 @@ export const InvoiceCardSection = () => {
         }}
       >
         <Typography variant="h4" sx={{color: theme.palette.common.white}}>
-          9700 $
+          9700 €
         </Typography>
         <Typography variant="body1" sx={{color: theme.palette.common.white}}>
           Total Amount
