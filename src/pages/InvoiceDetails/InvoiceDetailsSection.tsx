@@ -8,6 +8,7 @@ import Tabs from '@mui/material/Tabs';
 import {WorkReport} from './Tabs/WorkReport';
 import {Invoice} from './Tabs/Invoice';
 import {RelatedTo} from './Tabs/RelatedTo';
+import {invoiceUrl, serviceOrder, workReportText} from './data';
 
 function a11yProps(index: number) {
   return {
@@ -37,18 +38,6 @@ const TabPanel = (props: TabPanelProps) => {
     </div>
   );
 };
-
-const workReportText = `10 / 6-2020: Secured lift and counterweight for disconnection of engine and brake. Disassembled engine with brake and
-delivered it to a workshop in Råde.
-
-22 / 6-2020: Picked up engine at workshop. Mounted motor with brake and removed securing of lift and counterweight. Refilled oil on the gear unit between the hoist and the shaft for chains. Controlled brake, ok. Controlled stop length in the
-event of a breakdown of photocells. Average stop length: 7.5 cm. Max stop length: 16.5 cm. Elevator put into operation
-
-10 / 6-2020: Secured lift and counterweight for disconnection of engine and brake. Disassembled engine with brake and
-delivered it to a workshop in Råde.
-
-22 / 6-2020: Picked up engine at workshop. Mounted motor with brake and removed securing of lift and counterweight. Refilled oil on the gear unit between the hoist and the shaft for chains. Controlled brake, ok. Controlled stop length in the
-event of a breakdown of photocells. Average stop length: 7.5 cm. Max stop length: 16.5 cm. Elevator put into operation`;
 
 export const InvoiceDetailsSection = () => {
   const theme = useTheme();
@@ -85,13 +74,13 @@ export const InvoiceDetailsSection = () => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <RelatedTo />
+        <RelatedTo serviceOrder={serviceOrder} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <WorkReport text={workReportText} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Invoice />
+        <Invoice url={invoiceUrl} />
       </TabPanel>
     </Box>
   );

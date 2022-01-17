@@ -6,7 +6,11 @@ import {Document, Page, pdfjs} from 'react-pdf/dist/esm/entry.webpack';
 // https://github.com/wojtekmaj/react-pdf/issues/321#issuecomment-451291757
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-export const Invoice = () => (
+interface InvoiceProps {
+  url: string;
+}
+
+export const Invoice = ({url}: InvoiceProps) => (
   <Box
     display="flex"
     sx={{
@@ -15,7 +19,7 @@ export const Invoice = () => (
       justifyContent: 'center',
     }}
   >
-    <form method="get" action="/pm/INV000128.pdf">
+    <form method="get" action={url}>
       <Button
         variant="contained"
         size="large"
