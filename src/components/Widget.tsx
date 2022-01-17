@@ -19,19 +19,9 @@ interface Props {
   openMapView?: () => void;
   closeMapView?: () => void;
   mapViewActive?: boolean;
+  showFilter: boolean;
+  setShowFilter: (state: boolean) => void;
 }
-
-const useStyles = makeStyles((theme: Theme) => ({
-  filter: {
-    backgroundColor: theme.palette.primary.outlinedHoverBg,
-    border: 'none',
-    py: 1,
-    height: 48,
-    '&:hover': {
-      border: 'none',
-    },
-  },
-}));
 
 export const Widget = ({
   btnGroupType,
@@ -40,17 +30,31 @@ export const Widget = ({
   openMapView,
   closeMapView,
   mapViewActive,
+  showFilter,
+  setShowFilter,
 }: Props) => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const classes = useStyles();
+  // console.log(showFilter, '%%%$$$$$$$#######')
   return (
     <Box>
       <Box display="flex">
         <Box display="flex" mr={3}>
           <Button
+            onClick={() => setShowFilter(!showFilter)}
+            disableRipple
             size="large"
-            className={classes.filter}
+            sx={{
+              backgroundColor: showFilter
+                ? theme.palette.action.selected
+                : theme.palette.primary.outlinedHoverBg,
+              border: 'none',
+              py: 1,
+              height: 48,
+              ':hover': {
+                border: 'none',
+              },
+            }}
             variant="outlined"
             startIcon={<FilterListIcon />}
           >
@@ -84,10 +88,13 @@ export const Widget = ({
             ) : (
               <>
                 <Button
+                  disableRipple
                   variant="outlined"
                   onClick={() => (closeMapView ? closeMapView() : () => {})}
                   sx={{
-                    background: !mapViewActive ? theme.state?.hover : '',
+                    background: !mapViewActive
+                      ? theme.palette.action.selected
+                      : '#fff',
                   }}
                 >
                   <Typography
@@ -99,9 +106,12 @@ export const Widget = ({
                 </Button>
 
                 <Button
+                  disableRipple
                   variant="outlined"
                   sx={{
-                    background: mapViewActive ? theme.state?.hover : '',
+                    background: mapViewActive
+                      ? theme.palette.action.selected
+                      : '#fff',
                   }}
                   onClick={() => (openMapView ? openMapView() : () => {})}
                 >

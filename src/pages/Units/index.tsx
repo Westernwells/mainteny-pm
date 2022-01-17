@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -12,14 +12,13 @@ import {
   useLogIssue,
 } from 'hooks/reactQuery/useServiceOrder';
 import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
 import {FilterFields} from 'components/FilterFields';
-import {AvailabilityFilterField} from 'components/AvailabilityFilterField';
-import {RangeSlider} from 'components/RangeSlider';
 import {UnitSection} from './UnitSection';
 import {UnitsMapsView} from './UnitsMapsView';
 import {UnitColumns} from './UnitColumns';
@@ -39,7 +38,7 @@ export const MyUnits = () => {
   }).current;
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
-  const [filter, setFilter] = useState('STOPPED');
+  const [showFilter, setShowFilter] = useState(false);
   const [status, setStatus] = useState<string[]>([]);
   const [nextVisit, setNextVisit] = useState<string[]>([]);
   const [showMapview, setShowMapview] = useState(false);
@@ -82,6 +81,13 @@ export const MyUnits = () => {
     setShowMapview(false);
   };
 
+  useEffect(() => {
+    if (!showFilter) {
+      setStatus([]);
+      setNextVisit([]);
+    }
+  }, [showFilter]);
+
   return (
     <Box>
       <Box display="flex" justifyContent="space-between">
@@ -95,23 +101,31 @@ export const MyUnits = () => {
             openMapView={openMapView}
             closeMapView={closeMapView}
             mapViewActive={showMapview}
+            setShowFilter={setShowFilter}
+            showFilter={showFilter}
           />
         </Box>
       </Box>
 
-      <FilterFields containerStyle={{mb: 1}}>
-        <MultipleSelectCheckmarks
-          label="Status"
-          options={['RUNNING', 'STOPPED']}
-          getSelectedValue={(item) => setStatus(item)}
-        />
+      <Fade in={showFilter} unmountOnExit>
+        <Box>
+          <FilterFields setShowFilter={setShowFilter}>
+            <MultipleSelectCheckmarks
+              label="Status"
+              options={['RUNNING', 'STOPPED']}
+              getSelectedValue={(item) => setStatus(item)}
+            />
 
-        <MultipleSelectCheckmarks
-          label="Upcoming visits"
-          options={['This week', 'Next week', 'Next month']}
-          getSelectedValue={(item) => setNextVisit(item)}
-        />
-      </FilterFields>
+            <MultipleSelectCheckmarks
+              label="Upcoming visits"
+              options={['This week', 'Next week', 'Next month']}
+              getSelectedValue={(item) => setNextVisit(item)}
+            />
+          </FilterFields>
+        </Box>
+      </Fade>
+
+      {/* ) : null} */}
 
       {!showMapview ? (
         <>

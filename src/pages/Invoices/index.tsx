@@ -11,6 +11,7 @@ import {Widget} from '../../components/Widget';
 export const Invoices = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
+  const [showFilter, setShowFilter] = useState(false);
   const {data: invoiceResource} = useInvoices(search, page);
 
   return (
@@ -24,6 +25,8 @@ export const Invoices = () => {
             btnGroupType={BtnGroupType.ICON}
             searchPlaceholder="Try 'INV000001'"
             onSearchTextChanged={setSearch}
+            setShowFilter={setShowFilter}
+            showFilter={showFilter}
           />
         </Box>
       </Box>

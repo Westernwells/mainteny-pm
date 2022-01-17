@@ -23,6 +23,7 @@ interface ContractRecord {
 export const Contracts = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, pageSize));
+  const [showFilter, setShowFilter] = useState(false);
   const {data: contractResource = createEmptyResource<ContractView>(10)} =
     useQueryContract({
       order: Order.DESC,
@@ -47,6 +48,8 @@ export const Contracts = () => {
             btnGroupType={BtnGroupType.ICON}
             searchPlaceholder="Try 'Astralift BV'"
             onSearchTextChanged={setSearch}
+            setShowFilter={setShowFilter}
+            showFilter={showFilter}
           />
         </Box>
       </Box>
