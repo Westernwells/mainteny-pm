@@ -1,10 +1,14 @@
 import Box from '@mui/material/Box';
+import {useNavigate} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
+import IconButton from '@mui/material/IconButton';
+import {KeyboardArrowLeft} from '@mui/icons-material';
 import {InvoiceCardItem} from './components/InvoiceCardItem';
 
 export const InvoiceCardSection = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <Box
       display="flex"
@@ -18,9 +22,17 @@ export const InvoiceCardSection = () => {
         flexBasis: '30%',
       }}
     >
-      <Typography variant="h4" sx={{color: theme.palette.common.white}}>
-        INV000128
-      </Typography>
+      <Box
+        display="flex"
+        sx={{flexDirection: 'row', alignItems: 'space-between'}}
+      >
+        <IconButton onClick={() => navigate('/invoices')}>
+          <KeyboardArrowLeft />
+        </IconButton>
+        <Typography variant="h4" sx={{color: theme.palette.common.white}}>
+          INV000128
+        </Typography>
+      </Box>
       <Box
         display="flex"
         flexDirection="column"
