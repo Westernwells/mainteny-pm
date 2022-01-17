@@ -27,7 +27,7 @@ export const ContractTimeline = ({
         background: '#fff',
         mt: 2,
         px: 2,
-        height: '50%',
+        minHeight: '50vh',
       }}
     >
       <Box width="100%" mt={1}>
@@ -76,13 +76,13 @@ export const ContractTimeline = ({
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          width: '14%',
+          maxWidth: '3rem',
         }}
       >
         <Box
           sx={{
             borderLeft: `3px solid ${theme.palette.primary.main}`,
-            height:
+            minHeight:
               usedContractDays && totalContractDays
                 ? `${(usedContractDays / totalContractDays) * 100}%`
                 : null,

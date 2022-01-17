@@ -155,14 +155,14 @@ export const MyUnits = () => {
         onBackdropClick={() => formik.resetForm()}
       >
         <Box
-          width={750}
+          width="40vw"
           sx={{
             bgcolor: 'background.paper',
             boxShadow: 24,
             position: 'absolute' as 'absolute',
             top: '45%',
             left: '50%',
-            height: '80vh',
+            maxHeight: '100vh',
             borderRadius: '20px',
             transform: 'translate(-50%, -50%)',
           }}
