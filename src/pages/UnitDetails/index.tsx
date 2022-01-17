@@ -70,10 +70,6 @@ const tabItems = [
     label: 'Performance',
     icon: <GraphicEqIcon />,
   },
-  {
-    label: 'Logged Service Calls',
-    icon: <MiscellaneousServicesIcon />,
-  },
 ];
 
 const a11yProps = (index: number) => ({

@@ -55,7 +55,7 @@ export const Login = () => {
         </Box>
       ) : null}
 
-      <Typography variant="h6" mt={5} textAlign="center">
+      <Typography variant="h6" mt={5} mb="2.5rem" textAlign="center">
         Login
       </Typography>
 

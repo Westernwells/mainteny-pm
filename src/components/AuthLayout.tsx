@@ -30,17 +30,23 @@ export const AuthLayout = ({children}: Props) => {
         height="100%"
         position="relative"
         display="flex"
-        alignItems="center"
+        pt="15rem"
+        // alignItems="center"
       >
         <Box style={{position: 'absolute', top: 0, left: 0, right: 0}}>
           <PolygonTop width="100%" />
         </Box>
 
         <Box>
-          <Typography color="#fff" variant="h4" textAlign="center">
-            Mainteny CX
-          </Typography>
-
+          <Box marginBottom="5rem">
+            <Typography variant="h3" color="#fff" textAlign="center">
+              {' '}
+              Mainteny
+            </Typography>
+            <Typography color="#fff" variant="h4" textAlign="center">
+              Property Manager Portal
+            </Typography>
+          </Box>
           <Typography
             color="textSecondary"
             variant="h6"
