@@ -16,6 +16,7 @@ export const useAuth = (): UseAuth => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const {enqueueSnackbar} = useSnackbar();
 
   const authRequest = async (
     urlEndpoint: string,
@@ -30,10 +31,7 @@ export const useAuth = (): UseAuth => {
         data: {username: email, password},
       });
 
-      if (status === 400) {
-        // show toast
-        return;
-      }
+      console.log(status, '######');
 
       if (user?.token) {
         axiosClient.defaults.headers.common.Authorization = `Bearer ${user.token}`;
@@ -45,7 +43,13 @@ export const useAuth = (): UseAuth => {
           navigate('/units', {replace: true});
         }
       }
-    } catch (errorResponse) {
+    } catch (errorResponse: any) {
+      if (errorResponse?.response.status === 400) {
+        console.log('#########');
+        enqueueSnackbar('Incorrect email or password', {
+          variant: 'error',
+        });
+      }
       console.log(errorResponse);
     } finally {
       setLoading(false);
