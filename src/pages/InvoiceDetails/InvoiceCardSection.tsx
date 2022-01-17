@@ -46,7 +46,7 @@ export const InvoiceCardSection = () => {
         }}
       >
         <Typography variant="h4" sx={{color: theme.palette.common.white}}>
-          9700 €
+          45000 €
         </Typography>
         <Typography variant="body1" sx={{color: theme.palette.common.white}}>
           Total Amount
@@ -69,15 +69,19 @@ export const InvoiceCardSection = () => {
           text="24 September 2021"
           type="text"
         />
-        <InvoiceCardItem heading="Receiver" text="ABCD AS" type="text" />
+        <InvoiceCardItem
+          heading="Receiver"
+          text="Erik Kvakkestad"
+          type="text"
+        />
         <InvoiceCardItem
           heading="Invoice Address"
-          text="Main Road 3, 1400 Ski"
+          text="Idrettsveien 3, 1400 Ski"
           type="text"
         />
         <InvoiceCardItem
           heading="Delivery Address"
-          text="Main Road 3, 1400 Ski"
+          text="Idrettsveien 3, 1400 Ski"
           type="text"
         />
         <InvoiceCardItem

@@ -63,7 +63,7 @@ export const serviceOrder: ServiceOrderView = {
     },
     meta,
   },
-  description: 'Broken Elevator. 20 People struck inside.',
+  description: 'Brake Motor failure. Servicing Required',
   type: ServiceOrderType.EMERGENCY,
   status: ServiceOrderStatus.COMPLETED,
   lastVisitDate: '2020-11-01',
@@ -81,15 +81,9 @@ export const serviceOrder: ServiceOrderView = {
     priority: Priority.A,
   },
 };
-export const workReportText = `10 / 6-2020: Secured lift and counterweight for disconnection of engine and brake. Disassembled engine with brake and
+export const workReportText = `Secured lift and counterweight for disconnection of engine and brake. Disassembled engine with brake and
 delivered it to a workshop in Råde.
 
-22 / 6-2020: Picked up engine at workshop. Mounted motor with brake and removed securing of lift and counterweight. Refilled oil on the gear unit between the hoist and the shaft for chains. Controlled brake, ok. Controlled stop length in the
-event of a breakdown of photocells. Average stop length: 7.5 cm. Max stop length: 16.5 cm. Elevator put into operation
-
-10 / 6-2020: Secured lift and counterweight for disconnection of engine and brake. Disassembled engine with brake and
-delivered it to a workshop in Råde.
-
-22 / 6-2020: Picked up engine at workshop. Mounted motor with brake and removed securing of lift and counterweight. Refilled oil on the gear unit between the hoist and the shaft for chains. Controlled brake, ok. Controlled stop length in the
+Picked up engine at workshop. Mounted motor with brake and removed securing of lift and counterweight. Refilled oil on the gear unit between the hoist and the shaft for chains. Controlled brake, ok. Controlled stop length in the
 event of a breakdown of photocells. Average stop length: 7.5 cm. Max stop length: 16.5 cm. Elevator put into operation`;
 export const invoiceUrl = '/pm/INV000128.pdf';
