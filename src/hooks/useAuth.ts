@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {axiosClient} from 'utils/axios-utils';
+import {useSnackbar} from 'notistack';
 import {useUserSession} from './reactQuery/useUserSession';
 
 interface UseAuth {
@@ -36,7 +37,6 @@ export const useAuth = (): UseAuth => {
 
       if (user?.token) {
         axiosClient.defaults.headers.common.Authorization = `Bearer ${user.token}`;
-
         // update stored user data
         updateUser(user);
         if (location.state?.from) {

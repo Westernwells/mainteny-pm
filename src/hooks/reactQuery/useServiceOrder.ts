@@ -1,14 +1,27 @@
 import {useCallback} from 'react';
-import {useQuery} from 'react-query';
+import {useSnackbar} from 'notistack';
+import {useMutation, useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
-import {addDays, endOfMonth, startOfMonth} from 'date-fns';
+import {
+  addDays,
+  endOfMonth,
+  startOfMonth,
+  endOfWeek,
+  startOfDay,
+  getWeek,
+} from 'date-fns';
 import {queryKeys} from 'reactQuery/constants';
 import {ServiceCompanyTimeUnit} from 'models/service-company';
-import {toRestDate, toRestDateTime} from 'utils/datetime';
-import {ServiceOrderReport, ServiceOrderView} from '../../models/service-order';
-import {Resource, RestError} from '../../models/misc';
+import {toDate, toRestDate, toRestDateTime} from 'utils/datetime';
+import {
+  CreateNonScheduledServiceOrder,
+  ServiceOrderReport,
+  ServiceOrderType,
+  ServiceOrderView,
+} from '../../models/service-order';
+import {Priority, Resource, RestError} from '../../models/misc';
 import {
   ElevatorAvailability,
   ElevatorAvailabilityParams,
@@ -62,6 +75,61 @@ export const fetchElevatorAvailability = async (
   return response.data;
 };
 
+const filterByNextVisit = (
+  serviceOrderViewRes: Resource<ServiceOrderView>,
+  nextVisit: string[],
+) => {
+  let mergedResult = [] as ServiceOrderView[];
+  let week: number;
+
+  const serviceOrderViewMap = _.groupBy(
+    serviceOrderViewRes.data,
+    (serviceOrder) => getWeek(toDate(serviceOrder.schedules[0].startTime)),
+  );
+
+  nextVisit
+    .map((item) => {
+      switch (item) {
+        case 'This week': // TODO: create an enum
+          week = getWeek(new Date());
+          break;
+        case 'Next week':
+          week = getWeek(addDays(startOfDay(endOfWeek(new Date())), 1));
+          break;
+        case 'Next month':
+          week = getWeek(addDays(startOfDay(endOfMonth(new Date())), 30));
+          break;
+        default:
+          break;
+      }
+
+      return serviceOrderViewMap[week];
+    })
+    .filter((item) => item)
+    .forEach((item) => {
+      const diff = _.differenceBy(mergedResult, item, 'id');
+      mergedResult = [...diff, ...item];
+    });
+
+  return mergedResult;
+};
+
+const filterServiceOrder = (
+  serviceOrderViewRes: Resource<ServiceOrderView>,
+  filter: {nextVisit: string[]},
+) => {
+  let result = {...serviceOrderViewRes};
+
+  if (filter.nextVisit.length) {
+    const nextVisitFilter = filterByNextVisit(
+      serviceOrderViewRes,
+      filter.nextVisit,
+    );
+    result = {...result, data: nextVisitFilter, total: nextVisitFilter.length};
+  }
+  return result;
+};
+
 const groupElevatorByAddressList = (
   serviceOrderView: ServiceOrderView[],
   elevatorRes?: Resource<ElevatorView>,
@@ -93,6 +161,15 @@ const groupElevatorByAddressList = (
   }));
 
   return elevatorByAddressList;
+};
+
+export const logIssue = async (
+  body: Partial<CreateNonScheduledServiceOrder>,
+) => {
+  console.log(body, '#####@@@@@@@@@%%%%%%%');
+  await axiosClient.post(`/api/serviceOrders/nonscheduled`, {
+    ...body,
+  });
 };
 
 export const useFetchElevatorAvailability = (elevatorIds: string[]) => {
@@ -130,12 +207,13 @@ export function useServiceOrders(params: any) {
 
 export function useFetchServiceOrdersByElevators(
   elevatorRes: Resource<ElevatorView>,
+  filter: {nextVisit: string[]},
 ) {
   const {data: user} = usePropertyManager();
   const elevatorIds = elevatorRes?.data.map((elevator) => elevator.id);
   const {data: availability} = useFetchElevatorAvailability(elevatorIds);
   const start = toRestDateTime(new Date());
-  const end = toRestDateTime(addDays(new Date(), 7));
+  const end = toRestDateTime(addDays(new Date(), 30));
   return useQuery<Resource<ServiceOrderView>, RestError, ElevatorsByAddress[]>(
     [queryKeys.fetchServiceOrders, elevatorIds],
     () =>
@@ -153,15 +231,55 @@ export function useFetchServiceOrdersByElevators(
     {
       enabled: !!user && !!availability,
       select: useCallback(
-        (serviceOrderView: Resource<ServiceOrderView>) =>
-          groupElevatorByAddressList(
-            serviceOrderView.data,
+        (serviceOrderView: Resource<ServiceOrderView>) => {
+          const filterResult = filterServiceOrder(serviceOrderView, filter);
+          const response = groupElevatorByAddressList(
+            filterResult.data,
             elevatorRes,
             availability,
-          ),
+          );
 
-        [availability, user],
+          return filter.nextVisit.length
+            ? response.map((item) => ({
+                ...item,
+                elevators: item.elevators.filter((x) => x.serviceOrder),
+              }))
+            : response;
+        },
+
+        [availability, user, filter],
       ),
     },
   );
 }
+
+export const useLogIssue = () => {
+  const {data: propertyManager} = usePropertyManager();
+  const {enqueueSnackbar} = useSnackbar();
+  const serviceCompanyId = propertyManager?.userAccount.serviceCompany.id;
+
+  const {mutate, isLoading} = useMutation(
+    (body: Partial<CreateNonScheduledServiceOrder>) =>
+      logIssue({
+        ...body,
+        dueDate: toRestDate(new Date()),
+        externalId: '',
+        priority: Priority.A,
+        type: ServiceOrderType.EMERGENCY,
+        serviceCompanyId: serviceCompanyId as string,
+      }),
+    {
+      onSuccess: () => {
+        enqueueSnackbar('Issue logged successfully', {
+          variant: 'success',
+        });
+      },
+      onError: (err) => {
+        enqueueSnackbar('Some error occurred, please try agqin.', {
+          variant: 'error',
+        });
+      },
+    },
+  );
+  return {mutate, isLoading};
+};

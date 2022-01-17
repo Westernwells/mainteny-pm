@@ -1,7 +1,11 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-export const LogIssueAction = () => (
+interface Props {
+  disabled: boolean;
+}
+
+export const LogIssueAction = ({disabled}: Props) => (
   <Box
     sx={{
       py: 4,
@@ -15,7 +19,7 @@ export const LogIssueAction = () => (
     <Button size="large" variant="outlined" sx={{mr: 2}}>
       Cancel
     </Button>
-    <Button size="large" variant="contained">
+    <Button disabled={disabled} type="submit" size="large" variant="contained">
       Submit
     </Button>
   </Box>

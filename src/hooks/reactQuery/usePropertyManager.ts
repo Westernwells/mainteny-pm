@@ -16,7 +16,7 @@ const fetchPropertyManager = async (username: string) => {
 export const usePropertyManager = () => {
   const {user} = useUserSession();
   return useQuery(
-    [queryKeys.propertManager, user?.userAccount.username],
+    [queryKeys.propertyManager, user?.userAccount.username],
     () => fetchPropertyManager(user!.userAccount.username),
     {
       enabled: !!user,

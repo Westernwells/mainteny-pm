@@ -243,3 +243,13 @@ export interface ServiceOrderReport {
   serviceOrderId: string;
   fee: Fee;
 }
+
+export interface CreateNonScheduledServiceOrder {
+  description: string;
+  dueDate: string;
+  elevatorId: string;
+  externalId: string;
+  serviceCompanyId: string;
+  type: string;
+  priority: Priority;
+}

@@ -7,10 +7,8 @@ import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import Chip from '@mui/material/Chip';
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
-import {calculateNextVisitDate, ElevatorsByAddress} from './Models';
-import {getDay} from '../../utils/datetime';
+import {ElevatorsByAddress} from './Models';
+import {getDay, toDate} from '../../utils/datetime';
 import {ElevatorStatus} from '../../models/elevator';
 
 export interface UnitsSectionProperty {
@@ -28,6 +26,8 @@ export const UnitSection = ({
   const handleClick = () => {
     setModalOpen(true);
   };
+
+  // console.log(elevatorsByAddress, '!!!!!!!!!!!!')
 
   return (
     <Box
@@ -94,7 +94,9 @@ export const UnitSection = ({
               <Typography variant="largeBtnText">
                 {' '}
                 {(elevatorOrder.serviceOrder &&
-                  getDay(calculateNextVisitDate(elevatorOrder.serviceOrder))) ||
+                  getDay(
+                    toDate(elevatorOrder.serviceOrder.schedules[0].startTime),
+                  )) ||
                   ''}
               </Typography>
             </Grid>

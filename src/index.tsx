@@ -3,6 +3,7 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 import {ReactQueryDevtools} from 'react-query/devtools';
 import CssBaseline from '@mui/material/CssBaseline';
 import {ThemeProvider} from '@mui/material/styles';
+import {SnackbarProvider} from 'notistack';
 
 import {App} from './App';
 import {theme} from './theme';
@@ -15,7 +16,15 @@ ReactDOM.render(
     <CssBaseline />
 
     <QueryClientProvider client={queryClient}>
-      <App />
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        maxSnack={3}
+      >
+        <App />
+      </SnackbarProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>
   </ThemeProvider>,

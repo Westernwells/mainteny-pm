@@ -1,3 +1,4 @@
+import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import getCenter from 'geolib/es/getCenter';
@@ -5,13 +6,11 @@ import {Axios, AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {queryKeys} from 'reactQuery/constants';
 import {ServiceOrderView} from 'models/service-order';
+
 import {ElevatorOrderPair, ElevatorsByAddress} from 'pages/Units/Models';
 import {
   Elevator,
-  ElevatorAvailability,
-  ElevatorAvailabilityParams,
   ElevatorCategory,
-  ElevatorMaintenanceHistoryView,
   ElevatorStatus,
   ElevatorView,
 } from '../../models/elevator';
@@ -23,7 +22,6 @@ import {
   RestError,
   State,
 } from '../../models/misc';
-import {createResource} from '../../utils/paging-utils';
 import {usePropertyManager} from './usePropertyManager';
 
 export const elevators: Resource<ElevatorView> = {
@@ -467,6 +465,38 @@ export const fetchElevatorBreakdownHistory = async (elevatorId: string) => {
   return response.data;
 };
 
+const filterByStatus = (
+  elevatorRes: Resource<ElevatorView>,
+  status: string[],
+) => {
+  let filterResult = [] as ElevatorView[];
+  const elevatorStatusMap = _.groupBy(
+    elevatorRes.data,
+    (elevator) => elevator.status,
+  );
+  status
+    .map((item) => elevatorStatusMap[item])
+    .filter((item) => item)
+    .forEach((item) => {
+      filterResult = [...filterResult, ...item];
+    });
+
+  return filterResult;
+};
+
+const filterElevator = (
+  elevatorRes: Resource<ElevatorView>,
+  filter: {status: string[]},
+) => {
+  let result = {...elevatorRes};
+
+  if (filter.status.length) {
+    const statusFilter = filterByStatus(elevatorRes, filter.status);
+    result = {...result, data: statusFilter, total: statusFilter.length};
+  }
+  return result;
+};
+
 export const useElevatorById = (elevatorId?: string) =>
   useQuery(
     [queryKeys.elevatorById, elevatorId],
@@ -476,8 +506,13 @@ export const useElevatorById = (elevatorId?: string) =>
     },
   );
 
-export function useAllElevators(query: string, page: Page) {
+export function useAllElevators(
+  query: string,
+  page: Page,
+  filter: {status: string[]},
+) {
   const {data: user} = usePropertyManager();
+  // console.log(filter, '!!!!!@@#$$$');
   return useQuery<
     Resource<ElevatorView>,
     RestError,
@@ -487,18 +522,23 @@ export function useAllElevators(query: string, page: Page) {
     () => fetchElevators(query, page, user!.propertyOwner.id),
     {
       enabled: !!user,
-      select: (elevatorResponse) => {
-        const latLng = elevatorResponse?.data.map((elevator) => ({
-          latitude: elevator.address.location.latitude,
-          longitude: elevator.address.location.longitude,
-        }));
-        const centerCoord = getCenter(latLng) as unknown as Location;
+      select: useCallback(
+        (elevatorResponse: Resource<ElevatorView>) => {
+          let result = elevatorResponse;
+          result = filterElevator(elevatorResponse, filter);
+          const latLng = result?.data.map((elevator: ElevatorView) => ({
+            latitude: elevator.address.location.latitude,
+            longitude: elevator.address.location.longitude,
+          }));
+          const centerCoord = getCenter(latLng) as unknown as Location;
 
-        return {
-          elevator: elevatorResponse,
-          centerCoord,
-        };
-      },
+          return {
+            elevator: result,
+            centerCoord,
+          };
+        },
+        [filter, user, query, page],
+      ),
     },
   );
 }

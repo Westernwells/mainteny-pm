@@ -3,7 +3,7 @@ export const queryKeys = {
   contracts: 'contracts',
   contractsByElevatorMap: 'contractsByElevatorMap',
   contractDetails: 'contractDetails',
-  propertManager: 'propertManager',
+  propertyManager: 'propertyManager',
   fetchAllElevators: 'fetchAllElevators',
   fetchElevatorMaintenanceHistory: 'fetchElevatorMaintenanceHistory',
   fetchServiceOrders: 'fetchServiceOrders',

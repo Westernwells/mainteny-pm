@@ -1,24 +1,33 @@
+import {ChangeEvent, SyntheticEvent} from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+
 import {Box} from '@mui/system';
 import Autocomplete from '@mui/material/Autocomplete';
 import Elevator from '@mui/icons-material/Elevator';
+import {ElevatorView} from 'models/elevator';
+import {FormikErrors} from 'formik';
 
-const elevators = [
-  {
-    number: '25900500',
-    label: 'Schindler A2000 ',
-    subText: 'Parkway Street, Berlin',
-  },
-  {
-    number: '25900501',
-    label: 'KONE Minispace',
-    subText: 'Stortingsgaten 24-26, Oslo',
-  },
-];
+interface Props {
+  elevators: ElevatorView[];
+  error?: string;
+  touched?: boolean;
+  handleBlur?: (e: ChangeEvent<any>) => void;
+  setField: (
+    field: string,
+    value: any,
+    shouldValidate?: boolean | undefined,
+  ) => Promise<void> | Promise<FormikErrors<any>>;
+}
 
-export const LogIssueUnitInput = () => (
-  <Box sx={{width: '100%'}} mb={6}>
+export const LogIssueUnitInput = ({
+  elevators,
+  setField,
+  touched,
+  error,
+  handleBlur,
+}: Props) => (
+  <Box sx={{width: '100%'}} mb={3}>
     <Typography variant="subtitle1" mb={2}>
       Unit
     </Typography>
@@ -27,7 +36,8 @@ export const LogIssueUnitInput = () => (
       id="unit"
       options={elevators}
       autoHighlight
-      getOptionLabel={(option) => option.label}
+      onChange={(e, value) => setField('elevatorId', value?.id)}
+      getOptionLabel={(option) => `${option.number} ${option.model}`}
       renderOption={(props, option) => (
         <Box component="li" sx={{display: 'flex'}} {...props}>
           <Box mr={3}>
@@ -35,15 +45,18 @@ export const LogIssueUnitInput = () => (
           </Box>
           <Box>
             <Typography variant="h6">
-              {option.number} - {option.label}
+              {option.number} - {option.model}
             </Typography>
-            <Typography variant="body2">{option.subText}</Typography>
+            <Typography variant="body2">{option.address.fullName}</Typography>
           </Box>
         </Box>
       )}
       renderInput={(params) => (
         <TextField
           {...params}
+          error={!!error}
+          helperText={touched && error ? error : ''}
+          onBlur={handleBlur}
           inputProps={{
             ...params.inputProps,
             autoComplete: 'new-password', // disable autocomplete and autofill
