@@ -8,17 +8,20 @@ import {ElevatorBasicSection} from '../ElevatorBasicSection';
 import {ElevatorBreakDownSection} from '../ElevatorBreakDownSection';
 import {ServiceHistory} from '../ServiceHistory';
 import {TechnicianSection} from '../TechnicianSection';
+import {MaintainerView} from '../../../models/technician';
 
 interface Props {
   serviceHistories: Resource<ElevatorMaintenanceHistoryView>;
   elevator?: Elevator;
   runningServiceOrders: ServiceOrderView[];
+  maintainers: MaintainerView[];
 }
 
 export const OverviewTab = ({
   serviceHistories,
   elevator,
   runningServiceOrders,
+  maintainers,
 }: Props) => (
   <>
     <Grid container spacing={2} sx={{mt: 2}}>
@@ -29,7 +32,7 @@ export const OverviewTab = ({
         />
       </Grid>
       <Grid item xs={3}>
-        <TechnicianSection serviceOrder={runningServiceOrders[0]} />
+        <TechnicianSection maintainers={maintainers} />
       </Grid>
       <Grid item xs={5}>
         <ElevatorAvailabilitySection />

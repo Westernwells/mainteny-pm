@@ -9,6 +9,7 @@ export const queryKeys = {
   fetchServiceOrders: 'fetchServiceOrders',
   fetchElevatorAvailability: 'fetchElevatorAvailability',
   elevatorById: 'elevatorById',
+  maintainerByElevatorId: 'maintainerByElevatorId',
   fetchServiceOrderReport: 'fetchServiceOrderReport',
   fetchContractElevatorCount: 'fetchContractElevatorCount',
 };

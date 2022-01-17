@@ -21,7 +21,10 @@ import {
 import {ServiceOrderView} from 'models/service-order';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {useServiceHistory} from 'hooks/reactQuery/useServiceHistory';
-import {useElevatorById} from 'hooks/reactQuery/useElevator';
+import {
+  useElevatorById,
+  useElevatorMaintainers,
+} from 'hooks/reactQuery/useElevator';
 import {useServiceOrders} from '../../hooks/reactQuery/useServiceOrder';
 import {OverviewTab} from './Tabs/OverviewTab';
 import {MaintenanceHistoryTab} from './Tabs/MaintenanceHistoryTab';
@@ -107,6 +110,8 @@ export const UnitsDetail = () => {
       query: '',
     });
 
+  const {data: maintainers = []} = useElevatorMaintainers(elevatorId);
+
   const tabPanel = () => {
     switch (value) {
       case 0:
@@ -115,6 +120,7 @@ export const UnitsDetail = () => {
             elevator={elevator}
             runningServiceOrders={serviceOrder.data}
             serviceHistories={serviceHistories}
+            maintainers={maintainers}
           />
         );
       case 2:
