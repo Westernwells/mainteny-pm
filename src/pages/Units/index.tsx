@@ -125,8 +125,6 @@ export const MyUnits = () => {
         </Box>
       </Fade>
 
-      {/* ) : null} */}
-
       {!showMapview ? (
         <>
           <UnitColumns />
@@ -153,18 +151,19 @@ export const MyUnits = () => {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         onBackdropClick={() => formik.resetForm()}
+        sx={{
+          maxHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
         <Box
-          width="40vw"
+          width="50vw"
           sx={{
             bgcolor: 'background.paper',
             boxShadow: 24,
-            position: 'absolute' as 'absolute',
-            top: '45%',
-            left: '50%',
-            maxHeight: '100vh',
             borderRadius: '20px',
-            transform: 'translate(-50%, -50%)',
           }}
         >
           <form onSubmit={formik.handleSubmit}>
