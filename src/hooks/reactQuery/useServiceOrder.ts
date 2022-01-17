@@ -11,6 +11,7 @@ import {
   endOfWeek,
   startOfDay,
   getWeek,
+  getMonth,
 } from 'date-fns';
 import {queryKeys} from 'reactQuery/constants';
 import {ServiceCompanyTimeUnit} from 'models/service-company';
@@ -80,30 +81,45 @@ const filterByNextVisit = (
   nextVisit: string[],
 ) => {
   let mergedResult = [] as ServiceOrderView[];
-  let week: number;
+  let key: number | string;
+
+  const monthIndex = getMonth(new Date());
+  // const nextMonth = setMonth(new Date(), monthIndex+1)
 
   const serviceOrderViewMap = _.groupBy(
     serviceOrderViewRes.data,
-    (serviceOrder) => getWeek(toDate(serviceOrder.schedules[0].startTime)),
+    (serviceOrder) => {
+      const theDate = toDate(serviceOrder.schedules[0].startTime);
+
+      const month = getMonth(theDate);
+      if (month === monthIndex) {
+        return getWeek(theDate);
+      }
+
+      if (month === monthIndex + 1) {
+        return 'nextMonth';
+      }
+      return null;
+    },
   );
 
   nextVisit
     .map((item) => {
       switch (item) {
         case 'This week': // TODO: create an enum
-          week = getWeek(new Date());
+          key = getWeek(new Date());
           break;
         case 'Next week':
-          week = getWeek(addDays(startOfDay(endOfWeek(new Date())), 1));
+          key = getWeek(addDays(startOfDay(endOfWeek(new Date())), 1));
           break;
         case 'Next month':
-          week = getWeek(addDays(startOfDay(endOfMonth(new Date())), 30));
+          key = 'nextMonth';
           break;
         default:
           break;
       }
 
-      return serviceOrderViewMap[week];
+      return serviceOrderViewMap[key];
     })
     .filter((item) => item)
     .forEach((item) => {
@@ -239,10 +255,14 @@ export function useFetchServiceOrdersByElevators(
           );
 
           return filter.nextVisit.length
-            ? response.map((item) => ({
-                ...item,
-                elevators: item.elevators.filter((x) => x.serviceOrder),
-              }))
+            ? response
+                .filter(
+                  (item) => item.elevators.filter((x) => x.serviceOrder).length,
+                )
+                .map((item) => ({
+                  ...item,
+                  elevators: item.elevators.filter((x) => x.serviceOrder),
+                }))
             : response;
         },
 
