@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Fade from '@mui/material/Fade';
@@ -29,6 +29,7 @@ export const Contracts = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [expiryDate, setExpiryDate] = useState<string[]>([]);
   const [contractor, setContractor] = useState<string[]>([]);
+  const [contractorView, setConractorView] = useState<string[]>([]);
   const {data: contractResource = createEmptyResource<ContractView>(10)} =
     useQueryContract(
       {
@@ -38,12 +39,25 @@ export const Contracts = () => {
         pageSize: page.pageSize,
         query: search,
       },
-      {expiryDate},
+      {expiryDate, contractor},
     );
 
   const {data: contractWithUnits} = useContractElevatorCount(
     contractResource.data,
   );
+
+  useEffect(() => {
+    const options: string[] = [];
+    if (contractWithUnits) {
+      contractWithUnits?.forEach((item) => {
+        if (!options.includes(item.serviceCompany.name)) {
+          options.push(item.serviceCompany.name);
+        }
+      });
+    }
+
+    setConractorView(options);
+  }, []);
 
   return (
     <Box>
@@ -77,11 +91,7 @@ export const Contracts = () => {
 
             <MultipleSelectCheckmarks
               label="Contractor"
-              options={
-                contractWithUnits
-                  ? contractWithUnits?.map((item) => item.serviceCompany.name)
-                  : []
-              }
+              options={contractorView}
               getSelectedValue={(item) => setContractor(item)}
             />
           </FilterFields>

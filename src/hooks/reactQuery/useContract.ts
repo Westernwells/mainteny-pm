@@ -108,22 +108,48 @@ const filterByExpiryData = (
   return mergedResult;
 };
 
+export const filterByContractor = (
+  contractsRes: Resource<ContractView>,
+  contractors: string[],
+) => {
+  let mergedResult = [] as ContractView[];
+  const contractsByContractor = _.groupBy(
+    contractsRes.data,
+    (contract) => contract.serviceCompany.name,
+  );
+
+  contractors
+    .map((contractor) => contractsByContractor[contractor])
+    .filter((item) => item)
+    .forEach((item) => {
+      const diff = _.differenceBy(mergedResult, item, 'id');
+      mergedResult = [...diff, ...item];
+    });
+
+  return mergedResult;
+};
+
 const filterContracts = (
   contractsRes: Resource<ContractView>,
-  filter: {expiryDate: string[]},
+  filter: {expiryDate: string[]; contractor: string[]},
 ) => {
   let result = {...contractsRes};
 
   if (filter.expiryDate.length) {
-    const nextVisitFilter = filterByExpiryData(contractsRes, filter.expiryDate);
-    result = {...result, data: nextVisitFilter, total: nextVisitFilter.length};
+    const expiryDates = filterByExpiryData(contractsRes, filter.expiryDate);
+    result = {...result, data: expiryDates, total: expiryDates.length};
+  }
+
+  if (filter.contractor.length) {
+    const contractors = filterByContractor(contractsRes, filter.expiryDate);
+    result = {...result, data: contractors, total: contractors.length};
   }
   return result;
 };
 
 export const useQueryContract = (
   params: QueryContractParams,
-  filter: {expiryDate: string[]},
+  filter: {expiryDate: string[]; contractor: string[]},
 ) => {
   const {data: user} = usePropertyManager();
   return useQuery<Resource<ContractView>, RestError, Resource<ContractView>>(

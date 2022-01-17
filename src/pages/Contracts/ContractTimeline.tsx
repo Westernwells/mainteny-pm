@@ -27,7 +27,7 @@ export const ContractTimeline = ({
         background: '#fff',
         mt: 2,
         px: 2,
-        height: '50vh',
+        height: '50%',
       }}
     >
       <Box width="100%" mt={1}>
