@@ -64,17 +64,28 @@ export const InvoiceCardSection = () => {
           px: 2,
         }}
       >
-        <InvoiceCardItem heading="Date Completed" text="24 September 2021" />
-        <InvoiceCardItem heading="Receiver" text="ABCD AS" />
+        <InvoiceCardItem
+          heading="Date Completed"
+          text="24 September 2021"
+          type="text"
+        />
+        <InvoiceCardItem heading="Receiver" text="ABCD AS" type="text" />
         <InvoiceCardItem
           heading="Invoice Address"
           text="Main Road 3, 1400 Ski"
+          type="text"
         />
         <InvoiceCardItem
           heading="Delivery Address"
           text="Main Road 3, 1400 Ski"
+          type="text"
         />
-        <InvoiceCardItem heading="Status" text="Paid" />
+        <InvoiceCardItem
+          heading="Status"
+          text="Paid"
+          type="chip"
+          chipColor="success"
+        />
       </Box>
     </Box>
   );
