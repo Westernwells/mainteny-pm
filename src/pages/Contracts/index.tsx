@@ -1,6 +1,9 @@
 import {useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Fade from '@mui/material/Fade';
+import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
+import {FilterFields} from 'components/FilterFields';
 
 import {
   useContractElevatorCount,
@@ -24,14 +27,19 @@ export const Contracts = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, pageSize));
   const [showFilter, setShowFilter] = useState(false);
+  const [expiryDate, setExpiryDate] = useState<string[]>([]);
+  const [contractor, setContractor] = useState<string[]>([]);
   const {data: contractResource = createEmptyResource<ContractView>(10)} =
-    useQueryContract({
-      order: Order.DESC,
-      orderBy: ContractOrderField.CREATED_TIME,
-      pageIndex: page.pageIndex,
-      pageSize: page.pageSize,
-      query: search,
-    });
+    useQueryContract(
+      {
+        order: Order.DESC,
+        orderBy: ContractOrderField.CREATED_TIME,
+        pageIndex: page.pageIndex,
+        pageSize: page.pageSize,
+        query: search,
+      },
+      {expiryDate},
+    );
 
   const {data: contractWithUnits} = useContractElevatorCount(
     contractResource.data,
@@ -53,6 +61,33 @@ export const Contracts = () => {
           />
         </Box>
       </Box>
+      <Fade in={showFilter} unmountOnExit>
+        <Box>
+          <FilterFields setShowFilter={setShowFilter}>
+            <MultipleSelectCheckmarks
+              label="Expiry Date"
+              options={[
+                'Last 14 days', // TODO: Create an enum to handle this
+                'Today',
+                'Next 7 days',
+                'Next 14 days',
+              ]}
+              getSelectedValue={(item) => setExpiryDate(item)}
+            />
+
+            <MultipleSelectCheckmarks
+              label="Contractor"
+              options={
+                contractWithUnits
+                  ? contractWithUnits?.map((item) => item.serviceCompany.name)
+                  : []
+              }
+              getSelectedValue={(item) => setContractor(item)}
+            />
+          </FilterFields>
+        </Box>
+      </Fade>
+
       <Box>
         <ContractHeader />
         <Box sx={{height: '73vh', overflowY: 'scroll', paddingBottom: '1rem'}}>

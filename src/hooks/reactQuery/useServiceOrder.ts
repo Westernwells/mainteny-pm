@@ -166,7 +166,6 @@ const groupElevatorByAddressList = (
 export const logIssue = async (
   body: Partial<CreateNonScheduledServiceOrder>,
 ) => {
-  console.log(body, '#####@@@@@@@@@%%%%%%%');
   await axiosClient.post(`/api/serviceOrders/nonscheduled`, {
     ...body,
   });

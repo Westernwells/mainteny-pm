@@ -2,9 +2,21 @@ import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {queryKeys as qk} from 'reactQuery/constants';
+import {
+  addDays,
+  endOfMonth,
+  startOfMonth,
+  endOfWeek,
+  startOfDay,
+  getWeek,
+  subDays,
+  endOfDay,
+  isWithinInterval,
+} from 'date-fns';
+import {toDate} from 'utils/datetime';
 import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
 import {ContractView, QueryContractParams} from '../../models/contract';
-import {Resource} from '../../models/misc';
+import {Resource, RestError} from '../../models/misc';
 import {usePropertyManager} from './usePropertyManager';
 
 export const fetchContractElevatorCount = async (contractId: string[]) => {
@@ -41,12 +53,92 @@ const fetchContractDetails = async (contractId: string) => {
   return response.data;
 };
 
-export const useQueryContract = (params: QueryContractParams) => {
+const filterByExpiryData = (
+  contractsRes: Resource<ContractView>,
+  expiryDate: string[],
+) => {
+  let mergedResult = [] as ContractView[];
+  let start: Date;
+  let end: Date;
+
+  let contractMap = {} as {[key: string]: ContractView[]};
+  // TODO: Find a better solution to this
+  expiryDate.forEach((item) => {
+    switch (item) {
+      case 'Last 14 days': // TODO: create an enum
+        start = startOfDay(subDays(new Date(), 14));
+        end = endOfDay(new Date());
+        break;
+      case 'Today':
+        start = startOfDay(new Date());
+        end = endOfDay(new Date());
+        break;
+      case 'Next 7 days':
+        start = startOfDay(new Date());
+        end = endOfDay(addDays(new Date(), 7));
+        break;
+      case 'Next 14 days':
+        start = startOfDay(new Date());
+        end = endOfDay(addDays(new Date(), 14));
+        break;
+      default:
+        break;
+    }
+
+    contractsRes.data.forEach((contract) => {
+      if (isWithinInterval(toDate(contract.endTime), {start, end})) {
+        contractMap = {
+          ...contractMap,
+          [item]: contractMap[item]
+            ? [...contractMap[item], contract]
+            : [contract],
+        };
+      }
+    });
+  });
+
+  expiryDate
+    .map((item) => contractMap[item])
+    .filter((item) => item)
+    .forEach((item) => {
+      const diff = _.differenceBy(mergedResult, item, 'id');
+      mergedResult = [...diff, ...item];
+    });
+
+  return mergedResult;
+};
+
+const filterContracts = (
+  contractsRes: Resource<ContractView>,
+  filter: {expiryDate: string[]},
+) => {
+  let result = {...contractsRes};
+
+  if (filter.expiryDate.length) {
+    const nextVisitFilter = filterByExpiryData(contractsRes, filter.expiryDate);
+    result = {...result, data: nextVisitFilter, total: nextVisitFilter.length};
+  }
+  return result;
+};
+
+export const useQueryContract = (
+  params: QueryContractParams,
+  filter: {expiryDate: string[]},
+) => {
   const {data: user} = usePropertyManager();
-  return useQuery(
+  return useQuery<Resource<ContractView>, RestError, Resource<ContractView>>(
     [qk.contracts, params],
     () => fetchContracts(user!.propertyOwner.id, params),
-    {enabled: !!user},
+    {
+      enabled: !!user,
+      select: useCallback(
+        (contractsRes: Resource<ContractView>) => {
+          const filterResult = filterContracts(contractsRes, filter);
+          return filterResult;
+        },
+        [filter],
+      ),
+    },
   );
 };
 
