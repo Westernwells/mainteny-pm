@@ -56,24 +56,26 @@ export const ContractParties = ({contractDetails}: Props) => {
                 borderRadius: '16px',
               }}
             >
-              <Box sx={{flexGrow: 1, mr: 2}}>
-                <Avatar sx={{width: '80px', height: '80px'}}>H</Avatar>
-              </Box>
-              <Box sx={{flexGrow: 2}}>
-                <Box>
-                  <Typography variant="h6" sx={{display: 'block'}}>
-                    {parties[key]?.name}
-                  </Typography>
+              <Box display="flex" maxWidth="70%">
+                <Box sx={{mr: 2}}>
+                  <Avatar sx={{width: '80px', height: '80px'}}>H</Avatar>
                 </Box>
+                <Box sx={{}}>
+                  <Box>
+                    <Typography variant="h6" sx={{display: 'block'}}>
+                      {parties[key]?.name}
+                    </Typography>
+                  </Box>
 
-                <Box>
-                  <Typography variant="mediumBtnText" color="textSecondary">
-                    {parties[key]?.contact?.email}
-                  </Typography>
+                  <Box>
+                    <Typography variant="mediumBtnText" color="textSecondary">
+                      {parties[key]?.contact?.email}
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
 
-              <Box>
+              <Box maxWidth="30%">
                 <Chip
                   color={key === 'contractor' ? 'warning' : 'info'}
                   variant="outlined"
