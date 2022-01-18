@@ -49,7 +49,7 @@ export const MaintenanceHistoryDetail = ({
         return (
           <>
             <Typography variant="largeBtnText" mr={2}>
-              {`${selectedServiceHistory?.fee.amount}${selectedServiceHistory?.fee.currency}`}
+              {`${selectedServiceHistory?.fee.amount} ${selectedServiceHistory?.fee.currency}`}
             </Typography>
             <Typography
               variant="subtitle1"
