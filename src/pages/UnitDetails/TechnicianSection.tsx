@@ -1,4 +1,4 @@
-import {Fragment} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 
 import Typography from '@mui/material/Typography';
@@ -9,18 +9,30 @@ import Avatar from '@mui/material/Avatar';
 import useTheme from '@mui/material/styles/useTheme';
 import {EmptyItem} from 'components/EmptyItem';
 
-import {ServiceOrderView} from '../../models/service-order';
+import * as _ from 'lodash';
 import technicianImage from '../../assets/images/tech.png';
+import {MaintainerView, TechnicianView} from '../../models/technician';
 
 export interface TechnicianSectionProp {
-  serviceOrder?: ServiceOrderView;
+  maintainers: MaintainerView[];
 }
 
-export const TechnicianSection = ({serviceOrder}: TechnicianSectionProp) => {
+export const TechnicianSection = ({maintainers}: TechnicianSectionProp) => {
   const theme = useTheme();
 
-  const technician = serviceOrder?.schedules[0]?.technician;
+  const [technician, setTechnician] = useState<TechnicianView>();
 
+  useEffect(() => {
+    if (maintainers && maintainers.length > 0) {
+      const maintainer = _.sortBy(maintainers, (item) => [
+        -item.weight,
+        item.technician.userAccount.firstName,
+        item.technician.userAccount.lastName,
+      ])[0];
+
+      setTechnician(maintainer.technician);
+    }
+  }, [maintainers]);
   return (
     <Box
       sx={{background: '#fff', borderRadius: '8px', height: 500}}

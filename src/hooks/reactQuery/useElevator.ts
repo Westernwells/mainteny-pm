@@ -23,6 +23,7 @@ import {
   State,
 } from '../../models/misc';
 import {usePropertyManager} from './usePropertyManager';
+import {MaintainerView} from '../../models/technician';
 
 export const elevators: Resource<ElevatorView> = {
   data: [
@@ -449,6 +450,13 @@ export const fetchElevator = async (elevatorId: string) => {
   return response.data;
 };
 
+export const fetchElevatorMaintainers = async (elevatorId: string) => {
+  const response = await axiosClient.get<MaintainerView[]>(
+    `/api/elevators/${elevatorId}/maintainers`,
+  );
+  return response.data;
+};
+
 export const fetchElevatorBreakdownHistory = async (elevatorId: string) => {
   const response: AxiosResponse<Resource<any>> = await axiosClient.post(
     `/api/elevators/${elevatorId}/breakdownHistories`,
@@ -501,6 +509,15 @@ export const useElevatorById = (elevatorId?: string) =>
   useQuery(
     [queryKeys.elevatorById, elevatorId],
     () => fetchElevator(elevatorId!),
+    {
+      enabled: !!elevatorId,
+    },
+  );
+
+export const useElevatorMaintainers = (elevatorId?: string) =>
+  useQuery(
+    [queryKeys.maintainerByElevatorId, elevatorId],
+    () => fetchElevatorMaintainers(elevatorId!),
     {
       enabled: !!elevatorId,
     },
