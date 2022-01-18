@@ -76,7 +76,8 @@ export const MaintenanceHistoryDetail = ({
     <ScrollableCard
       renderIcon={() => <MoreVertIcon />}
       addShadowToCard
-      cardHeight={700}
+      cardHeight="70%"
+      contentHeight="95%"
       disableScroll
       renderHeaderText={() => (
         <Typography variant="h5">Maintenance Details</Typography>

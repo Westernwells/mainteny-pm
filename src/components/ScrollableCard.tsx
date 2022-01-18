@@ -16,20 +16,22 @@ export interface Props {
   headerStyles?: {[key: string | number]: string | number};
   showMoreBtn?: boolean;
   minHeight?: number | string;
+  onMoreClick?: () => void;
 }
 
 export const ScrollableCard = ({
   renderIcon,
   renderHeaderText,
   addShadowToCard,
-  cardHeight = 650,
-  contentHeight = '55vh',
+  cardHeight = '100%',
+  contentHeight = '90%',
   children,
   disableScroll,
   containerStyles,
   headerStyles,
   showMoreBtn,
   minHeight,
+  onMoreClick,
 }: Props) => {
   const theme = useTheme();
   return (
@@ -37,8 +39,7 @@ export const ScrollableCard = ({
       sx={{
         background: '#fff',
         borderRadius: '8px',
-        height: cardHeight,
-        minHeight,
+        ...(minHeight ? {minHeight} : {height: cardHeight}),
         boxShadow: addShadowToCard
           ? '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12)'
           : null,
@@ -72,6 +73,8 @@ export const ScrollableCard = ({
           variant="h6"
           textAlign="center"
           color={theme.palette.info.main}
+          sx={{cursor: 'pointer'}}
+          onClick={onMoreClick || (() => {})}
         >
           More...
         </Typography>

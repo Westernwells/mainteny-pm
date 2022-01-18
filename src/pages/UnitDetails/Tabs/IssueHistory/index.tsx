@@ -45,8 +45,8 @@ export const IssueHistory = () => {
       <Grid item xs={5}>
         <ScrollableCard
           addShadowToCard
-          cardHeight={700}
-          contentHeight="60vh"
+          cardHeight="59%"
+          contentHeight="85%"
           containerStyles={{px: 2}}
           renderHeaderText={() => (
             <Box display="flex" flexDirection="column" pb={2}>

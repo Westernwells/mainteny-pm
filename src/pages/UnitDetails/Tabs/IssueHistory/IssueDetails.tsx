@@ -30,8 +30,8 @@ export const IssueDetails = ({selectedIssueHistory}: Props) => {
     <ScrollableCard
       renderIcon={() => <MoreVertIcon />}
       addShadowToCard
-      cardHeight={700}
-      contentHeight="67vh"
+      cardHeight="59%"
+      contentHeight="95%"
       renderHeaderText={() => (
         <Typography variant="h5">Issue Details</Typography>
       )}

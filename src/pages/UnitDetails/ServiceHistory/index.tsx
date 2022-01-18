@@ -65,7 +65,7 @@ export const ServiceHistory = ({
                 : () => {}
             }
           >
-            <HistoryCard
+            <HistoryCard // TODO: use composition here
               key={history.id}
               serviceHistory={history}
               running={!!(index === 0)}
