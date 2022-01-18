@@ -87,6 +87,7 @@ export const IssueHistory = () => {
             serviceOrders?.data.map((serviceOrder) => (
               <Box
                 mt={3}
+                mb={3}
                 key={serviceOrder.id}
                 onClick={() => setSelectedIssueHistory(serviceOrder)}
                 sx={{}}
