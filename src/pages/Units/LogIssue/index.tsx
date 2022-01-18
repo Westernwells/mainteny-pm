@@ -6,9 +6,10 @@ import {LogIssueAction} from './LogIssueAction';
 interface Props {
   children: ReactNode;
   disabled: boolean;
+  handleCancel: () => void;
 }
 
-export const LogIssue = ({children, disabled}: Props) => (
+export const LogIssue = ({children, disabled, handleCancel}: Props) => (
   <Box
     height="100%"
     display="flex"
@@ -17,6 +18,6 @@ export const LogIssue = ({children, disabled}: Props) => (
   >
     <LogIssueHeader />
     {children}
-    <LogIssueAction disabled={disabled} />
+    <LogIssueAction disabled={disabled} handleCancel={handleCancel} />
   </Box>
 );

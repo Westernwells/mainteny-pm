@@ -176,6 +176,7 @@ export const MyUnits = () => {
                   formik.errors.elevatorId
                 )
               }
+              handleCancel={() => setModalOpen(false)}
             >
               <LogIssueBody>
                 <LogIssueDescription
