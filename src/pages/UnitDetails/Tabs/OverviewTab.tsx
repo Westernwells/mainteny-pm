@@ -22,6 +22,7 @@ export const OverviewTab = ({
 }: Props) => (
   <>
     <Grid container spacing={2} sx={{mt: 2}}>
+      {console.log(serviceHistories, '#######@!!!!!!!!!!!~')}
       <Grid item xs={4}>
         <ElevatorBasicSection
           elevator={elevator}

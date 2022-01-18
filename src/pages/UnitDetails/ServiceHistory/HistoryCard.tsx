@@ -41,7 +41,7 @@ const HistoryCard = ({
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const {createdAt: createdAtDate, description} = serviceHistory;
+  const {description} = serviceHistory;
   const {firstName: technicianFirstName, lastName: technicianLastName} =
     serviceHistory.technician.userAccount;
   return (
@@ -67,7 +67,10 @@ const HistoryCard = ({
           title={
             <Header
               status={serviceHistory.serviceOrder.status}
-              createdAt={getDay(createdAtDate, 'dd MMM YYY')}
+              createdAt={getDay(
+                serviceHistory.serviceOrder.actualEndTime,
+                'dd MMM YYY',
+              )}
               serviceOrderType={serviceHistory.serviceOrder.type}
               running={running}
             />
@@ -75,7 +78,7 @@ const HistoryCard = ({
         />
         <Divider sx={{mt: 1}} />
         <CardContent sx={{py: 1, px: 0}}>
-          <Typography>{description}</Typography>
+          <Typography>{serviceHistory.description}</Typography>
         </CardContent>
         <CardActions disableSpacing sx={{m: 0, p: 0}}>
           <ExpandMore

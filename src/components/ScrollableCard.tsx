@@ -22,7 +22,7 @@ export const ScrollableCard = ({
   renderIcon,
   renderHeaderText,
   addShadowToCard,
-  cardHeight = 450,
+  cardHeight = 650,
   contentHeight = '55vh',
   children,
   disableScroll,

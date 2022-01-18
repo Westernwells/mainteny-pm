@@ -6,7 +6,7 @@ import {Login} from 'pages/Login';
 import {Notifications} from 'pages/Notifications';
 import {PasswordReset} from 'pages/PasswordReset';
 import {UnitsDetail} from 'pages/UnitDetails';
-import {ContractDetails} from 'pages/Contracts/ContractDetails';
+import {ContractDetails} from 'pages/ContractDetails';
 import {MyUnits} from 'pages/Units';
 import {ProtectedRoutes} from 'routes/ProtectedRoutes';
 import {Navigate, Route, Routes} from 'react-router-dom';
