@@ -47,7 +47,7 @@ export const IssueHistory = () => {
           addShadowToCard
           cardHeight="59%"
           contentHeight="85%"
-          containerStyles={{px: 2}}
+          containerStyles={{px: 2, overflow: 'hidden'}}
           renderHeaderText={() => (
             <Box display="flex" flexDirection="column" pb={2}>
               <Typography
@@ -87,6 +87,7 @@ export const IssueHistory = () => {
             serviceOrders?.data.map((serviceOrder) => (
               <Box
                 mt={3}
+                mb={3}
                 key={serviceOrder.id}
                 onClick={() => setSelectedIssueHistory(serviceOrder)}
                 sx={{}}

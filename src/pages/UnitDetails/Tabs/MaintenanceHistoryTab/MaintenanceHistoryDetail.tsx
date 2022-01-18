@@ -49,7 +49,7 @@ export const MaintenanceHistoryDetail = ({
         return (
           <>
             <Typography variant="largeBtnText" mr={2}>
-              {`${selectedServiceHistory?.fee.amount}${selectedServiceHistory?.fee.currency}`}
+              {`${selectedServiceHistory?.fee.amount} ${selectedServiceHistory?.fee.currency}`}
             </Typography>
             <Typography
               variant="subtitle1"
@@ -76,8 +76,6 @@ export const MaintenanceHistoryDetail = ({
     <ScrollableCard
       renderIcon={() => <MoreVertIcon />}
       addShadowToCard
-      cardHeight="70%"
-      contentHeight="95%"
       disableScroll
       renderHeaderText={() => (
         <Typography variant="h5">Maintenance Details</Typography>
@@ -170,7 +168,13 @@ export const MaintenanceHistoryDetail = ({
             display="flex"
             flexDirection="row"
             gap={3}
-            sx={{width: '100%', overflowX: 'auto', mt: 2}}
+            sx={{
+              width: '100%',
+              overflowX: 'auto',
+              mt: 2,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
             <Box
               sx={{
