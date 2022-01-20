@@ -14,11 +14,16 @@ export const PageLayout = ({
   excludeSidebar,
   excludeDefaultSpacing,
 }: Props) => (
-  <Box display="flex">
+  <Box display="flex" maxWidth="100%">
     <AppTopBar />
-    {!excludeSidebar ? <AppDrawer /> : null}
+    {!excludeSidebar ? (
+      <Box sx={{maxWidth: '20%'}}>
+        <AppDrawer />
+      </Box>
+    ) : null}
     <Box
       sx={{
+        // maxWidth: '100%',
         flexGrow: 1,
         pt: !excludeDefaultSpacing ? 12 : null,
         px: !excludeDefaultSpacing ? 5 : null,

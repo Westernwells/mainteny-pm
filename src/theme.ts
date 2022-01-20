@@ -1,6 +1,5 @@
 import {createTheme} from '@mui/material/styles';
 
-// A custom theme for this app
 export const theme = createTheme({
   palette: {
     primary: {
@@ -76,73 +75,77 @@ export const theme = createTheme({
     fontFamily: ['"Open Sans"', 'Helvetica', 'Arial', 'sans-serif'].join(','),
     h1: {
       fontWeight: 400,
-      fontSize: '96px',
-      lineHeight: '112px',
+      fontSize: '6rem',
+      lineHeight: 1.16,
       letterSpacing: '-1.5px',
     },
     h2: {
       fontWeight: 600,
-      fontSize: '60px',
-      lineHeight: '72px',
+      fontSize: '3.75rem',
+      lineHeight: 1.2,
       letterSpacing: '-0.5px',
     },
     h3: {
       fontWeight: 600,
-      fontSize: '48px',
+      fontSize: 1.16,
       lineHeight: '56.02px',
     },
     h4: {
       fontWeight: 600,
-      fontSize: '30px',
-      lineHeight: '41.99px',
+      fontSize: '2.125rem',
+      lineHeight: 1.25,
       letterSpacing: '0.25px',
     },
     h5: {
       fontWeight: 600,
-      fontSize: '24px',
-      lineHeight: '32.02px',
+      fontSize: '1.5rem',
+      lineHeight: 1.33,
       letterSpacing: '-1.5px',
     },
     h6: {
       fontWeight: 600,
-      fontSize: '18px',
-      lineHeight: '32px',
+      fontSize: '1.25rem',
+      lineHeight: 1.6,
       letterSpacing: '0.15px',
+      // [breakpoints.down("xs")]: {
+      //   fontSize: "3rem",
+      //   color: 'red'
+      // }
     },
     subtitle1: {
       fontWeight: 600,
-      fontSize: '16px',
-      lineHeight: '28px',
+      fontSize: '1rem',
+      lineHeight: 1.75,
       letterSpacing: '0.15px',
     },
     subtitle2: {
       fontWeight: 600,
-      fontSize: '14px',
-      lineHeight: '21.98px',
+      fontSize: '0.875rem',
+      lineHeight: 1.57,
       letterSpacing: '0.1px',
     },
     body1: {
       fontWeight: 400,
-      fontSize: '16px',
-      lineHeight: '24px',
+      fontSize: '1rem',
+      lineHeight: 1.5,
       letterSpacing: '0.15px',
     },
     body2: {
       fontWeight: 400,
-      fontSize: '14px',
-      lineHeight: '20.02px',
+      fontSize: '0.875rem',
+      lineHeight: 1.43,
       letterSpacing: '0.15px',
     },
     caption: {
       fontWeight: 400,
-      fontSize: '12px',
-      lineHeight: '19.92px',
+      fontSize: '0.75rem',
+      lineHeight: 1.66,
       letterSpacing: '0.4px',
     },
     overline: {
       fontWeight: 400,
-      fontSize: '12px',
-      lineHeight: '31.92px',
+      fontSize: '0.75rem',
+      lineHeight: 2.66,
       letterSpacing: '1px',
     },
   },
@@ -157,8 +160,8 @@ export const theme = createTheme({
           props: {size: 'large'},
           style: {
             fontWeight: 600,
-            fontSize: '15px',
-            lineHeight: '26px',
+            fontSize: '0.9375rem',
+            lineHeight: 1.73,
             letterSpacing: '0.15px',
           },
         },
@@ -166,8 +169,8 @@ export const theme = createTheme({
           props: {size: 'medium'},
           style: {
             fontWeight: 600,
-            fontSize: '14px',
-            lineHeight: '24px',
+            fontSize: '0.9375rem',
+            lineHeight: 1.66,
             letterSpacing: '0.4px',
           },
         },
@@ -175,8 +178,8 @@ export const theme = createTheme({
           props: {size: 'small'},
           style: {
             fontWeight: 600,
-            fontSize: '13px',
-            lineHeight: '22px',
+            fontSize: '0.8125rem',
+            lineHeight: 1.69,
             letterSpacing: '0.46px',
           },
         },
@@ -201,8 +204,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 400,
-          fontSize: '16px',
-          lineHeight: '24px',
+          fontSize: '0.75rem',
+          lineHeight: 2,
           letterSpacing: '0.15px',
         },
       },
@@ -211,8 +214,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 400,
-          fontSize: '12px',
-          lineHeight: '20px',
+          fontSize: '0.75rem',
+          lineHeight: 1.66,
           letterSpacing: '0.4px',
         },
       },
@@ -221,8 +224,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 400,
-          fontSize: '16px',
-          lineHeight: '24px',
+          fontSize: '1rem',
+          lineHeight: 1.5,
           letterSpacing: '0.15px',
         },
       },
@@ -231,8 +234,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 400,
-          fontSize: '20px',
-          lineHeight: '20px',
+          fontSize: '1.25rem',
+          lineHeight: 1,
           letterSpacing: '0.14px',
         },
       },
@@ -271,8 +274,8 @@ export const theme = createTheme({
           props: {variant: 'largeBtnText'},
           style: {
             fontWeight: 600,
-            fontSize: '15px',
-            lineHeight: '26px',
+            fontSize: '0.9375rem',
+            lineHeight: 1.73,
             letterSpacing: '0.15px',
           },
         },
@@ -280,8 +283,8 @@ export const theme = createTheme({
           props: {variant: 'mediumBtnText'},
           style: {
             fontWeight: 600,
-            fontSize: '14px',
-            lineHeight: '24px',
+            fontSize: '0.875rem',
+            lineHeight: 1.71,
             letterSpacing: '0.4px',
             textTransform: 'capitalize',
           },
@@ -290,8 +293,8 @@ export const theme = createTheme({
           props: {variant: 'smallBtnText'},
           style: {
             fontWeight: 600,
-            fontSize: '13px',
-            lineHeight: '22px',
+            fontSize: '0.8125rem',
+            lineHeight: 1.69,
             letterSpacing: '0.46px',
           },
         },
@@ -312,8 +315,8 @@ export const theme = createTheme({
           style: {
             fontFamily: 'Roboto',
             fontWeight: 500,
-            fontSize: '14px',
-            lineHeight: '24px',
+            fontSize: '0.875rem',
+            lineHeight: 1.7,
             letterSpacing: '0.17px',
           },
         },
@@ -322,8 +325,8 @@ export const theme = createTheme({
           style: {
             fontFamily: 'Roboto',
             fontWeight: 500,
-            fontSize: '16px',
-            lineHeight: '24px',
+            fontSize: '1rem',
+            lineHeight: 1.5,
             letterSpacing: '0.15px',
           },
         },
@@ -332,8 +335,8 @@ export const theme = createTheme({
           style: {
             fontFamily: 'Roboto',
             fontWeight: 400,
-            fontSize: '12px',
-            lineHeight: '20px',
+            fontSize: '0.75rem',
+            lineHeight: 1.66,
             letterSpacing: '0.4px',
           },
         },
@@ -341,3 +344,14 @@ export const theme = createTheme({
     },
   },
 });
+
+// Breakponts
+theme.typography.h4 = {
+  ...theme.typography.h4,
+  [theme.breakpoints.down('lg')]: {
+    backgroundColor: theme.palette.secondary.main,
+
+    fontSize: '1.5rem',
+    lineHeight: 1.25,
+  },
+};

@@ -70,7 +70,7 @@ export const ContractBasic = ({
               }}
               label={
                 <Typography variant="h6" sx={{textTransform: 'capitalize'}}>
-                  In Effect
+                  in effect
                 </Typography>
               }
               size="medium"

@@ -25,8 +25,8 @@ export const Searchnput = ({placeholder, onValueChanged}: Props) => {
         p: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: 368,
         boxShadow: 0,
+        width: 368,
         border: '1px solid #E4E9F2',
       }}
     >

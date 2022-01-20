@@ -90,7 +90,7 @@ export const MyUnits = () => {
 
   return (
     <Box>
-      <Box display="flex" justifyContent="space-between">
+      <Box display="flex" justifyContent="space-between" maxWidth="100%">
         <Box sx={{mb: 4}}>
           <Typography variant="h4">Units</Typography>
         </Box>

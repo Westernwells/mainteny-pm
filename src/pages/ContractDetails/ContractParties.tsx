@@ -48,7 +48,7 @@ export const ContractParties = ({contractDetails}: Props) => {
               containerStyles={{
                 boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
                 px: 2,
-                width: '100%',
+                maxWidth: '100%',
                 height: '100%',
                 border: 'none',
                 py: 2,
@@ -57,11 +57,11 @@ export const ContractParties = ({contractDetails}: Props) => {
                 borderRadius: '16px',
               }}
             >
-              <Box display="flex" maxWidth="70%">
+              <Box display="flex">
                 <Box sx={{mr: 2}}>
-                  <Avatar sx={{width: '80px', height: '80px'}}>H</Avatar>
+                  <Avatar sx={{width: '5rem', height: '5rem'}}>H</Avatar>
                 </Box>
-                <Box sx={{}}>
+                <Box>
                   <Box>
                     <Typography variant="h6" sx={{display: 'block'}}>
                       {parties[key]?.name}
@@ -76,12 +76,13 @@ export const ContractParties = ({contractDetails}: Props) => {
                 </Box>
               </Box>
 
-              <Box maxWidth="30%">
+              <Box>
                 <Chip
                   color={key === 'contractor' ? 'warning' : 'info'}
                   variant="outlined"
                   sx={{
                     py: 3,
+
                     background:
                       key === 'contractor'
                         ? theme.palette.warning.outlinedHoverBg
