@@ -2,13 +2,12 @@ html {
   font-size: 16px;
 }
 
-
 html::-webkit-scrollbar {
   width: 0;
   background: 'transparent';
 }
 
-   /* mobile */
+/* mobile */
 
 @media screen and (min-width: 0px) {
   html {
@@ -16,8 +15,7 @@ html::-webkit-scrollbar {
   }
 }
 
-
-  /* tablet */
+/* tablet */
 
 @media screen and (min-width: 640px) {
   html {
@@ -25,8 +23,7 @@ html::-webkit-scrollbar {
   }
 }
 
-
-  /* laptop */
+/* laptop */
 
 @media screen and (min-width: 1024px) {
   html {
@@ -34,8 +31,7 @@ html::-webkit-scrollbar {
   }
 }
 
- 
-  /* desktop */
+/* desktop */
 
 @media screen and (min-width: 1200px) {
   html {
