@@ -179,7 +179,18 @@ export const UnitsDetail = () => {
           ))}
         </Tabs>
       </Box>
-      <Box sx={{height: '80vh', overflowY: 'scroll', px: 5, mt: '1px'}}>
+      <Box
+        sx={{
+          height: '80vh',
+          overflowY: 'scroll',
+          px: 5,
+          mt: '1px',
+          '::-webkit-scrollbar': {
+            width: 0,
+            background: 'transparent',
+          },
+        }}
+      >
         {tabPanel()}
       </Box>
     </Box>

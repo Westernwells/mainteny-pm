@@ -1,32 +1,39 @@
 html {
-  font-size: 16px; 
-  overflow: hidden;
+  font-size: 16px;
 }
 
-{/* mobile */}
+ {
+  /* mobile */
+}
 @media screen and (min-width: 0px) {
   html {
-      font-size: 10px; 
+    font-size: 10px;
   }
 }
 
-{/* tablet */}
+ {
+  /* tablet */
+}
 @media screen and (min-width: 640px) {
   html {
-      font-size: 12px; 
+    font-size: 12px;
   }
 }
 
-{/* laptop */}
+ {
+  /* laptop */
+}
 @media screen and (min-width: 1024px) {
   html {
-      font-size: 16px; 
+    font-size: 16px;
   }
 }
 
-{/* desktop */}
+ {
+  /* desktop */
+}
 @media screen and (min-width: 1200px) {
   html {
-      font-size: 16px; 
+    font-size: 16px;
   }
 }
