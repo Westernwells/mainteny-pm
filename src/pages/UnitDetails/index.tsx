@@ -138,7 +138,7 @@ export const UnitsDetail = () => {
   };
 
   return (
-    <Box mb={4}>
+    <Box>
       <Box
         sx={{
           backgroundColor: '#fff',
