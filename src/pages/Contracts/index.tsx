@@ -50,14 +50,17 @@ export const Contracts = () => {
     const options: string[] = [];
     if (contractWithUnits) {
       contractWithUnits?.forEach((item) => {
-        if (!options.includes(item.serviceCompany.name)) {
+        if (
+          !options.includes(item.serviceCompany.name) &&
+          !contractorView.includes(item.serviceCompany.name)
+        ) {
           options.push(item.serviceCompany.name);
         }
       });
     }
 
-    setConractorView(options);
-  }, []);
+    setConractorView([...contractorView, ...options]);
+  }, [contractWithUnits]);
 
   return (
     <Box>

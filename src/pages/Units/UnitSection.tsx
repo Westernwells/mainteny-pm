@@ -27,8 +27,6 @@ export const UnitSection = ({
     setModalOpen(true);
   };
 
-  // console.log(elevatorsByAddress, '!!!!!!!!!!!!')
-
   return (
     <Box
       sx={{

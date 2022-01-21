@@ -1,6 +1,15 @@
 import {createTheme} from '@mui/material/styles';
 
 export const theme = createTheme({
+  // overrides: {
+  //   MuiCssBaseline: {
+  //     "@global": {
+  //       html: {
+  //         fontSize: "62.5%"
+  //       }
+  //     }
+  //   }
+  // },
   palette: {
     primary: {
       light: '#457892',
@@ -73,6 +82,8 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: ['"Open Sans"', 'Helvetica', 'Arial', 'sans-serif'].join(','),
+    // htmlFontSize: 10,
+    // root: {},
     h1: {
       fontWeight: 400,
       fontSize: '6rem',
@@ -348,10 +359,10 @@ export const theme = createTheme({
 // Breakponts
 theme.typography.h4 = {
   ...theme.typography.h4,
-  [theme.breakpoints.down('lg')]: {
-    backgroundColor: theme.palette.secondary.main,
+  // [theme.breakpoints.down('lg')]: {
+  //   backgroundColor: theme.palette.secondary.main,
 
-    fontSize: '1.5rem',
-    lineHeight: 1.25,
-  },
+  //   fontSize: '12px',
+  //   lineHeight: 1.25,
+  // },
 };

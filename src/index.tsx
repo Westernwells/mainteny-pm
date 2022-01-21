@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {ReactQueryDevtools} from 'react-query/devtools';
 import CssBaseline from '@mui/material/CssBaseline';
-import {ThemeProvider} from '@mui/material/styles';
+import {ThemeProvider, StyledEngineProvider} from '@mui/material/styles';
 import {SnackbarProvider} from 'notistack';
 
 import {App} from './App';
