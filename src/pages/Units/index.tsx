@@ -43,6 +43,8 @@ export const MyUnits = () => {
   const [nextVisit, setNextVisit] = useState<string[]>([]);
   const [showMapview, setShowMapview] = useState(false);
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [selectedFieldView, setSelectedFieldView] = useState<ElevatorView>();
+  const [issuElevator, setIssueElevator] = useState();
   const [sliderValue, setSliderValue] = React.useState<number[]>([20, 37]);
 
   const {data: elevatorResponse = fallback} = useAllElevators(search, page, {
@@ -136,6 +138,7 @@ export const MyUnits = () => {
                 key={elevatorsByAddress.address.id}
                 elevatorsByAddress={elevatorsByAddress}
                 setModalOpen={setModalOpen}
+                setSelectedFieldView={setSelectedFieldView}
               />
             ))}
           </Box>
@@ -194,6 +197,7 @@ export const MyUnits = () => {
                   error={formik.errors.elevatorId}
                   touched={formik.touched.elevatorId}
                   handleBlur={formik.handleBlur}
+                  selectedFieldView={selectedFieldView}
                 />
                 <Box mb={1}>
                   <FormControlLabel

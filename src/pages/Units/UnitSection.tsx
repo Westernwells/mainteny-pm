@@ -9,21 +9,24 @@ import Box from '@mui/system/Box';
 import Chip from '@mui/material/Chip';
 import {ElevatorsByAddress} from './Models';
 import {getDay, toDate} from '../../utils/datetime';
-import {ElevatorStatus} from '../../models/elevator';
+import {ElevatorStatus, ElevatorView} from '../../models/elevator';
 
 export interface UnitsSectionProperty {
   elevatorsByAddress: ElevatorsByAddress;
   setModalOpen: (state: boolean) => void;
+  setSelectedFieldView: (state: ElevatorView) => void;
 }
 
 export const UnitSection = ({
   elevatorsByAddress,
   setModalOpen,
+  setSelectedFieldView,
 }: UnitsSectionProperty) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClick = (elvator: ElevatorView) => {
+    setSelectedFieldView(elvator);
     setModalOpen(true);
   };
 
@@ -150,7 +153,7 @@ export const UnitSection = ({
                     px: 3,
                     border: 'none',
                   }}
-                  onClick={handleClick}
+                  onClick={() => handleClick(elevatorOrder.elevator)}
                 >
                   <Typography
                     variant="largeBtnText"

@@ -18,6 +18,7 @@ interface Props {
     value: any,
     shouldValidate?: boolean | undefined,
   ) => Promise<void> | Promise<FormikErrors<any>>;
+  selectedFieldView?: ElevatorView;
 }
 
 export const LogIssueUnitInput = ({
@@ -26,6 +27,7 @@ export const LogIssueUnitInput = ({
   touched,
   error,
   handleBlur,
+  selectedFieldView,
 }: Props) => (
   <Box sx={{width: '100%'}} mb={3}>
     <Typography variant="subtitle1" mb={2}>
@@ -36,6 +38,7 @@ export const LogIssueUnitInput = ({
       id="unit"
       options={elevators}
       autoHighlight
+      value={selectedFieldView}
       onChange={(e, value) => setField('elevatorId', value?.id)}
       getOptionLabel={(option) => `${option.number} ${option.model}`}
       renderOption={(props, option) => (
