@@ -7,6 +7,7 @@ import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import Chip from '@mui/material/Chip';
+import {FormikErrors} from 'formik';
 import {ElevatorsByAddress} from './Models';
 import {getDay, toDate} from '../../utils/datetime';
 import {ElevatorStatus, ElevatorView} from '../../models/elevator';
@@ -14,19 +15,23 @@ import {ElevatorStatus, ElevatorView} from '../../models/elevator';
 export interface UnitsSectionProperty {
   elevatorsByAddress: ElevatorsByAddress;
   setModalOpen: (state: boolean) => void;
-  setSelectedFieldView: (state: ElevatorView) => void;
+  setField: (
+    field: string,
+    value: any,
+    shouldValidate?: boolean | undefined,
+  ) => Promise<void> | Promise<FormikErrors<any>>;
 }
 
 export const UnitSection = ({
   elevatorsByAddress,
   setModalOpen,
-  setSelectedFieldView,
+  setField,
 }: UnitsSectionProperty) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const handleClick = (elvator: ElevatorView) => {
-    setSelectedFieldView(elvator);
+  const handleClick = (elevator: ElevatorView) => {
+    setField('elevator', elevator);
     setModalOpen(true);
   };
 

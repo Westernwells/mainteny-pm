@@ -1,4 +1,4 @@
-import {ChangeEvent, SyntheticEvent} from 'react';
+import {ChangeEvent} from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 
@@ -18,7 +18,7 @@ interface Props {
     value: any,
     shouldValidate?: boolean | undefined,
   ) => Promise<void> | Promise<FormikErrors<any>>;
-  selectedFieldView?: ElevatorView;
+  selectedUnit?: ElevatorView;
 }
 
 export const LogIssueUnitInput = ({
@@ -27,7 +27,7 @@ export const LogIssueUnitInput = ({
   touched,
   error,
   handleBlur,
-  selectedFieldView,
+  selectedUnit,
 }: Props) => (
   <Box sx={{width: '100%'}} mb={3}>
     <Typography variant="subtitle1" mb={2}>
@@ -38,8 +38,8 @@ export const LogIssueUnitInput = ({
       id="unit"
       options={elevators}
       autoHighlight
-      value={selectedFieldView}
-      onChange={(e, value) => setField('elevatorId', value?.id)}
+      value={selectedUnit}
+      onChange={(e, value) => setField('elevator', value)}
       getOptionLabel={(option) => `${option.number} ${option.model}`}
       renderOption={(props, option) => (
         <Box component="li" sx={{display: 'flex'}} {...props}>

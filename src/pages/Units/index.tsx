@@ -26,9 +26,14 @@ import {LogIssueBody} from './LogIssue/LogIssueBody';
 import {LogIssueDescription} from './LogIssue/LogIssueDescription';
 import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
 
+interface FormikFields {
+  description: string;
+  elevator?: ElevatorView;
+  moreInformation: string;
+}
+
 const validationSchema = Yup.object().shape({
   description: Yup.string().required('description is required'),
-  elevatorId: Yup.string().required('unit is required'),
 });
 
 export const MyUnits = () => {
@@ -43,7 +48,6 @@ export const MyUnits = () => {
   const [nextVisit, setNextVisit] = useState<string[]>([]);
   const [showMapview, setShowMapview] = useState(false);
   const [modalOpen, setModalOpen] = React.useState(false);
-  const [selectedFieldView, setSelectedFieldView] = useState<ElevatorView>();
   const [issuElevator, setIssueElevator] = useState();
   const [sliderValue, setSliderValue] = React.useState<number[]>([20, 37]);
 
@@ -57,14 +61,16 @@ export const MyUnits = () => {
 
   const {mutate: logIssue, isLoading} = useLogIssue();
 
-  const formik = useFormik({
+  const formik = useFormik<FormikFields>({
     initialValues: {
       description: '',
-      elevatorId: '',
+      elevator: undefined,
       moreInformation: '',
     },
     onSubmit: async (values, {resetForm}) => {
-      await logIssue(values);
+      const body = {...values, elevatorId: values?.elevator?.id};
+      delete body.elevator;
+      await logIssue(body);
       setModalOpen(false);
       resetForm();
     },
@@ -138,7 +144,7 @@ export const MyUnits = () => {
                 key={elevatorsByAddress.address.id}
                 elevatorsByAddress={elevatorsByAddress}
                 setModalOpen={setModalOpen}
-                setSelectedFieldView={setSelectedFieldView}
+                setField={formik.setFieldValue}
               />
             ))}
           </Box>
@@ -174,9 +180,9 @@ export const MyUnits = () => {
               disabled={
                 !!(
                   !formik.values.description ||
-                  !formik.values.elevatorId ||
+                  !formik.values.elevator ||
                   formik.errors.description ||
-                  formik.errors.elevatorId
+                  formik.errors.elevator
                 )
               }
               handleCancel={() => setModalOpen(false)}
@@ -194,10 +200,10 @@ export const MyUnits = () => {
                 <LogIssueUnitInput
                   setField={formik.setFieldValue}
                   elevators={elevatorResponse.elevator.data}
-                  error={formik.errors.elevatorId}
-                  touched={formik.touched.elevatorId}
+                  error={formik.errors.elevator}
+                  touched={formik.touched.elevator}
                   handleBlur={formik.handleBlur}
-                  selectedFieldView={selectedFieldView}
+                  selectedUnit={formik.values.elevator}
                 />
                 <Box mb={1}>
                   <FormControlLabel
