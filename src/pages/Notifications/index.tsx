@@ -9,7 +9,7 @@ export const Notifications = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   return (
-    <Box>
+    <Box mb={2}>
       <Box display="flex" sx={{mb: 2, ml: 4}}>
         <Box
           mt={1}

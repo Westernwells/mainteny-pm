@@ -1,9 +1,10 @@
+import {useCallback} from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import useTheme from '@mui/material/styles/useTheme';
 import * as _ from 'lodash';
-import {useCallback} from 'react';
 
 interface Props {
   placeholder?: string;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export const Searchnput = ({placeholder, onValueChanged}: Props) => {
+  const theme = useTheme();
   const debouncedChangeHandler = useCallback(
     _.debounce((e) => {
       onValueChanged?.(e.nativeEvent.target.value);
@@ -26,7 +28,7 @@ export const Searchnput = ({placeholder, onValueChanged}: Props) => {
         display: 'flex',
         alignItems: 'center',
         boxShadow: 0,
-        width: 368,
+        width: '23rem',
         border: '1px solid #E4E9F2',
       }}
     >

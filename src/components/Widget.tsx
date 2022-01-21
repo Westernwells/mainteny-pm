@@ -35,7 +35,7 @@ export const Widget = ({
 }: Props) => {
   const navigate = useNavigate();
   const theme = useTheme();
-  // console.log(showFilter, '%%%$$$$$$$#######')
+
   return (
     <Box>
       <Box display="flex">
@@ -43,7 +43,7 @@ export const Widget = ({
           <Button
             onClick={() => setShowFilter(!showFilter)}
             disableRipple
-            size="large"
+            size={theme.breakpoints.down('md') ? 'small' : 'large'}
             sx={{
               backgroundColor: showFilter
                 ? theme.palette.action.selected
@@ -90,6 +90,7 @@ export const Widget = ({
                 <Button
                   disableRipple
                   variant="outlined"
+                  size={theme.breakpoints.down('md') ? 'small' : undefined}
                   onClick={() => (closeMapView ? closeMapView() : () => {})}
                   sx={{
                     background: !mapViewActive
@@ -107,6 +108,7 @@ export const Widget = ({
 
                 <Button
                   disableRipple
+                  size={theme.breakpoints.down('md') ? 'small' : undefined}
                   variant="outlined"
                   sx={{
                     background: mapViewActive

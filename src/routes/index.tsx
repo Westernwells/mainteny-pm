@@ -49,7 +49,7 @@ export const Router = () => (
       <Route
         path="/contracts/:id"
         element={
-          <PageLayout>
+          <PageLayout overflowY>
             <ContractDetails />
           </PageLayout>
         }
@@ -76,7 +76,7 @@ export const Router = () => (
       <Route
         path="/notifications"
         element={
-          <PageLayout excludeSidebar>
+          <PageLayout excludeSidebar overflowY>
             <Notifications />
           </PageLayout>
         }
