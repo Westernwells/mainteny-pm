@@ -28,7 +28,7 @@ export const ElevatorBreakDownSection = ({elevatorId}: Props) => {
         </Typography>
       )}
     >
-      <Box pt={2} sx={{overflowY: 'scroll'}}>
+      <Box pt={2}>
         {breakdownHistory.map((history) => (
           <Box
             key={history.id}
