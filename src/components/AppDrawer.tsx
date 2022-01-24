@@ -16,8 +16,9 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import PaymentsIcon from '@mui/icons-material/Payments';
+import useTheme from '@mui/material/styles/useTheme';
 
-const drawerWidth = 240;
+const drawerWidth = '13.06rem';
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -151,7 +152,7 @@ export const AppDrawer = () => {
                 aria-label="open drawer"
                 onClick={handleDrawerClose}
                 edge="start"
-                sx={{}}
+                sx={{fontSize: ''}}
               >
                 <MenuIcon />
               </IconButton>
@@ -208,7 +209,7 @@ export const AppDrawer = () => {
             >
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText
-                primary={<Typography variant="h6">{text}</Typography>}
+                primary={<Typography variant="subtitle1">{text}</Typography>}
               />
             </ListItemButton>
           ))}

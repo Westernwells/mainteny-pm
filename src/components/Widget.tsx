@@ -71,17 +71,42 @@ export const Widget = ({
           />
         </Box>
         <Box>
-          <ButtonGroup variant="outlined" size="large" sx={{height: 48}}>
+          <ButtonGroup variant="outlined" size="small" sx={{height: 48}}>
             {btnGroupType && btnGroupType === BtnGroupType.ICON ? (
               <>
                 <Button
+                  disableRipple
                   variant="outlined"
-                  sx={{background: theme.state?.hover}}
+                  onClick={() => (closeMapView ? closeMapView() : () => {})}
+                  sx={{
+                    background: !mapViewActive
+                      ? theme.palette.action.selected
+                      : '#fff',
+                    '&:hover': {
+                      background: !mapViewActive
+                        ? theme.palette.action.selected
+                        : '#fff',
+                    },
+                  }}
                 >
                   <FormatListBulletedIcon />
                 </Button>
 
-                <Button variant="outlined">
+                <Button
+                  disableRipple
+                  onClick={() => (openMapView ? openMapView() : () => {})}
+                  sx={{
+                    background: mapViewActive
+                      ? theme.palette.action.selected
+                      : '#fff',
+                    '&:hover': {
+                      background: mapViewActive
+                        ? theme.palette.action.selected
+                        : '#fff',
+                    },
+                  }}
+                  variant="outlined"
+                >
                   <GridViewIcon />
                 </Button>
               </>

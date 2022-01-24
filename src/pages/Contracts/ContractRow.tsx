@@ -27,28 +27,29 @@ export const ContractRow = ({contract}: Props) => {
     <Box
       onClick={() => navigate(contract.id)}
       sx={{
-        backgroundColor: '#FAFAFA',
+        backgroundColor: '#fff',
         border: '1px solid #E4E9F2',
         paddingTop: 1,
         paddingBottom: 1,
-        marginTop: 1,
+        marginTop: '8px',
         borderRadius: '4px',
+        minHeight: '3rem',
       }}
     >
       <Grid container sx={{pl: 2}}>
         <Grid item xs={3} sx={{cursor: 'pointer'}}>
-          <Typography variant="subtitle2">
+          <Typography variant="subtitle1">
             {contract.serviceCompany.name}
           </Typography>
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="subtitle2">{contract.number}</Typography>
+          <Typography variant="largeBtnText">{contract.number}</Typography>
         </Grid>
 
         <Grid item xs={1}>
           <Box display="flex" justifyContent="center">
-            <Typography variant="subtitle2">
+            <Typography variant="largeBtnText">
               {contract.units ? contract.units : 0}
             </Typography>
           </Box>
@@ -56,7 +57,7 @@ export const ContractRow = ({contract}: Props) => {
 
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center">
-            <Typography variant="subtitle2">
+            <Typography variant="largeBtnText">
               {contract.price.toLocaleString('en-US', {
                 style: 'currency',
                 currency: contract.currency,
@@ -67,7 +68,7 @@ export const ContractRow = ({contract}: Props) => {
 
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center">
-            <Typography variant="subtitle2">
+            <Typography variant="largeBtnText">
               {getDay(contract.endTime)}
             </Typography>
           </Box>

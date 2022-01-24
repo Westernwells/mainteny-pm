@@ -4,6 +4,7 @@ import Box from '@mui/system/Box';
 import Chip from '@mui/material/Chip';
 import useTheme from '@mui/material/styles/useTheme';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import {StatusChip} from 'components/StatusChip';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import {getDay} from '../../utils/datetime';
@@ -19,7 +20,7 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
   return (
     <Box
       sx={{
-        backgroundColor: '#FAFAFA',
+        backgroundColor: '#fff',
         border: '1px solid #E4E9F2',
         paddingTop: 1,
         paddingBottom: 1,
@@ -57,26 +58,13 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
 
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center">
-            <Chip
-              sx={{
-                py: 2,
-                color: '#fff',
-                backgroundColor:
-                  invoice.status === InvoiceStatus.PAID
-                    ? theme.palette.success.main
-                    : theme.state?.ratingActive,
-              }}
-              label={
-                <Typography
-                  variant="largeBtnText"
-                  sx={{textTransform: 'capitalize'}}
-                >
-                  {`${invoice.status.charAt(0)}${invoice.status
-                    .slice(1)
-                    .toLowerCase()}`}
-                </Typography>
+            <StatusChip
+              label={invoice.status}
+              bgColor={
+                invoice.status === InvoiceStatus.PAID
+                  ? theme.palette.success.main
+                  : theme.state?.ratingActive
               }
-              size="medium"
             />
           </Box>
         </Grid>

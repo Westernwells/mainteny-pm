@@ -18,6 +18,7 @@ import * as Yup from 'yup';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
+import {BtnGroupType} from 'models/misc';
 import {FilterFields} from 'components/FilterFields';
 import {UnitSection} from './UnitSection';
 import {UnitsMapsView} from './UnitsMapsView';
@@ -99,10 +100,10 @@ export const MyUnits = () => {
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" maxWidth="100%">
-        <Box sx={{mb: 4}}>
-          <Typography variant="h4">Units</Typography>
+        <Box sx={{mb: 4, mt: 1}}>
+          <Typography variant="h5">Units</Typography>
         </Box>
-        <Box mt={1}>
+        <Box>
           <Widget
             searchPlaceholder="Try ‘Schindler’ or ‘Mitsubishi’"
             onSearchTextChanged={onSearchTextChanged}
@@ -111,6 +112,7 @@ export const MyUnits = () => {
             mapViewActive={showMapview}
             setShowFilter={setShowFilter}
             showFilter={showFilter}
+            btnGroupType={BtnGroupType.ICON}
           />
         </Box>
       </Box>

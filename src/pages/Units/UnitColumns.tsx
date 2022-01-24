@@ -12,14 +12,15 @@ export const UnitColumns = () => (
       paddingLeft: '15px',
       boxShadow: '0px 0px 0px 1px #E0E0E0',
       borderRadius: '4px',
+      minHeight: '2.5rem',
     }}
   >
     <Grid container sx={{pl: 2}}>
-      <Grid item xs={3} />
+      <Grid item xs={4} />
       <Grid
         item
         container
-        xs={9}
+        xs={8}
         spacing={2}
         sx={{display: 'flex', justifyContent: 'flex-end'}}
       >

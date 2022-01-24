@@ -50,7 +50,7 @@ export const Login = () => {
             <CheckMark />
           </Box>
           <Typography variant="h4" mt={7}>
-            Awesome, password created successfully
+            Password created successfully
           </Typography>
         </Box>
       ) : null}

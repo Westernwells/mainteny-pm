@@ -7,6 +7,7 @@ import Badge from '@mui/material/Badge';
 import AppBar from '@mui/material/AppBar';
 import {useNavigate} from 'react-router-dom';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import useTheme from '@mui/material/styles/useTheme';
 
 import AvatarImg from 'assets/images/avatar.png';
 import {ReactComponent as LogoutIcon} from 'assets/icons/Logout.svg';
@@ -16,16 +17,17 @@ import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
 
 export const AppTopBar = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const {signout} = useAuth();
   const {data: user} = usePropertyManager();
   return (
     <AppBar
       sx={{
         backgroundColor: '#fff',
-        zIndex: (theme) => theme.zIndex.drawer + 1,
+        zIndex: theme.zIndex.drawer + 1,
         boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
-        paddingRight: 5,
-        paddingLeft: 3,
+        paddingRight: '2.5rem',
+        paddingLeft: '3rem',
       }}
     >
       <Box display="flex" justifyContent="space-between" pt={2} pb={1}>
@@ -67,25 +69,29 @@ export const AppTopBar = () => {
             <Box ml={8} display="flex" alignItems="center">
               <Avatar alt="Bruce Wayne" src={AvatarImg} />
               <Box ml={2}>
-                <Typography color="#222B45" variant="h6" gutterBottom={false}>
+                <Typography
+                  color="#222B45"
+                  variant="subtitle1"
+                  gutterBottom={false}
+                  sx={{textTransform: 'capitalize'}}
+                >
                   {user?.userAccount.firstName} {user?.userAccount.lastName}
                 </Typography>
 
-                <Button
-                  variant="text"
+                <Typography
+                  variant="subtitle2"
                   sx={{
                     textTransform: 'capitalize',
-                    fontSize: '12px',
+                    fontSize: '0.875rem',
                     padding: 0,
-                    marginTop: -2,
-                    color: '#8F9BB3',
+                    color: theme.palette.text.secondary,
                   }}
                 >
                   {user?.userAccount.roles[0]
                     .split('_')
                     .join(' ')
                     .toLowerCase()}
-                </Button>
+                </Typography>
               </Box>
             </Box>
             <Box sx={{marginLeft: 6}}>

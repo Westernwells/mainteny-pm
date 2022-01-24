@@ -7,6 +7,7 @@ import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import Chip from '@mui/material/Chip';
+import {StatusChip} from 'components/StatusChip';
 import {FormikErrors} from 'formik';
 import {ElevatorsByAddress} from './Models';
 import {getDay, toDate} from '../../utils/datetime';
@@ -38,7 +39,7 @@ export const UnitSection = ({
   return (
     <Box
       sx={{
-        backgroundColor: '#FAFAFA',
+        backgroundColor: '#fff',
         border: '1px solid #E4E9F2',
         paddingTop: 0.5,
         paddingBottom: 0.5,
@@ -62,6 +63,7 @@ export const UnitSection = ({
             paddingBottom: 0.5,
             paddingLeft: 2,
             '&:hover': {background: 'rgba(0, 209, 255, 0.08)'},
+            minHeight: '3rem',
           }}
         >
           <Grid
@@ -75,7 +77,7 @@ export const UnitSection = ({
           >
             <Box display="flex" alignItems="center">
               <Elevator style={{marginRight: '10px'}} />
-              <Typography variant="h6">
+              <Typography variant="subtitle1">
                 {elevatorOrder.elevator.model}
               </Typography>
             </Box>
@@ -124,26 +126,13 @@ export const UnitSection = ({
 
             <Grid item xs={2}>
               <Box display="flex" justifyContent="center">
-                <Chip
-                  sx={{py: 2}}
-                  label={
-                    <Typography
-                      variant="largeBtnText"
-                      sx={{textTransform: 'capitalize'}}
-                    >
-                      {`${elevatorOrder.elevator.status.charAt(
-                        0,
-                      )}${elevatorOrder.elevator.status
-                        .slice(1)
-                        .toLowerCase()}`}
-                    </Typography>
-                  }
+                <StatusChip
+                  label={elevatorOrder.elevator.status}
                   color={
                     elevatorOrder.elevator.status === ElevatorStatus.RUNNING
                       ? 'success'
                       : 'error'
                   }
-                  size="medium"
                 />
               </Box>
             </Grid>
@@ -161,7 +150,7 @@ export const UnitSection = ({
                   onClick={() => handleClick(elevatorOrder.elevator)}
                 >
                   <Typography
-                    variant="largeBtnText"
+                    variant="smallBtnText"
                     sx={{textTransform: 'capitalize'}}
                   >
                     {' '}

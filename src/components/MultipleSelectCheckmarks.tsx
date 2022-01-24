@@ -67,8 +67,8 @@ export const MultipleSelectCheckmarks = ({
   }, [selectedItems]);
 
   return (
-    <Box>
-      <FormControl sx={{m: 1, width: 300}}>
+    <Box mb={3}>
+      <FormControl sx={{m: 1, width: 300, maxHeight: 40}}>
         <InputLabel id={label}>{label}</InputLabel>
         <Select
           id={label}
@@ -78,6 +78,7 @@ export const MultipleSelectCheckmarks = ({
           input={<OutlinedInput sx={{background: '#fff'}} label={label} />}
           renderValue={(selected) => selectedItems.join(',')}
           MenuProps={MenuProps}
+          sx={{maxHeight: 50}}
         >
           {options.map((option) => (
             <MenuItem key={option} value={option}>

@@ -6,8 +6,8 @@ export const AuthRoutes = () => {
   const location = useLocation();
 
   const authRouteActive =
-    location.state.from.pathname === '/login' ||
-    location.state.from.pathname === '/reset-password';
+    (location.state && location.state.from.pathname === '/login') ||
+    (location.state && location.state.from.pathname === '/reset-password');
 
   if (user?.token) {
     return (
