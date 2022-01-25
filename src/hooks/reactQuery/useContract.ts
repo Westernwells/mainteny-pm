@@ -141,7 +141,7 @@ const filterContracts = (
   }
 
   if (filter.contractor.length) {
-    const contractors = filterByContractor(contractsRes, filter.expiryDate);
+    const contractors = filterByContractor(result, filter.contractor);
     result = {...result, data: contractors, total: contractors.length};
   }
   return result;

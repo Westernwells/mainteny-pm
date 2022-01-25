@@ -29,7 +29,9 @@ export const Contracts = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [expiryDate, setExpiryDate] = useState<string[]>([]);
   const [contractor, setContractor] = useState<string[]>([]);
-  const [contractorView, setConractorView] = useState<string[]>([]);
+  const [contractorFilterItems, setConractorFileterItems] = useState<string[]>(
+    [],
+  );
   const {data: contractResource = createEmptyResource<ContractView>(10)} =
     useQueryContract(
       {
@@ -48,18 +50,19 @@ export const Contracts = () => {
 
   useEffect(() => {
     const options: string[] = [];
+
     if (contractWithUnits) {
       contractWithUnits?.forEach((item) => {
         if (
           !options.includes(item.serviceCompany.name) &&
-          !contractorView.includes(item.serviceCompany.name)
+          !contractorFilterItems.includes(item.serviceCompany.name)
         ) {
           options.push(item.serviceCompany.name);
         }
       });
     }
 
-    setConractorView([...contractorView, ...options]);
+    setConractorFileterItems([...contractorFilterItems, ...options]);
   }, [contractWithUnits]);
 
   return (
@@ -94,7 +97,7 @@ export const Contracts = () => {
 
             <MultipleSelectCheckmarks
               label="Contractor"
-              options={contractorView}
+              options={contractorFilterItems}
               getSelectedValue={(item) => setContractor(item)}
             />
           </FilterFields>

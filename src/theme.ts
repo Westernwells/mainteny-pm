@@ -1,15 +1,6 @@
 import {createTheme} from '@mui/material/styles';
 
 export const theme = createTheme({
-  // overrides: {
-  //   MuiCssBaseline: {
-  //     "@global": {
-  //       html: {
-  //         fontSize: "62.5%"
-  //       }
-  //     }
-  //   }
-  // },
   palette: {
     primary: {
       light: '#457892',
