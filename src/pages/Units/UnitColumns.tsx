@@ -16,11 +16,11 @@ export const UnitColumns = () => (
     }}
   >
     <Grid container sx={{pl: 2}}>
-      <Grid item xs={4} />
+      <Grid item xs={3} />
       <Grid
         item
         container
-        xs={8}
+        xs={9}
         spacing={2}
         sx={{display: 'flex', justifyContent: 'flex-end'}}
       >
