@@ -6,7 +6,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {ScrollableCard} from 'components/ScrollableCard';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {ReactComponent as ArrowDownward} from '../../assets/icons/ArrowDownward.svg';
-import {breakDownHistoryResource} from '../../hooks/reactQuery/useBreakdownHistory';
+import {breakDownHistoryResource} from '../../hooks/reactQuery/useIssueHistory';
 import {getDay} from '../../utils/datetime';
 
 interface Props {

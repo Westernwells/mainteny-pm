@@ -10,6 +10,7 @@ import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
 import {ScrollableCard} from 'components/ScrollableCard';
 import {SplitButton} from 'components/SplitButton';
 import {EmptyItem} from 'components/EmptyItem';
+import {useIssueHistory} from 'hooks/reactQuery/useIssueHistory';
 import {endOfMonth, startOfYear, endOfYear} from 'date-fns';
 import {createEmptyResource} from 'utils/paging-utils';
 import {toRestDateTime} from 'utils/datetime';
@@ -25,20 +26,19 @@ export const IssueHistory = () => {
   const {id: elevatorId} = useParams();
   const [selectedIssueHistory, setSelectedIssueHistory] =
     useState<ServiceOrderView>();
-  const {
-    data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
-  } = useServiceOrders({
-    elevatorIds: elevatorId,
-    start: toRestDateTime(startOfYear(new Date(year))),
-    end: toRestDateTime(endOfYear(new Date(year))),
-    pageSize,
-    pageIndex: 0,
-    query: '',
-    status:
-      status.toUpperCase() === ServiceOrderStatus.ALL
-        ? []
-        : [status.toUpperCase().split(' ').join('_')],
-  });
+  const {data: issueHistory = createEmptyResource<ServiceOrderView>(pageSize)} =
+    useIssueHistory({
+      elevatorIds: elevatorId,
+      start: toRestDateTime(startOfYear(new Date(year))),
+      end: toRestDateTime(endOfYear(new Date(year))),
+      pageSize,
+      pageIndex: 0,
+      query: '',
+      status:
+        status.toUpperCase() === ServiceOrderStatus.ALL
+          ? []
+          : [status.toUpperCase().split(' ').join('_')],
+    });
 
   return (
     <Grid container spacing={2} sx={{mt: 2}}>
@@ -83,17 +83,17 @@ export const IssueHistory = () => {
           )}
           renderIcon={() => <MoreVertIcon />}
         >
-          {serviceOrders?.data.length ? (
-            serviceOrders?.data.map((serviceOrder) => (
+          {issueHistory?.data.length ? (
+            issueHistory?.data.map((history) => (
               <Box
                 mt={3}
                 mb={3}
-                key={serviceOrder.id}
-                onClick={() => setSelectedIssueHistory(serviceOrder)}
+                key={history.id}
+                onClick={() => setSelectedIssueHistory(history)}
                 sx={{}}
               >
                 <IssueCard
-                  serviceOrder={serviceOrder}
+                  history={history}
                   selectedIssueHistory={selectedIssueHistory}
                 />
               </Box>
