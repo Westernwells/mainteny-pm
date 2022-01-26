@@ -59,7 +59,7 @@ export const NotificationCard = () => {
         <Box mt={6} display="flex" justifyContent="space-between">
           <Button
             size="small"
-            sx={{backgroundColor: theme.palette.action.activatedOpacity}}
+            sx={{backgroundColor: theme.palette.primary.outlinedHoverBg}}
           >
             <Typography
               variant="smallBtnText"
@@ -79,6 +79,9 @@ export const NotificationCard = () => {
             sx={{
               backgroundColor: theme.palette.error.light,
               borderRadius: '16px',
+              '&:hover': {
+                backgroundColor: theme.palette.error.light,
+              },
             }}
           >
             <Typography
