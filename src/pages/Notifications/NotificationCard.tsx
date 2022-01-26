@@ -77,9 +77,9 @@ export const NotificationCard = () => {
             variant="contained"
             size="small"
             sx={{
-              backgroundColor: theme.palette.error.light,
               borderRadius: '16px',
-              '&:hover': {
+              '&, &:hover, &:active': {
+                boxShadow: 'none',
                 backgroundColor: theme.palette.error.light,
               },
             }}
