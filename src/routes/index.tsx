@@ -76,7 +76,7 @@ export const Router = () => (
       <Route
         path="/notifications"
         element={
-          <PageLayout excludeSidebar overflowY>
+          <PageLayout excludeSidebar excludeDefaultSpacing overflowY>
             <Notifications />
           </PageLayout>
         }
