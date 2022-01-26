@@ -1,10 +1,17 @@
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {addDays} from 'date-fns';
+import {queryKeys as qk} from 'reactQuery/constants';
+import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {Page, Resource, RestError, State} from '../../models/misc';
-import {InvoiceStatus, InvoiceView} from '../../models/invoice';
+import {
+  InvoiceStatus,
+  InvoiceView,
+  QueryInvoiceParams,
+} from '../../models/invoice';
 import {createResource, makePage} from '../../utils/paging-utils';
 import {getDateObject} from '../../utils/datetime';
+import {usePropertyManager} from './usePropertyManager';
 
 function generateInvoice(): InvoiceView[] {
   const startDate = getDateObject('2021-05-23T00:00:00Z');
@@ -16,7 +23,7 @@ function generateInvoice(): InvoiceView[] {
       i % 4 === 0 ? 'Maintenance Experts GmbH' : 'Astralift BV';
     let paid = InvoiceStatus.PAID;
     if (i % 3 === 0 || i % 5 === 0) {
-      paid = InvoiceStatus.UNPAID;
+      paid = InvoiceStatus.NOT_PAID;
     }
     invoices.push({
       id: i.toString(),
@@ -45,31 +52,25 @@ const invoices: Resource<InvoiceView> = {
   total: 1000,
 };
 
-export function fetchInvoices(
-  query: string,
-  page: Page,
-): Promise<Resource<InvoiceView>> {
-  let {data} = invoices;
-  if (query) {
-    const tokens = query
-      .toLowerCase()
-      .split(' ')
-      .map((item) => item.trim());
-    data = invoices.data.filter((e) =>
-      _.every(tokens, (token) => e.search.includes(token)),
-    );
-  }
-
-  const result = _.take(
-    _.drop(data, page.pageIndex * page.pageSize),
-    page.pageSize,
+export const fetchInvoices = async (
+  params: QueryInvoiceParams,
+  id: string,
+): Promise<Resource<InvoiceView>> => {
+  const response = await axiosClient.get<Resource<InvoiceView>>(
+    `/api/propertyOwners/${id}/invoices`,
+    {
+      params,
+      paramsSerializer,
+    },
   );
-  return Promise.resolve(createResource(result, page, invoices.page.pageSize));
-}
+  return response.data;
+};
 
-export function useInvoices(query: string, page: Page) {
+export function useInvoices(params: QueryInvoiceParams) {
+  const {data: user} = usePropertyManager();
   return useQuery<Resource<InvoiceView>, RestError>(
-    ['fetchInvoice', query, page],
-    () => fetchInvoices(query, page),
+    [qk.fetchInvoice, params, user?.id],
+    () => fetchInvoices(params, user!.propertyOwner.id),
+    {enabled: !!user},
   );
 }

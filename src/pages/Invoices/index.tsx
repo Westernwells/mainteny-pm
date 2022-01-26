@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {BtnGroupType} from 'models/misc';
+import {InvoiceStatus} from 'models/invoice';
 import {makePage} from '../../utils/paging-utils';
 import {InvoiceHeader} from './InvoiceHeader';
 import {useInvoices} from '../../hooks/reactQuery/useInvoice';
@@ -12,7 +13,12 @@ export const Invoices = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
   const [showFilter, setShowFilter] = useState(false);
-  const {data: invoiceResource} = useInvoices(search, page);
+  const {data: invoiceResource} = useInvoices({
+    pageIndex: page.pageIndex,
+    pageSize: page.pageSize,
+    query: search,
+    status: [InvoiceStatus.PAID, InvoiceStatus.NOT_PAID],
+  });
 
   return (
     <Box>

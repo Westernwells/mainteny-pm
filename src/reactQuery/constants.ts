@@ -12,4 +12,5 @@ export const queryKeys = {
   maintainerByElevatorId: 'maintainerByElevatorId',
   fetchServiceOrderReport: 'fetchServiceOrderReport',
   fetchContractElevatorCount: 'fetchContractElevatorCount',
+  fetchInvoice: 'fetchInvoice',
 };
