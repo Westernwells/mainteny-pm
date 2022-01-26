@@ -7,8 +7,12 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import {StatusChip} from 'components/StatusChip';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import {getDay} from '../../utils/datetime';
-import {InvoiceStatus, InvoiceView} from '../../models/invoice';
+import {getDay, toDate} from '../../utils/datetime';
+import {
+  InvoiceStatus,
+  InvoiceStatusView,
+  InvoiceView,
+} from '../../models/invoice';
 
 interface InvoiceRowProps {
   invoice: InvoiceView;
@@ -37,7 +41,7 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
       <Grid container sx={{pl: 2}}>
         <Grid item xs={2}>
           <Typography variant="subtitle2">
-            {getDay(invoice.issueDate)}
+            {getDay(toDate(invoice.issuedDate), 'dd MMM YYY')}
           </Typography>
         </Grid>
 
@@ -45,13 +49,15 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
           <Typography variant="subtitle2">{invoice.number}</Typography>
         </Grid>
         <Grid item xs={2}>
-          <Typography variant="subtitle2">{invoice.serviceCompany}</Typography>
+          <Typography variant="subtitle2">
+            {invoice.serviceCompany.name}
+          </Typography>
         </Grid>
 
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center">
             <Typography variant="subtitle2">
-              {invoice.amount.amount} {invoice.amount.currency}
+              {invoice.totalAmount.amount} {invoice.totalAmount.currency}
             </Typography>
           </Box>
         </Grid>
@@ -59,7 +65,7 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center">
             <StatusChip
-              label={invoice.status}
+              label={InvoiceStatusView[invoice.status]}
               bgColor={
                 invoice.status === InvoiceStatus.PAID
                   ? theme.palette.success.main
