@@ -16,26 +16,26 @@ import {getDay, toDate} from 'utils/datetime';
 import {differenceInMinutes} from 'date-fns/esm';
 
 interface Props {
-  serviceOrder: ServiceOrderView;
+  history: ServiceOrderView;
   selectedIssueHistory?: ServiceOrderView;
 }
 
-export const IssueCard = ({serviceOrder, selectedIssueHistory}: Props) => {
+export const IssueCard = ({history, selectedIssueHistory}: Props) => {
   const theme = useTheme();
-  const startTime = toDate(serviceOrder.meta.createdAt);
-  const endTime = serviceOrder.actualEndTime
-    ? toDate(serviceOrder.actualEndTime)
+  const startTime = toDate(history.meta.createdAt);
+  const endTime = history.actualEndTime
+    ? toDate(history.actualEndTime)
     : new Date();
   const diffInHrs = differenceInMinutes(endTime, startTime) / 60;
   return (
     <CustomCard
       containerStyles={{
         background:
-          selectedIssueHistory?.id === serviceOrder.id
+          selectedIssueHistory?.id === history.id
             ? theme.palette.secondary.outlinedHoverBg
             : 'none',
         border:
-          selectedIssueHistory?.id === serviceOrder.id
+          selectedIssueHistory?.id === history.id
             ? ' 2px solid #00D1FF'
             : '1px solid #E0E0E0',
       }}
@@ -44,7 +44,7 @@ export const IssueCard = ({serviceOrder, selectedIssueHistory}: Props) => {
         <Box
           sx={{
             background:
-              selectedIssueHistory?.id === serviceOrder.id
+              selectedIssueHistory?.id === history.id
                 ? theme.palette.secondary.outlinedHoverBg
                 : theme.palette.inputBackground.main,
             px: 2,
@@ -53,8 +53,8 @@ export const IssueCard = ({serviceOrder, selectedIssueHistory}: Props) => {
         >
           <Box display="flex" justifyContent="space-between">
             <Typography variant="h6">
-              ISS{serviceOrder.number.split('-')[1]} -{' '}
-              {getDay(serviceOrder.meta.createdAt, 'dd MMM YYY')}
+              ISS{history.number.split('-')[1]} -{' '}
+              {getDay(history.meta.createdAt, 'dd MMM YYY')}
             </Typography>
             <Box display="flex">
               <Typography
@@ -63,11 +63,11 @@ export const IssueCard = ({serviceOrder, selectedIssueHistory}: Props) => {
                 mt="2px"
                 mr={1}
               >
-                {serviceOrder.status === ServiceOrderStatus.COMPLETED
+                {history.status === ServiceOrderStatus.COMPLETED
                   ? 'Resolved'
                   : 'Pending'}
               </Typography>
-              {serviceOrder.status === ServiceOrderStatus.COMPLETED ? (
+              {history.status === ServiceOrderStatus.COMPLETED ? (
                 <CheckCircleIcon
                   color="success"
                   sx={{mt: '5px', height: '20px', width: '20px'}}
@@ -81,7 +81,7 @@ export const IssueCard = ({serviceOrder, selectedIssueHistory}: Props) => {
             </Box>
           </Box>
 
-          {serviceOrder.type === ServiceOrderType.EMERGENCY ? (
+          {history.type === ServiceOrderType.EMERGENCY ? (
             <Box display="flex" pt={3}>
               <GridOffIcon
                 sx={{
@@ -119,9 +119,7 @@ export const IssueCard = ({serviceOrder, selectedIssueHistory}: Props) => {
           <Divider sx={{mt: 1}} />
         </Box>
         <Box px={2} py={4}>
-          <Typography variant="subtitle1">
-            {serviceOrder.description}
-          </Typography>
+          <Typography variant="subtitle1">{history.description}</Typography>
         </Box>
       </>
     </CustomCard>

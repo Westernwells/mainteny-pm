@@ -1,3 +1,5 @@
+import {ServiceOrderType} from 'models/service-order';
+import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import {queryKeys} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
@@ -18,5 +20,20 @@ export const useServiceHistory = (page: Page, elevatorId?: string) =>
   useQuery(
     [queryKeys.fetchElevatorMaintenanceHistory, elevatorId],
     () => fetchServiceHistory(elevatorId!, page),
-    {enabled: !!elevatorId},
+    {
+      enabled: !!elevatorId,
+      select: useCallback(
+        (histories: Resource<ElevatorMaintenanceHistoryView>) => {
+          const regularMaintenance = histories.data.filter(
+            (history) => history.serviceOrder.type === ServiceOrderType.REGULAR,
+          );
+          return {
+            ...histories,
+            total: regularMaintenance.length,
+            data: regularMaintenance,
+          };
+        },
+        [page, elevatorId],
+      ),
+    },
   );

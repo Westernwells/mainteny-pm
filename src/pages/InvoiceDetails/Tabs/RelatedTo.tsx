@@ -21,7 +21,7 @@ export const RelatedTo = ({serviceOrder}: RelatedToProps) => {
         gap: 4,
       }}
     >
-      <IssueCard serviceOrder={serviceOrder} />
+      <IssueCard history={serviceOrder} />
       <Box
         sx={{display: 'flex', alignItems: 'flex-end', flexDirection: 'column'}}
       >
