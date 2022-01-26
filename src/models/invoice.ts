@@ -2,7 +2,7 @@ import {Fee, Meta} from './misc';
 
 export enum InvoiceStatus {
   PAID = 'PAID',
-  UNPAID = 'UNPAID',
+  NOT_PAID = 'NOT_PAID',
 }
 
 export interface InvoiceView {
@@ -14,4 +14,11 @@ export interface InvoiceView {
   serviceCompany: string;
   search: string;
   meta: Meta;
+}
+
+export interface QueryInvoiceParams {
+  pageIndex: number;
+  pageSize: number;
+  query: string;
+  status: InvoiceStatus[];
 }
