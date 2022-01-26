@@ -20,6 +20,8 @@ export const Invoices = () => {
     status: [InvoiceStatus.PAID, InvoiceStatus.NOT_PAID],
   });
 
+  console.log(invoiceResource, '!!!@@##');
+
   return (
     <Box>
       <Box display="flex" justifyContent="space-between">
