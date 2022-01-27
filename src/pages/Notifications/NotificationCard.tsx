@@ -8,7 +8,6 @@ export const NotificationCard = () => {
   const theme = useTheme();
   return (
     <Box
-      width="80vw"
       mx="auto"
       mt={2}
       sx={{
@@ -34,28 +33,39 @@ export const NotificationCard = () => {
           >
             <FileCopyIcon />
           </Box>
-          <Typography variant="h6">Contract expiring soon!</Typography>
+          <Box display="flex" flexDirection="column" gap={0.5}>
+            <Typography variant="body1">Contract expiring soon!</Typography>
+            <Typography
+              variant="body1"
+              sx={{color: theme.palette.text.secondary}}
+            >
+              Your annual maintenance contract with AstraLifts is expiring in 3
+              days
+            </Typography>
+          </Box>
         </Box>
         <Typography
           variant="helperText"
           mt={1}
           color={theme.palette.text.secondary}
+          minWidth="12ch"
+          textAlign="right"
         >
           3 min ago
         </Typography>
       </Box>
       <Box ml={11}>
-        <Typography variant="body1" color={theme.palette.text.secondary}>
-          Your annual maintenance contract with AstraLifts is expiring in 3 days
-        </Typography>
-
         <Box mt={6} display="flex" justifyContent="space-between">
-          <Button variant="outlined" size="small">
+          <Button
+            size="small"
+            sx={{backgroundColor: theme.palette.primary.outlinedHoverBg}}
+          >
             <Typography
               variant="smallBtnText"
               sx={{
                 color: theme.palette.primary.main,
                 textTransform: 'capitalize',
+                px: 0.5,
               }}
             >
               View Contract
@@ -66,9 +76,13 @@ export const NotificationCard = () => {
             variant="contained"
             size="small"
             sx={{
-              backgroundColor: theme.palette.error.light,
               borderRadius: '16px',
+              '&, &:hover, &:active': {
+                boxShadow: 'none',
+                backgroundColor: theme.palette.error.light,
+              },
             }}
+            disableTouchRipple
           >
             <Typography
               variant="smallBtnText"

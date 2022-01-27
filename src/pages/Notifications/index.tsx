@@ -9,8 +9,8 @@ export const Notifications = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   return (
-    <Box mb={2}>
-      <Box display="flex" sx={{mb: 2, ml: 4}}>
+    <Box sx={{mb: 2, mt: 12, px: 45}}>
+      <Box display="flex" sx={{mb: 2, ml: 0}}>
         <Box
           mt={1}
           mr={2}
@@ -23,11 +23,7 @@ export const Notifications = () => {
       </Box>
 
       <Box>
-        <Typography
-          variant="h6"
-          color={theme.palette.text.secondary}
-          sx={{pl: 16}}
-        >
+        <Typography variant="h6" color={theme.palette.text.secondary}>
           Today(2)
         </Typography>
         <NotificationCard />
@@ -35,11 +31,7 @@ export const Notifications = () => {
       </Box>
 
       <Box mt={3}>
-        <Typography
-          variant="h6"
-          color={theme.palette.text.secondary}
-          sx={{pl: 16}}
-        >
+        <Typography variant="h6" color={theme.palette.text.secondary}>
           Yesterday(2)
         </Typography>
         <NotificationCard />

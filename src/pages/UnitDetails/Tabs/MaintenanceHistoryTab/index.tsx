@@ -20,7 +20,7 @@ export const MaintenanceHistoryTab = ({
   selectedServiceHistory,
   serviceHistories,
 }: Props) => (
-  <Grid container spacing={2} sx={{mt: 2}}>
+  <Grid container spacing={2} sx={{mt: 2, paddingInline: '80px'}}>
     <Grid item xs={5}>
       <ServiceHistory
         setSelectedServiceHistory={setSelectedServiceHistory}
