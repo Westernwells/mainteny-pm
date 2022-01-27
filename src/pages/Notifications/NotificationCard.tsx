@@ -8,7 +8,6 @@ export const NotificationCard = () => {
   const theme = useTheme();
   return (
     <Box
-      // width="80vw"
       mx="auto"
       mt={2}
       sx={{
@@ -83,6 +82,7 @@ export const NotificationCard = () => {
                 backgroundColor: theme.palette.error.light,
               },
             }}
+            disableTouchRipple
           >
             <Typography
               variant="smallBtnText"

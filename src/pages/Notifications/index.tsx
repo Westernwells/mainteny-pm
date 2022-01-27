@@ -23,11 +23,7 @@ export const Notifications = () => {
       </Box>
 
       <Box>
-        <Typography
-          variant="h6"
-          color={theme.palette.text.secondary}
-          // sx={{pl: 5}}
-        >
+        <Typography variant="h6" color={theme.palette.text.secondary}>
           Today(2)
         </Typography>
         <NotificationCard />
@@ -35,11 +31,7 @@ export const Notifications = () => {
       </Box>
 
       <Box mt={3}>
-        <Typography
-          variant="h6"
-          color={theme.palette.text.secondary}
-          // sx={{pl: 0}}
-        >
+        <Typography variant="h6" color={theme.palette.text.secondary}>
           Yesterday(2)
         </Typography>
         <NotificationCard />
