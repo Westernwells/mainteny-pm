@@ -182,3 +182,6 @@ export interface Fee {
   amount: number;
   currency: string;
 }
+
+export type WithOptional<T, K extends keyof T> = Omit<T, K> &
+  Partial<Pick<T, K>>;

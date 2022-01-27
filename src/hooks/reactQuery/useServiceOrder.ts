@@ -18,11 +18,12 @@ import {ServiceCompanyTimeUnit} from 'models/service-company';
 import {toDate, toRestDate, toRestDateTime} from 'utils/datetime';
 import {
   CreateNonScheduledServiceOrder,
+  OptionalCreateNonScheduledBody,
   ServiceOrderReport,
   ServiceOrderType,
   ServiceOrderView,
 } from '../../models/service-order';
-import {Priority, Resource, RestError} from '../../models/misc';
+import {Priority, Resource, RestError, WithOptional} from '../../models/misc';
 import {
   ElevatorAvailability,
   ElevatorAvailabilityParams,
@@ -179,9 +180,7 @@ const groupElevatorByAddressList = (
   return elevatorByAddressList;
 };
 
-export const logIssue = async (
-  body: Partial<CreateNonScheduledServiceOrder>,
-) => {
+export const logIssue = async (body: OptionalCreateNonScheduledBody) => {
   await axiosClient.post(`/api/serviceOrders/nonscheduled`, {
     ...body,
   });
@@ -278,7 +277,7 @@ export const useLogIssue = () => {
   const serviceCompanyId = propertyManager?.userAccount.serviceCompany.id;
 
   const {mutate, isLoading} = useMutation(
-    (body: Partial<CreateNonScheduledServiceOrder>) =>
+    (body: OptionalCreateNonScheduledBody) =>
       logIssue({
         ...body,
         dueDate: toRestDate(new Date()),

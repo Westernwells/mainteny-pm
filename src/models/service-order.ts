@@ -5,7 +5,7 @@ import {
 } from './service-company';
 import {AttachmentResource, Elevator, ElevatorSimpleView} from './elevator';
 import {Contract, ContractSimpleView} from './contract';
-import {Fee, JobStatus, Meta, Priority} from './misc';
+import {Fee, JobStatus, Meta, Priority, WithOptional} from './misc';
 import {Technician, TechnicianSimpleView} from './technician';
 import {UserAccount} from './user';
 
@@ -253,3 +253,13 @@ export interface CreateNonScheduledServiceOrder {
   type: string;
   priority: Priority;
 }
+
+export type OptionalCreateNonScheduledBody = WithOptional<
+  CreateNonScheduledServiceOrder,
+  | 'dueDate'
+  | 'externalId'
+  | 'priority'
+  | 'type'
+  | 'serviceCompanyId'
+  | 'elevatorId'
+>;
