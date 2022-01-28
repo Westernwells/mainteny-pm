@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
 import AppBar from '@mui/material/AppBar';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import useTheme from '@mui/material/styles/useTheme';
 
@@ -51,20 +51,21 @@ export const AppTopBar = () => {
                 ENG
               </Typography>
             </Box>
-            <Badge
-              badgeContent={1}
-              overlap="circular"
-              color="error"
-              sx={{
-                marginLeft: 4,
-                marginTop: 1,
-                color: '#FF4B55',
-                cursor: 'pointer',
-              }}
-              onClick={() => navigate('/notifications')}
-            >
-              <NotificationsNoneIcon color="primary" />
-            </Badge>
+            <Link to="/notifications">
+              <Badge
+                badgeContent={1}
+                overlap="circular"
+                color="error"
+                sx={{
+                  marginLeft: 4,
+                  marginTop: 1,
+                  color: '#FF4B55',
+                  cursor: 'pointer',
+                }}
+              >
+                <NotificationsNoneIcon color="primary" />
+              </Badge>
+            </Link>
 
             <Box ml={8} display="flex" alignItems="center">
               <Avatar alt="Bruce Wayne" src={AvatarImg} />
