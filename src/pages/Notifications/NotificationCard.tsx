@@ -3,6 +3,7 @@ import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
 
 export const NotificationCard = () => {
   const theme = useTheme();
@@ -71,29 +72,17 @@ export const NotificationCard = () => {
               View Contract
             </Typography>
           </Button>
-
-          <Button
-            variant="contained"
-            size="small"
+          <Chip
+            label={
+              <Typography variant="smallBtnText">contrat expiry</Typography>
+            }
             sx={{
-              borderRadius: '16px',
-              '&, &:hover, &:active': {
-                boxShadow: 'none',
-                backgroundColor: theme.palette.error.light,
-              },
+              color: theme.palette.text.primary,
+              backgroundColor: theme.palette.error.light,
+              textTransform: 'capitalize',
             }}
-            disableTouchRipple
-          >
-            <Typography
-              variant="smallBtnText"
-              sx={{
-                color: theme.palette.primary.main,
-                textTransform: 'capitalize',
-              }}
-            >
-              Contrat Expiry
-            </Typography>
-          </Button>
+            size="medium"
+          />
         </Box>
       </Box>
     </Box>
