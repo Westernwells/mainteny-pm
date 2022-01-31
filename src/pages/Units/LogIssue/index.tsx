@@ -17,7 +17,7 @@ export const LogIssue = ({children, disabled, handleCancel}: Props) => (
     justifyContent="space-between"
   >
     <LogIssueHeader />
-    {children}
+    <Box sx={{px: '1.5em'}}>{children}</Box>
     <LogIssueAction disabled={disabled} handleCancel={handleCancel} />
   </Box>
 );

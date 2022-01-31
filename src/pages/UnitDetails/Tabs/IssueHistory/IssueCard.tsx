@@ -12,7 +12,7 @@ import {
   ServiceOrderType,
   ServiceOrderView,
 } from 'models/service-order';
-import {getDay, toDate} from 'utils/datetime';
+import {formatDate, toDate} from 'utils/datetime';
 import {differenceInMinutes} from 'date-fns/esm';
 
 interface Props {
@@ -54,7 +54,7 @@ export const IssueCard = ({history, selectedIssueHistory}: Props) => {
           <Box display="flex" justifyContent="space-between">
             <Typography variant="h6">
               ISS{history.number.split('-')[1]} -{' '}
-              {getDay(history.meta.createdAt, 'dd MMM YYY')}
+              {formatDate(history.meta.createdAt, 'dd MMM YYY')}
             </Typography>
             <Box display="flex">
               <Typography

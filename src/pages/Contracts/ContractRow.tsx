@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import {useNavigate} from 'react-router-dom';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
-import {getDay} from '../../utils/datetime';
+import {formatDate} from '../../utils/datetime';
 import {ElevatorView} from '../../models/elevator';
 import {ContractView} from '../../models/contract';
 
@@ -69,7 +69,7 @@ export const ContractRow = ({contract}: Props) => {
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center">
             <Typography variant="largeBtnText">
-              {getDay(contract.endTime)}
+              {formatDate(contract.endTime)}
             </Typography>
           </Box>
         </Grid>

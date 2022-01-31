@@ -7,7 +7,7 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import {StatusChip} from 'components/StatusChip';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import {getDay, toDate} from '../../utils/datetime';
+import {formatDate, toDate} from '../../utils/datetime';
 import {
   InvoiceStatus,
   InvoiceStatusView,
@@ -41,7 +41,7 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
       <Grid container sx={{pl: 2}}>
         <Grid item xs={2}>
           <Typography variant="subtitle2">
-            {getDay(toDate(invoice.issuedDate), 'dd MMM YYY')}
+            {formatDate(toDate(invoice.issuedDate), 'dd MMM YYY')}
           </Typography>
         </Grid>
 

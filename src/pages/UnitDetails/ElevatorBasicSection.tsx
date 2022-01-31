@@ -15,7 +15,7 @@ import {Elevator, ElevatorStatus} from '../../models/elevator';
 import {ReactComponent as Escalator} from '../../assets/icons/Escalator.svg';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {ServiceOrder, ServiceOrderView} from '../../models/service-order';
-import {getDay} from '../../utils/datetime';
+import {formatDate} from '../../utils/datetime';
 
 import {calculateNextVisitDate} from '../Units/Models';
 
@@ -242,7 +242,9 @@ export const ElevatorBasicSection = ({
                   calculateNextVisitDate(serviceOrder),
                   new Date(),
                 )}{' '}
-                ({getDay(calculateNextVisitDate(serviceOrder), 'dd MMM YYY')}){' '}
+                (
+                {formatDate(calculateNextVisitDate(serviceOrder), 'dd MMM YYY')}
+                ){' '}
               </Typography>
             </Alert>
           </Box>

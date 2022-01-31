@@ -7,7 +7,7 @@ import {ScrollableCard} from 'components/ScrollableCard';
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {ReactComponent as ArrowDownward} from '../../assets/icons/ArrowDownward.svg';
 import {breakDownHistoryResource} from '../../hooks/reactQuery/useIssueHistory';
-import {getDay} from '../../utils/datetime';
+import {formatDate} from '../../utils/datetime';
 
 interface Props {
   elevatorId?: string;
@@ -51,7 +51,7 @@ export const ElevatorBreakDownSection = ({elevatorId}: Props) => {
               }}
             >
               <Typography variant="h6" mr={3}>
-                {getDay(history.datetime)}
+                {formatDate(history.datetime)}
               </Typography>
               <Box display="flex" alignItems="center">
                 <ArrowDownward />

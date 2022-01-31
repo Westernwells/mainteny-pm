@@ -11,7 +11,7 @@ import {ReactComponent as Pin} from '../assets/icons/Pin.svg';
 import {Location} from '../models/misc';
 import {ElevatorsByAddress} from '../pages/Units/Models';
 import {ElevatorStatus} from '../models/elevator';
-import {getDay} from '../utils/datetime';
+import {formatDate} from '../utils/datetime';
 
 interface Props {
   elevatorsByAddress: ElevatorsByAddress;
@@ -75,14 +75,16 @@ export const LocationPin = ({
         <Box>
           <Typography variant="subtitle2">Last Visit:</Typography>
           <Typography variant="subtitle2">
-            {getDay(elevatorOrderPair.elevator.lastVisitDate)}
+            {formatDate(elevatorOrderPair.elevator.lastVisitDate)}
           </Typography>
         </Box>
         <Box>
           <Typography variant="subtitle2">Next Visit:</Typography>
           {elevatorOrderPair.serviceOrder && (
             <Typography variant="subtitle2">
-              {getDay(elevatorOrderPair.serviceOrder.schedules[0].startTime)}
+              {formatDate(
+                elevatorOrderPair.serviceOrder.schedules[0].startTime,
+              )}
             </Typography>
           )}
         </Box>

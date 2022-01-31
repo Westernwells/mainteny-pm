@@ -9,7 +9,7 @@ import Collapse from '@mui/material/Collapse';
 import {useState} from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useTheme from '@mui/material/styles/useTheme';
-import {getDay} from 'utils/datetime';
+import {formatDate} from 'utils/datetime';
 
 import {
   ServiceOrderStatus,
@@ -67,7 +67,7 @@ const HistoryCard = ({
           title={
             <Header
               status={serviceHistory.serviceOrder.status}
-              createdAt={getDay(
+              createdAt={formatDate(
                 serviceHistory.serviceOrder.actualEndTime,
                 'dd MMM YYY',
               )}

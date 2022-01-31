@@ -13,7 +13,7 @@ export function getDateObject(input: any): Date {
   return <Date>input;
 }
 
-export function getDay(input?: String | Date, formatType?: string) {
+export function formatDate(input?: String | Date, formatType?: string) {
   if (!input) {
     return undefined;
   }

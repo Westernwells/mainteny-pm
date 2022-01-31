@@ -16,7 +16,6 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import PaymentsIcon from '@mui/icons-material/Payments';
-import useTheme from '@mui/material/styles/useTheme';
 
 const drawerWidth = '13.06rem';
 
