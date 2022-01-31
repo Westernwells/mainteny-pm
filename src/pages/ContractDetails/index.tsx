@@ -64,15 +64,14 @@ export const ContractDetails = () => {
             cardHeight={500}
             contentHeight="100%"
             renderHeaderText={() => (
-              <Box
-                onClick={() => navigate(-1)}
-                sx={{cursor: 'pointer', mt: 1, display: 'flex'}}
-              >
+              <Box sx={{mt: 1, display: 'flex'}}>
                 <KeyboardArrowLeftIcon
+                  onClick={() => navigate(-1)}
                   fontSize="large"
                   sx={{
                     fontSize: '50px',
                     color: theme.palette.action.active,
+                    cursor: 'pointer',
                     mr: '10px',
                   }}
                 />
