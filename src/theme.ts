@@ -77,36 +77,36 @@ export const theme = createTheme({
     // root: {},
     h1: {
       fontWeight: 400,
-      fontSize: '6rem',
+      fontSize: '3.052rem',
       lineHeight: 1.16,
       letterSpacing: '-1.5px',
     },
     h2: {
       fontWeight: 600,
-      fontSize: '3.75rem',
+      fontSize: '2.441rem',
       lineHeight: 1.2,
       letterSpacing: '-0.5px',
     },
     h3: {
       fontWeight: 600,
-      fontSize: '3rem',
+      fontSize: '1.953rem',
       lineHeight: '56.02px',
     },
     h4: {
       fontWeight: 600,
-      fontSize: '2.125rem',
+      fontSize: '1.563rem',
       lineHeight: 1.25,
       letterSpacing: '0.25px',
     },
     h5: {
       fontWeight: 600,
-      fontSize: '1.5rem',
+      fontSize: '1.25rem',
       lineHeight: 1.33,
       letterSpacing: '-1.5px',
     },
     h6: {
       fontWeight: 600,
-      fontSize: '1.25rem',
+      fontSize: '1rem',
       lineHeight: 1.6,
       letterSpacing: '0.15px',
       // [breakpoints.down("xs")]: {
