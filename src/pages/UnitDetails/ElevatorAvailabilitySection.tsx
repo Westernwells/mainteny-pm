@@ -20,7 +20,7 @@ import {Bar} from 'react-chartjs-2';
 
 import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {SplitButton} from '../../components/SplitButton';
-import {getDay} from '../../utils/datetime';
+import {formatDate} from '../../utils/datetime';
 
 ChartJS.register(
   CategoryScale,
@@ -52,7 +52,7 @@ enum TimeFrame {
   LAST_21_DAYS = 'LAST 21 DAYS',
 }
 
-function getDays(timeFrame: TimeFrame): Date[] {
+function formatDates(timeFrame: TimeFrame): Date[] {
   let number: number;
   switch (timeFrame) {
     case TimeFrame.LAST_7_DAYS: {
@@ -81,11 +81,11 @@ function getDays(timeFrame: TimeFrame): Date[] {
 }
 
 function generateLabels(timeFrame: TimeFrame) {
-  return getDays(timeFrame).map((day) => day.getDate());
+  return formatDates(timeFrame).map((day) => day.getDate());
 }
 
 function generateData(timeFrame: TimeFrame) {
-  return getDays(timeFrame).map((day) => _.random(100, 800));
+  return formatDates(timeFrame).map((day) => _.random(100, 800));
 }
 
 export const ElevatorAvailabilitySection = () => {
@@ -104,11 +104,11 @@ export const ElevatorAvailabilitySection = () => {
   };
 
   function getStartDate(): Date {
-    const days = getDays(timeFrame);
+    const days = formatDates(timeFrame);
     return days[0];
   }
   function getEndDate(): Date {
-    const days = getDays(timeFrame);
+    const days = formatDates(timeFrame);
     return days[days.length - 1];
   }
   return (
@@ -189,7 +189,7 @@ export const ElevatorAvailabilitySection = () => {
         <Box ml={4} display="flex">
           <ArrowBackIosIcon sx={{mt: 1}} />
           <Typography variant="tableHeaderText" mt={1}>
-            {`${getDay(getStartDate())} - ${getDay(getEndDate())}`}
+            {`${formatDate(getStartDate())} - ${formatDate(getEndDate())}`}
           </Typography>
 
           <ArrowForwardIosIcon sx={{mt: 1}} />

@@ -4,7 +4,7 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
 import useTheme from '@mui/material/styles/useTheme';
 import {CustomCard} from 'components/CustomCard';
-import {getDay, toDate} from 'utils/datetime';
+import {formatDate, toDate} from 'utils/datetime';
 import {ContractView} from 'models/contract';
 
 interface Props {
@@ -64,7 +64,7 @@ export const ContractTimeline = ({
         <Box>
           <Typography variant="subtitle1">Contract signed</Typography>
           <Typography variant="body1">
-            {getDay(contractDetails?.startTime, 'dd MMM YYY')}
+            {formatDate(contractDetails?.startTime, 'dd MMM YYY')}
           </Typography>
         </Box>
       </Box>
@@ -119,7 +119,7 @@ export const ContractTimeline = ({
         <Box>
           <Typography variant="subtitle1">Contract ends</Typography>
           <Typography variant="body1">
-            {getDay(contractDetails?.endTime, 'dd MMM YYY')}
+            {formatDate(contractDetails?.endTime, 'dd MMM YYY')}
           </Typography>
         </Box>
       </Box>

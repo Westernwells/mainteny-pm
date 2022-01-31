@@ -6,14 +6,13 @@ export const LogIssueHeader = () => {
   const theme = useTheme();
   return (
     <Box
-      borderRadius="20px"
       sx={{
         background: theme.palette.inputBackground.main,
-        py: 3,
+        py: 1,
         px: 2,
       }}
     >
-      <Typography variant="h5">Log an issue</Typography>
+      <Typography variant="subtitle1">Log an issue</Typography>
     </Box>
   );
 };

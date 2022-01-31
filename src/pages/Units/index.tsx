@@ -13,6 +13,7 @@ import {
 } from 'hooks/reactQuery/useServiceOrder';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import Drawer from '@mui/material/Drawer';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
@@ -20,12 +21,16 @@ import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
 import {BtnGroupType} from 'models/misc';
 import {FilterFields} from 'components/FilterFields';
+import Slide from '@mui/material/Slide';
+import useTheme from '@mui/material/styles/useTheme';
 import {UnitSection} from './UnitSection';
 import {UnitsMapsView} from './UnitsMapsView';
 import {UnitColumns} from './UnitColumns';
 import {LogIssueBody} from './LogIssue/LogIssueBody';
 import {LogIssueDescription} from './LogIssue/LogIssueDescription';
 import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
+import {LogIssueTimePreference} from './LogIssue/LogIssueTimePreference';
+import {LogIssueDateTime} from './LogIssue/LogIssueDateTime';
 
 interface FormikFields {
   description: string;
@@ -48,9 +53,12 @@ export const MyUnits = () => {
   const [status, setStatus] = useState<string[]>([]);
   const [nextVisit, setNextVisit] = useState<string[]>([]);
   const [showMapview, setShowMapview] = useState(false);
-  const [modalOpen, setModalOpen] = React.useState(false);
   const [issuElevator, setIssueElevator] = useState();
-  const [sliderValue, setSliderValue] = React.useState<number[]>([20, 37]);
+  const [sliderValue, setSliderValue] = useState<number[]>([20, 37]);
+  const [logIssueDate, setLogIssueDate] = useState<Date | null>(null);
+  const [logIssueTime, setLogIssueTime] = useState<Date | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const theme = useTheme();
 
   const {data: elevatorResponse = fallback} = useAllElevators(search, page, {
     status,
@@ -72,7 +80,8 @@ export const MyUnits = () => {
       const body = {...values, elevatorId: values?.elevator?.id};
       delete body.elevator;
       await logIssue(body);
-      setModalOpen(false);
+      // setModalOpen(false);
+      setDrawerOpen(false);
       resetForm();
     },
     validationSchema,
@@ -145,7 +154,7 @@ export const MyUnits = () => {
               <UnitSection
                 key={elevatorsByAddress.address.id}
                 elevatorsByAddress={elevatorsByAddress}
-                setModalOpen={setModalOpen}
+                setDrawerOpen={setDrawerOpen}
                 setField={formik.setFieldValue}
               />
             ))}
@@ -158,25 +167,21 @@ export const MyUnits = () => {
         />
       )}
 
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onBackdropClick={() => formik.resetForm()}
-        sx={{
-          maxHeight: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+      <Drawer
+        PaperProps={{
+          sx: {
+            paddingTop: 10,
+            color: theme.palette.primary.main,
+            background: '#fff',
+          },
         }}
+        anchor="right"
+        hideBackdrop
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        // onBackdropClick={() => formik.resetForm()}
       >
-        <Box
-          width="50vw"
-          sx={{
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            borderRadius: '20px',
-          }}
-        >
+        <Box sx={{width: '30.06rem'}}>
           <form onSubmit={formik.handleSubmit}>
             <LogIssue
               disabled={
@@ -187,7 +192,7 @@ export const MyUnits = () => {
                   formik.errors.elevator
                 )
               }
-              handleCancel={() => setModalOpen(false)}
+              handleCancel={() => setDrawerOpen(false)}
             >
               <LogIssueBody>
                 <LogIssueDescription
@@ -207,13 +212,19 @@ export const MyUnits = () => {
                   handleBlur={formik.handleBlur}
                   selectedUnit={formik.values.elevator}
                 />
-                <Box mb={1}>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="At the earliest"
-                    sx={{mr: 6}}
+                <LogIssueTimePreference
+                  date={logIssueDate} // TODO: use formik
+                  time={logIssueTime} // TODO: use formik
+                  setDate={setLogIssueDate}
+                  setTime={setLogIssueTime}
+                >
+                  <LogIssueDateTime
+                    date={logIssueDate} // TODO: use formik
+                    time={logIssueTime} // TODO: use formik
+                    setDate={setLogIssueDate}
+                    setTime={setLogIssueTime}
                   />
-                </Box>
+                </LogIssueTimePreference>
                 <LogIssueDescription
                   handleChange={formik.handleChange}
                   value={formik.values.moreInformation}
@@ -224,7 +235,7 @@ export const MyUnits = () => {
             </LogIssue>
           </form>
         </Box>
-      </Modal>
+      </Drawer>
     </Box>
   );
 };

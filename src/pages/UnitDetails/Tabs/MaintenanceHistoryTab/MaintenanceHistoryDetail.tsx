@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {getDay} from 'utils/datetime';
+import {formatDate} from 'utils/datetime';
 import {ServiceOrderIcons} from 'components/ServiceOrderIcons';
 import {ServiceOrderType, ServiceOrderView} from 'models/service-order';
 import Chip from '@mui/material/Chip';
@@ -90,7 +90,7 @@ export const MaintenanceHistoryDetail = ({
           <Box display="flex" justifyContent="space-between" mt={6} ml={2}>
             <Box display="flex">
               <Typography variant="h6" mr={2}>
-                {getDay(selectedServiceHistory.createdAt, 'dd MMM YYY')}
+                {formatDate(selectedServiceHistory.createdAt, 'dd MMM YYY')}
               </Typography>
 
               <Box>

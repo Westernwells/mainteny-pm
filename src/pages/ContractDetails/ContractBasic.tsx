@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
-import {getDay, toDate} from 'utils/datetime';
+import {formatDate, toDate} from 'utils/datetime';
 import useTheme from '@mui/material/styles/useTheme';
 import {ContractView} from 'models/contract';
 import {CustomCard} from 'components/CustomCard';
@@ -49,10 +49,10 @@ export const ContractBasic = ({
         return (
           <Typography variant="largeBtnText" mr={2}>
             {contractDetails &&
-              getDay(toDate(contractDetails?.startTime), 'dd MMM YYY')}{' '}
+              formatDate(toDate(contractDetails?.startTime), 'dd MMM YYY')}{' '}
             -{' '}
             {contractDetails &&
-              getDay(toDate(contractDetails?.endTime), 'dd MMM YYY')}
+              formatDate(toDate(contractDetails?.endTime), 'dd MMM YYY')}
           </Typography>
         );
       case 'Duration':

@@ -10,12 +10,12 @@ import Chip from '@mui/material/Chip';
 import {StatusChip} from 'components/StatusChip';
 import {FormikErrors} from 'formik';
 import {ElevatorsByAddress} from './Models';
-import {getDay, toDate} from '../../utils/datetime';
+import {formatDate, toDate} from '../../utils/datetime';
 import {ElevatorStatus, ElevatorView} from '../../models/elevator';
 
 export interface UnitsSectionProperty {
   elevatorsByAddress: ElevatorsByAddress;
-  setModalOpen: (state: boolean) => void;
+  setDrawerOpen: (state: boolean) => void;
   setField: (
     field: string,
     value: any,
@@ -25,7 +25,7 @@ export interface UnitsSectionProperty {
 
 export const UnitSection = ({
   elevatorsByAddress,
-  setModalOpen,
+  setDrawerOpen,
   setField,
 }: UnitsSectionProperty) => {
   const theme = useTheme();
@@ -33,7 +33,7 @@ export const UnitSection = ({
 
   const handleClick = (elevator: ElevatorView) => {
     setField('elevator', elevator);
-    setModalOpen(true);
+    setDrawerOpen(true);
   };
 
   return (
@@ -102,7 +102,7 @@ export const UnitSection = ({
               <Typography variant="largeBtnText">
                 {' '}
                 {(elevatorOrder.serviceOrder &&
-                  getDay(
+                  formatDate(
                     toDate(elevatorOrder.serviceOrder.schedules[0].startTime),
                   )) ||
                   ''}
