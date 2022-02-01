@@ -8,6 +8,7 @@ declare module '@mui/material/styles' {
     tableHeaderText: React.CSSProperties;
     alertTitleText: React.CSSProperties;
     helperText: React.CSSProperties;
+    chip: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
@@ -18,6 +19,7 @@ declare module '@mui/material/styles' {
     tableHeaderText?: React.CSSProperties;
     alertTitleText?: React.CSSProperties;
     helperText?: React.CSSProperties;
+    chip?: React.CSSProperties;
   }
 
   interface CustomPalleteColor {
@@ -53,6 +55,7 @@ declare module '@mui/material/Typography' {
     tableHeaderText: true;
     alertTitleText: true;
     helperText: true;
+    chip: true;
   }
 }
 

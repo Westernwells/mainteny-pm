@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import {Fragment, useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 
@@ -8,10 +9,10 @@ import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import Avatar from '@mui/material/Avatar';
 import useTheme from '@mui/material/styles/useTheme';
 import {EmptyItem} from 'components/EmptyItem';
+import {PageCard} from 'components/PageCard';
 
-import * as _ from 'lodash';
-import technicianImage from '../../assets/images/tech.png';
-import {MaintainerView, TechnicianView} from '../../models/technician';
+import technicianImage from 'assets/images/avatar.png';
+import {MaintainerView, TechnicianView} from 'models/technician';
 
 export interface TechnicianSectionProp {
   maintainers: MaintainerView[];
@@ -21,6 +22,7 @@ export const TechnicianSection = ({maintainers}: TechnicianSectionProp) => {
   const theme = useTheme();
 
   const [technician, setTechnician] = useState<TechnicianView>();
+  const [rows, setRows] = useState<{[key: string]: any}[]>();
 
   useEffect(() => {
     if (maintainers && maintainers.length > 0) {
@@ -33,127 +35,106 @@ export const TechnicianSection = ({maintainers}: TechnicianSectionProp) => {
       setTechnician(maintainer.technician);
     }
   }, [maintainers]);
+
+  useEffect(() => {
+    if (technician) {
+      const result = [
+        {
+          label: `${technician?.userAccount.firstName} ${technician?.userAccount.lastName}`,
+          value: 'Sr.Technician',
+          icon: technicianImage,
+        },
+        {
+          label: 'company',
+          value: `astralift.nl`, // TODO use dynamic data
+          icon: (
+            <BadgeOutlinedIcon
+              sx={{
+                width: '1.125rem',
+                color: theme.palette.text.primary,
+              }}
+            />
+          ),
+        },
+        {
+          label: 'Email',
+          value: `${technician?.userAccount.contact.email}`,
+          icon: (
+            <EmailOutlinedIcon
+              sx={{
+                width: '1.125rem',
+                color: theme.palette.text.primary,
+              }}
+            />
+          ),
+        },
+        {
+          label: 'Phone',
+          value: `${technician?.userAccount.contact.phone}`,
+          icon: (
+            <CallOutlinedIcon
+              sx={{
+                width: '1.125rem',
+                color: theme.palette.text.primary,
+              }}
+            />
+          ),
+        },
+      ];
+      setRows(result);
+    }
+  }, [technician]);
+
   return (
-    <Box
-      sx={{background: '#fff', borderRadius: '8px', height: 500}}
-      pt={2}
-      pb={3}
-      px={2}
-    >
-      <Box>
-        <Box display="flex" mt={1}>
-          <Typography
-            variant="h6"
-            mt={1}
-            mr={8}
-            flexGrow={1}
-            color={theme.palette.primary.main}
-          >
-            Technician ({technician ? 1 : 0})
-          </Typography>
-        </Box>
-        {technician ? (
-          <Fragment>
-            <Box display="flex" justifyContent="center" mt={3}>
-              <Box display="flex" flexDirection="column" alignItems="center">
+    <PageCard headerLabel={`Technician (${technician ? 1 : 0})`}>
+      {rows?.map((item, index) => (
+        <Box display="flex" mt={index !== 0 ? '1.3em' : undefined}>
+          <Box mr="1.2em">
+            {index === 0 ? (
+              <Box>
                 <Avatar
                   alt="Tech"
                   src={technicianImage}
-                  sx={{width: 120, height: 120}}
+                  sx={{width: '3.125rem', height: '3.125rem'}}
                 />
-                <Typography variant="h6">{`${technician.userAccount.firstName} ${technician.userAccount.lastName}`}</Typography>
-                <Typography
-                  variant="subtitle2"
-                  textAlign="center"
-                  color={theme.palette.text.secondary}
-                >
-                  Sr. Technician
-                </Typography>
               </Box>
-            </Box>
-
-            <Box display="flex" mr={3} mt={2}>
+            ) : (
               <Box
                 sx={{background: theme.palette.background.default}}
-                width={35}
-                height={35}
+                width="3rem"
+                height="2.8rem"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
               >
-                <BadgeOutlinedIcon
-                  sx={{
-                    width: '18px',
-                    height: '18px',
-                    ml: 1,
-                    mt: 1,
-                    color: theme.palette.text.primary,
-                  }}
-                />
+                {item.icon}
               </Box>
-              <Typography
-                variant="tableHeaderText"
-                mt={1}
-                ml={2}
-                sx={{color: theme.palette.text.secondary}}
-              >
-                astralift.nl
-              </Typography>
-            </Box>
-
-            <Box display="flex" mr={3} mt={2}>
-              <Box
-                sx={{background: theme.palette.background.default}}
-                width={35}
-                height={35}
-              >
-                <EmailOutlinedIcon
-                  sx={{
-                    width: '18px',
-                    height: '18px',
-                    ml: 1,
-                    mt: 1,
-                    color: theme.palette.text.primary,
-                  }}
-                />
-              </Box>
-              <Typography
-                variant="tableHeaderText"
-                mt={1}
-                ml={2}
-                sx={{color: theme.palette.text.secondary}}
-              >
-                {technician.userAccount.contact.email}
-              </Typography>
-            </Box>
-
-            <Box display="flex" mr={3} mt={2}>
-              <Box
-                sx={{background: theme.palette.background.default}}
-                width={35}
-                height={35}
-              >
-                <CallOutlinedIcon
-                  sx={{
-                    width: '18px',
-                    height: '18px',
-                    ml: 1,
-                    mt: 1,
-                    color: theme.palette.text.primary,
-                  }}
-                />
-              </Box>
-              <Typography
-                variant="tableHeaderText"
-                mt={1}
-                ml={2}
-                sx={{color: theme.palette.text.secondary}}
-              >
-                {technician.userAccount.contact.phone}
-              </Typography>
-            </Box>
-          </Fragment>
-        ) : (
-          <EmptyItem label=" No technician" />
-        )}
-      </Box>
-    </Box>
+            )}
+          </Box>
+          <Box>
+            <Typography
+              variant={index === 0 ? 'subtitle1' : 'caption'}
+              color={
+                index === 0
+                  ? theme.palette.primary.main
+                  : theme.palette.text.secondary
+              }
+            >
+              {item.label}
+            </Typography>
+            <Typography
+              variant={index === 0 ? 'body2' : 'body1'}
+              color={
+                index === 0
+                  ? theme.palette.text.secondary
+                  : theme.palette.primary.main
+              }
+            >
+              {item.value}
+            </Typography>
+          </Box>
+        </Box>
+      ))}
+    </PageCard>
   );
 };
