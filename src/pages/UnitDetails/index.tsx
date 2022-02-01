@@ -45,9 +45,13 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.primary.main,
     },
     '&.Mui-selected': {
-      color: '#fff',
-      background: theme.palette.primary.main,
-      borderRadius: '8px',
+      color: theme.palette.primary.main,
+      '& .item-label': {
+        borderColor: theme.palette.primary.main,
+        '& .item-icon': {
+          color: theme.palette.secondary.main,
+        },
+      },
     },
   },
 }));
@@ -164,10 +168,15 @@ export const UnitsDetail = () => {
               label={
                 <Box
                   display="flex"
-                  sx={{borderBottom: '2px solid #fff', px: 1}}
+                  className="item-label"
+                  sx={{
+                    borderBottom: '3px solid transparent',
+                    px: 1,
+                    alignItems: 'center',
+                  }}
                 >
-                  {item.icon}
-                  <Typography mb={1} sx={{ml: 1}}>
+                  <Box className="item-icon">{item.icon}</Box>
+                  <Typography mb={1} sx={{ml: 1}} variant="subtitle1">
                     {item.label}
                   </Typography>
                 </Box>
