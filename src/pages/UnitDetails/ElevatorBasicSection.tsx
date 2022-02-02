@@ -75,7 +75,7 @@ export const ElevatorBasicSection = ({
               }
             />
           ) : (
-            <Box display="flex" width="15rem">
+            <Box display="flex" width="15rem" ml="3em">
               <Box mr="0.5em" mt="0.3em">
                 <Box
                   sx={{background: theme.palette.background.default}}
