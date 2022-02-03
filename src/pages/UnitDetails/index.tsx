@@ -1,6 +1,6 @@
 import {useEffect, useState, SyntheticEvent} from 'react';
 import Box from '@mui/material/Box';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -11,6 +11,8 @@ import ElevatorIcon from '@mui/icons-material/Elevator';
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import GridOffIcon from '@mui/icons-material/GridOff';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+import ArrowBack from '@mui/icons-material/ArrowBack';
+import useTheme from '@mui/material/styles/useTheme';
 import {startOfDay, endOfMonth} from 'date-fns';
 import {toRestDateTime} from 'utils/datetime';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
@@ -45,9 +47,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.primary.main,
     },
     '&.Mui-selected': {
-      color: '#fff',
-      background: theme.palette.primary.main,
-      borderRadius: '8px',
+      color: theme.palette.primary.main,
+      '& .item-label': {
+        '&::before': {
+          backgroundColor: theme.palette.primary.main,
+        },
+        '& .item-icon': {
+          color: theme.palette.secondary.main,
+        },
+      },
     },
   },
 }));
@@ -83,6 +91,8 @@ const a11yProps = (index: number) => ({
 // TODO: enable the rule again
 // eslint-disable-next-line
 export const UnitsDetail = () => {
+  const theme = useTheme();
+  const navigate = useNavigate();
   const classes = useStyles();
   const {id: elevatorId} = useParams();
   const [value, setValue] = useState(0);
@@ -129,15 +139,21 @@ export const UnitsDetail = () => {
     <Box>
       <Box
         sx={{
-          backgroundColor: '#fff',
+          display: 'flex',
           paddingTop: 2,
-          paddingBottom: 1,
-          paddingLeft: '15px',
-          boxShadow: '0px 4px 15px  rgba(144, 144, 144, 0.2)',
-          borderRadius: '4px',
+          paddingLeft: '35px',
           mt: 10,
         }}
       >
+        <ArrowBack
+          onClick={() => navigate(-1)}
+          sx={{
+            cursor: 'pointer',
+            color: theme.palette.text.secondary,
+            my: 'auto',
+            mr: '40px',
+          }}
+        />
         <Tabs
           className={classes.tabs}
           value={value}
@@ -152,10 +168,26 @@ export const UnitsDetail = () => {
               label={
                 <Box
                   display="flex"
-                  sx={{borderBottom: '2px solid #fff', px: 1}}
+                  className="item-label"
+                  sx={{
+                    position: 'relative',
+                    alignItems: 'center',
+                    px: 1,
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      backgroundColor: 'transparent',
+                      borderRadius: '3px',
+                      width: '124px',
+                      height: '3px',
+                      bottom: '0',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                    },
+                  }}
                 >
-                  {item.icon}
-                  <Typography mb={1} sx={{ml: 1}}>
+                  <Box className="item-icon">{item.icon}</Box>
+                  <Typography mb={1} sx={{ml: 1}} variant="subtitle1">
                     {item.label}
                   </Typography>
                 </Box>
