@@ -89,11 +89,7 @@ export const UnitsDetail = () => {
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const [selectedServiceHistory, setSelectedServiceHistory] =
-    useState<ServiceHistoryView>();
-  const {
-    data: serviceHistories = createEmptyResource<ServiceHistoryView>(pageSize),
-  } = useServiceHistory(makePage(0, 10), elevatorId);
+
   const {data: elevator} = useElevatorById(elevatorId);
 
   const {data: serviceOrder = createEmptyResource<ServiceOrderView>(pageSize)} =
@@ -111,23 +107,15 @@ export const UnitsDetail = () => {
   const tabPanel = () => {
     switch (value) {
       case 0:
-        return (
-          <OverviewTab
-            elevator={elevator}
-            runningServiceOrders={serviceOrder.data}
-            serviceHistories={serviceHistories}
-            maintainers={maintainers}
-          />
-        );
+        return <OverviewTab elevator={elevator} maintainers={maintainers} />;
       case 2:
-        return (
-          <MaintenanceHistoryTab
-            runningServiceOrders={serviceOrder.data}
-            selectedServiceHistory={selectedServiceHistory}
-            setSelectedServiceHistory={setSelectedServiceHistory}
-            serviceHistories={serviceHistories}
-          />
-        );
+        return null;
+      // <MaintenanceHistoryTab
+      //   runningServiceOrders={serviceOrder.data}
+      //   selectedServiceHistory={selectedServiceHistory}
+      //   setSelectedServiceHistory={setSelectedServiceHistory}
+      //   serviceHistories={serviceHistories}
+      // />
 
       case 3:
         return <IssueHistory />;

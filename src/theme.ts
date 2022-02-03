@@ -342,6 +342,15 @@ export const theme = createTheme({
             letterSpacing: '0.4px',
           },
         },
+        {
+          props: {variant: 'chip'},
+          style: {
+            fontWeight: 400,
+            fontSize: '0.8125rem',
+            lineHeight: 0.72,
+            letterSpacing: '0.16px',
+          },
+        },
       ],
     },
   },

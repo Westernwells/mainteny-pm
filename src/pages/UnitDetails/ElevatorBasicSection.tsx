@@ -1,19 +1,12 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
+import {StatusChip} from 'components/StatusChip';
 import Alert from '@mui/material/Alert';
 import {formatDistance} from 'date-fns';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import FormatListNumberedRtlOutlinedIcon from '@mui/icons-material/FormatListNumberedRtlOutlined';
-import MonitorWeightOutlinedIcon from '@mui/icons-material/MonitorWeightOutlined';
-import MultipleStopIcon from '@mui/icons-material/MultipleStop';
+import {PageCard} from 'components/PageCard';
 import useTheme from '@mui/material/styles/useTheme';
-
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {Elevator, ElevatorStatus} from '../../models/elevator';
-import {ReactComponent as Escalator} from '../../assets/icons/Escalator.svg';
-import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {ServiceOrder, ServiceOrderView} from '../../models/service-order';
 import {formatDate} from '../../utils/datetime';
 
@@ -22,234 +15,109 @@ import {calculateNextVisitDate} from '../Units/Models';
 export interface ElevatorBasicSectionProp {
   elevator?: Elevator;
   serviceOrder?: ServiceOrder | ServiceOrderView;
+  rows: {[key: string]: any}[];
 }
 
 export const ElevatorBasicSection = ({
   elevator,
   serviceOrder,
+  rows,
 }: ElevatorBasicSectionProp) => {
   const theme = useTheme();
   return (
-    <Box
-      sx={{background: '#fff', borderRadius: '8px', height: 500, px: '20px'}}
-      pt={2}
-      pb={3}
-    >
-      <Box>
-        <Box display="flex" mt={1}>
-          <Box mr={2}>
-            <Escalator />
-          </Box>
-          <Typography
-            variant="h6"
-            mt={1}
-            mr={8}
-            flexGrow={1}
-            color={theme.palette.primary.main}
+    <PageCard headerLabel="Unit Details">
+      {rows.map((item, index) => (
+        <Box display="flex" mt={index !== 0 ? '1.3em' : undefined}>
+          <Box
+            display="flex"
+            width="15rem"
+            flexGrow={index === 0 ? 1 : 'unset'}
           >
-            {elevator?.model || null}
-          </Typography>
-          <Box>
-            <Elevation />
-          </Box>
-        </Box>
-        <Chip
-          sx={{py: 2, ml: 8}}
-          label={
-            <Typography
-              variant="largeBtnText"
-              sx={{textTransform: 'capitalize'}}
-            >
-              {elevator
-                ? `${elevator.status.charAt(0)}${elevator.status
-                    .slice(1)
-                    .toLowerCase()}`
-                : null}
-            </Typography>
-          }
-          color={
-            elevator?.status === ElevatorStatus.RUNNING ? 'success' : 'error'
-          }
-          size="medium"
-        />
-
-        <Box display="flex" mt={2}>
-          <Box display="flex" mr={3} width="50%">
-            <Box
-              sx={{background: theme.palette.background.default}}
-              width={35}
-              height={35}
-            >
-              <LocationOnOutlinedIcon
-                sx={{
-                  width: '18px',
-                  height: '18px',
-                  ml: 1,
-                  mt: 1,
-                  color: theme.palette.text.primary,
-                }}
-              />
+            <Box mr="0.5em" mt="0.3em">
+              <Box
+                sx={{background: theme.palette.background.default}}
+                width="3rem"
+                height="2.8rem"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                {item.leftIcon}
+              </Box>
             </Box>
-            <Typography
-              variant="tableHeaderText"
-              mt={1}
-              ml={2}
-              sx={{color: theme.palette.text.secondary}}
-            >
-              ADDRESS
-            </Typography>
-          </Box>
-
-          <Typography variant="subtitle1" mt={1} width="50%">
-            {elevator?.address.fullName}
-          </Typography>
-        </Box>
-
-        <Box display="flex" mt={2}>
-          <Box display="flex" mr={3} width="50%">
-            <Box
-              sx={{background: theme.palette.background.default}}
-              width={35}
-              height={35}
-            >
-              <PersonOutlineOutlinedIcon
-                sx={{
-                  width: '18px',
-                  height: '18px',
-                  ml: 1,
-                  mt: 1,
-                  color: theme.palette.text.primary,
-                }}
-              />
-            </Box>
-            <Typography
-              variant="tableHeaderText"
-              mt={1}
-              ml={2}
-              sx={{color: theme.palette.text.secondary}}
-            >
-              FACILITY MANAGER
-            </Typography>
-          </Box>
-
-          <Typography variant="subtitle1" mt={1} width="50%">
-            Bruce Wayne
-          </Typography>
-        </Box>
-
-        <Box display="flex" mt={2}>
-          <Box display="flex" mr={3} width="50%">
-            <Box
-              sx={{background: theme.palette.background.default}}
-              width={35}
-              height={35}
-            >
-              <FormatListNumberedRtlOutlinedIcon
-                sx={{
-                  width: '18px',
-                  height: '18px',
-                  ml: 1,
-                  mt: 1,
-                  color: theme.palette.text.primary,
-                }}
-              />
-            </Box>
-            <Typography
-              variant="tableHeaderText"
-              mt={1}
-              ml={2}
-              sx={{color: theme.palette.text.secondary}}
-            >
-              NUMBER
-            </Typography>
-          </Box>
-
-          <Typography variant="subtitle1" mt={1} width="50%">
-            {elevator?.number}
-          </Typography>
-        </Box>
-
-        <Box display="flex" mt={2}>
-          <Box display="flex" mr={3} width="50%">
-            <Box
-              sx={{background: theme.palette.background.default}}
-              width={35}
-              height={35}
-            >
-              <MonitorWeightOutlinedIcon
-                sx={{
-                  width: '18px',
-                  height: '18px',
-                  ml: 1,
-                  mt: 1,
-                  color: theme.palette.text.primary,
-                }}
-              />
-            </Box>
-            <Typography
-              variant="tableHeaderText"
-              mt={1}
-              ml={2}
-              sx={{color: theme.palette.text.secondary}}
-            >
-              CAPACITY
-            </Typography>
-          </Box>
-
-          <Typography variant="subtitle1" mt={1} width="50%">
-            {elevator?.capacity}
-          </Typography>
-        </Box>
-
-        <Box display="flex" mt={2}>
-          <Box display="flex" mr={3} width="50%">
-            <Box
-              sx={{background: theme.palette.background.default}}
-              width={35}
-              height={35}
-            >
-              <MultipleStopIcon
-                sx={{
-                  width: '18px',
-                  height: '18px',
-                  ml: 1,
-                  mt: 1,
-                  color: theme.palette.text.primary,
-                }}
-              />
-            </Box>
-            <Typography
-              variant="tableHeaderText"
-              mt={1}
-              ml={2}
-              sx={{color: theme.palette.text.secondary}}
-            >
-              STOPS
-            </Typography>
-          </Box>
-
-          <Typography variant="subtitle1" mt={1} width="50%">
-            10
-          </Typography>
-        </Box>
-
-        {serviceOrder && (
-          <Box>
-            <Alert sx={{mt: 3}} icon={<CalendarTodayIcon />} severity="info">
-              <Typography variant="alertTitleText">
-                Upcoming visit in&nbsp;
-                {formatDistance(
-                  calculateNextVisitDate(serviceOrder),
-                  new Date(),
-                )}{' '}
-                (
-                {formatDate(calculateNextVisitDate(serviceOrder), 'dd MMM YYY')}
-                ){' '}
+            <Box>
+              <Typography
+                variant={index === 0 ? 'subtitle1' : 'caption'}
+                color={
+                  index === 0
+                    ? theme.palette.primary.main
+                    : theme.palette.text.secondary
+                }
+              >
+                {item.leftLabel}
               </Typography>
-            </Alert>
+              <Typography
+                variant={index === 0 ? 'caption' : 'body1'}
+                color={theme.palette.primary.main}
+              >
+                {item.leftValue}
+              </Typography>
+            </Box>
           </Box>
-        )}
-      </Box>
-    </Box>
+
+          {index === 0 ? (
+            <StatusChip
+              label={elevator ? elevator.status : ''}
+              color={
+                elevator?.status === ElevatorStatus.RUNNING
+                  ? 'success'
+                  : 'error'
+              }
+            />
+          ) : (
+            <Box display="flex" width="15rem" ml="3em">
+              <Box mr="0.5em" mt="0.3em">
+                <Box
+                  sx={{background: theme.palette.background.default}}
+                  width="3rem"
+                  height="2.8rem"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  {item.rightIcon}
+                </Box>
+              </Box>
+              <Box>
+                <Typography
+                  variant="caption"
+                  color={theme.palette.text.secondary}
+                >
+                  {item.rightLabel}
+                </Typography>
+                <Typography variant="body1" color={theme.palette.primary.main}>
+                  {item.rightValue}
+                </Typography>
+              </Box>
+            </Box>
+          )}
+        </Box>
+      ))}
+
+      {serviceOrder && (
+        <Box>
+          <Alert sx={{mt: '2em'}} icon={<CalendarTodayIcon />} severity="info">
+            <Typography variant="chip" color={theme.palette.info.infoAlert}>
+              Upcoming visit in&nbsp;
+              {formatDistance(
+                calculateNextVisitDate(serviceOrder),
+                new Date(),
+              )}{' '}
+              ({formatDate(calculateNextVisitDate(serviceOrder), 'dd MMM YYY')}){' '}
+            </Typography>
+          </Alert>
+        </Box>
+      )}
+    </PageCard>
   );
 };

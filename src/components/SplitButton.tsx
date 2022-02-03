@@ -17,6 +17,7 @@ interface Props {
   variant?: 'text' | 'contained' | 'outlined' | undefined;
   selectionStyle?: {[key: string]: string | number};
   disableRipple?: boolean;
+  size?: 'small' | 'medium' | 'large';
 }
 
 export const SplitButton = ({
@@ -26,6 +27,7 @@ export const SplitButton = ({
   variant,
   selectionStyle,
   disableRipple,
+  size,
 }: Props) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
@@ -61,6 +63,7 @@ export const SplitButton = ({
         variant={variant || 'contained'}
         ref={anchorRef}
         aria-label="split button"
+        size={size || 'medium'}
       >
         <Button
           disableRipple={disableRipple}

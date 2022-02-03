@@ -4,8 +4,11 @@ import Box from '@mui/material/Box';
 
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import Grid from '@mui/material/Grid';
+import {PageCard} from 'components/PageCard';
+import Icon from '@mui/material/Icon';
 import * as _ from 'lodash';
 import {
   BarElement,
@@ -112,57 +115,42 @@ export const ElevatorAvailabilitySection = () => {
     return days[days.length - 1];
   }
   return (
-    <Box
-      sx={{
-        background: '#fff',
-        borderRadius: '8px',
-        height: 500,
-        boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.4)',
-      }}
-    >
-      <Box sx={{px: '20px'}} pt={2} pb={3}>
-        <Box>
-          <Box display="flex" mt={1}>
-            <Typography
-              variant="h6"
-              mt={1}
-              mr={8}
-              flexGrow={1}
-              color={theme.palette.primary.main}
-            >
-              Stats
-            </Typography>
-            <Box>
-              <Elevation />
-            </Box>
-          </Box>
+    <PageCard headerLabel="Stats">
+      <Box
+        sx={{
+          background: '#fff',
+          borderRadius: '8px',
+          height: '100%',
+        }}
+      >
+        <Box sx={{px: '20px'}} pt="0.1em">
           <Box
             display="flex"
             sx={{
-              background: theme.palette.background.default,
-              px: 4,
-              py: 2,
-              mt: 3,
-              borderRadius: '8px',
+              px: '2em',
             }}
           >
-            <Typography variant="h4" mr={2} color={theme.palette.success.main}>
+            <Typography
+              variant="h5"
+              mr="0.5em"
+              color={theme.palette.success.main}
+            >
               98%
             </Typography>
-            <Typography variant="mediumBtnText" mr={2} mt={2} flexGrow={1}>
-              AVAILABILITY
+            <Typography variant="caption" mr="3em" mt="0.3em" flexGrow={1}>
+              Availability
             </Typography>
-            <Typography variant="h4" mr={2}>
+            <Typography variant="h5" mr="0.8em">
               17:21
             </Typography>
-            <Typography variant="mediumBtnText" mt={2}>
+            <Typography variant="caption" mt="0.3em">
               {' '}
-              HRS OF RUNTIME
+              Hours of Runtime
             </Typography>
           </Box>
           <Box width="100%">
-            <Box mt={2}>
-              <Bar data={barData} options={options} height={220} />
+            <Box mt="1em">
+              <Bar data={barData} options={options} height={205} />
             </Box>
             <Box
               display="flex"
@@ -175,26 +163,37 @@ export const ElevatorAvailabilitySection = () => {
             </Box>
           </Box>
         </Box>
-      </Box>
-      <Box sx={{background: '#F7F9FC', px: '20px', py: 1, display: 'flex'}}>
-        <SplitButton
-          selectedOption={timeFrame}
-          options={[
-            TimeFrame.LAST_7_DAYS,
-            TimeFrame.LAST_14_DAYS,
-            TimeFrame.LAST_21_DAYS,
-          ]}
-          onSelectedOptionChanged={(value) => setTimeFrame(value as TimeFrame)}
-        />
-        <Box ml={4} display="flex">
-          <ArrowBackIosIcon sx={{mt: 1}} />
-          <Typography variant="tableHeaderText" mt={1}>
-            {`${formatDate(getStartDate())} - ${formatDate(getEndDate())}`}
-          </Typography>
+        <Grid container sx={{pt: '1.5em', display: 'flex'}}>
+          <Grid item sm={12} md={5}>
+            <SplitButton
+              size="small"
+              selectedOption={timeFrame}
+              options={[
+                TimeFrame.LAST_7_DAYS,
+                TimeFrame.LAST_14_DAYS,
+                TimeFrame.LAST_21_DAYS,
+              ]}
+              onSelectedOptionChanged={(value) =>
+                setTimeFrame(value as TimeFrame)
+              }
+            />
+          </Grid>
+          <Grid item sm={12} md={7}>
+            <Box display="flex">
+              <ArrowLeftIcon fontSize="large" />
 
-          <ArrowForwardIosIcon sx={{mt: 1}} />
-        </Box>
+              <Typography
+                variant="tableHeaderText"
+                sx={{color: theme.palette.text.secondary, mt: '0.5em'}}
+              >
+                {`${formatDate(getStartDate())} - ${formatDate(getEndDate())}`}
+              </Typography>
+
+              <ArrowRightIcon fontSize="large" />
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
-    </Box>
+    </PageCard>
   );
 };
