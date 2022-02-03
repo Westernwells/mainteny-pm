@@ -110,12 +110,12 @@ export const UnitsDetail = () => {
         return <OverviewTab elevator={elevator} maintainers={maintainers} />;
       case 2:
         return null;
-        // <MaintenanceHistoryTab
-        //   runningServiceOrders={serviceOrder.data}
-        //   selectedServiceHistory={selectedServiceHistory}
-        //   setSelectedServiceHistory={setSelectedServiceHistory}
-        //   serviceHistories={serviceHistories}
-        // />
+      // <MaintenanceHistoryTab
+      //   runningServiceOrders={serviceOrder.data}
+      //   selectedServiceHistory={selectedServiceHistory}
+      //   setSelectedServiceHistory={setSelectedServiceHistory}
+      //   serviceHistories={serviceHistories}
+      // />
 
       case 3:
         return <IssueHistory />;
