@@ -13,7 +13,8 @@ import {
   ServiceOrderType,
   ServiceOrderView,
 } from 'models/service-order';
-import {formatDate} from 'utils/datetime';
+import {formatDate, toDate} from 'utils/datetime';
+import {differenceInMinutes} from 'date-fns';
 
 interface Props {
   bodyContainerStyle?: {[key: string]: string | number};
@@ -22,6 +23,11 @@ interface Props {
 
 export const IssueHistoryCard = ({bodyContainerStyle, history}: Props) => {
   const theme = useTheme();
+  const startTime = toDate(history.meta.createdAt);
+  const endTime = history.actualEndTime
+    ? toDate(history.actualEndTime)
+    : new Date();
+  const diffInHrs = differenceInMinutes(endTime, startTime) / 60;
   const renderHeader = () => (
     <Box display="flex" justifyContent="space-between">
       <Box display="flex">
@@ -63,7 +69,8 @@ export const IssueHistoryCard = ({bodyContainerStyle, history}: Props) => {
             </Box>
             <Box ml="0.3em">
               <Typography variant="caption" color="primary" mr="0.5em">
-                2h
+                {Math.floor(diffInHrs)}h{' '}
+                {Math.floor((diffInHrs - Math.floor(diffInHrs)) * 60)}m
               </Typography>
               <Typography
                 variant="caption"

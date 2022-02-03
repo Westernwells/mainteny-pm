@@ -27,7 +27,7 @@ export const ElevatorBasicSection = ({
   return (
     <PageCard headerLabel="Unit Details">
       {rows.map((item, index) => (
-        <Box display="flex" mt="1.3em">
+        <Box display="flex" mt={index !== 0 ? '1.3em' : undefined}>
           <Box
             display="flex"
             width="15rem"
@@ -106,11 +106,7 @@ export const ElevatorBasicSection = ({
 
       {serviceOrder && (
         <Box>
-          <Alert
-            sx={{mt: '2.5em'}}
-            icon={<CalendarTodayIcon />}
-            severity="info"
-          >
+          <Alert sx={{mt: '2em'}} icon={<CalendarTodayIcon />} severity="info">
             <Typography variant="chip" color={theme.palette.info.infoAlert}>
               Upcoming visit in&nbsp;
               {formatDistance(

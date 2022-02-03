@@ -23,7 +23,7 @@ export const PageLayout = ({
     <Box
       maxWidth="100%"
       display="flex"
-      height="100vh"
+      height="99vh"
       sx={{overflowY: overflowY ? 'scroll' : 'hidden'}}
     >
       <AppTopBar />
