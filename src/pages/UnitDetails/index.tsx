@@ -140,12 +140,8 @@ export const UnitsDetail = () => {
       <Box
         sx={{
           display: 'flex',
-          backgroundColor: '#fff',
           paddingTop: 2,
-          paddingBottom: 1,
-          paddingLeft: '15px',
-          boxShadow: '0px 4px 15px  rgba(144, 144, 144, 0.2)',
-          borderRadius: '4px',
+          paddingLeft: '35px',
           mt: 10,
         }}
       >
@@ -155,6 +151,7 @@ export const UnitsDetail = () => {
             cursor: 'pointer',
             color: theme.palette.text.secondary,
             my: 'auto',
+            mr: '40px',
           }}
         />
         <Tabs
