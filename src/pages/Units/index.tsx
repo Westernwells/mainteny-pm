@@ -50,6 +50,7 @@ export const MyUnits = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
   const [showFilter, setShowFilter] = useState(false);
+  const [availability, setAvailability] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
   const [nextVisit, setNextVisit] = useState<string[]>([]);
   const [showMapview, setShowMapview] = useState(false);
@@ -65,8 +66,35 @@ export const MyUnits = () => {
   });
   const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
     elevatorResponse.elevator,
-    {nextVisit},
+    {nextVisit, availabilityRange: availability},
   );
+
+  const availabilityRangeConvertor = (selectedItems: string[]) => {
+    const range: number[][] = [];
+    selectedItems.forEach((item) => {
+      switch (item) {
+        case 'Under 40%':
+          range.push([0, 40]);
+          // '40 - 60%', '60 - 80%', 'Above 80%'
+          break;
+        case '40 - 60%':
+          range.push([40, 60]);
+
+          break;
+        case '60 - 80%':
+          range.push([60, 80]);
+
+          break;
+        case 'Above 80%':
+          range.push([80, 100]);
+
+          break;
+        default:
+          break;
+      }
+    });
+    setAvailability(range);
+  };
 
   const {mutate: logIssue, isLoading} = useLogIssue();
 
@@ -103,9 +131,9 @@ export const MyUnits = () => {
     if (!showFilter) {
       setStatus([]);
       setNextVisit([]);
+      setAvailability([]);
     }
   }, [showFilter]);
-
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" maxWidth="100%">
@@ -129,6 +157,12 @@ export const MyUnits = () => {
       <Fade in={showFilter} unmountOnExit>
         <Box>
           <FilterFields setShowFilter={setShowFilter}>
+            <MultipleSelectCheckmarks
+              label="Availability"
+              options={['Under 40%', '40 - 60%', '60 - 80%', 'Above 80%']}
+              getSelectedValue={(item) => availabilityRangeConvertor(item)}
+            />
+
             <MultipleSelectCheckmarks
               label="Status"
               options={['RUNNING', 'STOPPED']}

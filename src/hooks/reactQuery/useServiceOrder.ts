@@ -131,6 +131,16 @@ const filterByNextVisit = (
   return mergedResult;
 };
 
+const inRange = (value: number, range: number[][]) => {
+  let result: boolean = false;
+  range.forEach((item) => {
+    if (value > item[0] && value <= item[1]) {
+      result = true;
+    }
+  });
+  return result;
+};
+
 const filterServiceOrder = (
   serviceOrderViewRes: Resource<ServiceOrderView>,
   filter: {nextVisit: string[]},
@@ -221,7 +231,7 @@ export function useServiceOrders(params: any) {
 
 export function useFetchServiceOrdersByElevators(
   elevatorRes: Resource<ElevatorView>,
-  filter: {nextVisit: string[]},
+  filter: {nextVisit: string[]; availabilityRange: number[][]},
 ) {
   const {data: user} = usePropertyManager();
   const elevatorIds = elevatorRes?.data.map((elevator) => elevator.id);
@@ -247,22 +257,32 @@ export function useFetchServiceOrdersByElevators(
       select: useCallback(
         (serviceOrderView: Resource<ServiceOrderView>) => {
           const filterResult = filterServiceOrder(serviceOrderView, filter);
-          const response = groupElevatorByAddressList(
+          let response = groupElevatorByAddressList(
             filterResult.data,
             elevatorRes,
             availability,
           );
-
-          return filter.nextVisit.length
-            ? response
-                .filter(
-                  (item) => item.elevators.filter((x) => x.serviceOrder).length,
-                )
-                .map((item) => ({
-                  ...item,
-                  elevators: item.elevators.filter((x) => x.serviceOrder),
-                }))
-            : response;
+          if (filter.nextVisit.length) {
+            response = response
+              .filter(
+                (item) => item.elevators.filter((x) => x.serviceOrder).length,
+              )
+              .map((item) => ({
+                ...item,
+                elevators: item.elevators.filter((x) => x.serviceOrder),
+              }));
+          }
+          if (filter.availabilityRange.length) {
+            response = response
+              .map((item) => ({
+                ...item,
+                elevators: item.elevators.filter((x) =>
+                  inRange(x.elevator.availability, filter.availabilityRange),
+                ),
+              }))
+              .filter((item) => item.elevators.length !== 0);
+          }
+          return response;
         },
 
         [availability, user, filter],
@@ -293,7 +313,7 @@ export const useLogIssue = () => {
         });
       },
       onError: (err) => {
-        enqueueSnackbar('Some error occurred, please try agqin.', {
+        enqueueSnackbar('Some error occurred, please try again.', {
           variant: 'error',
         });
       },
