@@ -1,9 +1,9 @@
 import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
-import {IssueCard} from 'pages/UnitDetails/Tabs/IssueHistory/IssueCard';
 import Button from '@mui/material/Button';
 import {OpenInNew} from '@mui/icons-material';
 import {ServiceOrderView} from 'models/service-order';
+import {HistoryCard} from 'pages/UnitDetails/Tabs/ServiceHistoryTab/HistoryCard';
 
 interface RelatedToProps {
   serviceOrder: ServiceOrderView;
@@ -21,7 +21,7 @@ export const RelatedTo = ({serviceOrder}: RelatedToProps) => {
         gap: 4,
       }}
     >
-      <IssueCard history={serviceOrder} />
+      <HistoryCard />
       <Box
         sx={{display: 'flex', alignItems: 'flex-end', flexDirection: 'column'}}
       >

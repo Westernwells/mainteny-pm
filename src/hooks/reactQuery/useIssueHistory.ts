@@ -41,26 +41,22 @@ export const breakDownHistoryResource: Resource<BreakdownHistoryView> = {
 
 export const fetchIssueHistory = async (
   params: any,
-  propertyOwnerId: string,
 ): Promise<Resource<ServiceOrderView>> => {
   const response: AxiosResponse<Resource<ServiceOrderView>> =
-    await axiosClient.get(
-      `/api/propertyOwners/${propertyOwnerId}/scheduledOrders`,
-      {
-        params,
-        paramsSerializer,
-      },
-    );
+    await axiosClient.get(`/api/serviceOrders`, {
+      params,
+      paramsSerializer,
+    });
   return response.data;
 };
 
 export function useIssueHistory(params: any) {
-  const {data: user} = usePropertyManager();
+  // console.log(params, '|||+====')
   return useQuery(
     [qks.fetchIssueHistory, params],
-    () => fetchIssueHistory(params, user!.propertyOwner.id),
+    () => fetchIssueHistory(params),
     {
-      enabled: !!user && !!params.elevatorIds,
+      enabled: !!params.serviceCompanyId && !!params.elevatorIds,
       select: useCallback((history: Resource<ServiceOrderView>) => {
         const issues = history.data.filter(
           (item) => item.type !== ServiceOrderType.REGULAR,

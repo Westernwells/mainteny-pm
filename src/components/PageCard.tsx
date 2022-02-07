@@ -18,7 +18,7 @@ export interface Props {
   headerLabel: string;
   headerContainerOverrideStyles?: {[key: string]: string | number};
   headerTextOverrideStyles?: {[key: string]: string | number};
-  headerActionIcon?: () => JSX.Element;
+  headerActionIcon?: JSX.Element;
   minHeight?: number | string;
   contentPadding?: string | number;
 }
@@ -50,7 +50,7 @@ export const PageCard = ({
         }}
         action={
           headerActionIcon ? (
-            <IconButton aria-label="settings">{headerActionIcon()}</IconButton>
+            <IconButton aria-label="settings">{headerActionIcon}</IconButton>
           ) : null
         }
         title={

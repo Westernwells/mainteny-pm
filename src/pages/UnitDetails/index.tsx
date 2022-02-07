@@ -1,4 +1,4 @@
-import {useEffect, useState, SyntheticEvent} from 'react';
+import {useState, SyntheticEvent} from 'react';
 import Box from '@mui/material/Box';
 import {useParams, useNavigate} from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
@@ -9,28 +9,20 @@ import {Theme} from '@mui/material/styles';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ElevatorIcon from '@mui/icons-material/Elevator';
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
-import GridOffIcon from '@mui/icons-material/GridOff';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import useTheme from '@mui/material/styles/useTheme';
 import {startOfDay, endOfMonth} from 'date-fns';
 import {toRestDateTime} from 'utils/datetime';
-import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
-import {
-  Elevator,
-  ElevatorMaintenanceHistoryView as ServiceHistoryView,
-} from 'models/elevator';
 import {ServiceOrderView} from 'models/service-order';
-import {createEmptyResource, makePage} from 'utils/paging-utils';
-import {useServiceHistory} from 'hooks/reactQuery/useServiceHistory';
+import {createEmptyResource} from 'utils/paging-utils';
 import {
   useElevatorById,
   useElevatorMaintainers,
 } from 'hooks/reactQuery/useElevator';
 import {useServiceOrders} from '../../hooks/reactQuery/useServiceOrder';
 import {OverviewTab} from './Tabs/OverviewTab';
-import {MaintenanceHistoryTab} from './Tabs/MaintenanceHistoryTab';
-import {IssueHistory} from './Tabs/IssueHistory';
+import {ServiceHistoryTab} from './Tabs/ServiceHistoryTab';
 
 const pageSize = 10;
 
@@ -70,12 +62,8 @@ const tabItems = [
     icon: <ElevatorIcon />,
   },
   {
-    label: 'Maintenance History',
+    label: 'Service History',
     icon: <EngineeringOutlinedIcon />,
-  },
-  {
-    label: 'Issue History',
-    icon: <GridOffIcon />,
   },
   {
     label: 'Performance',
@@ -119,16 +107,7 @@ export const UnitsDetail = () => {
       case 0:
         return <OverviewTab elevator={elevator} maintainers={maintainers} />;
       case 2:
-        return null;
-      // <MaintenanceHistoryTab
-      //   runningServiceOrders={serviceOrder.data}
-      //   selectedServiceHistory={selectedServiceHistory}
-      //   setSelectedServiceHistory={setSelectedServiceHistory}
-      //   serviceHistories={serviceHistories}
-      // />
-
-      case 3:
-        return <IssueHistory />;
+        return <ServiceHistoryTab />;
 
       default:
         return null;
@@ -201,8 +180,6 @@ export const UnitsDetail = () => {
       </Box>
       <Box
         sx={{
-          height: '80vh',
-          overflowY: 'scroll',
           px: 5,
           mt: '1px',
           '::-webkit-scrollbar': {
