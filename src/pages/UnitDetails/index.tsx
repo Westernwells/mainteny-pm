@@ -138,7 +138,6 @@ export const UnitsDetail = () => {
           value={value}
           onChange={handleChange}
           textColor="secondary"
-          aria-label="basic tabs example"
         >
           {tabItems.map((item, index) => (
             <Tab

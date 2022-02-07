@@ -144,7 +144,7 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
 
       <Grid container sx={{mt: '1em'}}>
         <Grid item xs={12}>
-          <PageCard contentPadding="0.7em" headerLabel="Maintenance History">
+          <PageCard contentPadding="1.5em" headerLabel="Service History">
             <ServiceHistory
               bodyContainerStyle={{
                 borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
