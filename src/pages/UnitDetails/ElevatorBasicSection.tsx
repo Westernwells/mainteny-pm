@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {StatusChip} from 'components/StatusChip';
-import Alert from '@mui/material/Alert';
+import {CardAlert} from 'components/CardAlert';
 import {formatDistance} from 'date-fns';
 import {PageCard} from 'components/PageCard';
 import useTheme from '@mui/material/styles/useTheme';
@@ -105,18 +105,12 @@ export const ElevatorBasicSection = ({
       ))}
 
       {serviceOrder && (
-        <Box>
-          <Alert sx={{mt: '2em'}} icon={<CalendarTodayIcon />} severity="info">
-            <Typography variant="chip" color={theme.palette.info.infoAlert}>
-              Upcoming visit in&nbsp;
-              {formatDistance(
-                calculateNextVisitDate(serviceOrder),
-                new Date(),
-              )}{' '}
-              ({formatDate(calculateNextVisitDate(serviceOrder), 'dd MMM YYY')}){' '}
-            </Typography>
-          </Alert>
-        </Box>
+        <CardAlert
+          alertIcon={<CalendarTodayIcon />}
+          message={`Upcoming visit in 
+        ${formatDistance(calculateNextVisitDate(serviceOrder), new Date())}
+        (${formatDate(calculateNextVisitDate(serviceOrder), 'dd MMM YYY')})`}
+        />
       )}
     </PageCard>
   );

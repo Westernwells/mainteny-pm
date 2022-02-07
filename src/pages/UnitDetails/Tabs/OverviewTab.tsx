@@ -2,8 +2,13 @@ import {
   Elevator,
   ElevatorMaintenanceHistoryView as ServiceHistoryView,
 } from 'models/elevator';
-import {ServiceOrderStatus, ServiceOrderView} from 'models/service-order';
+import {
+  ServiceOrderOrderField,
+  ServiceOrderType,
+  ServiceOrderView,
+} from 'models/service-order';
 import useTheme from '@mui/material/styles/useTheme';
+import {Order} from 'models/misc';
 import Grid from '@mui/material/Grid';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import {useIssueHistory} from 'hooks/reactQuery/useIssueHistory';
@@ -12,16 +17,15 @@ import {endOfMonth, endOfYear, startOfDay, startOfYear} from 'date-fns';
 import {toRestDateTime} from 'utils/datetime';
 import {useParams} from 'react-router-dom';
 import {ReactComponent as Escalator} from 'assets/icons/Escalator.svg';
+import {PageCard} from 'components/PageCard';
 import {useServiceHistory} from 'hooks/reactQuery/useServiceHistory';
 import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
+import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
 import {ElevatorAvailabilitySection} from '../ElevatorAvailabilitySection';
 import {ElevatorBasicSection} from '../ElevatorBasicSection';
 import {TechnicianSection} from '../TechnicianSection';
 import {MaintainerView} from '../../../models/technician';
-import {IssueHistoryPageCard} from '../IssueHistoryPageCard';
-import {IssueHistoryCard} from '../IssueHistoryPageCard/IssueHistoryCard';
-import {MaintenanceHistoryPageCard} from '../MaintenanceHistoryPageCard';
-import {MaintenanceHistoryCard} from '../MaintenanceHistoryPageCard/MaintenanceHistoryCard';
+import {ServiceHistory} from '../ServiceHistory';
 
 const pageSize = 10;
 
@@ -33,15 +37,24 @@ interface Props {
 export const OverviewTab = ({elevator, maintainers}: Props) => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
+  const {data: user} = usePropertyManager();
   const {data: issueHistory = createEmptyResource<ServiceOrderView>(pageSize)} =
     useIssueHistory({
       elevatorIds: elevatorId,
-      start: toRestDateTime(startOfYear(new Date())),
-      end: toRestDateTime(endOfYear(new Date())),
+      start: startOfYear(new Date()).toISOString(),
+      end: endOfYear(new Date()).toISOString(),
       pageSize,
       pageIndex: 0,
+      serviceCompanyId: user?.userAccount.serviceCompany.id,
       query: '',
+      types: [
+        ServiceOrderType.CALLOUT,
+        ServiceOrderType.EMERGENCY,
+        ServiceOrderType.REPAIR,
+      ],
       status: [],
+      orderBy: ServiceOrderOrderField.CREATED_TIME,
+      order: Order.DESC,
     });
 
   const {
@@ -121,7 +134,7 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
             ]}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} zeroMinWidth>
           <TechnicianSection maintainers={maintainers} />
         </Grid>
         <Grid item xs={5}>
@@ -129,43 +142,22 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} sx={{mt: '1em'}}>
-        <Grid item xs={7}>
-          <IssueHistoryPageCard>
-            {issueHistory.data.map((item) => (
-              <IssueHistoryCard
-                history={item}
+      <Grid container sx={{mt: '1em'}}>
+        <Grid item xs={12}>
+          <PageCard contentPadding="0.7em" headerLabel="Maintenance History">
+            <ServiceHistory
+              bodyContainerStyle={{
+                borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+              }}
+            />
+            {[1, 2, 3, 4, 5, 6, 7].map((item) => (
+              <ServiceHistory
                 bodyContainerStyle={{
                   borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
                 }}
               />
             ))}
-          </IssueHistoryPageCard>
-        </Grid>
-
-        <Grid item xs={5}>
-          <MaintenanceHistoryPageCard>
-            {runningServiceOrders.data.length &&
-            runningServiceOrders.data[0].status !==
-              ServiceOrderStatus.COMPLETED ? (
-              <MaintenanceHistoryCard
-                serviceOrder={runningServiceOrders.data[0]}
-                description={runningServiceOrders.data[0].description}
-                bodyContainerStyle={{
-                  borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                }}
-              />
-            ) : null}
-            {serviceHistories.data.map((item) => (
-              <MaintenanceHistoryCard
-                serviceOrder={item.serviceOrder}
-                description={item.description}
-                bodyContainerStyle={{
-                  borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                }}
-              />
-            ))}
-          </MaintenanceHistoryPageCard>
+          </PageCard>
         </Grid>
       </Grid>
     </>

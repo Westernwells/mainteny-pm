@@ -24,7 +24,14 @@ export const PageLayout = ({
       maxWidth="100%"
       display="flex"
       height="99vh"
-      sx={{overflowY: overflowY ? 'scroll' : 'hidden'}}
+      sx={{
+        // We can design a custom scrollbar here, we can also make showing scrollbar optional
+        overflowY: overflowY ? 'scroll' : 'hidden',
+        '::-webkit-scrollbar': {
+          width: 0,
+          background: 'transparent',
+        },
+      }}
     >
       <AppTopBar />
       {!excludeSidebar ? (

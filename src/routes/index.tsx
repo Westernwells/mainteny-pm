@@ -31,7 +31,7 @@ export const Router = () => (
       <Route
         path="/units/:id"
         element={
-          <PageLayout excludeDefaultSpacing>
+          <PageLayout excludeDefaultSpacing overflowY>
             <UnitsDetail />
           </PageLayout>
         }
