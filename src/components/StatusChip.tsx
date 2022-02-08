@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 interface Props {
   label: string;
   bgColor?: string;
+  textColor?: string;
   color?:
     | 'default'
     | 'primary'
@@ -14,11 +15,11 @@ interface Props {
     | 'warning';
 }
 
-export const StatusChip = ({label, bgColor, color}: Props) => (
+export const StatusChip = ({label, bgColor, color, textColor}: Props) => (
   <Chip
     sx={{
       py: 2,
-      color: '#fff',
+      color: textColor || '#fff',
       minWidth: '5.75rem',
 
       backgroundColor: bgColor,

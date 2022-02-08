@@ -5,9 +5,14 @@ import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
+import LockClockIcon from '@mui/icons-material/LockClock';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import IconButton from '@mui/material/IconButton';
 import {CardAlert} from 'components/CardAlert';
-import {MaintenanceBasicInfo} from './ServiceBasicInfo';
+import {CardProps} from 'components/CardProps';
+// import {MaintenanceBasicInfo} from './ServiceBasicInfo';
 import {HistoryCardHeader} from './HistoryCardHeader';
 
 interface Props {
@@ -91,17 +96,17 @@ export const HistoryCard = ({
 
         {showTimeCategory ? (
           <Box display="flex" mt="2.5em">
-            <MaintenanceBasicInfo
+            <CardProps
               label="Scheduled Time"
               bodyTextVariant="subtitle1"
-              icon={<TimerOutlinedIcon color="info" />}
+              icon={<LockClockIcon color="info" />}
               iconBackground={theme.palette.info.outlinedHoverBg}
               bodyText="24 Sep 2021, 5 PM - 7PM "
             />
-            <MaintenanceBasicInfo
+            <CardProps
               label="Preferred Time"
               bodyTextVariant="body1"
-              icon={<TimerOutlinedIcon color="warning" />}
+              icon={<AccessTimeIcon color="warning" />}
               iconBackground={theme.palette.warning.outlinedHoverBg}
               bodyText="24 Sep 2021, 3PM"
             />
@@ -110,22 +115,22 @@ export const HistoryCard = ({
 
         {showMoreReportDetails ? (
           <Box display="flex" mt="2.5em">
-            <MaintenanceBasicInfo
+            <CardProps
               label="Technician"
               bodyTextVariant="body1"
-              icon={<TimerOutlinedIcon color="info" />}
+              icon={<PersonOutlineOutlinedIcon color="info" />}
               iconBackground={theme.palette.info.outlinedHoverBg}
               bodyText="John Doe"
             />
-            <MaintenanceBasicInfo
+            <CardProps
               label="Cost"
               bodyTextVariant="caption"
-              icon={<TimerOutlinedIcon color="success" />}
+              icon={<MonetizationOnOutlinedIcon color="success" />}
               iconBackground={theme.palette.success.outlinedHoverBg}
               bodyText="9,700 EUR"
             />
 
-            <MaintenanceBasicInfo
+            <CardProps
               label="Duration"
               bodyTextVariant="body1"
               icon={<TimerOutlinedIcon color="warning" />}
