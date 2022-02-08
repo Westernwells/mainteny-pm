@@ -5,6 +5,8 @@ interface Props {
   label: string;
   bgColor?: string;
   textColor?: string;
+  style?: {[key: string]: string | number};
+  variant?: 'filled' | 'outlined';
   color?:
     | 'default'
     | 'primary'
@@ -15,14 +17,22 @@ interface Props {
     | 'warning';
 }
 
-export const StatusChip = ({label, bgColor, color, textColor}: Props) => (
+export const StatusChip = ({
+  label,
+  bgColor,
+  color,
+  textColor,
+  variant,
+  style,
+}: Props) => (
   <Chip
+    variant={variant || 'filled'}
     sx={{
       py: 2,
       color: textColor || '#fff',
       minWidth: '5.75rem',
-
       backgroundColor: bgColor,
+      ...style,
     }}
     color={color}
     label={

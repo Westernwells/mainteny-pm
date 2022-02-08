@@ -32,7 +32,7 @@ export const ContractCard = ({
       }}
     >
       <CardHeader
-        sx={{pb: '0.4em'}}
+        sx={{pb: '1.5em'}}
         action={
           headerActionIcon ? <IconButton>{headerActionIcon}</IconButton> : null
         }

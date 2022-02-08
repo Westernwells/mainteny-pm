@@ -115,7 +115,11 @@ export const UnitsDetail = () => {
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        pb: '1em',
+      }}
+    >
       <Box
         sx={{
           display: 'flex',
