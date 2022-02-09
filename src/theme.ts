@@ -63,6 +63,7 @@ export const theme = createTheme({
       default: '#F2F6F8',
     },
     inputBackground: {main: '#F7F9FC'},
+    amber: {main: '#FF8F00', light: '#FFF8E1'},
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
     contrastThreshold: 3,

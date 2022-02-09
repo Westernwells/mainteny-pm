@@ -1,11 +1,16 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
-import {CustomCard} from 'components/CustomCard';
+import {CardProps} from 'components/CardProps';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import MoneyIcon from '@mui/icons-material/Money';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
-const paymentDetailsField = ['Name', 'IBAN', 'BIC'];
+interface Props {
+  name?: string;
+}
 
-export const ContractPaymentDetails = () => {
+export const ContractPaymentDetails = ({name}: Props) => {
   const theme = useTheme();
 
   const paymentDetails = (field: string) => {
@@ -26,37 +31,36 @@ export const ContractPaymentDetails = () => {
   };
 
   return (
-    <CustomCard containerStyles={{background: '#fff', px: 2}}>
-      <Box width="100%" mt={1}>
-        <Typography
-          variant="h6"
-          color="primary"
-          sx={{
-            background: theme.palette.inputBackground.main,
-            mt: 2,
-            pt: 3,
-            pl: 2,
-            py: 2,
-          }}
-        >
-          Payment Details
-        </Typography>
-      </Box>
-      {paymentDetailsField.map((field) => (
-        <Box key={`${field}-issue`} display="flex">
-          <Typography
-            variant="largeBtnText"
-            mr={1}
-            pr={10}
-            width="30%"
-            py={1}
-            color="textSecondary"
-          >
-            {field}
-          </Typography>
-          <Box py={1}>{paymentDetails(field)}</Box>
-        </Box>
-      ))}
-    </CustomCard>
+    <>
+      <CardProps
+        label="Name"
+        bodyTextVariant="subtitle1"
+        icon={<PersonOutlineOutlinedIcon sx={{fontSize: '1.5rem'}} />}
+        containerStyles={{mr: '0.5em'}}
+        iconBackground={theme.palette.inputBackground.main}
+        iconMaxHeight="3rem"
+        bodyText={name || ''}
+      />
+
+      <CardProps
+        label="IBAN"
+        bodyTextVariant="subtitle1"
+        icon={<MoneyIcon sx={{fontSize: '1.5rem'}} />}
+        containerStyles={{mr: '0.5em', mt: '0.8em'}}
+        iconBackground={theme.palette.inputBackground.main}
+        iconMaxHeight="3rem"
+        bodyText="SE87 3000 0000 0101 2345 67890" // TODO: No IBAN in API
+      />
+
+      <CardProps
+        label="BIC"
+        bodyTextVariant="subtitle1"
+        icon={<AccountBalanceIcon sx={{fontSize: '1.5rem'}} />}
+        containerStyles={{mr: '0.5em', mt: '0.8em'}}
+        iconBackground={theme.palette.inputBackground.main}
+        iconMaxHeight="3rem"
+        bodyText="DEUTDEFF" // TODO: No BIC in API
+      />
+    </>
   );
 };

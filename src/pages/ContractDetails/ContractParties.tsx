@@ -8,100 +8,83 @@ import {ContractView} from 'models/contract';
 import {CustomCard} from 'components/CustomCard';
 import {ServiceCompanyView} from 'models/service-company';
 import {ClientView} from 'models/client';
+import {StatusChip} from 'components/StatusChip';
 
 interface Props {
-  contractDetails?: ContractView;
+  personName?: string;
+  companyName?: string;
+  email?: string;
+  partyType?: string;
+  containerStyle?: {[key: string]: string | number};
+  chipTextColor?: string;
+  chipBgColor?: string;
+  chipColor?:
+    | 'default'
+    | 'primary'
+    | 'secondary'
+    | 'error'
+    | 'info'
+    | 'success'
+    | 'warning';
 }
 
 export interface Parties {
   [key: string]: ServiceCompanyView | ClientView | undefined;
 }
 
-export const ContractParties = ({contractDetails}: Props) => {
+export const ContractParties = ({
+  personName,
+  companyName,
+  email,
+  partyType,
+  containerStyle,
+  chipTextColor,
+  chipBgColor,
+  chipColor,
+}: Props) => {
   const theme = useTheme();
 
-  const parties: Parties = {
-    contractor: contractDetails?.serviceCompany,
-    customer: contractDetails?.propertyOwner,
-  };
   return (
-    <>
-      <Box width="100%" mt={6}>
-        <Typography
-          variant="h6"
-          color="primary"
-          sx={{
-            background: theme.palette.inputBackground.main,
-            mt: 2,
-            pt: 3,
-            pl: 2,
-            py: 2,
-          }}
-        >
-          Parties
-        </Typography>
-      </Box>
-      <Grid container spacing={2} sx={{mt: 2}}>
-        {Object.keys(parties).map((key) => (
-          <Grid item xs={6}>
-            <CustomCard
-              containerStyles={{
-                boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
-                px: 2,
-                maxWidth: '100%',
-                height: '100%',
-                border: 'none',
-                py: 2,
-                display: 'flex',
-                justifyContent: 'space-between',
-                borderRadius: '16px',
-              }}
-            >
-              <Box display="flex">
-                <Box sx={{mr: 2}}>
-                  <Avatar sx={{width: '5rem', height: '5rem'}}>H</Avatar>
-                </Box>
-                <Box>
-                  <Box>
-                    <Typography variant="h6" sx={{display: 'block'}}>
-                      {parties[key]?.name}
-                    </Typography>
-                  </Box>
+    <Grid container sx={{...containerStyle}}>
+      <Grid item xs={4}>
+        <Box display="flex">
+          <Avatar sx={{width: '3rem', height: '3rem', mr: '1em'}}>H</Avatar>
 
-                  <Box>
-                    <Typography variant="mediumBtnText" color="textSecondary">
-                      {parties[key]?.contact?.email}
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-
-              <Box>
-                <Chip
-                  color={key === 'contractor' ? 'warning' : 'info'}
-                  variant="outlined"
-                  sx={{
-                    py: 3,
-
-                    background:
-                      key === 'contractor'
-                        ? theme.palette.warning.outlinedHoverBg
-                        : theme.palette.info.outlinedHoverBg,
-                    border: `none`,
-                    borderRadius: '8px',
-                  }}
-                  label={
-                    <Typography variant="h6" sx={{textTransform: 'capitalize'}}>
-                      {key.toUpperCase()}
-                    </Typography>
-                  }
-                  size="medium"
-                />
-              </Box>
-            </CustomCard>
-          </Grid>
-        ))}
+          <Box>
+            <Typography variant="subtitle1" sx={{display: 'block'}}>
+              {personName || ''}
+            </Typography>
+          </Box>
+        </Box>
       </Grid>
-    </>
+
+      <Grid item xs={5}>
+        <Box display="flex">
+          <Box>
+            <Box>
+              <Typography variant="subtitle1" sx={{display: 'block'}}>
+                {companyName || ''}
+              </Typography>
+            </Box>
+
+            <Box>
+              <Typography variant="body2" color="textSecondary">
+                {email || ''}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      </Grid>
+
+      <Grid item xs={3}>
+        <StatusChip
+          color={chipColor}
+          label={partyType || ''}
+          textColor={chipTextColor}
+          bgColor={chipBgColor}
+          style={{px: '1em'}}
+        />
+      </Grid>
+    </Grid>
   );
 };

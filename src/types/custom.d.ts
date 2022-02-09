@@ -32,6 +32,7 @@ declare module '@mui/material/styles' {
   interface CustomPalette {
     danger?: SimplePaletteColorOptions;
     inputBackground: SimplePaletteColorOptions;
+    amber: SimplePaletteColorOptions;
   }
   interface Palette extends CustomPalette {}
   interface PaletteOptions extends CustomPalette {}
