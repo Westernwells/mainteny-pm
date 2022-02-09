@@ -55,12 +55,6 @@ export const ContractParties = ({
               {personName || ''}
             </Typography>
           </Box>
-
-          {/* <Box>
-              <Typography variant="body2" color="textSecondary">
-                {role}
-              </Typography>
-            </Box> */}
         </Box>
       </Grid>
 

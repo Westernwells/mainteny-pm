@@ -21,36 +21,14 @@ export const ContractTimeline = ({
   unUsedContractDays,
 }: Props) => {
   const theme = useTheme();
-  return (
-    <CustomCard
-      containerStyles={{
-        background: '#fff',
-        mt: 2,
-        px: 2,
-        minHeight: '50vh',
-      }}
-    >
-      <Box width="100%" mt={1}>
-        <Typography
-          variant="h6"
-          color="primary"
-          sx={{
-            background: theme.palette.inputBackground.main,
-            mt: 2,
-            pt: 3,
-            pl: 2,
-            py: 2,
-          }}
-        >
-          Timeline
-        </Typography>
-      </Box>
 
-      <Box display="flex" mt={2}>
+  return (
+    <>
+      <Box display="flex">
         <Box
           sx={{
             border: `2px solid #00D68F`,
-            mr: 2,
+            mr: '1em',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -71,10 +49,9 @@ export const ContractTimeline = ({
 
       <Box
         sx={{
-          height: '20vh',
+          height: '25vh',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
           alignItems: 'center',
           maxWidth: '3rem',
         }}
@@ -91,7 +68,7 @@ export const ContractTimeline = ({
         <Box
           sx={{
             borderLeft: '3px dotted green',
-            height:
+            minHeight:
               unUsedContractDays && totalContractDays
                 ? `${(unUsedContractDays / totalContractDays) * 100}%`
                 : null,
@@ -123,6 +100,6 @@ export const ContractTimeline = ({
           </Typography>
         </Box>
       </Box>
-    </CustomCard>
+    </>
   );
 };
