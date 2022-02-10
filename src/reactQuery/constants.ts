@@ -15,4 +15,5 @@ export const queryKeys = {
   fetchInvoice: 'fetchInvoice',
   fetchIssueHistory: 'fetchIssueHistory',
   invoiceById: 'invoiceById',
+  invoiceDownloadUrl: 'invoiceDownloadUrl',
 };

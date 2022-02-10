@@ -2,7 +2,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import useTheme from '@mui/material/styles/useTheme';
-import {useInvoiceDetail} from 'hooks/reactQuery/useInvoice';
+import {
+  useInvoiceDetail,
+  useInvoiceDownloadUrl,
+} from 'hooks/reactQuery/useInvoice';
 import {StatusChip} from 'components/StatusChip';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import {CardProps} from 'components/CardProps';
@@ -19,6 +22,10 @@ import {RelatedTo} from './RelatedTo';
 export const InvoiceDetails = () => {
   const {id: invoiceId} = useParams();
   const {data: invoice} = useInvoiceDetail(invoiceId);
+  const {data: downloadUrl} = useInvoiceDownloadUrl(
+    invoice?.additionalInfo.pdfPath,
+  );
+  console.log(downloadUrl, '!!!!!!!!!!!');
   const theme = useTheme();
 
   return (
