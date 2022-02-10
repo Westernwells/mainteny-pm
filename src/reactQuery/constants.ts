@@ -14,4 +14,5 @@ export const queryKeys = {
   fetchContractElevatorCount: 'fetchContractElevatorCount',
   fetchInvoice: 'fetchInvoice',
   fetchIssueHistory: 'fetchIssueHistory',
+  invoiceById: 'invoiceById',
 };

@@ -7,7 +7,7 @@ import Tabs from '@mui/material/Tabs';
 
 import {WorkReport} from './Tabs/WorkReport';
 import {Invoice} from './Tabs/Invoice';
-import {RelatedTo} from './Tabs/RelatedTo';
+import {RelatedTo} from './RelatedTo';
 import {invoiceUrl, serviceOrder, workReportText} from './data';
 
 function a11yProps(index: number) {
@@ -73,9 +73,9 @@ export const InvoiceDetailsSection = () => {
           <Tab label="Invoice" {...a11yProps(2)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
+      {/* <TabPanel value={value} index={0}>
         <RelatedTo serviceOrder={serviceOrder} />
-      </TabPanel>
+      </TabPanel> */}
       <TabPanel value={value} index={1}>
         <WorkReport text={workReportText} />
       </TabPanel>
