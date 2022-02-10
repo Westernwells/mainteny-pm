@@ -67,7 +67,7 @@ export const Router = () => (
       <Route
         path="/invoices/:id"
         element={
-          <PageLayout excludeDefaultSpacing overflowY>
+          <PageLayout overflowY>
             <InvoiceDetails />
           </PageLayout>
         }

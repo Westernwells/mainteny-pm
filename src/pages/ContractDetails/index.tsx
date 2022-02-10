@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import {useFetchContractDetails} from 'hooks/reactQuery/useContract';
 import Tooltip from '@mui/material/Tooltip';
-import Button from '@mui/material/Button';
+import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
 import useTheme from '@mui/material/styles/useTheme';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import {useNavigate, useParams} from 'react-router-dom';
@@ -53,15 +53,11 @@ export const ContractDetails = () => {
     <Box>
       <Box display="flex" justifyContent="space-between" mb="0.5em">
         <BackAction label="Contract Details" />
-        <Button
-          variant="outlined"
-          size="medium"
+        <CustomButtonUnstyled
+          label="      Download Contract"
+          size="small"
           startIcon={<FileDownloadIcon color="primary" />}
-        >
-          <Typography variant="largeBtnText" sx={{textTransform: 'capitalize'}}>
-            Download Contract
-          </Typography>
-        </Button>
+        />
       </Box>
       <Grid
         container

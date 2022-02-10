@@ -35,3 +35,17 @@ export function useInvoices(params: QueryInvoiceParams) {
     {enabled: !!user},
   );
 }
+
+export const fetchInvoice = async (invoiceId: string) => {
+  const response = await axiosClient.get<InvoiceView>(
+    `/api/invoices/${invoiceId}`,
+  );
+  return response.data;
+};
+
+export function useInvoiceDetail(invoiceId?: string) {
+  const {data: user} = usePropertyManager();
+  return useQuery(qk.invoiceById, () => fetchInvoice(invoiceId!), {
+    enabled: !!invoiceId,
+  });
+}

@@ -5,6 +5,7 @@ interface Props {
   icon: JSX.Element;
   label: string;
   bodyTextVariant: any;
+  titleTextVariant?: any;
   iconBackground?: string;
   bodyText: string;
   iconMaxHeight?: string | number;
@@ -14,6 +15,7 @@ interface Props {
 export const CardProps = ({
   label,
   bodyTextVariant,
+  titleTextVariant,
   icon,
   iconBackground,
   bodyText,
@@ -36,14 +38,16 @@ export const CardProps = ({
     <Box>
       <Box>
         <Typography
-          variant="caption"
+          variant={titleTextVariant || 'caption'}
           sx={{color: (theme) => theme.palette.text.secondary}}
         >
           {label}
         </Typography>
       </Box>
       <Box>
-        <Typography variant={bodyTextVariant}>{bodyText}</Typography>
+        <Typography variant={bodyTextVariant || 'subtitle1'}>
+          {bodyText}
+        </Typography>
       </Box>
     </Box>
   </Box>
