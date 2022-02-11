@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Fade from '@mui/material/Fade';
+import {GridRowsProp} from '@mui/x-data-grid';
+import {DataGridLayout} from 'components/DataGridLayout';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {FilterFields} from 'components/FilterFields';
-
+import {columns, makeRows} from './ContractsDataGridProps';
 import {
   useContractElevatorCount,
   useQueryContract,
@@ -32,6 +34,7 @@ export const Contracts = () => {
   const [contractorFilterItems, setConractorFileterItems] = useState<string[]>(
     [],
   );
+  const [rows, setRows] = useState<GridRowsProp>([]);
   const {data: contractResource = createEmptyResource<ContractView>(10)} =
     useQueryContract(
       {
@@ -47,7 +50,6 @@ export const Contracts = () => {
   const {data: contractWithUnits} = useContractElevatorCount(
     contractResource.data,
   );
-
   useEffect(() => {
     const options: string[] = [];
 
@@ -60,8 +62,8 @@ export const Contracts = () => {
           options.push(item.serviceCompany.name);
         }
       });
+      setRows(makeRows(contractWithUnits));
     }
-
     setConractorFileterItems([...contractorFilterItems, ...options]);
   }, [contractWithUnits]);
 
@@ -103,15 +105,15 @@ export const Contracts = () => {
           </FilterFields>
         </Box>
       </Fade>
-
-      <Box>
+      {/* <Box>
         <ContractHeader />
         <Box sx={{height: '73vh', overflowY: 'scroll', paddingBottom: '1rem'}}>
           {contractWithUnits?.map((contract, index) => (
             <ContractRow key={contract.id} contract={contract} />
           ))}
         </Box>
-      </Box>
+      </Box> */}
+      <DataGridLayout rows={rows} columns={columns} />
     </Box>
   );
 };
