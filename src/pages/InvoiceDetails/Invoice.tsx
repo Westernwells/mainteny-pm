@@ -10,9 +10,10 @@ const fileUrl =
 
 interface Props {
   containerStyle?: {[key: string]: string | number};
+  downloadUrl?: string;
 }
 
-export const Invoice = ({containerStyle}: Props) => {
+export const Invoice = ({containerStyle, downloadUrl}: Props) => {
   const theme = useTheme();
   return (
     <Box display="flex" justifyContent="center">
@@ -20,12 +21,12 @@ export const Invoice = ({containerStyle}: Props) => {
         sx={{
           backgroundColor: theme.palette.inputBackground.main,
           p: '1em',
-          width: '47vw',
+          width: '44vw',
           ...containerStyle,
         }}
       >
         <Box width="100%">
-          <Document file="/pm/INV000128.pdf">
+          <Document file={downloadUrl}>
             <Page renderTextLayer={false} pageNumber={1} />
           </Document>
         </Box>

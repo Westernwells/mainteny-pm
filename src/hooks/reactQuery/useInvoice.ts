@@ -49,10 +49,18 @@ export function useInvoiceDetail(invoiceId?: string) {
   });
 }
 
-export const fetchInvoiceDownloadUrl = async (pdfPath: string) => {
+export const fetchInvoiceDownloadUrl = async (
+  pdfPath: string,
+  serviceCompanyId: string,
+) => {
   const response = await axiosClient.get<{[key: string]: string}>(
     `/api/media/signedUrl/download`,
+    {
+      params: {file: pdfPath, serviceCompanyId},
+      paramsSerializer,
+    },
   );
+
   return response.data;
 };
 
@@ -61,9 +69,10 @@ export const useInvoiceDownloadUrl = (pdfPath?: string) => {
   const serviceCompanyId = propertyManager?.userAccount.serviceCompany.id;
   return useQuery(
     [qk.invoiceDownloadUrl, pdfPath, serviceCompanyId],
-    () => fetchInvoiceDownloadUrl(pdfPath!),
+    () => fetchInvoiceDownloadUrl(pdfPath!, serviceCompanyId!),
     {
       enabled: !!pdfPath && !!serviceCompanyId,
+      select: (data) => data[pdfPath!],
     },
   );
 };

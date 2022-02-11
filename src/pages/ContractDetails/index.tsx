@@ -54,7 +54,7 @@ export const ContractDetails = () => {
       <Box display="flex" justifyContent="space-between" mb="0.5em">
         <BackAction label="Contract Details" />
         <CustomButtonUnstyled
-          label="      Download Contract"
+          label="Download Contract"
           size="small"
           startIcon={<FileDownloadIcon color="primary" />}
         />
@@ -72,9 +72,7 @@ export const ContractDetails = () => {
             containerStyles={{pt: '1em'}}
             header={
               <Box display="flex" justifyContent="space-between">
-                <Typography variant="subtitle1">{`#${
-                  contractDetails?.number || ''
-                }`}</Typography>
+                <Typography variant="subtitle1">#CNT000128</Typography>
                 <StatusChip
                   color="success"
                   label="In Effect"

@@ -77,7 +77,7 @@ export const InvoiceDetails = () => {
               </Box>
             }
           >
-            <Invoice />
+            <Invoice downloadUrl={downloadUrl} />
           </InvoiceCard>
         </Grid>
 
