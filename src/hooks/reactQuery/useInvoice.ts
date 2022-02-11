@@ -1,16 +1,10 @@
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
-import {addDays} from 'date-fns';
+import {useCallback} from 'react';
 import {queryKeys as qk} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
-import {Page, Resource, RestError, State} from '../../models/misc';
-import {
-  InvoiceStatus,
-  InvoiceView,
-  QueryInvoiceParams,
-} from '../../models/invoice';
-import {createResource, makePage} from '../../utils/paging-utils';
-import {getDateObject} from '../../utils/datetime';
+import {Resource, RestError} from '../../models/misc';
+import {InvoiceView, QueryInvoiceParams} from '../../models/invoice';
 import {usePropertyManager} from './usePropertyManager';
 
 export const fetchInvoices = async (
@@ -73,7 +67,8 @@ export const useInvoiceDownloadUrl = (pdfPath?: string) => {
     {
       enabled: !!pdfPath && !!serviceCompanyId,
       refetchOnWindowFocus: false,
-      select: (data) => data[pdfPath!],
+      cacheTime: 0,
+      select: useCallback((data) => data[pdfPath!], [pdfPath]),
     },
   );
 };
