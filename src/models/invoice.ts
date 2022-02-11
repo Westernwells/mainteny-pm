@@ -22,6 +22,12 @@ export interface InvoiceItem {
   vat: number;
 }
 
+export interface InvoiceAdditionalInfo {
+  dueDate: string;
+  pdfGenerationStatus: string;
+  pdfPath: string;
+}
+
 export interface InvoiceView {
   id: string;
   number: string;
@@ -35,6 +41,7 @@ export interface InvoiceView {
   items: InvoiceItem[];
   search: string;
   meta: Meta;
+  additionalInfo: InvoiceAdditionalInfo;
 }
 
 export interface QueryInvoiceParams {
