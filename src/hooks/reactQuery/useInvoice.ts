@@ -72,6 +72,7 @@ export const useInvoiceDownloadUrl = (pdfPath?: string) => {
     () => fetchInvoiceDownloadUrl(pdfPath!, serviceCompanyId!),
     {
       enabled: !!pdfPath && !!serviceCompanyId,
+      refetchOnWindowFocus: false,
       select: (data) => data[pdfPath!],
     },
   );

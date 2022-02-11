@@ -6,6 +6,7 @@ interface Props {
   startIcon?: JSX.Element;
   endIcon?: JSX.Element;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export const CustomButtonUnstyled = ({
@@ -13,12 +14,14 @@ export const CustomButtonUnstyled = ({
   label,
   startIcon,
   endIcon,
+  disabled,
   onClick = () => {},
 }: Props) => (
   <Button
     disableRipple
     disableFocusRipple
     disableElevation
+    disabled={disabled}
     onClick={() => onClick()}
     variant="text"
     size={size || 'medium'}

@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import useTheme from '@mui/material/styles/useTheme';
+import axios from 'axios';
 import {
   useInvoiceDetail,
   useInvoiceDownloadUrl,
@@ -34,8 +35,15 @@ export const InvoiceDetails = () => {
         <BackAction label="Invoice Details" />
         <CustomButtonUnstyled
           label="Download Invoice"
+          disabled={!downloadUrl}
           size="small"
-          startIcon={<FileDownloadIcon color="primary" />}
+          onClick={() => window.open(downloadUrl, '_self')}
+          startIcon={
+            <FileDownloadIcon
+              sx={{opacity: !downloadUrl ? '0.1' : '1'}}
+              color="primary"
+            />
+          }
         />
       </Box>
       <Grid container spacing={2}>
