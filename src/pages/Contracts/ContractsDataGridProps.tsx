@@ -96,25 +96,6 @@ export const columns: GridColDef[] = [
     ),
   },
 ];
-// export const rows: GridRowsProp = [
-//   {
-//     id: 1,
-//     contractor: 'Mitsubishi',
-//     contractNumber: 'CNT000128',
-//     units: 9,
-//     cost: 9000,
-//     expiryDate: '2022-02-10',
-//   },
-//   {
-//     id: 2,
-//     contractor: 'Mitsubishi',
-//     contractNumber: 'CNT000128',
-//     units: 9,
-//     cost: 9000,
-//     expiryDate: '2022-02-10',
-
-//   },
-// ];
 
 export const makeRows = (contracts: any): GridRowsProp =>
   contracts
@@ -125,6 +106,6 @@ export const makeRows = (contracts: any): GridRowsProp =>
         units: item.units,
         cost: item.price,
         expiryDate: formatDate(item.endTime),
-        contractId: item.id,
+        navigateTo: item.id,
       }))
     : console.error('No Data');

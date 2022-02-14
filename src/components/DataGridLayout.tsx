@@ -26,11 +26,23 @@ export const DataGridLayout = ({rows, columns}: Props) => {
         },
 
         '& .MuiDataGrid-main': {
+          '& *': {
+            borderBottomColor: 'transparent !important',
+          },
+
           '& *:focus, & *:focus-within': {
             '& *': {
               border: 'none !important',
               outline: 'none !important',
             },
+          },
+
+          '& .MuiDataGrid-columnSeparator': {
+            display: 'none',
+          },
+
+          '& .MuiDataGrid-sortIcon': {
+            color: theme.palette.secondary.main,
           },
 
           '& .MuiDataGrid-virtualScroller': {
@@ -70,6 +82,7 @@ export const DataGridLayout = ({rows, columns}: Props) => {
               minHeight: 'initial !important',
               lineHeight: 'initial !important',
               py: '.75em !important',
+              pl: '1em !important',
             },
           },
 
@@ -83,7 +96,10 @@ export const DataGridLayout = ({rows, columns}: Props) => {
         rows={rows}
         columns={columns}
         disableSelectionOnClick
-        onRowClick={(params) => navigate(params.row.contractId)}
+        onRowClick={(params, e) => {
+          e.preventDefault();
+          navigate(params.row.navigateTo);
+        }}
       />
     </Box>
   );
