@@ -90,6 +90,10 @@ export const DataGridLayout = ({rows, columns}: Props) => {
             backgroundColor: `${theme.palette.common.white} !important`,
           },
         },
+
+        '& .MuiDataGrid-footerContainer': {
+          display: 'none',
+        },
       }}
     >
       <DataGrid
