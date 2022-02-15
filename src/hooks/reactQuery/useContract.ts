@@ -2,18 +2,19 @@ import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import {queryKeys as qk} from 'reactQuery/constants';
+import {staticContractDetails} from 'pages/ContractDetails/data';
 import {
   addDays,
-  endOfMonth,
-  startOfMonth,
-  endOfWeek,
   startOfDay,
-  getWeek,
   subDays,
   endOfDay,
   isWithinInterval,
 } from 'date-fns';
 import {toDate} from 'utils/datetime';
+import {
+  staticContractElevatorCount,
+  staticContracts,
+} from 'pages/Contracts/data';
 import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
 import {ContractView, QueryContractParams} from '../../models/contract';
 import {Resource, RestError} from '../../models/misc';
@@ -28,7 +29,7 @@ export const fetchContractElevatorCount = async (contractId: string[]) => {
     },
   );
 
-  return response.data;
+  return staticContractElevatorCount;
 };
 
 export const fetchContracts = async (
@@ -43,14 +44,14 @@ export const fetchContracts = async (
     },
   );
 
-  return response.data;
+  return staticContracts;
 };
 
 const fetchContractDetails = async (contractId: string) => {
   const response = await axiosClient.get<ContractView>(
     `/api/contracts/${contractId}`,
   );
-  return response.data;
+  return staticContractDetails;
 };
 
 const filterByExpiryData = (

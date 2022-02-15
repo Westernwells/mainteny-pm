@@ -193,7 +193,7 @@ export const invoices: Resource<any> = {
           unitPrice: {amount: 1500, currency: 'EUR', fractionDigits: 2},
           quantity: 3,
           vat: 10,
-          totalAmount: {amount: 4950, currency: 'EUR', fractionDigits: 2},
+          totalAmount: {amount: 5950, currency: 'EUR', fractionDigits: 2},
           totalAmountWithoutVat: {
             amount: 4500,
             currency: 'EUR',
@@ -202,7 +202,7 @@ export const invoices: Resource<any> = {
           vatAmount: {amount: 450, currency: 'EUR', fractionDigits: 2},
         },
       ],
-      totalAmount: {amount: 4950, currency: 'EUR', fractionDigits: 2},
+      totalAmount: {amount: 5950, currency: 'EUR', fractionDigits: 2},
       additionalInfo: {
         pdfPath:
           '9d85be2d-ceb9-4b19-a350-9f512b4b57e4/invoices/c986b9b9-da45-4ff9-8675-4ea0491fac8b.pdf',
@@ -411,7 +411,7 @@ export const invoices: Resource<any> = {
           unitPrice: {amount: 1500, currency: 'EUR', fractionDigits: 2},
           quantity: 3,
           vat: 10,
-          totalAmount: {amount: 4950, currency: 'EUR', fractionDigits: 2},
+          totalAmount: {amount: 6950, currency: 'EUR', fractionDigits: 2},
           totalAmountWithoutVat: {
             amount: 4500,
             currency: 'EUR',
@@ -420,7 +420,7 @@ export const invoices: Resource<any> = {
           vatAmount: {amount: 450, currency: 'EUR', fractionDigits: 2},
         },
       ],
-      totalAmount: {amount: 4950, currency: 'EUR', fractionDigits: 2},
+      totalAmount: {amount: 6950, currency: 'EUR', fractionDigits: 2},
       additionalInfo: {
         pdfPath:
           '9d85be2d-ceb9-4b19-a350-9f512b4b57e4/invoices/c986b9b9-da45-4ff9-8675-4ea0491fac8b.pdf',
@@ -630,7 +630,7 @@ export const invoices: Resource<any> = {
           unitPrice: {amount: 1500, currency: 'EUR', fractionDigits: 2},
           quantity: 3,
           vat: 10,
-          totalAmount: {amount: 4950, currency: 'EUR', fractionDigits: 2},
+          totalAmount: {amount: 7950, currency: 'EUR', fractionDigits: 2},
           totalAmountWithoutVat: {
             amount: 4500,
             currency: 'EUR',
@@ -639,7 +639,7 @@ export const invoices: Resource<any> = {
           vatAmount: {amount: 450, currency: 'EUR', fractionDigits: 2},
         },
       ],
-      totalAmount: {amount: 4950, currency: 'EUR', fractionDigits: 2},
+      totalAmount: {amount: 7950, currency: 'EUR', fractionDigits: 2},
       additionalInfo: {
         pdfPath:
           '9d85be2d-ceb9-4b19-a350-9f512b4b57e4/invoices/c986b9b9-da45-4ff9-8675-4ea0491fac8b.pdf',
