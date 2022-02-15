@@ -26,31 +26,34 @@ import {ServiceHistoryTab} from './Tabs/ServiceHistoryTab';
 
 const pageSize = 10;
 
-const useStyles = makeStyles((theme: Theme) => ({
-  tabs: {
-    '& .MuiTabs-indicator': {
-      display: 'flex',
-      justifyContent: 'center',
-      backgroundColor: 'transparent',
+const useStyles = makeStyles(() => {
+  const theme = useTheme();
+  return {
+    tabs: {
+      '& .MuiTabs-indicator': {
+        display: 'flex',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+      },
     },
-  },
-  tab: {
-    '&.MuiTab-textColorPrimary': {
-      color: theme.palette.primary.main,
-    },
-    '&.Mui-selected': {
-      color: theme.palette.primary.main,
-      '& .item-label': {
-        '&::before': {
-          backgroundColor: theme.palette.primary.main,
-        },
-        '& .item-icon': {
-          color: theme.palette.secondary.main,
+    tab: {
+      '&.MuiTab-textColorPrimary': {
+        color: theme.palette.primary.main,
+      },
+      '&.Mui-selected': {
+        color: theme.palette.primary.main,
+        '& .item-label': {
+          '&::before': {
+            backgroundColor: theme.palette.primary.main,
+          },
+          '& .item-icon': {
+            color: theme.palette.secondary.main,
+          },
         },
       },
     },
-  },
-}));
+  };
+});
 
 const tabItems = [
   {

@@ -24,8 +24,6 @@ export const TechnicianSection = ({maintainers}: TechnicianSectionProp) => {
   const [technician, setTechnician] = useState<TechnicianView>();
   const [rows, setRows] = useState<{[key: string]: any}[]>();
 
-  console.log(maintainers, '########$$$$$^^^^^^^^^');
-
   useEffect(() => {
     if (maintainers && maintainers.length > 0) {
       const maintainer = _.sortBy(maintainers, (item) => [
