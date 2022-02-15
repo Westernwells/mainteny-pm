@@ -9,10 +9,17 @@ import {PageCard} from 'components/PageCard';
 import {HistoryCard} from './HistoryCard';
 import {HistoryReport} from './HistoryReport';
 import {HistoryBasicDetails} from './HistoryBasicDetails';
+import {HistoryAttachments} from './HistoryAttachments';
 
 export const ServiceHistoryTab = () => {
   const [year, setYear] = useState('2022');
   const [status, setStatus] = useState('ALL');
+  const [expanded, setExpanded] = useState<boolean>();
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
   return (
     <Grid container spacing={2} sx={{mt: 2}}>
       <Grid item xs={8}>
@@ -38,9 +45,13 @@ export const ServiceHistoryTab = () => {
             removeServiceOrderType
             removeServiceOrderStatus
             showMoreReportDetails
+            showMoreSection
             containerStyles={{
               pt: '0.5em',
             }}
+            handleExpandClick={handleExpandClick}
+            expanded={expanded}
+            collapsedChildren={<HistoryAttachments />}
             headerTitle="Work Report"
             subtitle="Resolved on 25 Sep 2021"
           />

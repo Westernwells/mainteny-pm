@@ -7,12 +7,6 @@ import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
 import useTheme from '@mui/material/styles/useTheme';
 
-const carRows = [
-  {row1: ['model', 'status']},
-  {row2: ['propertyOwner', 'number']},
-  {row3: ['capacity', 'stops']},
-];
-
 export interface Props {
   children: ReactNode;
   headerLabel: string;

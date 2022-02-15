@@ -104,7 +104,7 @@ export const UnitsDetail = () => {
     switch (value) {
       case 0:
         return <OverviewTab elevator={elevator} maintainers={maintainers} />;
-      case 2:
+      case 1:
         return <ServiceHistoryTab />;
 
       default:

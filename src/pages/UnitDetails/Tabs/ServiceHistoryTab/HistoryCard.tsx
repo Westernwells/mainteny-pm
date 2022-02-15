@@ -9,9 +9,13 @@ import LockClockIcon from '@mui/icons-material/LockClock';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
-import IconButton from '@mui/material/IconButton';
+import IconButton, {IconButtonProps} from '@mui/material/IconButton';
 import {CardAlert} from 'components/CardAlert';
 import {CardProps} from 'components/CardProps';
+import Collapse from '@mui/material/Collapse';
+import CardActions from '@mui/material/CardActions';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {styled} from '@mui/material/styles';
 // import {MaintenanceBasicInfo} from './ServiceBasicInfo';
 import {HistoryCardHeader} from './HistoryCardHeader';
 
@@ -33,7 +37,25 @@ interface Props {
   subtitle?: string;
   showMoreReportDetails?: boolean;
   showAlert?: boolean;
+  collapsedChildren?: JSX.Element | null;
+  expanded?: boolean;
+  handleExpandClick?: () => void;
+  showMoreSection?: true;
 }
+
+interface ExpandMoreProps extends IconButtonProps {
+  expand: boolean;
+}
+
+const ExpandMore = styled((props: ExpandMoreProps) => {
+  const {expand, ...other} = props;
+  return <IconButton {...other} />;
+})(({theme, expand}) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 export const HistoryCard = ({
   bodyContainerStyle,
@@ -53,6 +75,10 @@ export const HistoryCard = ({
   subtitle,
   showMoreReportDetails,
   showAlert,
+  showMoreSection,
+  collapsedChildren = null,
+  expanded = false,
+  handleExpandClick = () => {},
 }: Props) => {
   const theme = useTheme();
   return (
@@ -143,6 +169,21 @@ export const HistoryCard = ({
           <CardAlert message="Chris Anderson will be visiting your location in the next 20 minutes" />
         ) : null}
       </CardContent>
+      {showMoreSection ? (
+        <>
+          <CardActions
+            disableSpacing
+            sx={{display: 'flex', justifyContent: 'center', mt: '0.5em'}}
+          >
+            <ExpandMore expand={expanded} onClick={handleExpandClick}>
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>{collapsedChildren}</CardContent>
+          </Collapse>
+        </>
+      ) : null}
     </Card>
   );
 };
