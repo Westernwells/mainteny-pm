@@ -7,7 +7,6 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import {Theme} from '@mui/material/styles';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import ElevatorIcon from '@mui/icons-material/Elevator';
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import ArrowBack from '@mui/icons-material/ArrowBack';
@@ -59,10 +58,6 @@ const tabItems = [
   {
     label: 'Overview',
     icon: <ManageSearchIcon />,
-  },
-  {
-    label: 'Unit Info',
-    icon: <ElevatorIcon />,
   },
   {
     label: 'Service History',
