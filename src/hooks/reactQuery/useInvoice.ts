@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import {useCallback} from 'react';
 import {queryKeys as qk} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
+import {invoice} from 'pages/InvoiceDetails/data';
 import {Resource, RestError} from '../../models/misc';
 import {InvoiceView, QueryInvoiceParams} from '../../models/invoice';
 import {usePropertyManager} from './usePropertyManager';
@@ -30,12 +31,7 @@ export function useInvoices(params: QueryInvoiceParams) {
   );
 }
 
-export const fetchInvoice = async (invoiceId: string) => {
-  const response = await axiosClient.get<InvoiceView>(
-    `/api/invoices/${invoiceId}`,
-  );
-  return response.data;
-};
+export const fetchInvoice = async (invoiceId: string) => invoice;
 
 export function useInvoiceDetail(invoiceId?: string) {
   return useQuery(qk.invoiceById, () => fetchInvoice(invoiceId!), {

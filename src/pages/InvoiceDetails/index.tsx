@@ -2,19 +2,31 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import useTheme from '@mui/material/styles/useTheme';
+import axios from 'axios';
+import {
+  useInvoiceDetail,
+  useInvoiceDownloadUrl,
+} from 'hooks/reactQuery/useInvoice';
 import {StatusChip} from 'components/StatusChip';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import {CardProps} from 'components/CardProps';
+import {useParams} from 'react-router-dom';
 import {HistoryCard} from 'pages/UnitDetails/Tabs/ServiceHistoryTab/HistoryCard';
 import {BackAction} from 'components/BackAction';
 import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import Button from '@mui/material/Button';
 import {InvoiceCard} from './InvoiceCard';
 import {Invoice} from './Invoice';
 import {RelatedTo} from './RelatedTo';
-import {invoiceUrl} from './data';
 
 export const InvoiceDetails = () => {
+  const {id: invoiceId} = useParams();
+  const {data: invoice} = useInvoiceDetail(invoiceId);
+  const {data: downloadUrl} = useInvoiceDownloadUrl(
+    invoice?.additionalInfo.pdfPath,
+  );
+  console.log(downloadUrl, '!!!!!!!!!!!');
   const theme = useTheme();
 
   return (
@@ -23,12 +35,12 @@ export const InvoiceDetails = () => {
         <BackAction label="Invoice Details" />
         <CustomButtonUnstyled
           label="Download Invoice"
-          disabled={!invoiceUrl}
+          disabled={!downloadUrl}
           size="small"
-          onClick={() => window.open(invoiceUrl, '_self')}
+          onClick={() => window.open(downloadUrl, '_self')}
           startIcon={
             <FileDownloadIcon
-              sx={{opacity: !invoiceUrl ? '0.1' : '1'}}
+              sx={{opacity: !downloadUrl ? '0.1' : '1'}}
               color="primary"
             />
           }
@@ -73,7 +85,7 @@ export const InvoiceDetails = () => {
               </Box>
             }
           >
-            <Invoice downloadUrl={invoiceUrl} />
+            <Invoice downloadUrl={downloadUrl} />
           </InvoiceCard>
         </Grid>
 

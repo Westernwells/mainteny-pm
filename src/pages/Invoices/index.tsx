@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {GridRowsProp} from '@mui/x-data-grid';
@@ -27,8 +27,6 @@ export const Invoices = () => {
       setRows(makeRows(invoiceResource));
     }
   }, [invoiceResource]);
-
-  console.log(invoiceResource, '!!!@@##');
 
   return (
     <Box>
