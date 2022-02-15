@@ -1,4 +1,6 @@
-export const staticInvoiceData = {
+import {Resource} from '../../models/misc';
+
+export const invoices: Resource<any> = {
   data: [
     {
       id: 'c986b9b9-da45-4ff9-8675-4ea0491fac8b',
@@ -1532,6 +1534,6 @@ export const staticInvoiceData = {
       vatAmount: {amount: 450, currency: 'EUR', fractionDigits: 2},
     },
   ],
-  total: 5,
+  total: 7,
   page: {pageIndex: 0, pageSize: 10},
 };
