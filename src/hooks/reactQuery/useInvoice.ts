@@ -32,7 +32,6 @@ export const filterByTotalAmount = (
   invoiceRes: Resource<InvoiceView>,
   amountRange: number[][],
 ) => {
-  // let mergedResult = [] as InvoiceView[];
   const inRange = (item: number, range: number[][]) => {
     let result = false;
     range.forEach((interval) => {
@@ -45,7 +44,6 @@ export const filterByTotalAmount = (
   return invoiceRes.data.filter((item) =>
     inRange(item.totalAmount.amount, amountRange),
   );
-  // return mergedResult;
 };
 const filterByStatus = (
   invoiceRes: Resource<InvoiceView>,
