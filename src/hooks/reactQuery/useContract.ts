@@ -130,9 +130,28 @@ export const filterByContractor = (
   return mergedResult;
 };
 
+export const filterByPrice = (
+  contractsRes: Resource<ContractView>,
+  price: number[][],
+) => {
+  let mergedResult = [] as ContractView[];
+
+  const inRange = (item: number, range: number[][]) => {
+    let result = false;
+    range.forEach((interval) => {
+      if (item >= interval[0] && item < interval[1]) {
+        result = true;
+      }
+    });
+    return result;
+  };
+  mergedResult = contractsRes.data.filter((item) => inRange(item.price, price));
+  return mergedResult;
+};
+
 const filterContracts = (
   contractsRes: Resource<ContractView>,
-  filter: {expiryDate: string[]; contractor: string[]},
+  filter: {expiryDate: string[]; contractor: string[]; price: number[][]},
 ) => {
   let result = {...contractsRes};
 
@@ -145,12 +164,17 @@ const filterContracts = (
     const contractors = filterByContractor(result, filter.contractor);
     result = {...result, data: contractors, total: contractors.length};
   }
+  if (filter.price.length) {
+    const prices = filterByPrice(result, filter.price);
+    result = {...result, data: prices, total: prices.length};
+  }
+
   return result;
 };
 
 export const useQueryContract = (
   params: QueryContractParams,
-  filter: {expiryDate: string[]; contractor: string[]},
+  filter: {expiryDate: string[]; contractor: string[]; price: number[][]},
 ) => {
   const {data: user} = usePropertyManager();
   return useQuery<Resource<ContractView>, RestError, Resource<ContractView>>(
