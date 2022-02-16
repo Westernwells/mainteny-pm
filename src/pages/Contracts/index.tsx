@@ -79,6 +79,7 @@ export const Contracts = () => {
 
   useEffect(() => {
     const options: string[] = [];
+    console.log('test');
 
     if (contractWithUnits) {
       contractWithUnits?.forEach((item) => {
