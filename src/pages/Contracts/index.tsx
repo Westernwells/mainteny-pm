@@ -29,6 +29,7 @@ export const Contracts = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [expiryDate, setExpiryDate] = useState<string[]>([]);
   const [contractor, setContractor] = useState<string[]>([]);
+  const [cost, setCost] = useState<number[][]>([]);
   const [contractorFilterItems, setConractorFileterItems] = useState<string[]>(
     [],
   );
@@ -42,12 +43,40 @@ export const Contracts = () => {
         pageSize: page.pageSize,
         query: search,
       },
-      {expiryDate, contractor},
+      {expiryDate, contractor, price: cost},
     );
 
   const {data: contractWithUnits} = useContractElevatorCount(
     contractResource.data,
   );
+
+  const costRangeConvertor = (selectedItems: string[]) => {
+    const range: number[][] = [];
+    selectedItems.forEach((item) => {
+      switch (item) {
+        case 'Below 1000 €':
+          range.push([0, 1000]);
+          break;
+
+        case '1000 - 3000 €':
+          range.push([1000, 3000]);
+          break;
+
+        case '3000 - 5000 €':
+          range.push([3000, 5000]);
+          break;
+
+        case 'Above 5000 €':
+          range.push([5000, 99999]);
+          break;
+
+        default:
+          break;
+      }
+    });
+    setCost(range);
+  };
+
   useEffect(() => {
     const options: string[] = [];
 
@@ -61,9 +90,16 @@ export const Contracts = () => {
         }
       });
       setRows(makeRows(contractWithUnits));
+    } else {
+      setRows([]);
     }
     setConractorFileterItems([...contractorFilterItems, ...options]);
-  }, [contractWithUnits]);
+    if (!showFilter) {
+      setExpiryDate([]);
+      setContractor([]);
+      setCost([]);
+    }
+  }, [contractWithUnits, showFilter]);
 
   return (
     <Box>
@@ -99,6 +135,17 @@ export const Contracts = () => {
               label="Contractor"
               options={contractorFilterItems}
               getSelectedValue={(item) => setContractor(item)}
+            />
+
+            <MultipleSelectCheckmarks
+              label="Cost/year"
+              options={[
+                'Below 1000 €',
+                '1000 - 3000 €',
+                '3000 - 5000 €',
+                'Above 5000 €',
+              ]}
+              getSelectedValue={(item) => costRangeConvertor(item)}
             />
           </FilterFields>
         </Box>
