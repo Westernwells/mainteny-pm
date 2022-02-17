@@ -46,7 +46,7 @@ export const TechnicianSection = ({maintainers}: TechnicianSectionProp) => {
         },
         {
           label: 'company',
-          value: `astralift.nl`, // TODO use dynamic data
+          value: technician.userAccount.serviceCompany.name, // TODO use dynamic data
           icon: (
             <BadgeOutlinedIcon
               sx={{
