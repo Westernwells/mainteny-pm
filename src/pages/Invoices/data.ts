@@ -691,7 +691,7 @@ export const invoices: Resource<any> = {
         },
       },
       issuedDate: '2022-02-10',
-      status: 'NOT_PAID',
+      status: 'PAID',
       serviceOrder: {
         id: '18981d1d-98f7-49f9-ab32-884c0c16a989',
         number: 'MT-0004329',
@@ -1129,7 +1129,7 @@ export const invoices: Resource<any> = {
         },
       },
       issuedDate: '2022-02-10',
-      status: 'NOT_PAID',
+      status: 'PAID',
       serviceOrder: {
         id: '18981d1d-98f7-49f9-ab32-884c0c16a989',
         number: 'MT-0004329',
