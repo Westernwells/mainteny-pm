@@ -1,7 +1,7 @@
 import useTheme from '@mui/material/styles/useTheme';
 import {Typography} from '@mui/material';
 import React from 'react';
-import {FormTextInput} from './FormTextInput';
+import {FormInput} from './FormInput';
 import {SettingCard} from './SettingCard';
 
 interface Props {
@@ -13,10 +13,10 @@ export const Account = ({account, setDrawerOpen}: Props) => {
   const theme = useTheme();
   return (
     <SettingCard header="Account">
-      <FormTextInput
-        setDrawerOpen={setDrawerOpen}
+      <FormInput
         label="Email"
         defaultValue={account?.email}
+        setDrawerOpen={setDrawerOpen}
         type="email"
         disabled
       />
@@ -26,10 +26,10 @@ export const Account = ({account, setDrawerOpen}: Props) => {
       >
         Cannot change email as it is tied to the account
       </Typography>
-      <FormTextInput
-        setDrawerOpen={setDrawerOpen}
+      <FormInput
         label="Password"
         defaultValue={account?.password}
+        setDrawerOpen={setDrawerOpen}
         type="password"
       />
     </SettingCard>
