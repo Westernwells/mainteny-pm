@@ -43,9 +43,7 @@ export const PageLayout = ({
         sx={{
           flexGrow: 1,
           pt: !excludeDefaultSpacing ? 12 : null,
-          px: !excludeDefaultSpacing ? 5 : null,
-          // pb: '1em',
-          // border: '2px solid red'
+          px: !excludeDefaultSpacing ? '2.5em' : null,
         }}
       >
         {children}

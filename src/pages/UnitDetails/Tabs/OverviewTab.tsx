@@ -38,38 +38,36 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
   const {data: user} = usePropertyManager();
-  const {data: issueHistory = createEmptyResource<ServiceOrderView>(pageSize)} =
-    useIssueHistory({
-      elevatorIds: elevatorId,
-      start: startOfYear(new Date()).toISOString(),
-      end: endOfYear(new Date()).toISOString(),
-      pageSize,
-      pageIndex: 0,
-      serviceCompanyId: user?.userAccount.serviceCompany.id,
-      query: '',
-      types: [
-        ServiceOrderType.CALLOUT,
-        ServiceOrderType.EMERGENCY,
-        ServiceOrderType.REPAIR,
-      ],
-      status: [],
-      orderBy: ServiceOrderOrderField.CREATED_TIME,
-      order: Order.DESC,
-    });
+  // const {data: issueHistory = createEmptyResource<ServiceOrderView>(pageSize)} =
+  //   useIssueHistory({
+  //     elevatorIds: elevatorId,
+  //     start: startOfYear(new Date()).toISOString(),
+  //     end: endOfYear(new Date()).toISOString(),
+  //     pageSize,
+  //     pageIndex: 0,
+  //     serviceCompanyId: user?.userAccount.serviceCompany.id,
+  //     query: '',
+  //     types: [
+  //       ServiceOrderType.CALLOUT,
+  //       ServiceOrderType.EMERGENCY,
+  //       ServiceOrderType.REPAIR,
+  //     ],
+  //     status: [],
+  //     orderBy: ServiceOrderOrderField.CREATED_TIME,
+  //     order: Order.DESC,
+  //   });
+
+  // const {
+  //   data: serviceHistories = createEmptyResource<ServiceHistoryView>(pageSize),
+  // } = useServiceHistory(makePage(0, 10), elevatorId);
 
   const {
-    data: serviceHistories = createEmptyResource<ServiceHistoryView>(pageSize),
-  } = useServiceHistory(makePage(0, 10), elevatorId);
-
-  const {
-    data: runningServiceOrders = createEmptyResource<ServiceOrderView>(
-      pageSize,
-    ),
+    data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
     elevatorIds: elevatorId,
     start: toRestDateTime(startOfDay(new Date())),
     end: toRestDateTime(endOfMonth(new Date())),
-    pageSize: 2,
+    pageSize,
     pageIndex: 0,
     query: '',
   });
@@ -79,7 +77,7 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
         <Grid item xs={4}>
           <ElevatorBasicSection
             elevator={elevator}
-            serviceOrder={runningServiceOrders.data[0]}
+            serviceOrder={serviceOrders.data[0]}
             rows={[
               {
                 leftLabel: elevator?.model,
@@ -144,14 +142,15 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
 
       <Grid container sx={{mt: '1em'}}>
         <Grid item xs={12}>
-          <PageCard contentPadding="1.5em" headerLabel="Service History">
-            <ServiceHistory
-              bodyContainerStyle={{
-                borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-              }}
-            />
-            {[1, 2, 3, 4, 5, 6, 7].map((item) => (
+          <PageCard
+            contentPadding="1.5em"
+            headerLabel="All Services"
+            minHeight="10rem"
+          >
+            {serviceOrders.data.map((serviceOrder) => (
               <ServiceHistory
+                key={serviceOrder.id}
+                serviceOrder={serviceOrder}
                 bodyContainerStyle={{
                   borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
                 }}

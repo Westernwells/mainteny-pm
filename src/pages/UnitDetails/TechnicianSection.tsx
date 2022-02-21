@@ -88,7 +88,11 @@ export const TechnicianSection = ({maintainers}: TechnicianSectionProp) => {
   return (
     <PageCard headerLabel={`Technician (${technician ? 1 : 0})`}>
       {rows?.map((item, index) => (
-        <Box display="flex" mt={index !== 0 ? '1.3em' : undefined}>
+        <Box
+          key={`${item}-${index}`}
+          display="flex"
+          mt={index !== 0 ? '1.3em' : undefined}
+        >
           <Box mr="1.2em">
             {index === 0 ? (
               <Box>

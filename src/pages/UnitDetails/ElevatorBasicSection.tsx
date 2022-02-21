@@ -27,7 +27,11 @@ export const ElevatorBasicSection = ({
   return (
     <PageCard headerLabel="Unit Details">
       {rows.map((item, index) => (
-        <Box display="flex" mt={index !== 0 ? '1.3em' : undefined}>
+        <Box
+          key={`${item}-${index}`}
+          display="flex"
+          mt={index !== 0 ? '1.3em' : undefined}
+        >
           <Box
             display="flex"
             width="15rem"
@@ -108,8 +112,14 @@ export const ElevatorBasicSection = ({
         <CardAlert
           alertIcon={<CalendarTodayIcon />}
           message={`Upcoming visit in 
-        ${formatDistance(calculateNextVisitDate(serviceOrder), new Date())}
-        (${formatDate(calculateNextVisitDate(serviceOrder), 'dd MMM YYY')})`}
+        ${formatDistance(
+          calculateNextVisitDate(serviceOrder.schedules[0].startTime),
+          new Date(),
+        )}
+        (${formatDate(
+          calculateNextVisitDate(serviceOrder.schedules[0].startTime),
+          'dd MMM YYY',
+        )})`}
         />
       )}
     </PageCard>

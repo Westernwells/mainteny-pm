@@ -241,6 +241,7 @@ export interface ServiceOrderReport {
   createdAt: number;
   actualServiceTime: number;
   serviceOrderId: string;
+  serviceOrder: ServiceOrderView;
   fee: Fee;
 }
 

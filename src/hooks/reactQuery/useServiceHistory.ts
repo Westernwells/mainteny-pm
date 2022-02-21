@@ -22,18 +22,5 @@ export const useServiceHistory = (page: Page, elevatorId?: string) =>
     () => fetchServiceHistory(elevatorId!, page),
     {
       enabled: !!elevatorId,
-      select: useCallback(
-        (histories: Resource<ElevatorMaintenanceHistoryView>) => {
-          const regularMaintenance = histories.data.filter(
-            (history) => history.serviceOrder.type === ServiceOrderType.REGULAR,
-          );
-          return {
-            ...histories,
-            total: regularMaintenance.length,
-            data: regularMaintenance,
-          };
-        },
-        [page, elevatorId],
-      ),
     },
   );

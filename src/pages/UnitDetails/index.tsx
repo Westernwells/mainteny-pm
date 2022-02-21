@@ -5,7 +5,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import {Theme} from '@mui/material/styles';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
@@ -82,23 +81,13 @@ export const UnitsDetail = () => {
   const classes = useStyles();
   const {id: elevatorId} = useParams();
   const [value, setValue] = useState(0);
+  const {data: elevator} = useElevatorById(elevatorId);
+
+  const {data: maintainers = []} = useElevatorMaintainers(elevatorId);
+
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  const {data: elevator} = useElevatorById(elevatorId);
-
-  const {data: serviceOrder = createEmptyResource<ServiceOrderView>(pageSize)} =
-    useServiceOrders({
-      elevatorIds: elevatorId,
-      start: toRestDateTime(startOfDay(new Date())),
-      end: toRestDateTime(endOfMonth(new Date())),
-      pageSize: 4,
-      pageIndex: 0,
-      query: '',
-    });
-
-  const {data: maintainers = []} = useElevatorMaintainers(elevatorId);
 
   const tabPanel = () => {
     switch (value) {
@@ -121,9 +110,8 @@ export const UnitsDetail = () => {
       <Box
         sx={{
           display: 'flex',
-          paddingTop: 2,
           paddingLeft: '35px',
-          mt: 10,
+          mt: 11,
         }}
       >
         <ArrowBack
@@ -181,8 +169,8 @@ export const UnitsDetail = () => {
       </Box>
       <Box
         sx={{
-          px: 5,
-          mt: '1px',
+          px: '2.5em',
+          mt: 2,
           '::-webkit-scrollbar': {
             width: 0,
             background: 'transparent',

@@ -212,11 +212,11 @@ export const useFetchElevatorAvailability = (elevatorIds: string[]) => {
   );
 };
 
-export function useServiceOrderReport(params?: ServiceOrderReportPayload) {
+export function useServiceOrderReport(params: ServiceOrderReportPayload) {
   return useQuery<ServiceOrderReport[], RestError>(
     [queryKeys.fetchServiceOrderReport, params],
     () => fetchServiceOrderReport(params as ServiceOrderReportPayload),
-    {enabled: !!params && !!params.serviceOrderId.length},
+    {enabled: !!params.serviceOrderId || !!params.serviceOrderId.length},
   );
 }
 
