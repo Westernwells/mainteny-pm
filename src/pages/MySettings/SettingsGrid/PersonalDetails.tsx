@@ -1,39 +1,47 @@
+import React from 'react';
 import {Avatar} from '@mui/material';
 import {Box} from '@mui/system';
-import React from 'react';
 import {FormInput} from './FormInput';
 import {SettingCard} from './SettingCard';
 
 interface Props {
-  personal: {[key: string]: string | any};
-  setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  formData: {
+    userName: string;
+    userAvatar: string;
+    userDesignation: string;
+    userPhone: string;
+  };
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const PersonalDetails = ({personal, setDrawerOpen}: Props) => (
+export const PersonalDetails = ({formData, onChange}: Props) => (
   <SettingCard header="Personal Details">
     <Box display="flex" gap={4}>
       <Avatar
-        alt={personal?.fullName}
-        src={personal?.avatar}
+        alt={formData.userName}
+        src={formData.userAvatar}
         variant="circular"
         sx={{width: '120px', height: '120px', aspectRatio: '1'}}
       />
       <Box flexGrow={1}>
         <FormInput
           label="Name"
-          defaultValue={personal?.fullName}
-          setDrawerOpen={setDrawerOpen}
+          id="userName"
+          value={formData.userName}
+          onChange={onChange}
         />
         <FormInput
           label="Designation"
-          defaultValue={personal?.designation}
-          setDrawerOpen={setDrawerOpen}
+          id="userDesignation"
+          value={formData.userDesignation}
+          onChange={onChange}
           disabled
         />
         <FormInput
           label="Phone"
-          defaultValue={personal?.phone}
-          setDrawerOpen={setDrawerOpen}
+          id="userPhone"
+          value={formData.userPhone}
+          onChange={onChange}
         />
       </Box>
     </Box>

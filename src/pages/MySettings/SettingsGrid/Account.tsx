@@ -1,22 +1,26 @@
+import React from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import {Typography} from '@mui/material';
-import React from 'react';
 import {FormInput} from './FormInput';
 import {SettingCard} from './SettingCard';
 
 interface Props {
-  account: {[key: string]: string | any};
-  setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  formData: {
+    accoutEmail: string;
+    accoutPassword: string;
+  };
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Account = ({account, setDrawerOpen}: Props) => {
+export const Account = ({formData, onChange}: Props) => {
   const theme = useTheme();
   return (
     <SettingCard header="Account">
       <FormInput
         label="Email"
-        defaultValue={account?.email}
-        setDrawerOpen={setDrawerOpen}
+        id="accountEmail"
+        value={formData.accoutEmail}
+        onChange={onChange}
         type="email"
         disabled
       />
@@ -28,8 +32,9 @@ export const Account = ({account, setDrawerOpen}: Props) => {
       </Typography>
       <FormInput
         label="Password"
-        defaultValue={account?.password}
-        setDrawerOpen={setDrawerOpen}
+        id="accountPassword"
+        value={formData.accoutPassword}
+        onChange={onChange}
         type="password"
       />
     </SettingCard>

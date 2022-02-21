@@ -1,28 +1,24 @@
+import React from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import {Drawer} from '@mui/material';
-import React from 'react';
+import Drawer from '@mui/material/Drawer';
 
 interface Props {
   drawerOpen: boolean;
   setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  resetForm: () => void;
 }
 
-export const BottomDrawer = ({drawerOpen, setDrawerOpen}: Props) => {
+export const BottomDrawer = ({drawerOpen, setDrawerOpen, resetForm}: Props) => {
   const theme = useTheme();
+  const handleReset = () => {
+    resetForm();
+    setDrawerOpen(false);
+  };
 
   return (
     <Drawer
-      //   sx={{
-      //     height: '87px',
-      //     flexShrink: 0,
-      //     '& .MuiDrawer-paper': {
-      //       height: '87px',
-      //       boxSizing: 'border-box',
-      //       backgroundColor: 'white',
-      //     },
-      //   }}
       PaperProps={{
         sx: {
           background: theme.palette.primary.contrastText,
@@ -44,11 +40,17 @@ export const BottomDrawer = ({drawerOpen, setDrawerOpen}: Props) => {
           size="small"
           variant="outlined"
           sx={{px: '3em', py: '.5em'}}
-          onClick={() => setDrawerOpen(false)}
+          onClick={handleReset}
+          type="reset"
         >
           Cancel
         </Button>
-        <Button size="small" sx={{px: '3em', py: '.5em'}} variant="contained">
+        <Button
+          size="small"
+          sx={{px: '3em', py: '.5em'}}
+          variant="contained"
+          type="submit"
+        >
           Submit
         </Button>
       </Box>

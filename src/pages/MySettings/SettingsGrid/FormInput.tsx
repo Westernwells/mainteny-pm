@@ -1,9 +1,9 @@
+import React, {ReactNode} from 'react';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 import {alpha, styled} from '@mui/material/styles';
 import {Box} from '@mui/material';
-import React, {ReactNode, useState} from 'react';
 
 const CustomInput = styled(TextField)(({theme}) => ({
   'label + &': {
@@ -43,52 +43,48 @@ const CustomInput = styled(TextField)(({theme}) => ({
 
 interface Props {
   label: string;
-  defaultValue: string;
-  setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  value: string;
+  id: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+
   children?: ReactNode | null;
   select?: boolean;
   disabled?: boolean;
   type?: string;
 }
-
 export const FormInput = ({
   label,
-  defaultValue,
-  setDrawerOpen,
+  value,
+  id,
+  onChange,
   children = null,
   select = false,
   disabled = false,
   type = 'text',
-}: Props) => {
-  const [value, setValue] = useState(defaultValue);
-  const handleChange = (event: any) => {
-    setValue(event.target.value);
-    setDrawerOpen(true);
-  };
-  return (
-    <Box
-      sx={{
-        mb: '1em',
-        'input:disabled': {
-          cursor: 'not-allowed',
-        },
-      }}
+}: Props) => (
+  <Box
+    sx={{
+      mb: '1em',
+      'input:disabled': {
+        cursor: 'not-allowed',
+      },
+    }}
+  >
+    <InputLabel htmlFor={id}>
+      <Typography variant="body2">{label}</Typography>
+    </InputLabel>
+    <CustomInput
+      id={id}
+      name={id}
+      value={value}
+      size="small"
+      type={type}
+      onChange={onChange}
+      select={select}
+      disabled={disabled}
+      fullWidth
     >
-      <InputLabel htmlFor={label}>
-        <Typography variant="body2">{label}</Typography>
-      </InputLabel>
-      <CustomInput
-        id={label}
-        value={value}
-        size="small"
-        type={type}
-        onChange={handleChange}
-        select={select}
-        disabled={disabled}
-        fullWidth
-      >
-        {children}
-      </CustomInput>
-    </Box>
-  );
-};
+      {children}
+    </CustomInput>
+  </Box>
+);
