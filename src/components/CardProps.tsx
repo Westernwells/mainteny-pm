@@ -46,7 +46,7 @@ export const CardProps = ({
       </Box>
       <Box>
         <Typography variant={bodyTextVariant || 'subtitle1'}>
-          {bodyText}
+          {bodyText || ''}
         </Typography>
       </Box>
     </Box>

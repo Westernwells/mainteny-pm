@@ -27,6 +27,7 @@ import {formatDistance, isAfter} from 'date-fns';
 import {calculateNextVisitDate} from 'pages/Units/Models';
 import {useEffect, useState} from 'react';
 import {HistoryCardHeader} from './HistoryCardHeader';
+import {HitoryCardEmptyState} from './HitoryCardEmptyState';
 
 interface Props {
   bodyContainerStyle?: {[key: string]: string | number};
@@ -42,8 +43,8 @@ interface Props {
   removeBottomRightRadius?: boolean;
   removeServiceOrderType?: boolean;
   removeServiceOrderStatus?: boolean;
-  headerTitle?: string;
-  subtitle?: string;
+  headerTitle?: string | null;
+  subtitle?: string | null;
   showMoreReportDetails?: boolean;
   showAlert?: boolean;
   collapsedChildren?: JSX.Element | null;
@@ -57,6 +58,8 @@ interface Props {
   serviceOrderReport?: ServiceOrderReport;
   description?: string;
   noContent?: boolean;
+  reportIsLoading?: boolean;
+  scheduledTime?: string;
 }
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -102,12 +105,15 @@ export const HistoryCard = ({
   serviceOrderReport,
   description,
   noContent,
+  reportIsLoading,
+  scheduledTime,
 }: Props) => {
   const theme = useTheme();
   const [duration, setDuration] = useState<string[]>([]);
+  const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (serviceOrder) {
+    if (serviceOrderReport) {
       const timeString = serviceOrderReport
         ? serviceOrderReport.actualServiceTime / 60
         : 0;
@@ -116,11 +122,27 @@ export const HistoryCard = ({
 
       const d = date.toTimeString().slice(0, 5).split(':');
       setDuration(d);
-
-      console.log(d, '|||||||||||||||||||');
-      // setDuration()
     }
   }, [serviceOrderReport]);
+
+  useEffect(() => {
+    if (serviceOrder) {
+      const msg = isAfter(
+        new Date(serviceOrder!.schedules[0].startTime),
+        new Date(),
+      )
+        ? `${serviceOrder?.schedules[0].technician.userAccount.firstName} ${
+            serviceOrder?.schedules[0].technician.userAccount.lastName
+          } will be visiting your location in ${formatDistance(
+            calculateNextVisitDate(serviceOrder?.schedules[0].startTime!),
+            new Date(),
+          )}`
+        : null;
+
+      setMessage(msg);
+    }
+  }, [serviceOrder]);
+
   return (
     <Card
       onClick={onCardSelect}
@@ -137,38 +159,37 @@ export const HistoryCard = ({
         ...containerStyles,
       }}
     >
-      {noContent ? (
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <Typography>No Card is Selected</Typography>
-        </Box>
-      ) : (
-        <>
-          <CardHeader
-            sx={{pb: '0.4em'}}
-            action={
-              headerActionIcon ? (
-                <IconButton>{headerActionIcon}</IconButton>
-              ) : null
-            }
-            title={
-              <HistoryCardHeader
-                isDetailCard={isDetailCard}
-                removeServiceOrderType={removeServiceOrderType}
-                removeServiceOrderStatus={removeServiceOrderStatus}
-                headerTitle={headerTitle}
-                subtitle={subtitle}
-                serviceOrderType={serviceOrder?.type}
-                serviceOrderStatus={serviceOrder?.status}
-              />
-            }
+      <CardHeader
+        sx={{pb: '0.4em'}}
+        action={
+          headerActionIcon ? <IconButton>{headerActionIcon}</IconButton> : null
+        }
+        title={
+          <HistoryCardHeader
+            isDetailCard={isDetailCard}
+            removeServiceOrderType={removeServiceOrderType}
+            removeServiceOrderStatus={removeServiceOrderStatus}
+            headerTitle={headerTitle}
+            subtitle={subtitle}
+            serviceOrderType={serviceOrder?.type}
+            serviceOrderStatus={serviceOrder?.status}
           />
-          <CardContent
-            sx={{
-              py: 0,
-              mt: isDetailCard ? '2em' : 'default',
-              ...bodyContainerStyle,
-            }}
-          >
+        }
+      />
+      <CardContent
+        sx={{
+          py: 0,
+          mt: isDetailCard ? '2em' : 'default',
+          ...bodyContainerStyle,
+        }}
+      >
+        {noContent && !reportIsLoading ? (
+          <HitoryCardEmptyState label={message} />
+        ) : null}
+        {reportIsLoading ? (
+          <Typography>Loading</Typography>
+        ) : (
+          <>
             <Typography variant={isDetailCard ? 'body1' : 'caption'}>
               {description}
             </Typography>
@@ -180,13 +201,7 @@ export const HistoryCard = ({
                   bodyTextVariant="subtitle1"
                   icon={<LockClockIcon color="info" />}
                   iconBackground={theme.palette.info.outlinedHoverBg}
-                  bodyText={`${formatDate(
-                    serviceOrder?.schedules[0].startTime,
-                    'dd MMM YYY',
-                  )}, ${formatDate(
-                    serviceOrder?.schedules[0].startTime,
-                    'ha',
-                  )} - ${formatDate(serviceOrder?.schedules[0].endTime, 'ha')}`}
+                  bodyText={scheduledTime || ''}
                 />
                 <CardProps
                   label="Preferred Time"
@@ -200,20 +215,24 @@ export const HistoryCard = ({
 
             {showMoreReportDetails ? (
               <Box display="flex" mt="2.5em">
-                {console.log(serviceOrderReport, '^^^^^^^^^&&&&&&&&')}
                 <CardProps
                   label="Technician"
                   bodyTextVariant="body1"
                   icon={<PersonOutlineOutlinedIcon color="info" />}
                   iconBackground={theme.palette.info.outlinedHoverBg}
-                  bodyText={`${serviceOrder?.schedules[0].technician.userAccount.firstName} ${serviceOrder?.schedules[0].technician.userAccount.lastName}`}
+                  bodyText={`${serviceOrder?.schedules[0].technician.userAccount.firstName}
+                 ${serviceOrder?.schedules[0].technician.userAccount.lastName}`}
                 />
                 <CardProps
                   label="Cost"
                   bodyTextVariant="caption"
                   icon={<MonetizationOnOutlinedIcon color="success" />}
                   iconBackground={theme.palette.success.outlinedHoverBg}
-                  bodyText={`${serviceOrderReport?.fee.amount} EUR` || ''}
+                  bodyText={
+                    serviceOrderReport?.fee.amount
+                      ? `${serviceOrderReport?.fee.amount} EUR`
+                      : '0 EUR'
+                  }
                 />
 
                 <CardProps
@@ -229,46 +248,26 @@ export const HistoryCard = ({
             ) : null}
             {showAlert &&
             serviceOrder?.status === ServiceOrderStatus.SCHEDULED ? (
-              <CardAlert
-                message={
-                  isAfter(
-                    new Date(serviceOrder!.schedules[0].startTime),
-                    new Date(),
-                  )
-                    ? `${
-                        serviceOrder?.schedules[0].technician.userAccount
-                          .firstName
-                      } ${
-                        serviceOrder?.schedules[0].technician.userAccount
-                          .lastName
-                      } will be visiting your location in ${formatDistance(
-                        calculateNextVisitDate(
-                          serviceOrder?.schedules[0].startTime!,
-                        ),
-                        new Date(),
-                      )}`
-                    : null
-                }
-              />
+              <CardAlert message={message} />
             ) : null}
-          </CardContent>
-          {showMoreSection ? (
-            <>
-              <CardActions
-                disableSpacing
-                sx={{display: 'flex', justifyContent: 'center', mt: '0.5em'}}
-              >
-                <ExpandMore expand={expanded} onClick={handleExpandClick}>
-                  <ExpandMoreIcon />
-                </ExpandMore>
-              </CardActions>
-              <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>{collapsedChildren}</CardContent>
-              </Collapse>
-            </>
-          ) : null}
+          </>
+        )}
+      </CardContent>
+      {showMoreSection ? (
+        <>
+          <CardActions
+            disableSpacing
+            sx={{display: 'flex', justifyContent: 'center', mt: '0.5em'}}
+          >
+            <ExpandMore expand={expanded} onClick={handleExpandClick}>
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>{collapsedChildren}</CardContent>
+          </Collapse>
         </>
-      )}
+      ) : null}
     </Card>
   );
 };

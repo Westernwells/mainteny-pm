@@ -39,8 +39,13 @@ export const ServiceHistoryTab = () => {
   const [status, setStatus] = useState('ALL');
   const [expanded, setExpanded] = useState<boolean>();
   const [selectedOrder, setSelectedOrder] = useState<ServiceOrderView>();
-  const [selectedType, setSelectedType] = useState<ServiceOrderType>();
-  const [resolvedDate, setResolvedDate] = useState<string>();
+  const [currentReportDate, setCurrentReportDate] = useState<string>();
+  const [currentScheduleDate, setCurrentScheduleDate] = useState<string | null>(
+    null,
+  );
+  const [currentScheduleTime, setCurrentScheduleTime] = useState<string | null>(
+    null,
+  );
   const {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
@@ -51,26 +56,30 @@ export const ServiceHistoryTab = () => {
     pageIndex: 0,
     query: '',
   }); // TODO: Use Infinite scroll
-  const {data: serviceOrderReport = []} = useServiceOrderReport({
-    serviceOrderId: selectedOrder?.id || '',
-  });
+  const {data: serviceOrderReport = [], isLoading: serviceOrderReportLoading} =
+    useServiceOrderReport({
+      serviceOrderId: selectedOrder?.id || '',
+    });
 
   const {data: downloadUrl} = useDownloadUrl(
     serviceOrderReport.length
       ? serviceOrderReport[0].attachments.map((item) => item.fileResource.uri)
       : [],
+    {cacheTime: 5000, refetchOnWindowFocus: true},
   );
-
-  // const {
-  //   data: serviceHistories = createEmptyResource<ElevatorMaintenanceHistoryView>(
-  //     pageSize,
-  //   ),
-  // } = useServiceHistory(makePage(0, 500), elevatorId);
-  // const {data: issueHistories = createEmptyResource<ServiceOrderView>(pageSize)} =
-  // useIssueHistory(makePage(0, 500), elevatorId);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const resolveScheduledDate = () =>
+    formatDate(selectedOrder?.schedules[0].startTime, 'dd MMM YYY') || null;
+
+  const resolveScheduledTime = () => {
+    const startTime = formatDate(selectedOrder?.schedules[0].startTime, 'ha');
+    const endTime = formatDate(selectedOrder?.schedules[0].endTime, 'ha');
+
+    return startTime && endTime ? `${startTime} - ${endTime}` : null;
   };
 
   useEffect(() => {
@@ -79,8 +88,16 @@ export const ServiceHistoryTab = () => {
       'dd MMM YYY',
     );
     const result = date && `Resolved on ${date}`;
-    setResolvedDate(result);
+    setCurrentReportDate(result);
+    setCurrentScheduleDate(resolveScheduledDate());
+    setCurrentScheduleTime(resolveScheduledTime());
   }, [selectedOrder]);
+
+  useEffect(() => {
+    if (serviceOrders) {
+      setSelectedOrder(serviceOrders.data[0]);
+    }
+  }, [serviceOrders]);
 
   return (
     <Grid container spacing={2}>
@@ -88,23 +105,22 @@ export const ServiceHistoryTab = () => {
         <HistoryBasicDetails>
           <HistoryCard
             showTimeCategory
-            noContent={!selectedOrder}
+            // noContent={!selectedOrder}
             serviceOrder={selectedOrder}
-            headerTitle={formatDate(
-              selectedOrder?.schedules[0].startTime,
-              'dd MMM YYY',
-            )}
+            headerTitle={currentScheduleDate || null}
             description={selectedOrder?.description}
+            scheduledTime={
+              currentScheduleDate && currentScheduleTime
+                ? `${currentScheduleDate}, ${currentScheduleTime}`
+                : ''
+            }
             minHeight="30vh"
             isDetailCard
             removeBottomLeftRadius
             removeBottomRightRadius
             showAlert
             headerActionIcon={<MoreVertIcon />}
-            subtitle={`${formatDate(
-              selectedOrder?.schedules[0].startTime,
-              'ha',
-            )} - ${formatDate(selectedOrder?.schedules[0].endTime, 'ha')}`}
+            subtitle={currentScheduleTime || null}
             containerStyles={{
               borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
               pt: '0.5em',
@@ -114,8 +130,9 @@ export const ServiceHistoryTab = () => {
         <HistoryReport>
           <HistoryCard
             serviceOrder={selectedOrder}
-            noContent={!selectedOrder}
+            noContent={!serviceOrderReport.length}
             serviceOrderReport={serviceOrderReport[0]}
+            reportIsLoading={serviceOrderReportLoading}
             minHeight="30vh"
             isDetailCard
             removeTopLeftRadius
@@ -131,7 +148,7 @@ export const ServiceHistoryTab = () => {
             expanded={expanded}
             collapsedChildren={<HistoryAttachments downloadUrl={downloadUrl} />}
             headerTitle="Work Report"
-            subtitle={resolvedDate}
+            subtitle={currentReportDate || 'Awaiting completion of visit'}
           />
         </HistoryReport>
       </Grid>

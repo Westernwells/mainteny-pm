@@ -20,7 +20,10 @@ export const fetchInvoiceDownloadUrl = async (
   return response.data;
 };
 
-export const useDownloadUrl = (pdfPath: string[]) => {
+export const useDownloadUrl = (
+  pdfPath: string[],
+  options?: {[key: string]: any},
+) => {
   const {data: propertyManager} = usePropertyManager();
   const serviceCompanyId = propertyManager?.userAccount.serviceCompany.id;
   return useQuery(
@@ -30,6 +33,7 @@ export const useDownloadUrl = (pdfPath: string[]) => {
       enabled: !!pdfPath.length && !!serviceCompanyId,
       refetchOnWindowFocus: false,
       cacheTime: 0,
+      ...options,
       select: useCallback(
         (data) => pdfPath?.map((item) => data[item]),
         [pdfPath],

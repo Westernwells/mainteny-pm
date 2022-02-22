@@ -1,15 +1,10 @@
-import {
-  Elevator,
-  ElevatorMaintenanceHistoryView as ServiceHistoryView,
-} from 'models/elevator';
 import {ServiceOrderView} from 'models/service-order';
 import useTheme from '@mui/material/styles/useTheme';
 import {Order} from 'models/misc';
 import Grid from '@mui/material/Grid';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import {useIssueHistory} from 'hooks/reactQuery/useIssueHistory';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
-import {endOfMonth, endOfYear, startOfDay, startOfYear} from 'date-fns';
+import {endOfMonth, startOfDay, startOfYear} from 'date-fns';
 import {toRestDateTime} from 'utils/datetime';
 import {useParams} from 'react-router-dom';
 import {ReactComponent as Escalator} from 'assets/icons/Escalator.svg';
@@ -17,6 +12,10 @@ import {PageCard} from 'components/PageCard';
 import {useServiceHistory} from 'hooks/reactQuery/useServiceHistory';
 import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
 import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
+import {
+  useElevatorById,
+  useElevatorMaintainers,
+} from 'hooks/reactQuery/useElevator';
 import {ElevatorAvailabilitySection} from '../ElevatorAvailabilitySection';
 import {ElevatorBasicSection} from '../ElevatorBasicSection';
 import {TechnicianSection} from '../TechnicianSection';
@@ -25,15 +24,14 @@ import {ServiceHistory} from '../ServiceHistory';
 
 const pageSize = 10;
 
-interface Props {
-  elevator?: Elevator;
-  maintainers: MaintainerView[];
-}
-
-export const OverviewTab = ({elevator, maintainers}: Props) => {
+export const OverviewTab = () => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
   const {data: user} = usePropertyManager();
+
+  const {data: elevator} = useElevatorById(elevatorId);
+
+  const {data: maintainers = []} = useElevatorMaintainers(elevatorId);
 
   const {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
