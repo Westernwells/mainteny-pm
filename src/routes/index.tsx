@@ -4,6 +4,7 @@ import {Invoices} from 'pages/Invoices';
 import {InvoiceDetails} from 'pages/InvoiceDetails';
 import {Login} from 'pages/Login';
 import {Notifications} from 'pages/Notifications';
+import {MySettings} from 'pages/MySettings';
 import {PasswordReset} from 'pages/PasswordReset';
 import {UnitsDetail} from 'pages/UnitDetails';
 import {ContractDetails} from 'pages/ContractDetails';
@@ -78,6 +79,15 @@ export const Router = () => (
         element={
           <PageLayout excludeSidebar excludeDefaultSpacing overflowY>
             <Notifications />
+          </PageLayout>
+        }
+      />
+
+      <Route
+        path="/settings"
+        element={
+          <PageLayout excludeSidebar excludeDefaultSpacing overflowY>
+            <MySettings />
           </PageLayout>
         }
       />

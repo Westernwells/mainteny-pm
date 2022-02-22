@@ -67,34 +67,36 @@ export const AppTopBar = () => {
               </Badge>
             </Link>
 
-            <Box ml={8} display="flex" alignItems="center">
-              <Avatar alt="Bruce Wayne" src={AvatarImg} />
-              <Box ml={2}>
-                <Typography
-                  color="#222B45"
-                  variant="subtitle1"
-                  gutterBottom={false}
-                  sx={{textTransform: 'capitalize'}}
-                >
-                  {user?.userAccount.firstName} {user?.userAccount.lastName}
-                </Typography>
-
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: 'capitalize',
-                    fontSize: '0.875rem',
-                    padding: 0,
-                    color: theme.palette.text.secondary,
-                  }}
-                >
-                  {user?.userAccount.roles[0]
-                    .split('_')
-                    .join(' ')
-                    .toLowerCase()}
-                </Typography>
+            <Link to="/settings" style={{textDecoration: 'none'}}>
+              <Box ml={8} display="flex" alignItems="center">
+                <Avatar alt="Bruce Wayne" src={AvatarImg} />
+                <Box ml={2}>
+                  <Typography
+                    color="#222B45"
+                    variant="subtitle1"
+                    gutterBottom={false}
+                    sx={{textTransform: 'capitalize'}}
+                  >
+                    {user?.userAccount.firstName} {user?.userAccount.lastName}
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      textTransform: 'capitalize',
+                      fontSize: '0.875rem',
+                      padding: 0,
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
+                    {user?.userAccount.roles[0]
+                      .split('_')
+                      .join(' ')
+                      .toLowerCase()}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
+            </Link>
+
             <Box sx={{marginLeft: 6}}>
               <LogoutIcon
                 style={{cursor: 'pointer'}}
