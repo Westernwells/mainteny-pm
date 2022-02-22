@@ -3,10 +3,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import useTheme from '@mui/material/styles/useTheme';
 import axios from 'axios';
-import {
-  useInvoiceDetail,
-  useInvoiceDownloadUrl,
-} from 'hooks/reactQuery/useInvoice';
+import {useInvoiceDetail} from 'hooks/reactQuery/useInvoice';
 import {StatusChip} from 'components/StatusChip';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import {CardProps} from 'components/CardProps';
@@ -15,6 +12,7 @@ import {HistoryCard} from 'pages/UnitDetails/Tabs/ServiceHistoryTab/HistoryCard'
 import {BackAction} from 'components/BackAction';
 import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import Button from '@mui/material/Button';
 import {InvoiceCard} from './InvoiceCard';
 import {Invoice} from './Invoice';
@@ -23,10 +21,9 @@ import {RelatedTo} from './RelatedTo';
 export const InvoiceDetails = () => {
   const {id: invoiceId} = useParams();
   const {data: invoice} = useInvoiceDetail(invoiceId);
-  const {data: downloadUrl} = useInvoiceDownloadUrl(
-    invoice?.additionalInfo.pdfPath,
+  const {data: downloadUrl} = useDownloadUrl(
+    invoice?.additionalInfo.pdfPath ? [invoice?.additionalInfo.pdfPath] : [],
   );
-  console.log(downloadUrl, '!!!!!!!!!!!');
   const theme = useTheme();
 
   return (
@@ -37,7 +34,9 @@ export const InvoiceDetails = () => {
           label="Download Invoice"
           disabled={!downloadUrl}
           size="small"
-          onClick={() => window.open(downloadUrl, '_self')}
+          onClick={() =>
+            downloadUrl ? window.open(downloadUrl[0], '_self') : null
+          }
           startIcon={
             <FileDownloadIcon
               sx={{opacity: !downloadUrl ? '0.1' : '1'}}
@@ -85,7 +84,7 @@ export const InvoiceDetails = () => {
               </Box>
             }
           >
-            <Invoice downloadUrl={downloadUrl} />
+            <Invoice downloadUrl={downloadUrl ? downloadUrl[0] : null} />
           </InvoiceCard>
         </Grid>
 

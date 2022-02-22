@@ -37,6 +37,7 @@ export const fetchElevators = async (query: string, page: Page, id: string) => {
 };
 
 export const fetchElevator = async (elevatorId: string) => {
+  console.log(elevatorId, '@@@@@@@@');
   const response = await axiosClient.get<Elevator>(
     `/api/elevators/${elevatorId}`,
   );

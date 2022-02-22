@@ -111,33 +111,3 @@ export function useInvoiceDetail(invoiceId?: string) {
     enabled: !!invoiceId,
   });
 }
-
-export const fetchInvoiceDownloadUrl = async (
-  pdfPath: string,
-  serviceCompanyId: string,
-) => {
-  const response = await axiosClient.get<{[key: string]: string}>(
-    `/api/media/signedUrl/download`,
-    {
-      params: {file: pdfPath, serviceCompanyId},
-      paramsSerializer,
-    },
-  );
-
-  return response.data;
-};
-
-export const useInvoiceDownloadUrl = (pdfPath?: string) => {
-  const {data: propertyManager} = usePropertyManager();
-  const serviceCompanyId = propertyManager?.userAccount.serviceCompany.id;
-  return useQuery(
-    [qk.invoiceDownloadUrl, pdfPath, serviceCompanyId],
-    () => fetchInvoiceDownloadUrl(pdfPath!, serviceCompanyId!),
-    {
-      enabled: !!pdfPath && !!serviceCompanyId,
-      refetchOnWindowFocus: false,
-      cacheTime: 0,
-      select: useCallback((data) => data[pdfPath!], [pdfPath]),
-    },
-  );
-};

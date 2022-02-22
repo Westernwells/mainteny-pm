@@ -10,17 +10,13 @@ import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import useTheme from '@mui/material/styles/useTheme';
-import {startOfDay, endOfMonth} from 'date-fns';
-import {toRestDateTime} from 'utils/datetime';
-import {ServiceOrderView} from 'models/service-order';
-import {createEmptyResource} from 'utils/paging-utils';
 import {
   useElevatorById,
   useElevatorMaintainers,
 } from 'hooks/reactQuery/useElevator';
-import {useServiceOrders} from '../../hooks/reactQuery/useServiceOrder';
 import {OverviewTab} from './Tabs/OverviewTab';
 import {ServiceHistoryTab} from './Tabs/ServiceHistoryTab';
+import {TabsBody} from './Tabs';
 
 const pageSize = 10;
 
@@ -76,30 +72,15 @@ const a11yProps = (index: number) => ({
 // TODO: enable the rule again
 // eslint-disable-next-line
 export const UnitsDetail = () => {
+  const {id: elevatorId} = useParams();
+  const [value, setValue] = useState(0);
   const theme = useTheme();
   const navigate = useNavigate();
   const classes = useStyles();
-  const {id: elevatorId} = useParams();
-  const [value, setValue] = useState(0);
+
   const {data: elevator} = useElevatorById(elevatorId);
 
   const {data: maintainers = []} = useElevatorMaintainers(elevatorId);
-
-  const handleChange = (event: SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
-  const tabPanel = () => {
-    switch (value) {
-      case 0:
-        return <OverviewTab elevator={elevator} maintainers={maintainers} />;
-      case 1:
-        return <ServiceHistoryTab />;
-
-      default:
-        return null;
-    }
-  };
 
   return (
     <Box
@@ -126,7 +107,7 @@ export const UnitsDetail = () => {
         <Tabs
           className={classes.tabs}
           value={value}
-          onChange={handleChange}
+          onChange={(e: any, newValue: number) => setValue(newValue)}
           textColor="secondary"
         >
           {tabItems.map((item, index) => (
@@ -177,7 +158,13 @@ export const UnitsDetail = () => {
           },
         }}
       >
-        {tabPanel()}
+        <TabsBody value={value} index={0}>
+          <OverviewTab elevator={elevator} maintainers={maintainers} />;
+        </TabsBody>
+
+        <TabsBody value={value} index={1}>
+          <ServiceHistoryTab />
+        </TabsBody>
       </Box>
     </Box>
   );

@@ -16,7 +16,8 @@ import {
   useServiceOrderReport,
   useServiceOrders,
 } from 'hooks/reactQuery/useServiceOrder';
-import {formatDate, toRestDateTime} from 'utils/datetime';
+import {formatDate, getDateObject, toRestDateTime} from 'utils/datetime';
+import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {
   endOfMonth,
   endOfYear,
@@ -25,9 +26,6 @@ import {
   subDays,
 } from 'date-fns';
 import {useParams} from 'react-router-dom';
-import {useServiceHistory} from 'hooks/reactQuery/useServiceHistory';
-import {useIssueHistory} from 'hooks/reactQuery/useIssueHistory';
-import {ElevatorMaintenanceHistoryView} from 'models/elevator';
 import {HistoryCard} from './HistoryCard';
 import {HistoryReport} from './HistoryReport';
 import {HistoryBasicDetails} from './HistoryBasicDetails';
@@ -42,6 +40,7 @@ export const ServiceHistoryTab = () => {
   const [expanded, setExpanded] = useState<boolean>();
   const [selectedOrder, setSelectedOrder] = useState<ServiceOrderView>();
   const [selectedType, setSelectedType] = useState<ServiceOrderType>();
+  const [resolvedDate, setResolvedDate] = useState<string>();
   const {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
@@ -56,6 +55,12 @@ export const ServiceHistoryTab = () => {
     serviceOrderId: selectedOrder?.id || '',
   });
 
+  const {data: downloadUrl} = useDownloadUrl(
+    serviceOrderReport.length
+      ? serviceOrderReport[0].attachments.map((item) => item.fileResource.uri)
+      : [],
+  );
+
   // const {
   //   data: serviceHistories = createEmptyResource<ElevatorMaintenanceHistoryView>(
   //     pageSize,
@@ -68,23 +73,14 @@ export const ServiceHistoryTab = () => {
     setExpanded(!expanded);
   };
 
-  // const onCardSelect = (
-  //   serviceOrderId: string,
-  //   serviceOrderType: ServiceOrderType,
-  // ) => {
-  //   setSelectedOrder(serviceOrderId);
-  //   // setSelectedType(serviceOrderType)
-  //   if (serviceOrderType === ServiceOrderType.REGULAR) {
-
-  //     const res = serviceHistories.data.filter(
-  //       (history) => history.serviceOrder.id === serviceOrderId,
-  //     );
-  //     console.log(serviceHistories, '####$$%%^^&&)))');
-  //   }
-
-  //   // console.log(issueHistories, '~~~~~~~~~~~~`')
-  //   // console.log(serviceHistories, '%%%%%%%%%%')
-  // };
+  useEffect(() => {
+    const date = formatDate(
+      getDateObject(selectedOrder?.actualEndTime),
+      'dd MMM YYY',
+    );
+    const result = date && `Resolved on ${date}`;
+    setResolvedDate(result);
+  }, [selectedOrder]);
 
   return (
     <Grid container spacing={2}>
@@ -105,6 +101,10 @@ export const ServiceHistoryTab = () => {
             removeBottomRightRadius
             showAlert
             headerActionIcon={<MoreVertIcon />}
+            subtitle={`${formatDate(
+              selectedOrder?.schedules[0].startTime,
+              'ha',
+            )} - ${formatDate(selectedOrder?.schedules[0].endTime, 'ha')}`}
             containerStyles={{
               borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
               pt: '0.5em',
@@ -129,9 +129,9 @@ export const ServiceHistoryTab = () => {
             }}
             handleExpandClick={handleExpandClick}
             expanded={expanded}
-            collapsedChildren={<HistoryAttachments />}
+            collapsedChildren={<HistoryAttachments downloadUrl={downloadUrl} />}
             headerTitle="Work Report"
-            subtitle="Resolved on 25 Sep 2021"
+            subtitle={resolvedDate}
           />
         </HistoryReport>
       </Grid>
@@ -179,6 +179,10 @@ export const ServiceHistoryTab = () => {
                   serviceOrder.schedules[0].startTime,
                   'dd MMM YYY',
                 )}
+                subtitle={`${formatDate(
+                  serviceOrder?.schedules[0].startTime,
+                  'ha',
+                )} - ${formatDate(serviceOrder?.schedules[0].endTime, 'ha')}`}
                 description={serviceOrder.description}
                 key={serviceOrder.id}
                 selected={serviceOrder.id === selectedOrder?.id}

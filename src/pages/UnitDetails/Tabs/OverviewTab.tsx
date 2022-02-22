@@ -2,11 +2,7 @@ import {
   Elevator,
   ElevatorMaintenanceHistoryView as ServiceHistoryView,
 } from 'models/elevator';
-import {
-  ServiceOrderOrderField,
-  ServiceOrderType,
-  ServiceOrderView,
-} from 'models/service-order';
+import {ServiceOrderView} from 'models/service-order';
 import useTheme from '@mui/material/styles/useTheme';
 import {Order} from 'models/misc';
 import Grid from '@mui/material/Grid';
@@ -38,28 +34,6 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
   const {data: user} = usePropertyManager();
-  // const {data: issueHistory = createEmptyResource<ServiceOrderView>(pageSize)} =
-  //   useIssueHistory({
-  //     elevatorIds: elevatorId,
-  //     start: startOfYear(new Date()).toISOString(),
-  //     end: endOfYear(new Date()).toISOString(),
-  //     pageSize,
-  //     pageIndex: 0,
-  //     serviceCompanyId: user?.userAccount.serviceCompany.id,
-  //     query: '',
-  //     types: [
-  //       ServiceOrderType.CALLOUT,
-  //       ServiceOrderType.EMERGENCY,
-  //       ServiceOrderType.REPAIR,
-  //     ],
-  //     status: [],
-  //     orderBy: ServiceOrderOrderField.CREATED_TIME,
-  //     order: Order.DESC,
-  //   });
-
-  // const {
-  //   data: serviceHistories = createEmptyResource<ServiceHistoryView>(pageSize),
-  // } = useServiceHistory(makePage(0, 10), elevatorId);
 
   const {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),

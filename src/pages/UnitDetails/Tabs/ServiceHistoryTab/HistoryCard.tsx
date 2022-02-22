@@ -156,10 +156,7 @@ export const HistoryCard = ({
                 removeServiceOrderType={removeServiceOrderType}
                 removeServiceOrderStatus={removeServiceOrderStatus}
                 headerTitle={headerTitle}
-                subtitle={`${formatDate(
-                  serviceOrder?.schedules[0].startTime,
-                  'ha',
-                )} - ${formatDate(serviceOrder?.schedules[0].endTime, 'ha')}`}
+                subtitle={subtitle}
                 serviceOrderType={serviceOrder?.type}
                 serviceOrderStatus={serviceOrder?.status}
               />
