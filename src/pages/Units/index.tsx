@@ -161,6 +161,7 @@ export const MyUnits = () => {
               label="Availability"
               options={['Under 40%', '40 - 60%', '60 - 80%', 'Above 80%']}
               getSelectedValue={(item) => availabilityRangeConvertor(item)}
+              multiple={false}
             />
 
             <MultipleSelectCheckmarks
