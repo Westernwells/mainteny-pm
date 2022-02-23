@@ -34,10 +34,11 @@ export const SettingsGrid = ({setDrawerOpen, formik}: Props) => {
         <Box display="flex" flexDirection="column" gap={2}>
           <PersonalDetails
             formData={{
-              userName: formik.values.userName,
+              accountEmail: formik.values.accountEmail || '',
+              fullName: formik.values.fullName,
               userAvatar: formik.values.userAvatar,
-              userDesignation: formik.values.userDesignation,
-              userPhone: formik.values.userPhone,
+              userDesignation: formik.values.userDesignation || '',
+              userPhone: formik.values.userPhone || '',
             }}
             onChange={handleChange}
           />
@@ -54,7 +55,7 @@ export const SettingsGrid = ({setDrawerOpen, formik}: Props) => {
         <Box display="flex" flexDirection="column" gap={2}>
           <Account
             formData={{
-              accoutEmail: formik.values.accountEmail,
+              accoutEmail: formik.values.accountEmail || '',
               accoutPassword: formik.values.accountPassword,
             }}
             onChange={handleChange}

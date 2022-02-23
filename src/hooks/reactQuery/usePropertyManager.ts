@@ -1,8 +1,10 @@
 import {AxiosResponse} from 'axios';
 import {PropertyManager} from 'models/propertyManager';
-import {useQuery} from 'react-query';
+import {UpdateUserAccountData} from 'models/user';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {queryKeys} from 'reactQuery/constants';
 import {axiosClient} from 'utils/axios-utils';
+import {useSnackbar} from 'notistack';
 import {useUserSession} from './useUserSession';
 
 const fetchPropertyManager = async (username: string) => {
@@ -20,6 +22,35 @@ export const usePropertyManager = () => {
     () => fetchPropertyManager(user!.userAccount.username),
     {
       enabled: !!user,
+    },
+  );
+};
+
+const updatePropertyManager = async (body: {
+  userAccount: UpdateUserAccountData;
+}) => {
+  await axiosClient.put(`/api/users/propertyManagers`, {
+    ...body,
+  });
+};
+
+export const useUpdatePropertyManager = () => {
+  const queryClient = useQueryClient();
+  const {enqueueSnackbar} = useSnackbar();
+  return useMutation(
+    (body: {userAccount: UpdateUserAccountData}) => updatePropertyManager(body),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([queryKeys.propertyManager]);
+        enqueueSnackbar('Issue logged successfully', {
+          variant: 'success',
+        });
+      },
+      onError: (err) => {
+        enqueueSnackbar('Some error occurred, please try again.', {
+          variant: 'error',
+        });
+      },
     },
   );
 };

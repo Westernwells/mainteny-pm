@@ -6,10 +6,11 @@ import {SettingCard} from './SettingCard';
 
 interface Props {
   formData: {
-    userName: string;
+    accountEmail: string;
     userAvatar: string;
     userDesignation: string;
     userPhone: string;
+    fullName: string;
   };
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -18,7 +19,7 @@ export const PersonalDetails = ({formData, onChange}: Props) => (
   <SettingCard header="Personal Details">
     <Box display="flex" gap={4}>
       <Avatar
-        alt={formData.userName}
+        alt={formData.fullName}
         src={formData.userAvatar}
         variant="circular"
         sx={{width: '120px', height: '120px', aspectRatio: '1'}}
@@ -26,8 +27,8 @@ export const PersonalDetails = ({formData, onChange}: Props) => (
       <Box flexGrow={1}>
         <FormInput
           label="Name"
-          id="userName"
-          value={formData.userName}
+          id="fullName"
+          value={formData.fullName}
           onChange={onChange}
         />
         <FormInput
