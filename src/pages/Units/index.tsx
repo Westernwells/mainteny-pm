@@ -174,6 +174,7 @@ export const MyUnits = () => {
               label="Upcoming visits"
               options={['This week', 'Next week', 'Next month']}
               getSelectedValue={(item) => setNextVisit(item)}
+              multiple={false}
             />
           </FilterFields>
         </Box>
