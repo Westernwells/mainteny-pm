@@ -129,6 +129,7 @@ export const Contracts = () => {
                 'Next 14 days',
               ]}
               getSelectedValue={(item) => setExpiryDate(item)}
+              multiple={false}
             />
 
             <MultipleSelectCheckmarks
@@ -146,6 +147,7 @@ export const Contracts = () => {
                 'Above 5000 €',
               ]}
               getSelectedValue={(item) => costRangeConvertor(item)}
+              multiple={false}
             />
           </FilterFields>
         </Box>
