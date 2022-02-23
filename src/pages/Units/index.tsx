@@ -138,7 +138,7 @@ export const MyUnits = () => {
     <Box>
       <Box display="flex" justifyContent="space-between" maxWidth="100%">
         <Box sx={{mb: 4, mt: 1}}>
-          <Typography variant="h5">Units</Typography>
+          <Typography variant="h4">Units</Typography>
         </Box>
         <Box>
           <Widget

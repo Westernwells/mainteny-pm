@@ -44,11 +44,10 @@ export const UnitSection = ({
         paddingTop: 0.5,
         paddingBottom: 0.5,
         marginTop: 1,
-        paddingLeft: '8px',
         borderRadius: '4px 4px 0px 0px',
       }}
     >
-      <Box pl={2}>
+      <Box pl={3}>
         <Typography variant="largeBtnText" mt={1} color="textSecondary">
           {elevatorsByAddress.address.fullName}
         </Typography>
@@ -61,9 +60,10 @@ export const UnitSection = ({
           sx={{
             paddingTop: 0.5,
             paddingBottom: 0.5,
-            paddingLeft: 2,
+            paddingLeft: 3,
             '&:hover': {background: 'rgba(0, 209, 255, 0.08)'},
             minHeight: '3rem',
+            alignItems: 'center',
           }}
         >
           <Grid
@@ -90,6 +90,7 @@ export const UnitSection = ({
             sx={{
               display: 'flex',
               justifyContent: 'flex-end',
+              alignItems: 'center',
             }}
           >
             <Grid item xs={2}>
