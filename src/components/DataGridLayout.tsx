@@ -100,9 +100,20 @@ export const DataGridLayout = ({rows, columns}: Props) => {
         rows={rows}
         columns={columns}
         disableSelectionOnClick
-        onRowClick={(params, e) => {
+        disableColumnFilter
+        hideFooter
+        onCellClick={(params, e) => {
           e.preventDefault();
-          navigate(params.row.navigateTo);
+          if (params.field === 'actions') {
+            console.log(
+              'ACTION: Download\n',
+              params.row.navigateTo.split('/')[1],
+              ': ',
+              params.row.navigateTo.split('/').slice(-1)[0],
+            );
+          } else {
+            navigate(params.row.navigateTo);
+          }
         }}
       />
     </Box>
