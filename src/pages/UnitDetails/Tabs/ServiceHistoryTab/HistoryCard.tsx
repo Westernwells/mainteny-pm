@@ -23,7 +23,7 @@ import {
 } from 'models/service-order';
 import {formatDate} from 'utils/datetime';
 // import {MaintenanceBasicInfo} from './ServiceBasicInfo';
-import {formatDistance, isAfter} from 'date-fns';
+import {formatDistance, isAfter, isToday} from 'date-fns';
 import {calculateNextVisitDate} from 'pages/Units/Models';
 import {useEffect, useState} from 'react';
 import {HistoryCardHeader} from './HistoryCardHeader';
@@ -127,17 +127,17 @@ export const HistoryCard = ({
 
   useEffect(() => {
     if (serviceOrder) {
-      const msg = isAfter(
-        new Date(serviceOrder!.schedules[0].startTime),
-        new Date(),
-      )
-        ? `${serviceOrder?.schedules[0].technician.userAccount.firstName} ${
-            serviceOrder?.schedules[0].technician.userAccount.lastName
-          } will be visiting your location in ${formatDistance(
-            calculateNextVisitDate(serviceOrder?.schedules[0].startTime!),
-            new Date(),
-          )}`
-        : null;
+      let msg = '';
+      const serviceDate = new Date(serviceOrder!.schedules[0].startTime);
+      const technician = `${serviceOrder?.schedules[0].technician.userAccount.firstName} ${serviceOrder?.schedules[0].technician.userAccount.lastName}`;
+      if (isAfter(serviceDate, new Date())) {
+        msg = `${technician} will be visiting your location in ${formatDistance(
+          calculateNextVisitDate(serviceOrder?.schedules[0].startTime!),
+          new Date(),
+        )}`;
+      } else if (isToday(serviceDate)) {
+        msg = `${technician} will visit your location today`;
+      }
 
       setMessage(msg);
     }
@@ -246,6 +246,7 @@ export const HistoryCard = ({
                 />
               </Box>
             ) : null}
+            {console.log(serviceOrder?.status, '<<<<<<<<<<<<<<<')}
             {showAlert &&
             serviceOrder?.status === ServiceOrderStatus.SCHEDULED ? (
               <CardAlert message={message} />
@@ -253,7 +254,7 @@ export const HistoryCard = ({
           </>
         )}
       </CardContent>
-      {showMoreSection ? (
+      {showMoreSection && serviceOrderReport?.attachments.length ? (
         <>
           <CardActions
             disableSpacing
