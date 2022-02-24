@@ -139,7 +139,7 @@ export const ServiceHistoryTab = () => {
             removeTopRightRadius
             removeServiceOrderType
             removeServiceOrderStatus
-            showMoreReportDetails
+            showMoreReportDetails={!!serviceOrderReport.length}
             showMoreSection
             containerStyles={{
               pt: '0.5em',
