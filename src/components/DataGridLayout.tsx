@@ -2,6 +2,7 @@ import {DataGrid, GridColDef, GridRowsProp} from '@mui/x-data-grid';
 import useTheme from '@mui/material/styles/useTheme';
 import {Box} from '@mui/system';
 import {useNavigate} from 'react-router-dom';
+import {fetchDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 
 interface Props {
   rows: GridRowsProp;
@@ -104,14 +105,7 @@ export const DataGridLayout = ({rows, columns}: Props) => {
         hideFooter
         onCellClick={(params, e) => {
           e.preventDefault();
-          if (params.field === 'actions') {
-            console.log(
-              'ACTION: Download\n',
-              params.row.navigateTo.split('/')[1],
-              ': ',
-              params.row.navigateTo.split('/').slice(-1)[0],
-            );
-          } else {
+          if (params.field !== 'actions') {
             navigate(params.row.navigateTo);
           }
         }}
