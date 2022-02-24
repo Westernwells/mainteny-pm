@@ -102,6 +102,7 @@ export const Invoices = () => {
                 'Above 5000 EUR',
               ]}
               getSelectedValue={(item) => amountRangeConvertor(item)}
+              multiple={false}
             />
 
             <MultipleSelectCheckmarks
@@ -116,6 +117,7 @@ export const Invoices = () => {
                   ),
                 )
               }
+              multiple={false}
             />
           </FilterFields>
         </Box>

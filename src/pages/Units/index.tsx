@@ -138,7 +138,7 @@ export const MyUnits = () => {
     <Box>
       <Box display="flex" justifyContent="space-between" maxWidth="100%">
         <Box sx={{mb: 4, mt: 1}}>
-          <Typography variant="h5">Units</Typography>
+          <Typography variant="h4">Units</Typography>
         </Box>
         <Box>
           <Widget
@@ -161,6 +161,7 @@ export const MyUnits = () => {
               label="Availability"
               options={['Under 40%', '40 - 60%', '60 - 80%', 'Above 80%']}
               getSelectedValue={(item) => availabilityRangeConvertor(item)}
+              multiple={false}
             />
 
             <MultipleSelectCheckmarks
@@ -173,6 +174,7 @@ export const MyUnits = () => {
               label="Upcoming visits"
               options={['This week', 'Next week', 'Next month']}
               getSelectedValue={(item) => setNextVisit(item)}
+              multiple={false}
             />
           </FilterFields>
         </Box>
