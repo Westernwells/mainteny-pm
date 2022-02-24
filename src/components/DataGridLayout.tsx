@@ -104,14 +104,7 @@ export const DataGridLayout = ({rows, columns}: Props) => {
         hideFooter
         onCellClick={(params, e) => {
           e.preventDefault();
-          if (params.field === 'actions') {
-            console.log(
-              'ACTION: Download\n',
-              params.row.navigateTo.split('/')[1],
-              ': ',
-              params.row.navigateTo.split('/').slice(-1)[0],
-            );
-          } else {
+          if (params.field !== 'actions') {
             navigate(params.row.navigateTo);
           }
         }}

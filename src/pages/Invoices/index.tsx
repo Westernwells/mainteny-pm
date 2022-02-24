@@ -72,8 +72,6 @@ export const Invoices = () => {
     }
   }, [invoiceResource, showFilter]);
 
-  console.log(invoiceResource, '!!!@@##');
-
   return (
     <Box>
       <Box display="flex" justifyContent="space-between">

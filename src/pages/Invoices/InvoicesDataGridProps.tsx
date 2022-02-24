@@ -9,6 +9,7 @@ import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import {StatusChip} from 'components/StatusChip';
+import {fetchDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {InvoiceStatus, InvoiceStatusView} from 'models/invoice';
 import {formatDate, toDate} from '../../utils/datetime';
 
@@ -100,10 +101,20 @@ export const columns: GridColDef[] = [
     renderHeader: (params) => (
       <Typography variant="subtitle2">{params.colDef.headerName}</Typography>
     ),
-    renderCell: () => (
+    renderCell: (params) => (
       <FileDownloadOutlinedIcon
         sx={{color: '#2196F3'}}
-        onClick={() => console.log('ACTION: Download')}
+        onClick={async () => {
+          const downloadUrls = await fetchDownloadUrl(
+            params.value.pdfPath,
+            params.value.serviceCompanyId,
+          );
+          const downloadUrlPaths = downloadUrls[params.value.pdfPath];
+
+          if (downloadUrlPaths) {
+            window.open(downloadUrlPaths, '_self');
+          }
+        }}
       />
     ),
   },
@@ -118,6 +129,10 @@ export const makeRows = (invoices: any): GridRowsProp =>
         serviceCompany: item.serviceCompany.name,
         amount: `${item.totalAmount.amount} ${item.totalAmount.currency}`,
         status: item.status,
+        actions: {
+          pdfPath: item.additionalInfo.pdfPath,
+          serviceCompanyId: item.serviceCompany.id,
+        },
         navigateTo: `/invoices/${item.id}`,
       }))
     : console.error('No Data');

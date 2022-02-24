@@ -5,7 +5,7 @@ import {queryKeys as qk} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {usePropertyManager} from './usePropertyManager';
 
-export const fetchInvoiceDownloadUrl = async (
+export const fetchDownloadUrl = async (
   pdfPath: string[],
   serviceCompanyId: string,
 ) => {
@@ -28,7 +28,7 @@ export const useDownloadUrl = (
   const serviceCompanyId = propertyManager?.userAccount.serviceCompany.id;
   return useQuery(
     [qk.invoiceDownloadUrl, pdfPath, serviceCompanyId],
-    () => fetchInvoiceDownloadUrl(pdfPath, serviceCompanyId!),
+    () => fetchDownloadUrl(pdfPath, serviceCompanyId!),
     {
       enabled: !!pdfPath.length && !!serviceCompanyId,
       refetchOnWindowFocus: false,
