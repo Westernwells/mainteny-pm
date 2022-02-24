@@ -42,7 +42,7 @@ export const useUpdatePropertyManager = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries([queryKeys.propertyManager]);
-        enqueueSnackbar('Issue logged successfully', {
+        enqueueSnackbar('Settings updated', {
           variant: 'success',
         });
       },
