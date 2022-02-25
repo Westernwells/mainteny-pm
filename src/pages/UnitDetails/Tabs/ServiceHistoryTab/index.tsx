@@ -1,30 +1,20 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
-import {
-  ServiceOrderStatus,
-  ServiceOrderType,
-  ServiceOrderTypeValue,
-  ServiceOrderView,
-} from 'models/service-order';
+import {ServiceOrderStatus, ServiceOrderView} from 'models/service-order';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import {SplitButton} from 'components/SplitButton';
 import Box from '@mui/material/Box';
 import {PageCard} from 'components/PageCard';
-import {createEmptyResource, makePage} from 'utils/paging-utils';
+import {createEmptyResource} from 'utils/paging-utils';
 import {
   useServiceOrderReport,
   useServiceOrders,
 } from 'hooks/reactQuery/useServiceOrder';
 import {formatDate, getDateObject, toRestDateTime} from 'utils/datetime';
 import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
-import {
-  endOfMonth,
-  endOfYear,
-  startOfDay,
-  startOfYear,
-  subDays,
-} from 'date-fns';
+import {useElevatorById} from 'hooks/reactQuery/useElevator';
+import {startOfDay, getYear, eachYearOfInterval, endOfYear} from 'date-fns';
 import {useParams} from 'react-router-dom';
 import {HistoryCard} from './HistoryCard';
 import {HistoryReport} from './HistoryReport';
@@ -35,8 +25,12 @@ const pageSize = 10;
 
 export const ServiceHistoryTab = () => {
   const {id: elevatorId} = useParams();
-  const [year, setYear] = useState('2022');
-  const [status, setStatus] = useState('ALL');
+  const [selectedYear, setSelectedYear] = useState(
+    getYear(new Date()).toString(),
+  );
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [selectedStatusView, setSelectedStatusView] = useState('All');
+
   const [expanded, setExpanded] = useState<boolean>();
   const [selectedOrder, setSelectedOrder] = useState<ServiceOrderView>();
   const [currentReportDate, setCurrentReportDate] = useState<string>();
@@ -50,11 +44,12 @@ export const ServiceHistoryTab = () => {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
     elevatorIds: elevatorId,
-    start: toRestDateTime(subDays(startOfDay(new Date()), 90)),
-    end: toRestDateTime(endOfMonth(new Date())),
+    start: toRestDateTime(startOfDay(new Date(selectedYear))),
+    end: toRestDateTime(endOfYear(new Date(selectedYear))),
     pageSize: 50,
     pageIndex: 0,
     query: '',
+    status: selectedStatus,
   }); // TODO: Use Infinite scroll
   const {data: serviceOrderReport = [], isLoading: serviceOrderReportLoading} =
     useServiceOrderReport({
@@ -67,6 +62,8 @@ export const ServiceHistoryTab = () => {
       : [],
     {cacheTime: 5000, refetchOnWindowFocus: true},
   );
+
+  const {data: elevator} = useElevatorById(elevatorId);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -98,6 +95,53 @@ export const ServiceHistoryTab = () => {
       setSelectedOrder(serviceOrders.data[0]);
     }
   }, [serviceOrders]);
+
+  const getYears = useCallback(() => {
+    let yrs: string[] = [];
+    if (elevator) {
+      const startDate = getDateObject(elevator.meta.createdAt);
+      const currentDate = new Date();
+      const result = eachYearOfInterval({
+        start: startDate,
+        end: currentDate,
+      });
+      yrs = result.map((date) => getYear(date).toString());
+    }
+
+    return yrs;
+  }, [serviceOrders]);
+
+  const getStatus = useCallback(
+    () =>
+      Object.keys(ServiceOrderStatus)
+        .map((item) => {
+          if (
+            item !== ServiceOrderStatus.INIT &&
+            item !== ServiceOrderStatus.READY_TO_SCHEDULE &&
+            item !== ServiceOrderStatus.SCHEDULING
+          ) {
+            if (item === ServiceOrderStatus.SCHEDULED) {
+              return 'Pending';
+            }
+            return item.split('_').join(' ').toLowerCase();
+          }
+          return null;
+        })
+        .filter((x): x is string => !!x),
+    [],
+  );
+
+  const onStatusSelect = (value: string) => {
+    setSelectedStatusView(value);
+    if (value !== 'All') {
+      if (value === 'Pending') {
+        return setSelectedStatus([ServiceOrderStatus.SCHEDULED]);
+      }
+      return setSelectedStatus([value.split(' ').join('_').toUpperCase()]);
+      // return setSelectedStatus([...selectedStatus, value]);
+    }
+    return setSelectedStatus([]);
+  };
 
   return (
     <Grid container spacing={2}>
@@ -171,9 +215,9 @@ export const ServiceHistoryTab = () => {
                 size="small"
                 disableRipple
                 selectionStyle={{background: '#fff', cursor: 'default'}}
-                selectedOption={`Year: ${year}`}
-                options={['2020', '2021', '2022']} // TODO: Dynamically generate this
-                onSelectedOptionChanged={(value) => setYear(value)}
+                selectedOption={`Year: ${selectedYear}`}
+                options={getYears()}
+                onSelectedOptionChanged={(value) => setSelectedYear(value)}
               />
             </Box>
             <SplitButton
@@ -181,11 +225,9 @@ export const ServiceHistoryTab = () => {
               size="small"
               disableRipple
               selectionStyle={{background: '#fff', cursor: 'default'}}
-              selectedOption={`Status: ${status.toLowerCase()}`}
-              options={Object.keys(ServiceOrderStatus).map((item) =>
-                item.split('_').join(' ').toLowerCase(),
-              )}
-              onSelectedOptionChanged={(value) => setStatus(value)}
+              selectedOption={`Status: ${selectedStatusView}`}
+              options={getStatus()}
+              onSelectedOptionChanged={onStatusSelect}
             />
           </Box>
           <Box sx={{height: '55vh', overflowY: 'scroll'}}>

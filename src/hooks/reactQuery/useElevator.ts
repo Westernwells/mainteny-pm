@@ -2,18 +2,11 @@ import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import getCenter from 'geolib/es/getCenter';
-import {Axios, AxiosResponse} from 'axios';
+import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {queryKeys} from 'reactQuery/constants';
-import {ServiceOrderView} from 'models/service-order';
 
-import {ElevatorOrderPair, ElevatorsByAddress} from 'pages/Units/Models';
-import {
-  Elevator,
-  ElevatorCategory,
-  ElevatorStatus,
-  ElevatorView,
-} from '../../models/elevator';
+import {Elevator, ElevatorView} from '../../models/elevator';
 import {
   Location,
   Page,
@@ -37,7 +30,6 @@ export const fetchElevators = async (query: string, page: Page, id: string) => {
 };
 
 export const fetchElevator = async (elevatorId: string) => {
-  console.log(elevatorId, '@@@@@@@@');
   const response = await axiosClient.get<Elevator>(
     `/api/elevators/${elevatorId}`,
   );

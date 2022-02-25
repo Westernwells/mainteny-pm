@@ -246,7 +246,6 @@ export const HistoryCard = ({
                 />
               </Box>
             ) : null}
-            {console.log(serviceOrder?.status, '<<<<<<<<<<<<<<<')}
             {showAlert &&
             serviceOrder?.status === ServiceOrderStatus.SCHEDULED ? (
               <CardAlert message={message} />
