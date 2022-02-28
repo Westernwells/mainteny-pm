@@ -5,6 +5,7 @@ export const staticContractDetails: any = {
   propertyOwner: {
     id: 'ef1eb196-249b-4697-9876-f67910ca7d1b',
     name: 'BASF',
+    role: 'Property Manager',
     address: {
       id: '0c063ee4-f9da-481b-ab7c-da703f342cfc',
       fullName: 'Weidenweg 53, 10247 Berlin, Germany',
@@ -51,6 +52,7 @@ export const staticContractDetails: any = {
   serviceCompany: {
     id: '9d85be2d-ceb9-4b19-a350-9f512b4b57e4',
     name: 'Maintenance Experts GmbH',
+    role: 'Service Company',
     contact: {
       phone: '+4791924282',
       email: 'prasad@mainteny.com',
@@ -209,7 +211,7 @@ export const staticContractDetails: any = {
   visitsNumber: 4,
   sla: 0,
   spendingLimit: 0,
-  price: 0,
+  price: 9400,
   hourlyRate: 0,
   currency: 'EUR',
   startTime: '2020-12-03T00:00:00Z',
