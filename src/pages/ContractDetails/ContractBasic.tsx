@@ -25,11 +25,9 @@ export const ContractBasic = ({
       <CardProps
         label="Cost per Year"
         bodyTextVariant="subtitle1"
-        icon={
-          <MonetizationOnOutlinedIcon color="success" sx={{fontSize: '1rem'}} />
-        }
+        icon={<MonetizationOnOutlinedIcon color="info" />}
         containerStyles={{mr: '0.5em'}}
-        iconBackground={theme.palette.success.outlinedHoverBg}
+        iconBackground={theme.palette.info.outlinedHoverBg}
         iconMaxHeight="3rem"
         bodyText={costPerYear ? `${costPerYear.toLocaleString()} EUR` : ''}
       />
@@ -49,13 +47,13 @@ export const ContractBasic = ({
       <CardProps
         label="Contract Type"
         bodyTextVariant="subtitle1"
-        icon={<TocIcon sx={{color: theme.palette.amber.main}} />}
+        icon={<TocIcon color="info" />}
         containerStyles={{
           ml: '0.5em',
           display: 'flex',
           justifyContent: 'center',
         }}
-        iconBackground={theme.palette.amber.light}
+        iconBackground={theme.palette.info.outlinedHoverBg}
         iconMaxHeight="3rem"
         bodyText={type || ''}
       />

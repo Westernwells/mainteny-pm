@@ -163,18 +163,20 @@ export const ContractDetails = () => {
             }
           >
             <ContractParties
-              companyName={contractDetails?.serviceCompany.name}
+              companyName={contractDetails?.propertyOwner.address.fullName}
               personName={contractDetails?.serviceCompany.name}
               email={contractDetails?.serviceCompany.contact.email}
+              partyRole={contractDetails?.serviceCompany.role}
               partyType="Contractor"
-              chipColor="warning"
-              chipTextColor={theme.palette.warning.main}
-              chipBgColor={theme.palette.warning.outlinedHoverBg}
+              chipColor="info"
+              chipTextColor={theme.palette.info.main}
+              chipBgColor={theme.palette.info.outlinedHoverBg}
             />
             <ContractParties
-              companyName={contractDetails?.propertyOwner.name}
+              companyName={contractDetails?.propertyOwner.address.fullName}
               personName={contractDetails?.propertyOwner.name}
               email={contractDetails?.propertyOwner.contact.email}
+              partyRole={contractDetails?.propertyOwner.role}
               partyType="Customer"
               chipColor="info"
               chipTextColor={theme.palette.info.main}
