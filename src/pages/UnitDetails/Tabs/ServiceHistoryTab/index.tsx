@@ -123,6 +123,10 @@ export const ServiceHistoryTab = () => {
             if (item === ServiceOrderStatus.SCHEDULED) {
               return 'Pending';
             }
+
+            if (item === ServiceOrderStatus.ALL) {
+              return 'All';
+            }
             return item.split('_').join(' ').toLowerCase();
           }
           return null;
