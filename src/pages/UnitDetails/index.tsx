@@ -140,7 +140,7 @@ export const UnitsDetail = () => {
         }}
       >
         <TabsBody value={value} index={0}>
-          <OverviewTab />;
+          <OverviewTab />
         </TabsBody>
 
         <TabsBody value={value} index={1}>

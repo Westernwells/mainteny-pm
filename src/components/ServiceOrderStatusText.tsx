@@ -1,6 +1,5 @@
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
-import {ResponsiveStyleValue} from '@mui/system';
 import {ServiceOrderStatus} from '../models/service-order';
 
 interface Props {

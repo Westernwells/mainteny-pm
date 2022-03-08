@@ -1,13 +1,9 @@
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import SyncIcon from '@mui/icons-material/Sync';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import PendingIcon from '@mui/icons-material/Pending';
-import {ServiceOrderStatus, ServiceOrderType} from '../models/service-order';
-import {ReactComponent as EmergencyIcon} from '../assets/icons/Emergency.svg';
-import {ReactComponent as CalloutIcon} from '../assets/icons/Callout.svg';
+import {ServiceOrderStatus} from '../models/service-order';
 
 interface Props {
   serviceOrderStatus?: ServiceOrderStatus;

@@ -115,20 +115,21 @@ export const ServiceHistoryTab = () => {
     () =>
       Object.keys(ServiceOrderStatus)
         .map((item) => {
-          if (
-            item !== ServiceOrderStatus.INIT &&
-            item !== ServiceOrderStatus.READY_TO_SCHEDULE &&
-            item !== ServiceOrderStatus.SCHEDULING
-          ) {
-            if (item === ServiceOrderStatus.SCHEDULED) {
-              return 'Pending';
-            }
+          if (item === ServiceOrderStatus.SCHEDULED) {
+            return 'Pending';
+          }
 
-            if (item === ServiceOrderStatus.ALL) {
-              return 'All';
-            }
+          if (item === ServiceOrderStatus.ALL) {
+            return 'All';
+          }
+
+          if (
+            item === ServiceOrderStatus.IN_PROGRESS ||
+            item === ServiceOrderStatus.COMPLETED
+          ) {
             return item.split('_').join(' ').toLowerCase();
           }
+
           return null;
         })
         .filter((x): x is string => !!x),
