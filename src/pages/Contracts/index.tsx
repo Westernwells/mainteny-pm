@@ -114,6 +114,7 @@ export const Contracts = () => {
             onSearchTextChanged={setSearch}
             setShowFilter={setShowFilter}
             showFilter={showFilter}
+            hideViewOption
           />
         </Box>
       </Box>

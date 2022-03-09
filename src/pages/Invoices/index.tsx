@@ -85,6 +85,7 @@ export const Invoices = () => {
             onSearchTextChanged={setSearch}
             setShowFilter={setShowFilter}
             showFilter={showFilter}
+            hideViewOption
           />
         </Box>
       </Box>
