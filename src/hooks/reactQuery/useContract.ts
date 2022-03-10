@@ -4,23 +4,14 @@ import * as _ from 'lodash';
 import {queryKeys as qk} from 'reactQuery/constants';
 import {
   addDays,
-  endOfMonth,
-  startOfMonth,
-  endOfWeek,
   startOfDay,
-  getWeek,
   subDays,
   endOfDay,
   isWithinInterval,
 } from 'date-fns';
-import {PropertyManager} from 'models/propertyManager';
 import {toDate} from 'utils/datetime';
 import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
-import {
-  ContractView,
-  ContractViewWithUnits,
-  QueryContractParams,
-} from '../../models/contract';
+import {ContractView, QueryContractParams} from '../../models/contract';
 import {Resource, RestError} from '../../models/misc';
 import {usePropertyManager} from './usePropertyManager';
 
@@ -178,11 +169,9 @@ const filterContracts = (
 export const useQueryContract = (
   params: QueryContractParams,
   filter: {expiryDate: string[]; contractor: string[]; price: number[][]},
-  user?: PropertyManager,
   options?: UseQueryOptions<any, any, any>,
 ) => {
-  console.log(user);
-  // const {data: user} = usePropertyManager();
+  const {data: user} = usePropertyManager();
   return useQuery<Resource<ContractView>, RestError, Resource<ContractView>>(
     [qk.contracts, params],
     () => fetchContracts(user!.propertyOwner.id, params),

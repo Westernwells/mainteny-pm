@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {MouseEvent, useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
@@ -7,30 +7,58 @@ import {FilterFields} from 'components/FilterFields';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {BtnGroupType} from 'models/misc';
+import TablePagination from '@mui/material/TablePagination';
+import useTheme from '@mui/material/styles/useTheme';
+import {useQueryClient} from 'react-query';
+import {queryKeys as qks} from 'reactQuery/constants';
+import {createEmptyResource, makePage} from 'utils/paging-utils';
+import {fetchInvoices, useInvoices} from 'hooks/reactQuery/useInvoice';
+import {Widget} from 'components/Widget';
+import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
 
-import {InvoiceStatus, InvoiceStatusView} from 'models/invoice';
+import {InvoiceStatus, InvoiceStatusView, InvoiceView} from 'models/invoice';
 import {columns, makeRows} from './InvoicesDataGridProps';
-import {makePage} from '../../utils/paging-utils';
-import {useInvoices} from '../../hooks/reactQuery/useInvoice';
-import {Widget} from '../../components/Widget';
 
 export const Invoices = () => {
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
+  const [page, setPage] = useState(makePage(0, 1)); // TODO: implement paging
   const [showFilter, setShowFilter] = useState(false);
   const [amount, setAmount] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
   const [rows, setRows] = useState<GridRowsProp>([]);
+  const theme = useTheme();
+  const queryClient = useQueryClient();
+  const {data: user} = usePropertyManager();
 
-  const {data: invoiceResource} = useInvoices(
-    {
-      pageIndex: page.pageIndex,
-      pageSize: page.pageSize,
+  const {data: invoiceResource = createEmptyResource<InvoiceView>(10)} =
+    useInvoices(
+      {
+        pageIndex: page.pageIndex,
+        pageSize: page.pageSize,
+        query: search,
+        status: [InvoiceStatus.PAID, InvoiceStatus.NOT_PAID],
+      },
+      {amount, status},
+      user,
+    );
+
+  //  prefetch next page when page changes
+  useEffect(() => {
+    // assume increment of page by one
+    const nextPage = page.pageIndex + 1;
+    const newPageInfo = {pageIndex: nextPage, pageSize: page.pageSize};
+    const params = {
+      pageIndex: newPageInfo.pageIndex,
+      pageSize: newPageInfo.pageSize,
       query: search,
       status: [InvoiceStatus.PAID, InvoiceStatus.NOT_PAID],
-    },
-    {amount, status},
-  );
+    };
+    if (user && invoiceResource) {
+      queryClient.prefetchQuery([qks.fetchInvoices, params], () =>
+        fetchInvoices(params, user.propertyOwner.id),
+      );
+    }
+  }, [queryClient, page, search, user, invoiceResource]);
 
   const amountRangeConvertor = (selectedItems: string[]) => {
     const range: number[][] = [];
@@ -122,7 +150,23 @@ export const Invoices = () => {
         </Box>
       </Fade>
 
-      <DataGridLayout rows={rows} columns={columns} />
+      <DataGridLayout hideFooter rows={rows} columns={columns} />
+      <TablePagination
+        sx={{
+          '& .MuiTablePagination-selectLabel': {
+            color: theme.palette.text.secondary,
+          },
+        }}
+        component="div"
+        count={invoiceResource.total}
+        page={page.pageIndex}
+        onPageChange={(
+          event: MouseEvent<HTMLButtonElement> | null,
+          newPage: number,
+        ) => setPage({...page, pageIndex: newPage})}
+        rowsPerPage={page.pageSize}
+        onRowsPerPageChange={() => {}}
+      />
     </Box>
   );
 };

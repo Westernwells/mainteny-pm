@@ -3,14 +3,9 @@ import * as _ from 'lodash';
 import {useCallback} from 'react';
 import {queryKeys as qk} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
-import {Resource, RestError} from '../../models/misc';
-import {
-  InvoiceStatus,
-  InvoiceStatusView,
-  InvoiceView,
-  QueryInvoiceParams,
-} from '../../models/invoice';
-import {usePropertyManager} from './usePropertyManager';
+import {PropertyManager} from 'models/propertyManager';
+import {Resource, RestError} from 'models/misc';
+import {InvoiceView, QueryInvoiceParams} from 'models/invoice';
 
 export const fetchInvoices = async (
   params: QueryInvoiceParams,
@@ -81,10 +76,10 @@ const filterInvoices = (
 export function useInvoices(
   params: QueryInvoiceParams,
   filters: {amount: number[][]; status: string[]},
+  user?: PropertyManager,
 ) {
-  const {data: user} = usePropertyManager();
   return useQuery<Resource<InvoiceView>, RestError>(
-    [qk.fetchInvoice, params, user?.id],
+    [qk.fetchInvoices, params],
     () => fetchInvoices(params, user!.propertyOwner.id),
     {
       enabled: !!user,

@@ -21,7 +21,6 @@ import {BtnGroupType} from 'models/misc';
 import {FilterFields} from 'components/FilterFields';
 
 import useTheme from '@mui/material/styles/useTheme';
-import {useQueryClient} from 'react-query';
 import {UnitSection} from './UnitSection';
 import {UnitsMapsView} from './UnitsMapsView';
 import {UnitColumns} from './UnitColumns';
@@ -72,8 +71,6 @@ export const MyUnits = () => {
     {keepPreviousData: true},
   );
 
-  const queryClient = useQueryClient();
-
   const availabilityRangeConvertor = (selectedItems: string[]) => {
     const range: number[][] = [];
     selectedItems.forEach((item) => {
@@ -101,7 +98,7 @@ export const MyUnits = () => {
     setAvailability(range);
   };
 
-  const {mutate: logIssue, isLoading} = useLogIssue();
+  const {mutate: logIssue} = useLogIssue();
 
   const formik = useFormik<FormikFields>({
     initialValues: {

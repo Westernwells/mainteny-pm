@@ -6,25 +6,19 @@ import {GridRowsProp} from '@mui/x-data-grid';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {FilterFields} from 'components/FilterFields';
-import {TablePagination} from '@mui/material';
+import TablePagination from '@mui/material/TablePagination';
 import useTheme from '@mui/material/styles/useTheme';
-import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
-import {columns, makeRows} from './ContractsDataGridProps';
 import {
   useContractElevatorCount,
   useQueryContract,
-} from '../../hooks/reactQuery/useContract';
-import {ContractOrderField, ContractView} from '../../models/contract';
-import {ElevatorView} from '../../models/elevator';
-import {BtnGroupType, Order, Resource} from '../../models/misc';
-import {createEmptyResource, makePage} from '../../utils/paging-utils';
-import {Widget} from '../../components/Widget';
+} from 'hooks/reactQuery/useContract';
+import {ContractOrderField, ContractView} from 'models/contract';
+import {BtnGroupType, Order} from 'models/misc';
+import {createEmptyResource, makePage} from 'utils/paging-utils';
+import {Widget} from 'components/Widget';
+import {columns, makeRows} from './ContractsDataGridProps';
 
 const pageSize = 2;
-interface ContractRecord {
-  contract: ContractView;
-  elevators: ElevatorView[];
-}
 
 export const Contracts = () => {
   const [search, setSearch] = useState('');
@@ -38,7 +32,6 @@ export const Contracts = () => {
     [],
   );
   const [rows, setRows] = useState<GridRowsProp>([]);
-  const {data: user} = usePropertyManager();
   const {data: contractResource = createEmptyResource<ContractView>(10)} =
     useQueryContract(
       {
@@ -49,7 +42,6 @@ export const Contracts = () => {
         query: search,
       },
       {expiryDate, contractor, price: cost},
-      user,
       {keepPreviousData: true},
     );
 
