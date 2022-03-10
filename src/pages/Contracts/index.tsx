@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {MouseEvent, useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Fade from '@mui/material/Fade';
@@ -6,6 +6,9 @@ import {GridRowsProp} from '@mui/x-data-grid';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {FilterFields} from 'components/FilterFields';
+import {TablePagination} from '@mui/material';
+import useTheme from '@mui/material/styles/useTheme';
+import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
 import {columns, makeRows} from './ContractsDataGridProps';
 import {
   useContractElevatorCount,
@@ -17,7 +20,7 @@ import {BtnGroupType, Order, Resource} from '../../models/misc';
 import {createEmptyResource, makePage} from '../../utils/paging-utils';
 import {Widget} from '../../components/Widget';
 
-const pageSize = 10;
+const pageSize = 2;
 interface ContractRecord {
   contract: ContractView;
   elevators: ElevatorView[];
@@ -30,10 +33,12 @@ export const Contracts = () => {
   const [expiryDate, setExpiryDate] = useState<string[]>([]);
   const [contractor, setContractor] = useState<string[]>([]);
   const [cost, setCost] = useState<number[][]>([]);
+  const theme = useTheme();
   const [contractorFilterItems, setConractorFileterItems] = useState<string[]>(
     [],
   );
   const [rows, setRows] = useState<GridRowsProp>([]);
+  const {data: user} = usePropertyManager();
   const {data: contractResource = createEmptyResource<ContractView>(10)} =
     useQueryContract(
       {
@@ -44,10 +49,13 @@ export const Contracts = () => {
         query: search,
       },
       {expiryDate, contractor, price: cost},
+      user,
+      {keepPreviousData: true},
     );
 
   const {data: contractWithUnits} = useContractElevatorCount(
     contractResource.data,
+    {keepPreviousData: true},
   );
 
   const costRangeConvertor = (selectedItems: string[]) => {
@@ -153,7 +161,24 @@ export const Contracts = () => {
           </FilterFields>
         </Box>
       </Fade>
-      <DataGridLayout rows={rows} columns={columns} />
+      <DataGridLayout hideFooter rows={rows} columns={columns} />
+
+      <TablePagination
+        sx={{
+          '& .MuiTablePagination-selectLabel': {
+            color: theme.palette.text.secondary,
+          },
+        }}
+        component="div"
+        count={contractResource.total}
+        page={page.pageIndex}
+        onPageChange={(
+          event: MouseEvent<HTMLButtonElement> | null,
+          newPage: number,
+        ) => setPage({...page, pageIndex: newPage})}
+        rowsPerPage={page.pageSize}
+        onRowsPerPageChange={() => {}}
+      />
     </Box>
   );
 };

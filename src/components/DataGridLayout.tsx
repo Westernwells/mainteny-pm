@@ -93,7 +93,7 @@ export const DataGridLayout = ({rows, columns, hideFooter = false}: Props) => {
         },
 
         '& .MuiTablePagination-root .MuiTablePagination-selectLabel': {
-          color: theme.palette.text.secondary,
+          color: 'theme.palette.text.secondary',
         },
       }}
     >

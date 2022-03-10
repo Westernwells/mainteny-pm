@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {useQuery} from 'react-query';
+import {useQuery, UseQueryOptions} from 'react-query';
 import * as _ from 'lodash';
 import {queryKeys as qk} from 'reactQuery/constants';
 import {
@@ -13,9 +13,14 @@ import {
   endOfDay,
   isWithinInterval,
 } from 'date-fns';
+import {PropertyManager} from 'models/propertyManager';
 import {toDate} from 'utils/datetime';
 import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
-import {ContractView, QueryContractParams} from '../../models/contract';
+import {
+  ContractView,
+  ContractViewWithUnits,
+  QueryContractParams,
+} from '../../models/contract';
 import {Resource, RestError} from '../../models/misc';
 import {usePropertyManager} from './usePropertyManager';
 
@@ -173,12 +178,16 @@ const filterContracts = (
 export const useQueryContract = (
   params: QueryContractParams,
   filter: {expiryDate: string[]; contractor: string[]; price: number[][]},
+  user?: PropertyManager,
+  options?: UseQueryOptions<any, any, any>,
 ) => {
-  const {data: user} = usePropertyManager();
+  console.log(user);
+  // const {data: user} = usePropertyManager();
   return useQuery<Resource<ContractView>, RestError, Resource<ContractView>>(
     [qk.contracts, params],
     () => fetchContracts(user!.propertyOwner.id, params),
     {
+      ...options,
       enabled: !!user,
       select: useCallback(
         (contractsRes: Resource<ContractView>) => {
@@ -196,12 +205,16 @@ export const useFetchContractDetails = (contractId: string) =>
     fetchContractDetails(contractId),
   );
 
-export const useContractElevatorCount = (contracts: ContractView[]) => {
+export const useContractElevatorCount = (
+  contracts: ContractView[],
+  options?: UseQueryOptions<{[key: string]: number}, RestError, ContractView[]>,
+) => {
   const contractIds = contracts.map((contract) => contract.id);
-  return useQuery(
+  return useQuery<{[key: string]: number}, RestError, ContractView[]>(
     [qk.fetchContractElevatorCount, contractIds],
     () => fetchContractElevatorCount(contractIds),
     {
+      ...options,
       enabled: !!contracts.length,
       select: useCallback(
         (data) =>
