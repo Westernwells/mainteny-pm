@@ -1,4 +1,4 @@
-import {MouseEvent, useEffect, useRef, useState} from 'react';
+import {ChangeEvent, MouseEvent, useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {ElevatorView} from 'models/elevator';
@@ -218,7 +218,14 @@ export const MyUnits = () => {
             page={page.pageIndex}
             onPageChange={handlePageChange}
             rowsPerPage={page.pageSize}
-            onRowsPerPageChange={() => {}}
+            onRowsPerPageChange={(
+              event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+            ) =>
+              setPage({
+                pageSize: parseInt(event.target.value, 10),
+                pageIndex: 0,
+              })
+            }
           />
         </>
       ) : (

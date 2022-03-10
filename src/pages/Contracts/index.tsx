@@ -1,4 +1,4 @@
-import {MouseEvent, useEffect, useState} from 'react';
+import {ChangeEvent, MouseEvent, useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Fade from '@mui/material/Fade';
@@ -169,7 +169,11 @@ export const Contracts = () => {
           newPage: number,
         ) => setPage({...page, pageIndex: newPage})}
         rowsPerPage={page.pageSize}
-        onRowsPerPageChange={() => {}}
+        onRowsPerPageChange={(
+          event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+        ) =>
+          setPage({pageSize: parseInt(event.target.value, 10), pageIndex: 0})
+        }
       />
     </Box>
   );
