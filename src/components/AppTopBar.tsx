@@ -14,6 +14,7 @@ import {ReactComponent as LogoutIcon} from 'assets/icons/Logout.svg';
 import {ReactComponent as Logo} from 'assets/icons/Logo.svg';
 import {useAuth} from 'hooks/useAuth';
 import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
+import {UserAvatar} from './UserAvatar';
 
 export const AppTopBar = () => {
   const navigate = useNavigate();
@@ -69,7 +70,11 @@ export const AppTopBar = () => {
 
             <Link to="/settings" style={{textDecoration: 'none'}}>
               <Box ml={8} display="flex" alignItems="center">
-                <Avatar alt="Bruce Wayne" src={AvatarImg} />
+                <UserAvatar
+                  src={user?.userAccount.photoUrl}
+                  alt={`${user?.userAccount.firstName} ${user?.userAccount.lastName}`}
+                  userRole="owner"
+                />
                 <Box ml={2}>
                   <Typography
                     color="#222B45"

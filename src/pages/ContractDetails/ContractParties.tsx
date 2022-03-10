@@ -9,6 +9,7 @@ import {CustomCard} from 'components/CustomCard';
 import {ServiceCompanyView} from 'models/service-company';
 import {ClientView} from 'models/client';
 import {StatusChip} from 'components/StatusChip';
+import {UserAvatar} from 'components/UserAvatar';
 
 interface Props {
   personName?: string;
@@ -50,8 +51,13 @@ export const ContractParties = ({
     <Grid container sx={{...containerStyle}}>
       <Grid item xs={4}>
         <Box display="flex">
-          <Avatar sx={{width: '3rem', height: '3rem', mr: '1em'}}>H</Avatar>
-
+          {/* <Avatar sx={{width: '3rem', height: '3rem', mr: '1em'}}>H</Avatar> */}
+          <UserAvatar
+            src=""
+            alt={personName || ''}
+            userRole={partyRole === 'Service Company' ? 'manager' : 'owner'}
+            avatarStyle={{width: '3rem', height: '3rem', mr: '1em'}}
+          />
           <Box display="flex" flexDirection="column">
             <Typography variant="subtitle1" sx={{display: 'block'}}>
               {personName || ''}

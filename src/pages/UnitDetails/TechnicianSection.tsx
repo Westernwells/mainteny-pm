@@ -13,6 +13,7 @@ import {PageCard} from 'components/PageCard';
 
 import technicianImage from 'assets/images/avatar.png';
 import {MaintainerView, TechnicianView} from 'models/technician';
+import {UserAvatar} from 'components/UserAvatar';
 
 export interface TechnicianSectionProp {
   maintainers: MaintainerView[];
@@ -92,10 +93,16 @@ export const TechnicianSection = ({maintainers}: TechnicianSectionProp) => {
           <Box mr="1.2em">
             {index === 0 ? (
               <Box>
-                <Avatar
+                {/* <Avatar
                   alt="Tech"
                   src={technicianImage}
                   sx={{width: '3.125rem', height: '3.125rem'}}
+                /> */}
+                <UserAvatar
+                  src=""
+                  alt={item.label}
+                  userRole="technician"
+                  avatarStyle={{width: '3.125rem', height: '3.125rem'}}
                 />
               </Box>
             ) : (
