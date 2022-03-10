@@ -1,4 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {
+  MouseEvent,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -8,22 +14,28 @@ import {ElevatorView} from 'models/elevator';
 import {Widget} from 'components/Widget';
 import {LogIssue} from 'pages/Units/LogIssue';
 import {
+  fetchServiceOrders,
   useFetchServiceOrdersByElevators,
   useLogIssue,
 } from 'hooks/reactQuery/useServiceOrder';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Drawer from '@mui/material/Drawer';
-import {TablePagination} from '@mui/material';
+import {Button, TablePagination} from '@mui/material';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
-import {useAllElevators} from 'hooks/reactQuery/useElevator';
+import {fetchElevators, useAllElevators} from 'hooks/reactQuery/useElevator';
 import {BtnGroupType} from 'models/misc';
 import {FilterFields} from 'components/FilterFields';
 import Slide from '@mui/material/Slide';
 import useTheme from '@mui/material/styles/useTheme';
+import {useQueryClient} from 'react-query';
+import {queryKeys} from 'reactQuery/constants';
+import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
+import {toRestDateTime} from 'utils/datetime';
+import {addDays} from 'date-fns';
 import {UnitSection} from './UnitSection';
 import {UnitsMapsView} from './UnitsMapsView';
 import {UnitColumns} from './UnitColumns';
@@ -32,6 +44,8 @@ import {LogIssueDescription} from './LogIssue/LogIssueDescription';
 import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
 import {LogIssueTimePreference} from './LogIssue/LogIssueTimePreference';
 import {LogIssueDateTime} from './LogIssue/LogIssueDateTime';
+
+const pageInfo = makePage(0, 3);
 
 interface FormikFields {
   description: string;
@@ -43,32 +57,66 @@ const validationSchema = Yup.object().shape({
   description: Yup.string().required('description is required'),
 });
 
+export const demo = () => {
+  const theme = useTheme();
+  const [page, setPage] = useState(pageInfo);
+
+  const handlePageChange = (
+    _e: MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    console.log(newPage, '-----------');
+    setPage({...page, pageIndex: newPage});
+  };
+
+  return (
+    <TablePagination
+      sx={{
+        '& .MuiTablePagination-selectLabel': {
+          color: theme.palette.text.secondary,
+        },
+      }}
+      component="div"
+      count={10}
+      page={page.pageIndex}
+      // TODO: Implement paging
+      onPageChange={handlePageChange}
+      rowsPerPage={page.pageSize}
+      //  onRowsPerPageChange={handleChangeRowsPerPage}
+    />
+  );
+};
+
 export const MyUnits = () => {
   const fallback = useRef({
     elevator: createEmptyResource<ElevatorView>(10),
     centerCoord: {longitude: 0, latitude: 0},
   }).current;
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
+  const [page, setPage] = useState(pageInfo); // TODO: implement paging
   const [showFilter, setShowFilter] = useState(false);
   const [availability, setAvailability] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
   const [nextVisit, setNextVisit] = useState<string[]>([]);
   const [showMapview, setShowMapview] = useState(false);
-  const [issuElevator, setIssueElevator] = useState();
-  const [sliderValue, setSliderValue] = useState<number[]>([20, 37]);
   const [logIssueDate, setLogIssueDate] = useState<Date | null>(null);
   const [logIssueTime, setLogIssueTime] = useState<Date | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
 
-  const {data: elevatorResponse = fallback} = useAllElevators(search, page, {
+  const {data: elevatorResponse = fallback} = useAllElevators(
+    search,
+    page,
     status,
-  });
+    {keepPreviousData: true},
+  );
   const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
     elevatorResponse.elevator,
     {nextVisit, availabilityRange: availability},
+    {keepPreviousData: true},
   );
+
+  const queryClient = useQueryClient();
 
   const availabilityRangeConvertor = (selectedItems: string[]) => {
     const range: number[][] = [];
@@ -127,6 +175,16 @@ export const MyUnits = () => {
   const closeMapView = () => {
     setShowMapview(false);
   };
+
+  const handlePageChange = (
+    _e: MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    console.log(newPage, '-----------');
+    setPage({...page, pageIndex: newPage});
+  };
+
+  useEffect(() => {});
 
   useEffect(() => {
     if (!showFilter) {
@@ -196,6 +254,22 @@ export const MyUnits = () => {
               />
             ))}
           </Box>
+          {/* <Box display="flex">
+            <Button
+              onClick={() => {
+                console.log(page, '$$$$$$$$$$$$$$');
+                return page.pageIndex > 0
+                  ? setPage({...page, pageIndex: page.pageIndex - 1})
+                  : null;
+              }}>
+              <Typography>Prev</Typography>
+            </Button>
+            {page.pageIndex+1}
+            <Button
+              onClick={() => setPage({...page, pageIndex: page.pageIndex + 1})}>
+              <Typography>Next</Typography>
+            </Button>
+          </Box> */}
           <TablePagination
             sx={{
               '& .MuiTablePagination-selectLabel': {
@@ -204,10 +278,10 @@ export const MyUnits = () => {
             }}
             component="div"
             count={elevatorResponse.elevator.total}
-            page={elevatorResponse.elevator.page.pageIndex}
+            page={page.pageIndex}
             // TODO: Implement paging
-            onPageChange={() => console.log('page change')}
-            rowsPerPage={elevatorResponse.elevator.page.pageSize}
+            onPageChange={handlePageChange}
+            rowsPerPage={page.pageSize}
             //  onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </>

@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {useQuery} from 'react-query';
+import {useQuery, UseQueryOptions} from 'react-query';
 import * as _ from 'lodash';
 import getCenter from 'geolib/es/getCenter';
 import {AxiosResponse} from 'axios';
@@ -7,26 +7,40 @@ import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {queryKeys} from 'reactQuery/constants';
 
 import {Elevator, ElevatorView} from '../../models/elevator';
-import {
-  Location,
-  Page,
-  Priority,
-  Resource,
-  RestError,
-  State,
-} from '../../models/misc';
+import {Location, Page, Resource, RestError} from '../../models/misc';
 import {usePropertyManager} from './usePropertyManager';
 import {MaintainerView} from '../../models/technician';
 
-export const fetchElevators = async (query: string, page: Page, id: string) => {
-  const response = await axiosClient.get<Resource<ElevatorView>>(
-    `/api/propertyOwners/${id}/elevators`,
-    {
-      params: {query, ...page},
-      paramsSerializer,
-    },
+const filterByStatus = (
+  elevatorRes: Resource<ElevatorView>,
+  status: string[],
+) => {
+  let filterResult = [] as ElevatorView[];
+  const elevatorStatusMap = _.groupBy(
+    elevatorRes.data,
+    (elevator) => elevator.status,
   );
-  return response.data;
+  status
+    .map((item) => elevatorStatusMap[item])
+    .filter((item) => item)
+    .forEach((item) => {
+      filterResult = [...filterResult, ...item];
+    });
+
+  return filterResult;
+};
+
+const filterElevator = (
+  elevatorRes: Resource<ElevatorView>,
+  status: string[],
+) => {
+  let result = {...elevatorRes};
+
+  if (status.length) {
+    const statusFilter = filterByStatus(elevatorRes, status);
+    result = {...result, data: statusFilter, total: statusFilter.length};
+  }
+  return result;
 };
 
 export const fetchElevator = async (elevatorId: string) => {
@@ -59,38 +73,6 @@ export const fetchElevatorBreakdownHistory = async (elevatorId: string) => {
   return response.data;
 };
 
-const filterByStatus = (
-  elevatorRes: Resource<ElevatorView>,
-  status: string[],
-) => {
-  let filterResult = [] as ElevatorView[];
-  const elevatorStatusMap = _.groupBy(
-    elevatorRes.data,
-    (elevator) => elevator.status,
-  );
-  status
-    .map((item) => elevatorStatusMap[item])
-    .filter((item) => item)
-    .forEach((item) => {
-      filterResult = [...filterResult, ...item];
-    });
-
-  return filterResult;
-};
-
-const filterElevator = (
-  elevatorRes: Resource<ElevatorView>,
-  filter: {status: string[]},
-) => {
-  let result = {...elevatorRes};
-
-  if (filter.status.length) {
-    const statusFilter = filterByStatus(elevatorRes, filter.status);
-    result = {...result, data: statusFilter, total: statusFilter.length};
-  }
-  return result;
-};
-
 export const useElevatorById = (elevatorId?: string) =>
   useQuery(
     [queryKeys.elevatorById, elevatorId],
@@ -109,13 +91,24 @@ export const useElevatorMaintainers = (elevatorId?: string) =>
     },
   );
 
+export const fetchElevators = async (query: string, page: Page, id: string) => {
+  const response = await axiosClient.get<Resource<ElevatorView>>(
+    `/api/propertyOwners/${id}/elevators`,
+    {
+      params: {query, ...page},
+      paramsSerializer,
+    },
+  );
+  return response.data;
+};
+
 export function useAllElevators(
   query: string,
   page: Page,
-  filter: {status: string[]},
+  status: string[],
+  options?: UseQueryOptions<any, any, any>,
 ) {
   const {data: user} = usePropertyManager();
-  // console.log(filter, '!!!!!@@#$$$');
   return useQuery<
     Resource<ElevatorView>,
     RestError,
@@ -124,11 +117,12 @@ export function useAllElevators(
     [queryKeys.fetchAllElevators, query, page, user?.propertyOwner.id],
     () => fetchElevators(query, page, user!.propertyOwner.id),
     {
+      ...options,
       enabled: !!user,
       select: useCallback(
         (elevatorResponse: Resource<ElevatorView>) => {
           let result = elevatorResponse;
-          result = filterElevator(elevatorResponse, filter);
+          result = filterElevator(elevatorResponse, status);
           const latLng = result?.data.map((elevator: ElevatorView) => ({
             latitude: elevator.address.location.latitude,
             longitude: elevator.address.location.longitude,
@@ -140,7 +134,7 @@ export function useAllElevators(
             centerCoord,
           };
         },
-        [filter, user, query, page],
+        [status, user, query, page],
       ),
     },
   );
