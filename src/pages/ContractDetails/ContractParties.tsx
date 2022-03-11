@@ -53,8 +53,7 @@ export const ContractParties = ({
           <Typography
             variant="body2"
             sx={{display: 'block'}}
-            color="textSecondary"
-          >
+            color="textSecondary">
             {partyRole || ''}
           </Typography>
         </Box>
@@ -68,8 +67,7 @@ export const ContractParties = ({
             <Typography
               variant="body2"
               sx={{display: 'block'}}
-              color="textSecondary"
-            >
+              color="textSecondary">
               {companyName || ''}
             </Typography>
           </Box>
