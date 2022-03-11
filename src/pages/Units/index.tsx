@@ -182,8 +182,7 @@ export const MyUnits = () => {
         <>
           <UnitColumns />
           <Box
-            sx={{height: '69vh', overflowY: 'scroll', paddingBottom: '1rem'}}
-          >
+            sx={{height: '69vh', overflowY: 'scroll', paddingBottom: '1rem'}}>
             {elevatorsByAddressList?.map((elevatorsByAddress) => (
               <UnitSection
                 key={elevatorsByAddress.address.id}
@@ -240,8 +239,7 @@ export const MyUnits = () => {
                   formik.errors.elevator
                 )
               }
-              handleCancel={() => setDrawerOpen(false)}
-            >
+              handleCancel={() => setDrawerOpen(false)}>
               <LogIssueBody>
                 <LogIssueDescription
                   error={formik.errors.description}
@@ -264,8 +262,7 @@ export const MyUnits = () => {
                   date={logIssueDate} // TODO: use formik
                   time={logIssueTime} // TODO: use formik
                   setDate={setLogIssueDate}
-                  setTime={setLogIssueTime}
-                >
+                  setTime={setLogIssueTime}>
                   <LogIssueDateTime
                     date={logIssueDate} // TODO: use formik
                     time={logIssueTime} // TODO: use formik

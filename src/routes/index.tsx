@@ -29,8 +29,7 @@ export const Router = () => {
             </Helmet>
             <AuthRoutes />
           </>
-        }
-      >
+        }>
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<PasswordReset />} />
       </Route>

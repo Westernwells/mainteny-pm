@@ -25,8 +25,7 @@ export const Locale = ({formData, onChange}: Props) => (
       id="localeLanguage"
       value={formData.localeLanguage}
       onChange={onChange}
-      select
-    >
+      select>
       {languages.map((item) => (
         <MenuItem key={item} value={item}>
           {item}
@@ -38,8 +37,7 @@ export const Locale = ({formData, onChange}: Props) => (
       id="localeTimezone"
       value={formData.localeTimezone}
       onChange={onChange}
-      select
-    >
+      select>
       {timezones.map((item) => (
         <MenuItem key={item} value={item}>
           {item}

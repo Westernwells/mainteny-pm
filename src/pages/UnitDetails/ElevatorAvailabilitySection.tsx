@@ -124,8 +124,7 @@ export const ElevatorAvailabilitySection = ({noStats}: Props) => {
           height="25vh"
           display="flex"
           justifyContent="center"
-          alignItems="center"
-        >
+          alignItems="center">
           <Typography variant="h4" textAlign="center">
             Stats will appear here if the unit is IoT enabled!
           </Typography>
@@ -136,20 +135,17 @@ export const ElevatorAvailabilitySection = ({noStats}: Props) => {
             background: '#fff',
             borderRadius: '8px',
             height: '100%',
-          }}
-        >
+          }}>
           <Box sx={{px: '20px'}} pt="0.1em">
             <Box
               display="flex"
               sx={{
                 px: '2em',
-              }}
-            >
+              }}>
               <Typography
                 variant="h5"
                 mr="0.5em"
-                color={theme.palette.success.main}
-              >
+                color={theme.palette.success.main}>
                 98%
               </Typography>
               <Typography variant="caption" mr="3em" mt="0.3em" flexGrow={1}>
@@ -171,8 +167,7 @@ export const ElevatorAvailabilitySection = ({noStats}: Props) => {
                 display="flex"
                 justifyContent="space-between"
                 ml="70px"
-                mr="35px"
-              >
+                mr="35px">
                 <Typography>{format(getStartDate(), 'MMM')}</Typography>
                 <Typography>{format(getEndDate(), 'MMM')}</Typography>
               </Box>
@@ -198,8 +193,7 @@ export const ElevatorAvailabilitySection = ({noStats}: Props) => {
                 <ArrowLeftIcon fontSize="large" />
                 <Typography
                   variant="tableHeaderText"
-                  sx={{color: theme.palette.text.secondary, mt: '0.5em'}}
-                >
+                  sx={{color: theme.palette.text.secondary, mt: '0.5em'}}>
                   {`${formatDate(getStartDate())} - ${formatDate(
                     getEndDate(),
                   )}`}

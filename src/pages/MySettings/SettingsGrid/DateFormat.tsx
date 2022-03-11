@@ -29,8 +29,7 @@ export const DateFormat = ({formData, onChange}: Props) => (
         aria-labelledby="date-format-radio-buttons-group"
         value={formData.dateFormat}
         id="dateFormat"
-        name="dateFormat"
-      >
+        name="dateFormat">
         {dateFormats.map((date: {[key: string]: string}) => (
           <FormControlLabel
             key={date?.format}

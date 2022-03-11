@@ -28,8 +28,7 @@ export const SettingsGrid = ({setDrawerOpen, formik}: Props) => {
         mt: '2em',
         mb: '7em',
       }}
-      container
-    >
+      container>
       <Grid xs={7} item>
         <Box display="flex" flexDirection="column" gap={2}>
           <PersonalDetails

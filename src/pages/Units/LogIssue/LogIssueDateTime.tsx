@@ -21,8 +21,7 @@ export const LogIssueDateTime = ({setDate, setTime, time, date}: Props) => {
       <Typography
         sx={{mt: '2em', mb: '1.5em'}}
         variant="subtitle2"
-        color={theme.palette.text.secondary}
-      >
+        color={theme.palette.text.secondary}>
         Choose date and time
       </Typography>
 

@@ -68,8 +68,7 @@ export const FormInput = ({
       'input:disabled': {
         cursor: 'not-allowed',
       },
-    }}
-  >
+    }}>
     <InputLabel htmlFor={id}>
       <Typography variant="body2">{label}</Typography>
     </InputLabel>
@@ -82,8 +81,7 @@ export const FormInput = ({
       onChange={onChange}
       select={select}
       disabled={disabled}
-      fullWidth
-    >
+      fullWidth>
       {children}
     </CustomInput>
   </Box>

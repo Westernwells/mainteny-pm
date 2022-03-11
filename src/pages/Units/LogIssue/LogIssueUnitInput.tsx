@@ -86,8 +86,7 @@ export const LogIssueUnitInput = ({
           <Typography
             variant="helperText"
             mr="0.2em"
-            sx={{color: theme.palette.text.secondary}}
-          >
+            sx={{color: theme.palette.text.secondary}}>
             {' '}
             installed at
           </Typography>

@@ -13,8 +13,7 @@ export const SettingCard = ({header, children}: Props) => (
   <Card
     sx={{
       boxShadow: 'none',
-    }}
-  >
+    }}>
     <CardHeader
       sx={{textTransform: 'capitalize'}}
       title={

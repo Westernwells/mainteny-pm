@@ -26,8 +26,7 @@ export const Account = ({formData, onChange}: Props) => {
       />
       <Typography
         variant="helperText"
-        sx={{color: theme.palette.secondary.main, py: '0'}}
-      >
+        sx={{color: theme.palette.secondary.main, py: '0'}}>
         Cannot change email as it is tied to the account
       </Typography>
       <FormInput

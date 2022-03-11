@@ -66,15 +66,13 @@ export const LogIssueTimePreference = ({
         '&:hover': {
           background: '#fff',
         },
-      }}
-    >
+      }}>
       <Typography
         variant="smallBtnText"
         sx={{
           textTransform: 'capitalize',
           color: theme.palette.secondary.main,
-        }}
-      >
+        }}>
         change
       </Typography>
     </Button>

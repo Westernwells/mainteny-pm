@@ -10,8 +10,7 @@ export const LogIssueHeader = () => {
         background: theme.palette.inputBackground.main,
         py: 1,
         px: 2,
-      }}
-    >
+      }}>
       <Typography variant="subtitle1">Log an issue</Typography>
     </Box>
   );
