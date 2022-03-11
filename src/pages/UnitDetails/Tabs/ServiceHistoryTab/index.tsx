@@ -6,6 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {SplitButton} from 'components/SplitButton';
 import Box from '@mui/material/Box';
 import {PageCard} from 'components/PageCard';
+import {EmptySection} from 'components/EmptySection';
 import {HistoryCard} from './HistoryCard';
 import {HistoryReport} from './HistoryReport';
 import {HistoryBasicDetails} from './HistoryBasicDetails';
@@ -15,10 +16,23 @@ export const ServiceHistoryTab = () => {
   const [year, setYear] = useState('2022');
   const [status, setStatus] = useState('ALL');
   const [expanded, setExpanded] = useState<boolean>();
-
+  const dataAvailable = true;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  if (!dataAvailable) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          mt: 16,
+        }}
+      >
+        <EmptySection label="No service history entries made so far!" />
+      </Box>
+    );
+  }
 
   return (
     <Grid container spacing={2} sx={{mt: 2}}>
