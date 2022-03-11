@@ -1,18 +1,17 @@
 import Box from '@mui/material/Box';
 import Language from '@mui/icons-material/Language';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
 import AppBar from '@mui/material/AppBar';
 import {Link} from 'react-router-dom';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import useTheme from '@mui/material/styles/useTheme';
 
-import AvatarImg from 'assets/images/avatar.png';
 import {ReactComponent as LogoutIcon} from 'assets/icons/Logout.svg';
 import {ReactComponent as Logo} from 'assets/icons/Logo.svg';
 import {useAuth} from 'hooks/useAuth';
 import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
+import {UserAvatar} from './UserAvatar';
 
 export const AppTopBar = () => {
   const theme = useTheme();
@@ -63,7 +62,11 @@ export const AppTopBar = () => {
 
             <Link to="/settings" style={{textDecoration: 'none'}}>
               <Box ml={8} display="flex" alignItems="center">
-                <Avatar alt="Bruce Wayne" src={AvatarImg} />
+                <UserAvatar
+                  src={user?.userAccount.photoUrl}
+                  alt={`${user?.userAccount.firstName} ${user?.userAccount.lastName}`}
+                  userRole="owner"
+                />
                 <Box ml={2}>
                   <Typography
                     color="#222B45"
