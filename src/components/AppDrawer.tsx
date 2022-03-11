@@ -139,8 +139,7 @@ export const AppDrawer = () => {
             paddingTop: 10,
             color: '#fff',
           },
-        }}
-      >
+        }}>
         <DrawerHeader>
           {open ? (
             <>
@@ -151,8 +150,7 @@ export const AppDrawer = () => {
                 aria-label="open drawer"
                 onClick={handleDrawerClose}
                 edge="start"
-                sx={{fontSize: ''}}
-              >
+                sx={{fontSize: ''}}>
                 <MenuIcon />
               </IconButton>
             </>
@@ -162,8 +160,7 @@ export const AppDrawer = () => {
                 aria-label="open drawer"
                 onClick={handleDrawerOpen}
                 edge="start"
-                sx={{}}
-              >
+                sx={{}}>
                 <MenuIcon />
               </IconButton>
 
@@ -204,8 +201,7 @@ export const AppDrawer = () => {
                     duration: theme.transitions.duration.leavingScreen,
                   }),
               }}
-              key={text}
-            >
+              key={text}>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText
                 primary={<Typography variant="subtitle1">{text}</Typography>}

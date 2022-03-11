@@ -11,7 +11,6 @@ import {toRestDateTime} from 'utils/datetime';
 import {useParams} from 'react-router-dom';
 import {ReactComponent as Escalator} from 'assets/icons/Escalator.svg';
 import {PageCard} from 'components/PageCard';
-
 import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
 
 import {ElevatorAvailabilitySection} from '../ElevatorAvailabilitySection';
@@ -30,7 +29,6 @@ interface Props {
 export const OverviewTab = ({elevator, maintainers}: Props) => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
-
   const {
     data: runningServiceOrders = createEmptyResource<ServiceOrderView>(
       pageSize,

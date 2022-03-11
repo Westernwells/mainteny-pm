@@ -13,14 +13,12 @@ export const LogIssueAction = ({disabled, handleCancel}: Props) => (
       display: 'flex',
       justifyContent: 'flex-start',
       pl: 3,
-    }}
-  >
+    }}>
     <Button
       size="small"
       variant="outlined"
       sx={{mr: 2, px: '6em'}}
-      onClick={handleCancel}
-    >
+      onClick={handleCancel}>
       Cancel
     </Button>
     <Button
@@ -28,8 +26,7 @@ export const LogIssueAction = ({disabled, handleCancel}: Props) => (
       type="submit"
       size="small"
       sx={{px: '6em'}}
-      variant="contained"
-    >
+      variant="contained">
       Submit
     </Button>
   </Box>

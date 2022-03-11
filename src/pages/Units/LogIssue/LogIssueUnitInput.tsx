@@ -14,12 +14,14 @@ interface Props {
   elevators: ElevatorView[];
   error?: string;
   touched?: boolean;
-  handleBlur?: (e: ChangeEvent<any>) => void;
+  handleBlur?: (e: ChangeEvent<any>) => void; // eslint-disable-line no-unused-vars
+  /* eslint-disable no-unused-vars */
   setField: (
     field: string,
     value: any,
     shouldValidate?: boolean | undefined,
   ) => Promise<void> | Promise<FormikErrors<any>>;
+  /* eslint-enable no-unused-vars */
   selectedUnit?: ElevatorView;
 }
 
@@ -83,8 +85,7 @@ export const LogIssueUnitInput = ({
           <Typography
             variant="helperText"
             mr="0.2em"
-            sx={{color: theme.palette.text.secondary}}
-          >
+            sx={{color: theme.palette.text.secondary}}>
             {' '}
             installed at
           </Typography>

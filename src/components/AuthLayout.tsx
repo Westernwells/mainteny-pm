@@ -53,8 +53,7 @@ export const AuthLayout = ({children}: Props) => {
             width="100%"
             textAlign="center"
             paddingLeft={4}
-            paddingRight={4}
-          >
+            paddingRight={4}>
             All your physical assets and their maintenance data unified to
             provide you transparency, easier reporting!
           </Typography>

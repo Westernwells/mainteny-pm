@@ -13,7 +13,7 @@ export const fetchInvoices = async (
   params: QueryInvoiceParams,
   id: string,
 ): Promise<Resource<InvoiceView>> => {
-  const response = await axiosClient.get<Resource<InvoiceView>>(
+  const response = await axiosClient.get<Resource<InvoiceView>>( // eslint-disable-line no-unused-vars
     `/api/propertyOwners/${id}/invoices`,
     {
       params,
@@ -96,7 +96,7 @@ export function useInvoices(
 }
 
 export const fetchInvoice = async (invoiceId: string) => {
-  const response = await axiosClient.get<InvoiceView>(
+  const response = await axiosClient.get<InvoiceView>( // eslint-disable-line no-unused-vars
     `/api/invoices/${invoiceId}`,
   );
   console.log(response);

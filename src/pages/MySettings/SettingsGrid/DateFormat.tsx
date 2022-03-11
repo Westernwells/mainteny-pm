@@ -18,7 +18,7 @@ interface Props {
   formData: {
     dateFormat: string;
   };
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // eslint-disable-line no-unused-vars
 }
 
 export const DateFormat = ({formData, onChange}: Props) => (
@@ -29,8 +29,7 @@ export const DateFormat = ({formData, onChange}: Props) => (
         aria-labelledby="date-format-radio-buttons-group"
         value={formData.dateFormat}
         id="dateFormat"
-        name="dateFormat"
-      >
+        name="dateFormat">
         {dateFormats.map((date: {[key: string]: string}) => (
           <FormControlLabel
             key={date?.format}

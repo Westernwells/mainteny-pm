@@ -17,8 +17,7 @@ export const NotificationCard = () => {
         boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
         borderRadius: '4px',
         px: 3,
-      }}
-    >
+      }}>
       <Box display="flex" justifyContent="space-between">
         <Box display="flex">
           <Box
@@ -30,16 +29,14 @@ export const NotificationCard = () => {
               padding: '11px',
               width: 45,
               height: 45,
-            }}
-          >
+            }}>
             <FileCopyIcon />
           </Box>
           <Box display="flex" flexDirection="column" gap={0.5}>
             <Typography variant="body1">Contract expiring soon!</Typography>
             <Typography
               variant="body1"
-              sx={{color: theme.palette.text.secondary}}
-            >
+              sx={{color: theme.palette.text.secondary}}>
               Your annual maintenance contract with AstraLifts is expiring in 3
               days
             </Typography>
@@ -50,8 +47,7 @@ export const NotificationCard = () => {
           mt={1}
           color={theme.palette.text.secondary}
           minWidth="12ch"
-          textAlign="right"
-        >
+          textAlign="right">
           3 min ago
         </Typography>
       </Box>
@@ -59,16 +55,14 @@ export const NotificationCard = () => {
         <Box mt={6} display="flex" justifyContent="space-between">
           <Button
             size="small"
-            sx={{backgroundColor: theme.palette.primary.outlinedHoverBg}}
-          >
+            sx={{backgroundColor: theme.palette.primary.outlinedHoverBg}}>
             <Typography
               variant="smallBtnText"
               sx={{
                 color: theme.palette.primary.main,
                 textTransform: 'capitalize',
                 px: 0.5,
-              }}
-            >
+              }}>
               View Contract
             </Typography>
           </Button>

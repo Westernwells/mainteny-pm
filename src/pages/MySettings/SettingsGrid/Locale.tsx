@@ -15,7 +15,7 @@ interface Props {
     localeLanguage: string;
     localeTimezone: string;
   };
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // eslint-disable-line no-unused-vars
 }
 
 export const Locale = ({formData, onChange}: Props) => (
@@ -25,8 +25,7 @@ export const Locale = ({formData, onChange}: Props) => (
       id="localeLanguage"
       value={formData.localeLanguage}
       onChange={onChange}
-      select
-    >
+      select>
       {languages.map((item) => (
         <MenuItem key={item} value={item}>
           {item}
@@ -38,8 +37,7 @@ export const Locale = ({formData, onChange}: Props) => (
       id="localeTimezone"
       value={formData.localeTimezone}
       onChange={onChange}
-      select
-    >
+      select>
       {timezones.map((item) => (
         <MenuItem key={item} value={item}>
           {item}

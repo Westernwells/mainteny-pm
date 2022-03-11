@@ -4,13 +4,12 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import DesktopTimePicker from '@mui/lab/DesktopTimePicker';
 import TextField from '@mui/material/TextField';
-
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 
 interface Props {
-  setDate: (state: Date | null) => void;
-  setTime: (state: Date | null) => void;
+  setDate: (state: Date | null) => void; // eslint-disable-line no-unused-vars
+  setTime: (state: Date | null) => void; // eslint-disable-line no-unused-vars
   time: Date | null;
   date: Date | null;
 }
@@ -22,8 +21,7 @@ export const LogIssueDateTime = ({setDate, setTime, time, date}: Props) => {
       <Typography
         sx={{mt: '2em', mb: '1.5em'}}
         variant="subtitle2"
-        color={theme.palette.text.secondary}
-      >
+        color={theme.palette.text.secondary}>
         Choose date and time
       </Typography>
 

@@ -9,9 +9,9 @@ import EmailSharp from '@mui/icons-material/EmailSharp';
 import CircularProgress from '@mui/material/CircularProgress';
 
 interface Props {
-  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
-  handleChange: (e: React.ChangeEvent<any>) => void;
-  handleBlur: (e: React.FocusEvent<any, Element>) => void;
+  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void; // eslint-disable-line no-unused-vars
+  handleChange: (e: React.ChangeEvent<any>) => void; // eslint-disable-line no-unused-vars
+  handleBlur: (e: React.FocusEvent<any, Element>) => void; // eslint-disable-line no-unused-vars
   email: string;
   emailTouched: boolean | undefined;
   emailError: string | undefined;
@@ -73,8 +73,7 @@ export const LoginForm = ({
                 <InputAdornment
                   position="start"
                   onClick={() => setShowPassword(!showPassword)}
-                  sx={{cursor: 'pointer'}}
-                >
+                  sx={{cursor: 'pointer'}}>
                   <RemoveRedEye />
                 </InputAdornment>
               ),
@@ -84,8 +83,7 @@ export const LoginForm = ({
             <Button
               variant="text"
               color="info"
-              sx={{textTransform: 'capitalize'}}
-            >
+              sx={{textTransform: 'capitalize'}}>
               Forgot Password?
             </Button>
           </Box>
@@ -105,8 +103,7 @@ export const LoginForm = ({
             ) : (
               <ArrowForward />
             )
-          }
-        >
+          }>
           Login
         </Button>
       </form>

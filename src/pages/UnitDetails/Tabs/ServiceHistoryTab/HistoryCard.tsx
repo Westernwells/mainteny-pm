@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import LockClockIcon from '@mui/icons-material/LockClock';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import IconButton, {IconButtonProps} from '@mui/material/IconButton';
@@ -92,8 +91,7 @@ export const HistoryCard = ({
         borderBottomLeftRadius: removeBottomLeftRadius ? 0 : 'default',
         minHeight,
         ...containerStyles,
-      }}
-    >
+      }}>
       <CardHeader
         sx={{pb: '0.4em'}}
         action={
@@ -114,8 +112,7 @@ export const HistoryCard = ({
           py: 0,
           mt: isDetailCard ? '2em' : 'default',
           ...bodyContainerStyle,
-        }}
-      >
+        }}>
         <Typography variant={isDetailCard ? 'body1' : 'caption'}>
           Checked the inner shaft of the elevator engine door....
         </Typography>
@@ -128,13 +125,6 @@ export const HistoryCard = ({
               icon={<LockClockIcon color="info" />}
               iconBackground={theme.palette.info.outlinedHoverBg}
               bodyText="24 Sep 2021, 5 PM - 7PM "
-            />
-            <CardProps
-              label="Preferred Time"
-              bodyTextVariant="body1"
-              icon={<AccessTimeIcon color="warning" />}
-              iconBackground={theme.palette.warning.outlinedHoverBg}
-              bodyText="24 Sep 2021, 3PM"
             />
           </Box>
         ) : null}
@@ -173,8 +163,7 @@ export const HistoryCard = ({
         <>
           <CardActions
             disableSpacing
-            sx={{display: 'flex', justifyContent: 'center', mt: '0.5em'}}
-          >
+            sx={{display: 'flex', justifyContent: 'center', mt: '0.5em'}}>
             <ExpandMore expand={expanded} onClick={handleExpandClick}>
               <ExpandMoreIcon />
             </ExpandMore>

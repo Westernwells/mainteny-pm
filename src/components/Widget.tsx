@@ -12,12 +12,12 @@ import {BtnGroupType} from '../models/misc';
 interface Props {
   btnGroupType?: BtnGroupType;
   searchPlaceholder?: string;
-  onSearchTextChanged?: (text: string) => void;
+  onSearchTextChanged?: (text: string) => void; // eslint-disable-line no-unused-vars
   openMapView?: () => void;
   closeMapView?: () => void;
   mapViewActive?: boolean;
   showFilter: boolean;
-  setShowFilter: (state: boolean) => void;
+  setShowFilter: (state: boolean) => void; // eslint-disable-line no-unused-vars
 }
 
 export const Widget = ({
@@ -52,8 +52,7 @@ export const Widget = ({
               },
             }}
             variant="outlined"
-            startIcon={<FilterListIcon />}
-          >
+            startIcon={<FilterListIcon />}>
             <Typography variant="body1" sx={{textTransform: 'capitalize'}}>
               Filter
             </Typography>
@@ -83,8 +82,7 @@ export const Widget = ({
                         ? theme.palette.action.selected
                         : '#fff',
                     },
-                  }}
-                >
+                  }}>
                   <FormatListBulletedIcon />
                 </Button>
 
@@ -101,8 +99,7 @@ export const Widget = ({
                         : '#fff',
                     },
                   }}
-                  variant="outlined"
-                >
+                  variant="outlined">
                   <GridViewIcon />
                 </Button>
               </>
@@ -117,12 +114,10 @@ export const Widget = ({
                     background: !mapViewActive
                       ? theme.palette.action.selected
                       : '#fff',
-                  }}
-                >
+                  }}>
                   <Typography
                     variant="largeBtnText"
-                    sx={{textTransform: 'capitalize'}}
-                  >
+                    sx={{textTransform: 'capitalize'}}>
                     List View
                   </Typography>
                 </Button>
@@ -136,12 +131,10 @@ export const Widget = ({
                       ? theme.palette.action.selected
                       : '#fff',
                   }}
-                  onClick={() => (openMapView ? openMapView() : () => {})}
-                >
+                  onClick={() => (openMapView ? openMapView() : () => {})}>
                   <Typography
                     variant="largeBtnText"
-                    sx={{textTransform: 'capitalize'}}
-                  >
+                    sx={{textTransform: 'capitalize'}}>
                     Map View
                   </Typography>
                 </Button>

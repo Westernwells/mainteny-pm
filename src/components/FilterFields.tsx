@@ -1,4 +1,4 @@
-import {ReactNode} from 'react';
+import React, {ReactNode} from 'react';
 import Box from '@mui/material/Box';
 import {Typography} from '@mui/material';
 import useTheme from '@mui/material/styles/useTheme';
@@ -6,7 +6,7 @@ import useTheme from '@mui/material/styles/useTheme';
 interface Props {
   children: ReactNode;
   containerStyle?: {[key: string]: string | number};
-  setShowFilter: (state: boolean) => void;
+  setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const FilterFields = ({
@@ -21,8 +21,7 @@ export const FilterFields = ({
       <Typography
         onClick={() => setShowFilter(false)}
         mt={2}
-        sx={{cursor: 'pointer', color: theme.palette.info.main}}
-      >
+        sx={{cursor: 'pointer', color: theme.palette.info.main}}>
         Clear all
       </Typography>
     </Box>

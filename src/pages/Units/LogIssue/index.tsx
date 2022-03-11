@@ -14,8 +14,7 @@ export const LogIssue = ({children, disabled, handleCancel}: Props) => (
     height="100%"
     display="flex"
     flexDirection="column"
-    justifyContent="space-between"
-  >
+    justifyContent="space-between">
     <LogIssueHeader />
     <Box sx={{px: '1.5em'}}>{children}</Box>
     <LogIssueAction disabled={disabled} handleCancel={handleCancel} />

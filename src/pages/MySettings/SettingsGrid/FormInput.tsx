@@ -45,7 +45,7 @@ interface Props {
   label: string;
   value: string;
   id: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // eslint-disable-line no-unused-vars
 
   children?: ReactNode | null;
   select?: boolean;
@@ -68,8 +68,7 @@ export const FormInput = ({
       'input:disabled': {
         cursor: 'not-allowed',
       },
-    }}
-  >
+    }}>
     <InputLabel htmlFor={id}>
       <Typography variant="body2">{label}</Typography>
     </InputLabel>
@@ -82,8 +81,7 @@ export const FormInput = ({
       onChange={onChange}
       select={select}
       disabled={disabled}
-      fullWidth
-    >
+      fullWidth>
       {children}
     </CustomInput>
   </Box>

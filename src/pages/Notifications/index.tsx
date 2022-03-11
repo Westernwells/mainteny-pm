@@ -131,8 +131,7 @@ export const Notifications = () => {
             position: 'fixed',
             right: '1.5em',
             top: `calc(85vh*0.9)`,
-          }}
-        >
+          }}>
           <Fab color="primary" disableRipple>
             <NavigationIcon />
           </Fab>

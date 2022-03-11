@@ -1,9 +1,9 @@
-import React, {useRef} from 'react';
+import {useRef} from 'react';
 import {useIsFetching, useIsMutating} from 'react-query';
 import LoadingBar, {LoadingBarRef} from 'react-top-loading-bar';
 
 interface LoadingProps extends LoadingBarRef {
-  continuousStart: (startingValue?: number, refreshRate?: number) => void;
+  continuousStart: (startingValue?: number, refreshRate?: number) => void; // eslint-disable-line no-unused-vars
 }
 
 export const Loading = () => {

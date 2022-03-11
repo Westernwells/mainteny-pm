@@ -28,29 +28,25 @@ export const BottomDrawer = ({drawerOpen, setDrawerOpen, resetForm}: Props) => {
       }}
       variant="persistent"
       anchor="bottom"
-      open={drawerOpen}
-    >
+      open={drawerOpen}>
       <Box
         display="flex"
         justifyContent="flex-end"
         gap={2}
-        sx={{my: 'auto', px: '4em'}}
-      >
+        sx={{my: 'auto', px: '4em'}}>
         <Button
           size="small"
           variant="outlined"
           sx={{px: '3em', py: '.5em'}}
           onClick={handleReset}
-          type="reset"
-        >
+          type="reset">
           Cancel
         </Button>
         <Button
           size="small"
           sx={{px: '3em', py: '.5em'}}
           variant="contained"
-          type="submit"
-        >
+          type="submit">
           Submit
         </Button>
       </Box>
