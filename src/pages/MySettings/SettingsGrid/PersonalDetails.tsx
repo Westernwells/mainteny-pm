@@ -27,7 +27,6 @@ export const PersonalDetails = ({formData, onChange}: Props) => (
       <UserAvatar
         src=""
         alt={formData.userName}
-        userRole="owner"
         avatarStyle={{width: '120px', height: '120px', aspectRatio: '1'}}
       />
       <Box flexGrow={1}>

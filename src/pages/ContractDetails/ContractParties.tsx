@@ -55,7 +55,6 @@ export const ContractParties = ({
           <UserAvatar
             src=""
             alt={personName || ''}
-            userRole={partyRole === 'Service Company' ? 'manager' : 'owner'}
             avatarStyle={{width: '3rem', height: '3rem', mr: '1em'}}
           />
           <Box display="flex" flexDirection="column">

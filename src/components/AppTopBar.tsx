@@ -72,8 +72,11 @@ export const AppTopBar = () => {
               <Box ml={8} display="flex" alignItems="center">
                 <UserAvatar
                   src={user?.userAccount.photoUrl}
-                  alt={`${user?.userAccount.firstName} ${user?.userAccount.lastName}`}
-                  userRole="owner"
+                  alt={
+                    user
+                      ? `${user?.userAccount.firstName} ${user?.userAccount.lastName}`
+                      : ''
+                  }
                 />
                 <Box ml={2}>
                   <Typography
