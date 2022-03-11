@@ -91,11 +91,6 @@ export const TechnicianSection = ({maintainers}: TechnicianSectionProp) => {
           <Box mr="1.2em">
             {index === 0 ? (
               <Box>
-                {/* <Avatar
-                  alt="Tech"
-                  src={technicianImage}
-                  sx={{width: '3.125rem', height: '3.125rem'}}
-                /> */}
                 <UserAvatar
                   src=""
                   alt={item.label}

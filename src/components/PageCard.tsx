@@ -25,40 +25,38 @@ export const PageCard = ({
   minHeight,
   contentPadding,
 }: Props) => (
-    <Card
+  <Card
+    sx={{
+      minHeight: minHeight || '26rem',
+      boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
+    }}>
+    <CardHeader
       sx={{
-        minHeight: minHeight || '26rem',
-        boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
+        height: '2rem',
+        mt: '1em',
+        mx: '0.5em',
+        ...headerContainerOverrideStyles,
+      }}
+      action={
+        headerActionIcon ? (
+          <IconButton aria-label="settings">{headerActionIcon}</IconButton>
+        ) : null
+      }
+      title={
+        <Typography
+          variant="subtitle1"
+          sx={{
+            ...headerTextOverrideStyles,
+          }}>
+          {headerLabel}
+        </Typography>
+      }
+    />
+    <CardContent
+      sx={{
+        px: contentPadding || 'default',
       }}>
-      <CardHeader
-        sx={{
-          // background: theme.palette.inputBackground.main,
-          height: '2rem',
-          mt: '1em',
-          mx: '0.5em',
-          ...headerContainerOverrideStyles,
-        }}
-        action={
-          headerActionIcon ? (
-            <IconButton aria-label="settings">{headerActionIcon}</IconButton>
-          ) : null
-        }
-        title={
-          <Typography
-            variant="subtitle1"
-            sx={{
-              // color: theme.palette.action.active,
-              ...headerTextOverrideStyles,
-            }}>
-            {headerLabel}
-          </Typography>
-        }
-      />
-      <CardContent
-        sx={{
-          px: contentPadding || 'default',
-        }}>
-        {children}
-      </CardContent>
-    </Card>
-  );
+      {children}
+    </CardContent>
+  </Card>
+);
