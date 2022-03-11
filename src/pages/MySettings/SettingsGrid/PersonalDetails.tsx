@@ -1,6 +1,6 @@
 import React from 'react';
-import {Avatar} from '@mui/material';
 import {Box} from '@mui/system';
+import {UserAvatar} from 'components/UserAvatar';
 import {FormInput} from './FormInput';
 import {SettingCard} from './SettingCard';
 
@@ -17,11 +17,10 @@ interface Props {
 export const PersonalDetails = ({formData, onChange}: Props) => (
   <SettingCard header="Personal Details">
     <Box display="flex" gap={4}>
-      <Avatar
+      <UserAvatar
+        src=""
         alt={formData.userName}
-        src={formData.userAvatar}
-        variant="circular"
-        sx={{width: '120px', height: '120px', aspectRatio: '1'}}
+        avatarStyle={{width: '120px', height: '120px', aspectRatio: '1'}}
       />
       <Box flexGrow={1}>
         <FormInput

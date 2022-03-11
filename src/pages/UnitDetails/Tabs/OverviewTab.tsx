@@ -10,6 +10,7 @@ import {
 import useTheme from '@mui/material/styles/useTheme';
 import {Order} from 'models/misc';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import {useIssueHistory} from 'hooks/reactQuery/useIssueHistory';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
@@ -18,6 +19,7 @@ import {toRestDateTime} from 'utils/datetime';
 import {useParams} from 'react-router-dom';
 import {ReactComponent as Escalator} from 'assets/icons/Escalator.svg';
 import {PageCard} from 'components/PageCard';
+import {EmptySection} from 'components/EmptySection';
 import {useServiceHistory} from 'hooks/reactQuery/useServiceHistory';
 import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
 import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
@@ -144,18 +146,24 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
       <Grid container sx={{mt: '1em'}}>
         <Grid item xs={12}>
           <PageCard contentPadding="1.5em" headerLabel="Service History">
-            <ServiceHistory
-              bodyContainerStyle={{
-                borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-              }}
-            />
-            {[1, 2, 3, 4, 5, 6, 7].map(() => (
-              <ServiceHistory
-                bodyContainerStyle={{
-                  borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                }}
-              />
-            ))}
+            {serviceHistories ? (
+              [1, 2, 3, 4, 5, 6, 7].map(() => (
+                <ServiceHistory
+                  bodyContainerStyle={{
+                    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                  }}
+                />
+              ))
+            ) : (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  mt: 4,
+                }}>
+                <EmptySection label="No service history entries made so far!" />
+              </Box>
+            )}
           </PageCard>
         </Grid>
       </Grid>
