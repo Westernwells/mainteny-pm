@@ -80,7 +80,7 @@ export function useInvoices(
 ) {
   const {data: user} = usePropertyManager();
   return useQuery<Resource<InvoiceView>, RestError>(
-    [qk.fetchInvoice, params, user?.id],
+    [qk.fetchInvoices, params, user?.id],
     () => fetchInvoices(params, user!.propertyOwner.id),
     {
       enabled: !!user,
