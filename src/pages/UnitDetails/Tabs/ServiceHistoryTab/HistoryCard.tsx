@@ -127,13 +127,6 @@ export const HistoryCard = ({
               iconBackground={theme.palette.info.outlinedHoverBg}
               bodyText="24 Sep 2021, 5 PM - 7PM "
             />
-            <CardProps
-              label="Preferred Time"
-              bodyTextVariant="body1"
-              icon={<AccessTimeIcon color="warning" />}
-              iconBackground={theme.palette.warning.outlinedHoverBg}
-              bodyText="24 Sep 2021, 3PM"
-            />
           </Box>
         ) : null}
 
