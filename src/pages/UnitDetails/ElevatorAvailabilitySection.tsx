@@ -8,6 +8,7 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Grid from '@mui/material/Grid';
 import {PageCard} from 'components/PageCard';
+import {EmptySection} from 'components/EmptySection';
 import * as _ from 'lodash';
 import {
   BarElement,
@@ -122,12 +123,16 @@ export const ElevatorAvailabilitySection = ({noStats}: Props) => {
       {!noStats ? (
         <Box
           height="25vh"
+          pt="3em"
           display="flex"
           justifyContent="center"
           alignItems="center">
-          <Typography variant="h4" textAlign="center">
-            Stats will appear here if the unit is IoT enabled!
-          </Typography>
+          {/* <Typography variant="h4" textAlign="center"> */}
+          <EmptySection
+            label="Stats will appear here if the 
+unit is IoT enabled!"
+          />
+          {/* </Typography> */}
         </Box>
       ) : (
         <Box
