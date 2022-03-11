@@ -1,12 +1,9 @@
 import {AxiosResponse} from 'axios';
-import {ServiceOrderType, ServiceOrderView} from 'models/service-order';
-import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import {queryKeys as qks} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {BreakdownHistoryView} from '../../models/breakdownHistory';
-import {Resource, RestError} from '../../models/misc';
-import {usePropertyManager} from './usePropertyManager';
+import {Resource} from '../../models/misc';
 
 export const breakDownHistoryResource: Resource<BreakdownHistoryView> = {
   data: [

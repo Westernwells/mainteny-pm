@@ -27,8 +27,6 @@ export const InvoiceDetails = () => {
   );
   const theme = useTheme();
 
-  console.log(invoice, '?????????>>>>>>');
-
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" mb="0.5em">

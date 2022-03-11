@@ -3,18 +3,11 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import useTheme from '@mui/material/styles/useTheme';
-import * as _ from 'lodash';
 import {useNavigate} from 'react-router-dom';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
 import {formatDate} from '../../utils/datetime';
-import {ElevatorView} from '../../models/elevator';
 import {ContractView} from '../../models/contract';
-
-interface ContractRecord {
-  contract: ContractView;
-  elevators: ElevatorView[];
-}
 
 export interface Props {
   contract: ContractView;

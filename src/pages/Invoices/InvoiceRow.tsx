@@ -1,7 +1,6 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import Box from '@mui/system/Box';
-import Chip from '@mui/material/Chip';
 import useTheme from '@mui/material/styles/useTheme';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import {StatusChip} from 'components/StatusChip';

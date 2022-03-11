@@ -1,9 +1,5 @@
 import {formatDistance, formatDistanceStrict, isAfter} from 'date-fns';
-import {
-  ServiceOrderStatus,
-  ServiceOrderType,
-  ServiceOrderView,
-} from 'models/service-order';
+import {ServiceOrderStatus, ServiceOrderView} from 'models/service-order';
 import {calculateNextVisitDate} from 'pages/Units/Models';
 import React from 'react';
 import {CardAlert} from './CardAlert';

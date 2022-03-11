@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 
 interface Props {
@@ -12,8 +11,7 @@ interface Props {
 }
 
 export const AvailabilityFilterField = ({children, label}: Props) => {
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
+  const personName = React.useRef<string[]>([]).current;
 
   return (
     <FormControl sx={{m: 1, minWidth: 220}}>
