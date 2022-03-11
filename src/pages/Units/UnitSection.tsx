@@ -6,7 +6,6 @@ import Grid from '@mui/material/Grid';
 import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
-import Chip from '@mui/material/Chip';
 import {StatusChip} from 'components/StatusChip';
 import {FormikErrors} from 'formik';
 import {ElevatorsByAddress} from './Models';
@@ -15,12 +14,14 @@ import {ElevatorStatus, ElevatorView} from '../../models/elevator';
 
 export interface UnitsSectionProperty {
   elevatorsByAddress: ElevatorsByAddress;
-  setDrawerOpen: (state: boolean) => void;
+  setDrawerOpen: (state: boolean) => void; // eslint-disable-line no-unused-vars
+  /* eslint-disable no-unused-vars */
   setField: (
     field: string,
     value: any,
     shouldValidate?: boolean | undefined,
   ) => Promise<void> | Promise<FormikErrors<any>>;
+  /* eslint-enable no-unused-vars */
 }
 
 export const UnitSection = ({

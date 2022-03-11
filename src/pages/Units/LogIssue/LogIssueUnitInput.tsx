@@ -14,12 +14,14 @@ interface Props {
   elevators: ElevatorView[];
   error?: string;
   touched?: boolean;
-  handleBlur?: (e: ChangeEvent<any>) => void;
+  handleBlur?: (e: ChangeEvent<any>) => void; // eslint-disable-line no-unused-vars
+  /* eslint-disable no-unused-vars */
   setField: (
     field: string,
     value: any,
     shouldValidate?: boolean | undefined,
   ) => Promise<void> | Promise<FormikErrors<any>>;
+  /* eslint-enable no-unused-vars */
   selectedUnit?: ElevatorView;
 }
 

@@ -1,11 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Chip from '@mui/material/Chip';
-import useTheme from '@mui/material/styles/useTheme';
 import Avatar from '@mui/material/Avatar';
-import {ContractView} from 'models/contract';
-import {CustomCard} from 'components/CustomCard';
 import {ServiceCompanyView} from 'models/service-company';
 import {ClientView} from 'models/client';
 import {StatusChip} from 'components/StatusChip';
@@ -43,10 +39,7 @@ export const ContractParties = ({
   chipTextColor,
   chipBgColor,
   chipColor,
-}: Props) => {
-  const theme = useTheme();
-
-  return (
+}: Props) => (
     <Grid container sx={{...containerStyle}}>
       <Grid item xs={4}>
         <Box display="flex">
@@ -100,4 +93,3 @@ export const ContractParties = ({
       </Grid>
     </Grid>
   );
-};

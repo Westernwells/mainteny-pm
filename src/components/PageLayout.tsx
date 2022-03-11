@@ -1,6 +1,5 @@
 import {Box} from '@mui/system';
-import React, {ReactElement} from 'react';
-import useTheme from '@mui/material/styles/useTheme';
+import {ReactElement} from 'react';
 import {AppDrawer} from './AppDrawer';
 import {AppTopBar} from './AppTopBar';
 
@@ -16,10 +15,7 @@ export const PageLayout = ({
   excludeSidebar,
   excludeDefaultSpacing,
   overflowY,
-}: Props) => {
-  const theme = useTheme();
-
-  return (
+}: Props) => (
     <Box
       maxWidth="100%"
       display="flex"
@@ -52,4 +48,3 @@ export const PageLayout = ({
       </Box>
     </Box>
   );
-};

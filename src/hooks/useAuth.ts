@@ -5,8 +5,8 @@ import {useSnackbar} from 'notistack';
 import {useUserSession} from './reactQuery/useUserSession';
 
 interface UseAuth {
-  signin: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string) => Promise<void>;
+  signin: (email: string, password: string) => Promise<void>; // eslint-disable-line no-unused-vars
+  signup: (email: string, password: string) => Promise<void>; // eslint-disable-line no-unused-vars
   signout: () => void;
   loading: boolean;
 }

@@ -1,7 +1,6 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
-import useTheme from '@mui/material/styles/useTheme';
 import IconButton from '@mui/material/IconButton';
 import {ReactNode} from 'react';
 
@@ -21,9 +20,7 @@ export const ContractCard = ({
   containerStyles,
   header,
   children,
-}: Props) => {
-  const theme = useTheme();
-  return (
+}: Props) => (
     <Card
       sx={{
         border: 'none',
@@ -41,4 +38,3 @@ export const ContractCard = ({
       <CardContent sx={{...bodyContainerStyle}}>{children}</CardContent>
     </Card>
   );
-};
