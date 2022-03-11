@@ -36,7 +36,7 @@ export const PageCard = ({
     >
       <CardHeader
         sx={{
-          background: theme.palette.inputBackground.main,
+          // background: theme.palette.inputBackground.main,
           height: '2rem',
           mt: '1em',
           mx: '0.5em',
@@ -49,9 +49,9 @@ export const PageCard = ({
         }
         title={
           <Typography
-            variant="subtitle2"
+            variant="subtitle1"
             sx={{
-              color: theme.palette.action.active,
+              // color: theme.palette.action.active,
               ...headerTextOverrideStyles,
             }}
           >

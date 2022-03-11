@@ -11,6 +11,7 @@ import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import useTheme from '@mui/material/styles/useTheme';
+import {EmptySection} from 'components/EmptySection';
 import {startOfDay, endOfMonth} from 'date-fns';
 import {toRestDateTime} from 'utils/datetime';
 import {ServiceOrderView} from 'models/service-order';
@@ -106,7 +107,12 @@ export const UnitsDetail = () => {
         return <OverviewTab elevator={elevator} maintainers={maintainers} />;
       case 1:
         return <ServiceHistoryTab />;
-
+      case 2:
+        return (
+          <Box mt={16} sx={{display: 'grid', placeItems: 'center'}}>
+            <EmptySection label="Data will be available here only for IoT enabled elevators!" />
+          </Box>
+        );
       default:
         return null;
     }
