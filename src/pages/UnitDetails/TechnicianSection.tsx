@@ -99,7 +99,6 @@ export const TechnicianSection = ({maintainers}: TechnicianSectionProp) => {
                 <UserAvatar
                   src=""
                   alt={item.label}
-                  userRole="technician"
                   avatarStyle={{width: '3.125rem', height: '3.125rem'}}
                 />
               </Box>
