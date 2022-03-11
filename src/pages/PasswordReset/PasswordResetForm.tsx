@@ -11,9 +11,9 @@ import Box from '@mui/material/Box';
 import {useNavigate} from 'react-router-dom';
 
 interface Props {
-  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
-  handleChange: (e: React.ChangeEvent<any>) => void;
-  handleBlur: (e: React.FocusEvent<any, Element>) => void;
+  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void; // eslint-disable-line no-unused-vars
+  handleChange: (e: React.ChangeEvent<any>) => void; // eslint-disable-line no-unused-vars
+  handleBlur: (e: React.FocusEvent<any, Element>) => void; // eslint-disable-line no-unused-vars
   password: string;
   passwordError: string | undefined;
   confirmPassword: string;

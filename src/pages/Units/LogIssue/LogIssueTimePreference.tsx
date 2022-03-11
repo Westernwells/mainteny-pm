@@ -12,8 +12,8 @@ interface Props {
   children: React.ReactNode;
   date: Date | null;
   time: Date | null;
-  setDate: (state: Date | null) => void;
-  setTime: (state: Date | null) => void;
+  setDate: (state: Date | null) => void; // eslint-disable-line no-unused-vars
+  setTime: (state: Date | null) => void; // eslint-disable-line no-unused-vars
 }
 
 const radioLabels = [
@@ -25,7 +25,7 @@ export const LogIssueTimePreference = ({
   children,
   date,
   time,
-  setDate,
+  setDate, // eslint-disable-line no-unused-vars
   setTime,
 }: Props) => {
   const theme = useTheme();

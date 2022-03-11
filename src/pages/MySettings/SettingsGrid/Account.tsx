@@ -9,7 +9,7 @@ interface Props {
     accoutEmail: string;
     accoutPassword: string;
   };
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // eslint-disable-line no-unused-vars
 }
 
 export const Account = ({formData, onChange}: Props) => {

@@ -15,7 +15,8 @@ import {Widget} from '../../components/Widget';
 
 export const Invoices = () => {
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
+  // TODO: implement paging
+  const [page, _setPage] = useState(makePage(0, 10)); // eslint-disable-line no-unused-vars
   const [showFilter, setShowFilter] = useState(false);
   const [amount, setAmount] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);

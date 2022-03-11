@@ -17,13 +17,12 @@ import {queryKeys} from 'reactQuery/constants';
 import {ServiceCompanyTimeUnit} from 'models/service-company';
 import {toDate, toRestDate, toRestDateTime} from 'utils/datetime';
 import {
-  CreateNonScheduledServiceOrder,
   OptionalCreateNonScheduledBody,
   ServiceOrderReport,
   ServiceOrderType,
   ServiceOrderView,
 } from '../../models/service-order';
-import {Priority, Resource, RestError, WithOptional} from '../../models/misc';
+import {Priority, Resource, RestError} from '../../models/misc';
 import {
   ElevatorAvailability,
   ElevatorAvailabilityParams,
@@ -312,7 +311,7 @@ export const useLogIssue = () => {
           variant: 'success',
         });
       },
-      onError: (err) => {
+      onError: () => {
         enqueueSnackbar('Some error occurred, please try again.', {
           variant: 'error',
         });

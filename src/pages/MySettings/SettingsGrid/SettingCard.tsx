@@ -2,7 +2,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
-import useTheme from '@mui/material/styles/useTheme';
 import {ReactNode} from 'react';
 
 interface Props {
@@ -10,9 +9,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const SettingCard = ({header, children}: Props) => {
-  const theme = useTheme();
-  return (
+export const SettingCard = ({header, children}: Props) => (
     <Card
       sx={{
         boxShadow: 'none',
@@ -29,4 +26,3 @@ export const SettingCard = ({header, children}: Props) => {
       <CardContent>{children}</CardContent>
     </Card>
   );
-};
