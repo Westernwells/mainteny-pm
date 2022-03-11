@@ -18,12 +18,6 @@ interface Props {
 export const PersonalDetails = ({formData, onChange}: Props) => (
   <SettingCard header="Personal Details">
     <Box display="flex" gap={4}>
-      {/* <Avatar
-        alt={formData.userName}
-        src={formData.userAvatar}
-        variant="circular"
-        sx={{width: '120px', height: '120px', aspectRatio: '1'}}
-      /> */}
       <UserAvatar
         src=""
         alt={formData.userName}

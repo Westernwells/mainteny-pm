@@ -51,7 +51,6 @@ export const ContractParties = ({
     <Grid container sx={{...containerStyle}}>
       <Grid item xs={4}>
         <Box display="flex">
-          {/* <Avatar sx={{width: '3rem', height: '3rem', mr: '1em'}}>H</Avatar> */}
           <UserAvatar
             src=""
             alt={personName || ''}

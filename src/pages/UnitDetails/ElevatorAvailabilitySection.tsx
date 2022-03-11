@@ -129,12 +129,7 @@ export const ElevatorAvailabilitySection = ({noStats}: Props) => {
           justifyContent="center"
           alignItems="center"
         >
-          {/* <Typography variant="h4" textAlign="center"> */}
-          <EmptySection
-            label="Stats will appear here if the 
-unit is IoT enabled!"
-          />
-          {/* </Typography> */}
+          <EmptySection label="Stats will appear here if the unit is IoT enabled!" />
         </Box>
       ) : (
         <Box
