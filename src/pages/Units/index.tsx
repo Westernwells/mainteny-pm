@@ -1,7 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import {ElevatorView} from 'models/elevator';
 
@@ -11,7 +9,7 @@ import {
   useFetchServiceOrdersByElevators,
   useLogIssue,
 } from 'hooks/reactQuery/useServiceOrder';
-import Modal from '@mui/material/Modal';
+
 import Fade from '@mui/material/Fade';
 import Drawer from '@mui/material/Drawer';
 import {TablePagination} from '@mui/material';
@@ -22,7 +20,6 @@ import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
 import {BtnGroupType} from 'models/misc';
 import {FilterFields} from 'components/FilterFields';
-import Slide from '@mui/material/Slide';
 import useTheme from '@mui/material/styles/useTheme';
 import {UnitSection} from './UnitSection';
 import {UnitsMapsView} from './UnitsMapsView';
@@ -49,14 +46,12 @@ export const MyUnits = () => {
     centerCoord: {longitude: 0, latitude: 0},
   }).current;
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
+  const page = useRef(makePage(0, 10)).current; // TODO: implement paging
   const [showFilter, setShowFilter] = useState(false);
   const [availability, setAvailability] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
   const [nextVisit, setNextVisit] = useState<string[]>([]);
   const [showMapview, setShowMapview] = useState(false);
-  const [issuElevator, setIssueElevator] = useState();
-  const [sliderValue, setSliderValue] = useState<number[]>([20, 37]);
   const [logIssueDate, setLogIssueDate] = useState<Date | null>(null);
   const [logIssueTime, setLogIssueTime] = useState<Date | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -97,7 +92,7 @@ export const MyUnits = () => {
     setAvailability(range);
   };
 
-  const {mutate: logIssue, isLoading} = useLogIssue();
+  const {mutate: logIssue} = useLogIssue();
 
   const formik = useFormik<FormikFields>({
     initialValues: {
@@ -266,7 +261,6 @@ export const MyUnits = () => {
                 <LogIssueTimePreference
                   date={logIssueDate} // TODO: use formik
                   time={logIssueTime} // TODO: use formik
-                  setDate={setLogIssueDate}
                   setTime={setLogIssueTime}
                 >
                   <LogIssueDateTime

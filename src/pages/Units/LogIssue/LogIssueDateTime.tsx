@@ -4,7 +4,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import DesktopTimePicker from '@mui/lab/DesktopTimePicker';
 import TextField from '@mui/material/TextField';
-import makeStyles from '@mui/styles/makeStyles';
+
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 
@@ -14,12 +14,6 @@ interface Props {
   time: Date | null;
   date: Date | null;
 }
-
-const useStyles = makeStyles({
-  text: {
-    border: '2px solid green',
-  },
-});
 
 export const LogIssueDateTime = ({setDate, setTime, time, date}: Props) => {
   const theme = useTheme();

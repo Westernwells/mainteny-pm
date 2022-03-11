@@ -12,7 +12,7 @@ interface Props {
   children: React.ReactNode;
   date: Date | null;
   time: Date | null;
-  setDate: (state: Date | null) => void;
+
   setTime: (state: Date | null) => void;
 }
 
@@ -25,7 +25,7 @@ export const LogIssueTimePreference = ({
   children,
   date,
   time,
-  setDate,
+
   setTime,
 }: Props) => {
   const theme = useTheme();

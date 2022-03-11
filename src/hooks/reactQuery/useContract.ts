@@ -28,6 +28,7 @@ export const fetchContractElevatorCount = async (contractId: string[]) => {
       paramsSerializer,
     },
   );
+  console.log(response);
 
   return staticContractElevatorCount;
 };
@@ -43,6 +44,7 @@ export const fetchContracts = async (
       paramsSerializer,
     },
   );
+  console.log(response);
 
   return staticContracts;
 };
@@ -51,6 +53,7 @@ const fetchContractDetails = async (contractId: string) => {
   const response = await axiosClient.get<ContractView>(
     `/api/contracts/${contractId}`,
   );
+  console.log(response);
   return staticContractDetails;
 };
 

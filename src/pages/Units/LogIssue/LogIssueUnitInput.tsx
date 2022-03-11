@@ -68,7 +68,6 @@ export const LogIssueUnitInput = ({
             inputProps={{
               ...params.inputProps,
             }}
-            // eslint-disable-next-line react/jsx-no-duplicate-props
             // InputProps={{
             //   sx: {
             //     '& .MuiOutlinedInput-notchedOutline': {

@@ -5,25 +5,18 @@ import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import {Theme} from '@mui/material/styles';
+
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import useTheme from '@mui/material/styles/useTheme';
-import {startOfDay, endOfMonth} from 'date-fns';
-import {toRestDateTime} from 'utils/datetime';
-import {ServiceOrderView} from 'models/service-order';
-import {createEmptyResource} from 'utils/paging-utils';
 import {
   useElevatorById,
   useElevatorMaintainers,
 } from 'hooks/reactQuery/useElevator';
-import {useServiceOrders} from '../../hooks/reactQuery/useServiceOrder';
 import {OverviewTab} from './Tabs/OverviewTab';
 import {ServiceHistoryTab} from './Tabs/ServiceHistoryTab';
-
-const pageSize = 10;
 
 const useStyles = makeStyles(() => {
   const theme = useTheme();
@@ -87,16 +80,6 @@ export const UnitsDetail = () => {
   };
 
   const {data: elevator} = useElevatorById(elevatorId);
-
-  const {data: serviceOrder = createEmptyResource<ServiceOrderView>(pageSize)} =
-    useServiceOrders({
-      elevatorIds: elevatorId,
-      start: toRestDateTime(startOfDay(new Date())),
-      end: toRestDateTime(endOfMonth(new Date())),
-      pageSize: 4,
-      pageIndex: 0,
-      query: '',
-    });
 
   const {data: maintainers = []} = useElevatorMaintainers(elevatorId);
 

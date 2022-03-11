@@ -8,7 +8,6 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Grid from '@mui/material/Grid';
 import {PageCard} from 'components/PageCard';
-import Icon from '@mui/material/Icon';
 import * as _ from 'lodash';
 import {
   BarElement,
@@ -21,7 +20,6 @@ import {
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
 
-import {ReactComponent as Elevation} from '../../assets/icons/Elevation.svg';
 import {SplitButton} from '../../components/SplitButton';
 import {formatDate} from '../../utils/datetime';
 
@@ -92,7 +90,10 @@ function generateLabels(timeFrame: TimeFrame) {
 }
 
 function generateData(timeFrame: TimeFrame) {
-  return formatDates(timeFrame).map((day) => _.random(100, 800));
+  return formatDates(timeFrame).map((day) => {
+    console.log(day);
+    return _.random(100, 800);
+  });
 }
 
 export const ElevatorAvailabilitySection = ({noStats}: Props) => {

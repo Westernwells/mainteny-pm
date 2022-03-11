@@ -5,13 +5,11 @@ import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import {BackAction} from 'components/BackAction';
-import {useNavigate} from 'react-router-dom';
 import Fade from '@mui/material/Fade';
 import {NotificationCard} from './NotificationCard';
 
 export const Notifications = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
   const [offset, setOffset] = useState(0);
   const [showFabIcon, setShowFabIcon] = useState(false);
 

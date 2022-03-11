@@ -1,11 +1,10 @@
 import Box from '@mui/material/Box';
 import Language from '@mui/icons-material/Language';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
 import AppBar from '@mui/material/AppBar';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import useTheme from '@mui/material/styles/useTheme';
 
@@ -16,7 +15,6 @@ import {useAuth} from 'hooks/useAuth';
 import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
 
 export const AppTopBar = () => {
-  const navigate = useNavigate();
   const theme = useTheme();
   const {signout} = useAuth();
   const {data: user} = usePropertyManager();

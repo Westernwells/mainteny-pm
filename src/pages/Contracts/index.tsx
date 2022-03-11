@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Fade from '@mui/material/Fade';
@@ -12,20 +12,15 @@ import {
   useQueryContract,
 } from '../../hooks/reactQuery/useContract';
 import {ContractOrderField, ContractView} from '../../models/contract';
-import {ElevatorView} from '../../models/elevator';
-import {BtnGroupType, Order, Resource} from '../../models/misc';
+import {BtnGroupType, Order} from '../../models/misc';
 import {createEmptyResource, makePage} from '../../utils/paging-utils';
 import {Widget} from '../../components/Widget';
 
 const pageSize = 10;
-interface ContractRecord {
-  contract: ContractView;
-  elevators: ElevatorView[];
-}
 
 export const Contracts = () => {
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(makePage(0, pageSize));
+  const page = useRef(makePage(0, pageSize)).current;
   const [showFilter, setShowFilter] = useState(false);
   const [expiryDate, setExpiryDate] = useState<string[]>([]);
   const [contractor, setContractor] = useState<string[]>([]);

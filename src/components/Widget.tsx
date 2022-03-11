@@ -1,9 +1,6 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {Theme} from '@mui/material/styles';
-import {useNavigate} from 'react-router-dom';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import makeStyles from '@mui/styles/makeStyles';
 import useTheme from '@mui/material/styles/useTheme';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
@@ -33,7 +30,6 @@ export const Widget = ({
   showFilter,
   setShowFilter,
 }: Props) => {
-  const navigate = useNavigate();
   const theme = useTheme();
 
   return (

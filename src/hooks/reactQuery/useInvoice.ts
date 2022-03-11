@@ -6,12 +6,7 @@ import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {invoiceDetail} from 'pages/InvoiceDetails/data';
 import {invoices} from 'pages/Invoices/data';
 import {Resource, RestError} from '../../models/misc';
-import {
-  InvoiceStatus,
-  InvoiceStatusView,
-  InvoiceView,
-  QueryInvoiceParams,
-} from '../../models/invoice';
+import {InvoiceView, QueryInvoiceParams} from '../../models/invoice';
 import {usePropertyManager} from './usePropertyManager';
 
 export const fetchInvoices = async (
@@ -25,6 +20,7 @@ export const fetchInvoices = async (
       paramsSerializer,
     },
   );
+  console.log(response);
   return Promise.resolve(invoices);
 };
 
@@ -103,6 +99,7 @@ export const fetchInvoice = async (invoiceId: string) => {
   const response = await axiosClient.get<InvoiceView>(
     `/api/invoices/${invoiceId}`,
   );
+  console.log(response);
 
   return invoiceDetail;
 };
