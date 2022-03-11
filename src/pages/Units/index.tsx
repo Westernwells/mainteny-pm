@@ -14,6 +14,7 @@ import {
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Drawer from '@mui/material/Drawer';
+import {TablePagination} from '@mui/material';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
@@ -68,7 +69,7 @@ export const MyUnits = () => {
     elevatorResponse.elevator,
     {nextVisit, availabilityRange: availability},
   );
-
+  console.log(elevatorResponse.elevator);
   const availabilityRangeConvertor = (selectedItems: string[]) => {
     const range: number[][] = [];
     selectedItems.forEach((item) => {
@@ -195,6 +196,20 @@ export const MyUnits = () => {
               />
             ))}
           </Box>
+          <TablePagination
+            sx={{
+              '& .MuiTablePagination-selectLabel': {
+                color: theme.palette.text.secondary,
+              },
+            }}
+            component="div"
+            count={elevatorResponse.elevator.total}
+            page={elevatorResponse.elevator.page.pageIndex}
+            // TODO: Implement paging
+            onPageChange={() => console.log('page change')}
+            rowsPerPage={elevatorResponse.elevator.page.pageSize}
+            //  onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </>
       ) : (
         <UnitsMapsView

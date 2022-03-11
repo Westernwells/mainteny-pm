@@ -7,9 +7,10 @@ import {fetchDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 interface Props {
   rows: GridRowsProp;
   columns: GridColDef[];
+  hideFooter?: boolean;
 }
 
-export const DataGridLayout = ({rows, columns}: Props) => {
+export const DataGridLayout = ({rows, columns, hideFooter = false}: Props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   return (
@@ -92,8 +93,8 @@ export const DataGridLayout = ({rows, columns}: Props) => {
           },
         },
 
-        '& .MuiDataGrid-footerContainer': {
-          display: 'none',
+        '& .MuiTablePagination-root .MuiTablePagination-selectLabel': {
+          color: theme.palette.text.secondary,
         },
       }}
     >
@@ -102,7 +103,7 @@ export const DataGridLayout = ({rows, columns}: Props) => {
         columns={columns}
         disableSelectionOnClick
         disableColumnFilter
-        hideFooter
+        hideFooter={hideFooter}
         onCellClick={(params, e) => {
           e.preventDefault();
           if (params.field !== 'actions') {
