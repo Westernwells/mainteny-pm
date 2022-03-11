@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import LockClockIcon from '@mui/icons-material/LockClock';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import IconButton, {IconButtonProps} from '@mui/material/IconButton';
