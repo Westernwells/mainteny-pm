@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
-import {BtnGroupType} from 'models/misc';
+
 import {FilterFields} from 'components/FilterFields';
 
 import useTheme from '@mui/material/styles/useTheme';
@@ -133,7 +133,6 @@ export const MyUnits = () => {
     _e: MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
-    console.log(newPage, '-----------');
     setPage({...page, pageIndex: newPage});
   };
 
@@ -161,7 +160,6 @@ export const MyUnits = () => {
             mapViewActive={showMapview}
             setShowFilter={setShowFilter}
             showFilter={showFilter}
-            btnGroupType={BtnGroupType.ICON}
           />
         </Box>
       </Box>
@@ -283,7 +281,6 @@ export const MyUnits = () => {
                 <LogIssueTimePreference
                   date={logIssueDate} // TODO: use formik
                   time={logIssueTime} // TODO: use formik
-                  setDate={setLogIssueDate}
                   setTime={setLogIssueTime}
                 >
                   <LogIssueDateTime

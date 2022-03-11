@@ -13,7 +13,7 @@ import {
   useQueryContract,
 } from 'hooks/reactQuery/useContract';
 import {ContractOrderField, ContractView} from 'models/contract';
-import {BtnGroupType, Order} from 'models/misc';
+import {Order} from 'models/misc';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {Widget} from 'components/Widget';
 import {columns, makeRows} from './ContractsDataGridProps';
@@ -109,7 +109,6 @@ export const Contracts = () => {
         </Box>
         <Box mt={1}>
           <Widget
-            btnGroupType={BtnGroupType.ICON}
             searchPlaceholder="Try 'Astralift BV'"
             onSearchTextChanged={setSearch}
             setShowFilter={setShowFilter}

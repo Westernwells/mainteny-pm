@@ -2,7 +2,6 @@ import {useParams} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
 import useTheme from '@mui/material/styles/useTheme';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';

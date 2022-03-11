@@ -10,16 +10,10 @@ import {ServiceOrderStatusText} from 'components/ServiceOrderStatusText';
 import {ServiceOrderTypeText} from 'components/ServiceOrderTypeText';
 
 interface Props {
-  bodyContainerStyle?: {[key: string]: string | number};
-  minHeight?: number | string;
   serviceOrder: ServiceOrderView;
 }
 
-export const ServiceHistory = ({
-  bodyContainerStyle,
-  minHeight,
-  serviceOrder,
-}: Props) => {
+export const ServiceHistory = ({serviceOrder}: Props) => {
   const theme = useTheme();
   return (
     <Grid

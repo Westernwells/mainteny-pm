@@ -156,7 +156,7 @@ export const ServiceHistoryTab = () => {
             showTimeCategory
             // noContent={!selectedOrder}
             serviceOrder={selectedOrder}
-            headerTitle={currentScheduleDate || null}
+            headerTitle={currentScheduleDate || ''}
             description={selectedOrder?.description}
             scheduledTime={
               currentScheduleDate && currentScheduleTime
@@ -169,7 +169,7 @@ export const ServiceHistoryTab = () => {
             removeBottomRightRadius
             showAlert
             headerActionIcon={<MoreVertIcon />}
-            subtitle={currentScheduleTime || null}
+            subtitle={currentScheduleTime || ''}
             containerStyles={{
               borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
               pt: '0.5em',

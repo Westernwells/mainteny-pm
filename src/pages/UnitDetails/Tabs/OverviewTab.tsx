@@ -1,17 +1,15 @@
 import {ServiceOrderView} from 'models/service-order';
 import useTheme from '@mui/material/styles/useTheme';
-import {Order} from 'models/misc';
 import Grid from '@mui/material/Grid';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import {createEmptyResource, makePage} from 'utils/paging-utils';
-import {endOfMonth, startOfDay, startOfYear} from 'date-fns';
+import {createEmptyResource} from 'utils/paging-utils';
+import {endOfMonth, startOfDay} from 'date-fns';
 import {toRestDateTime} from 'utils/datetime';
 import {useParams} from 'react-router-dom';
 import {ReactComponent as Escalator} from 'assets/icons/Escalator.svg';
 import {PageCard} from 'components/PageCard';
-import {useServiceHistory} from 'hooks/reactQuery/useServiceHistory';
+
 import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
-import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
 import {
   useElevatorById,
   useElevatorMaintainers,
@@ -19,7 +17,6 @@ import {
 import {ElevatorAvailabilitySection} from '../ElevatorAvailabilitySection';
 import {ElevatorBasicSection} from '../ElevatorBasicSection';
 import {TechnicianSection} from '../TechnicianSection';
-import {MaintainerView} from '../../../models/technician';
 import {ServiceHistory} from '../ServiceHistory';
 
 const pageSize = 10;
@@ -27,7 +24,6 @@ const pageSize = 10;
 export const OverviewTab = () => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
-  const {data: user} = usePropertyManager();
 
   const {data: elevator} = useElevatorById(elevatorId);
 
@@ -123,9 +119,6 @@ export const OverviewTab = () => {
               <ServiceHistory
                 key={serviceOrder.id}
                 serviceOrder={serviceOrder}
-                bodyContainerStyle={{
-                  borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                }}
               />
             ))}
           </PageCard>

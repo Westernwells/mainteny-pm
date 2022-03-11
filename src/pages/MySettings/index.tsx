@@ -1,6 +1,5 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {FormikProps, useFormik} from 'formik';
-import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import {BackAction} from 'components/BackAction';
 import {
@@ -11,8 +10,6 @@ import {PropertyManager} from 'models/propertyManager';
 import {UpdateUserAccountData} from 'models/user';
 import {BottomDrawer} from './BottomDrawer';
 import {SettingsGrid} from './SettingsGrid';
-
-import {user} from './dummyData';
 
 export interface FormFeilds {
   userDesignation: string;

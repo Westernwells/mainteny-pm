@@ -6,7 +6,7 @@ import {GridRowsProp} from '@mui/x-data-grid';
 import {FilterFields} from 'components/FilterFields';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {DataGridLayout} from 'components/DataGridLayout';
-import {BtnGroupType} from 'models/misc';
+
 import TablePagination from '@mui/material/TablePagination';
 import useTheme from '@mui/material/styles/useTheme';
 import {useQueryClient} from 'react-query';
@@ -108,7 +108,6 @@ export const Invoices = () => {
         </Box>
         <Box mt={1}>
           <Widget
-            btnGroupType={BtnGroupType.ICON}
             searchPlaceholder="Try 'INV000001'"
             onSearchTextChanged={setSearch}
             setShowFilter={setShowFilter}

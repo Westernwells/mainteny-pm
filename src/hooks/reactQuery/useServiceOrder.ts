@@ -313,6 +313,7 @@ export const useLogIssue = () => {
         });
       },
       onError: (err) => {
+        console.log(err);
         enqueueSnackbar('Some error occurred, please try again.', {
           variant: 'error',
         });
