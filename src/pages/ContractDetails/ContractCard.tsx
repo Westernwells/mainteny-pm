@@ -21,20 +21,20 @@ export const ContractCard = ({
   header,
   children,
 }: Props) => (
-    <Card
-      sx={{
-        border: 'none',
-        minHeight,
-        ...containerStyles,
-      }}
-    >
-      <CardHeader
-        sx={{pb: '1.5em'}}
-        action={
-          headerActionIcon ? <IconButton>{headerActionIcon}</IconButton> : null
-        }
-        title={header}
-      />
-      <CardContent sx={{...bodyContainerStyle}}>{children}</CardContent>
-    </Card>
-  );
+  <Card
+    sx={{
+      border: 'none',
+      minHeight,
+      ...containerStyles,
+    }}
+  >
+    <CardHeader
+      sx={{pb: '1.5em'}}
+      action={
+        headerActionIcon ? <IconButton>{headerActionIcon}</IconButton> : null
+      }
+      title={header}
+    />
+    <CardContent sx={{...bodyContainerStyle}}>{children}</CardContent>
+  </Card>
+);
