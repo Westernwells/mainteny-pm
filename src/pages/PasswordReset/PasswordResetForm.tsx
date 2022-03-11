@@ -11,9 +11,9 @@ import Box from '@mui/material/Box';
 import {useNavigate} from 'react-router-dom';
 
 interface Props {
-  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
-  handleChange: (e: React.ChangeEvent<any>) => void;
-  handleBlur: (e: React.FocusEvent<any, Element>) => void;
+  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void; // eslint-disable-line no-unused-vars
+  handleChange: (e: React.ChangeEvent<any>) => void; // eslint-disable-line no-unused-vars
+  handleBlur: (e: React.FocusEvent<any, Element>) => void; // eslint-disable-line no-unused-vars
   password: string;
   passwordError: string | undefined;
   confirmPassword: string;
@@ -62,8 +62,7 @@ export const PasswordResetForm = ({
                 ml={1}
                 color={
                   password.length >= 6 ? 'body1' : 'rgba(143, 155, 179, 0.5)'
-                }
-              >
+                }>
                 Atleast 6 characters
               </Typography>
             </Box>
@@ -77,8 +76,7 @@ export const PasswordResetForm = ({
                 ml={1}
                 color={
                   password.match(/\d/) ? 'body1' : 'rgba(143, 155, 179, 0.5)'
-                }
-              >
+                }>
                 Minimum 1 number
               </Typography>
             </Box>
@@ -112,8 +110,7 @@ export const PasswordResetForm = ({
             variant="contained"
             onClick={() => setReEnterPassword(!reEnterPassword)}
             size="large"
-            endIcon={<ArrowForward />}
-          >
+            endIcon={<ArrowForward />}>
             Next
           </Button>
         ) : (
@@ -124,8 +121,7 @@ export const PasswordResetForm = ({
               variant="contained"
               size="large"
               onClick={() => navigate('/login?authType=reset')}
-              endIcon={<ArrowForward />}
-            >
+              endIcon={<ArrowForward />}>
               Go
             </Button>
             <Button
@@ -133,8 +129,7 @@ export const PasswordResetForm = ({
               variant="outlined"
               onClick={() => setReEnterPassword(!reEnterPassword)}
               size="large"
-              startIcon={<ArrowBack />}
-            >
+              startIcon={<ArrowBack />}>
               Back
             </Button>
           </Box>

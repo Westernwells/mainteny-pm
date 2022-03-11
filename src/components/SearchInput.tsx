@@ -3,16 +3,14 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import useTheme from '@mui/material/styles/useTheme';
 import * as _ from 'lodash';
 
 interface Props {
   placeholder?: string;
-  onValueChanged?: (value: string) => void;
+  onValueChanged?: (value: string) => void; // eslint-disable-line no-unused-vars
 }
 
 export const Searchnput = ({placeholder, onValueChanged}: Props) => {
-  const theme = useTheme();
   const debouncedChangeHandler = useCallback(
     _.debounce((e) => {
       onValueChanged?.(e.nativeEvent.target.value);
@@ -30,14 +28,12 @@ export const Searchnput = ({placeholder, onValueChanged}: Props) => {
         boxShadow: 0,
         width: '23rem',
         border: '1px solid #E4E9F2',
-      }}
-    >
+      }}>
       <IconButton
         type="submit"
         sx={{p: '10px'}}
         aria-label="search"
-        onClick={(e) => e.preventDefault()}
-      >
+        onClick={(e) => e.preventDefault()}>
         <SearchIcon />
       </IconButton>
       <InputBase

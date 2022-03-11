@@ -38,29 +38,28 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
   const {data: user} = usePropertyManager();
-  const {data: issueHistory = createEmptyResource<ServiceOrderView>(pageSize)} =
-    useIssueHistory({
-      elevatorIds: elevatorId,
-      start: startOfYear(new Date()).toISOString(),
-      end: endOfYear(new Date()).toISOString(),
-      pageSize,
-      pageIndex: 0,
-      serviceCompanyId: user?.userAccount.serviceCompany.id,
-      query: '',
-      types: [
-        ServiceOrderType.CALLOUT,
-        ServiceOrderType.EMERGENCY,
-        ServiceOrderType.REPAIR,
-      ],
-      status: [],
-      orderBy: ServiceOrderOrderField.CREATED_TIME,
-      order: Order.DESC,
-    });
-
+  useIssueHistory({
+    elevatorIds: elevatorId,
+    start: startOfYear(new Date()).toISOString(),
+    end: endOfYear(new Date()).toISOString(),
+    pageSize,
+    pageIndex: 0,
+    serviceCompanyId: user?.userAccount.serviceCompany.id,
+    query: '',
+    types: [
+      ServiceOrderType.CALLOUT,
+      ServiceOrderType.EMERGENCY,
+      ServiceOrderType.REPAIR,
+    ],
+    status: [],
+    orderBy: ServiceOrderOrderField.CREATED_TIME,
+    order: Order.DESC,
+  });
+  /* eslint-disable no-unused-vars */
   const {
     data: serviceHistories = createEmptyResource<ServiceHistoryView>(pageSize),
   } = useServiceHistory(makePage(0, 10), elevatorId);
-
+  /* eslint-enable no-unused-vars */
   const {
     data: runningServiceOrders = createEmptyResource<ServiceOrderView>(
       pageSize,
@@ -150,7 +149,7 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
                 borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
               }}
             />
-            {[1, 2, 3, 4, 5, 6, 7].map((item) => (
+            {[1, 2, 3, 4, 5, 6, 7].map(() => (
               <ServiceHistory
                 bodyContainerStyle={{
                   borderBottom: '1px solid rgba(0, 0, 0, 0.12)',

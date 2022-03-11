@@ -5,7 +5,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import {Theme} from '@mui/material/styles';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
@@ -87,7 +86,7 @@ export const UnitsDetail = () => {
   };
 
   const {data: elevator} = useElevatorById(elevatorId);
-
+  /* eslint-disable no-unused-vars */
   const {data: serviceOrder = createEmptyResource<ServiceOrderView>(pageSize)} =
     useServiceOrders({
       elevatorIds: elevatorId,
@@ -97,7 +96,7 @@ export const UnitsDetail = () => {
       pageIndex: 0,
       query: '',
     });
-
+  /* eslint-enable no-unused-vars */
   const {data: maintainers = []} = useElevatorMaintainers(elevatorId);
 
   const tabPanel = () => {
@@ -116,16 +115,14 @@ export const UnitsDetail = () => {
     <Box
       sx={{
         pb: '1em',
-      }}
-    >
+      }}>
       <Box
         sx={{
           display: 'flex',
           paddingTop: 2,
           paddingLeft: '35px',
           mt: 10,
-        }}
-      >
+        }}>
         <ArrowBack
           onClick={() => navigate(-1)}
           sx={{
@@ -139,8 +136,7 @@ export const UnitsDetail = () => {
           className={classes.tabs}
           value={value}
           onChange={handleChange}
-          textColor="secondary"
-        >
+          textColor="secondary">
           {tabItems.map((item, index) => (
             <Tab
               key={`${item.label}`}
@@ -164,8 +160,7 @@ export const UnitsDetail = () => {
                       left: '50%',
                       transform: 'translateX(-50%)',
                     },
-                  }}
-                >
+                  }}>
                   <Box className="item-icon">{item.icon}</Box>
                   <Typography mb={1} sx={{ml: 1}} variant="subtitle1">
                     {item.label}
@@ -187,8 +182,7 @@ export const UnitsDetail = () => {
             width: 0,
             background: 'transparent',
           },
-        }}
-      >
+        }}>
         {tabPanel()}
       </Box>
     </Box>

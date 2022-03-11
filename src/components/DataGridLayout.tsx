@@ -2,7 +2,6 @@ import {DataGrid, GridColDef, GridRowsProp} from '@mui/x-data-grid';
 import useTheme from '@mui/material/styles/useTheme';
 import {Box} from '@mui/system';
 import {useNavigate} from 'react-router-dom';
-import {fetchDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 
 interface Props {
   rows: GridRowsProp;
@@ -96,8 +95,7 @@ export const DataGridLayout = ({rows, columns, hideFooter = false}: Props) => {
         '& .MuiTablePagination-root .MuiTablePagination-selectLabel': {
           color: theme.palette.text.secondary,
         },
-      }}
-    >
+      }}>
       <DataGrid
         rows={rows}
         columns={columns}

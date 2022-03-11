@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {ReactQueryDevtools} from 'react-query/devtools';
 import CssBaseline from '@mui/material/CssBaseline';
-import {ThemeProvider, StyledEngineProvider} from '@mui/material/styles';
+import {ThemeProvider} from '@mui/material/styles';
 import {SnackbarProvider} from 'notistack';
 
 import {App} from './App';
@@ -22,8 +22,7 @@ ReactDOM.render(
           vertical: 'top',
           horizontal: 'right',
         }}
-        maxSnack={3}
-      >
+        maxSnack={3}>
         <App />
       </SnackbarProvider>
       <ReactQueryDevtools />

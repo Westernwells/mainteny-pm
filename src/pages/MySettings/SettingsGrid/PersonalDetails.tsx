@@ -11,7 +11,7 @@ interface Props {
     userDesignation: string;
     userPhone: string;
   };
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // eslint-disable-line no-unused-vars
 }
 
 export const PersonalDetails = ({formData, onChange}: Props) => (

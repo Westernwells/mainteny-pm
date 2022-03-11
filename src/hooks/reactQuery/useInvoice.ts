@@ -6,19 +6,14 @@ import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {invoiceDetail} from 'pages/InvoiceDetails/data';
 import {invoices} from 'pages/Invoices/data';
 import {Resource, RestError} from '../../models/misc';
-import {
-  InvoiceStatus,
-  InvoiceStatusView,
-  InvoiceView,
-  QueryInvoiceParams,
-} from '../../models/invoice';
+import {InvoiceView, QueryInvoiceParams} from '../../models/invoice';
 import {usePropertyManager} from './usePropertyManager';
 
 export const fetchInvoices = async (
   params: QueryInvoiceParams,
   id: string,
 ): Promise<Resource<InvoiceView>> => {
-  const response = await axiosClient.get<Resource<InvoiceView>>(
+  const response = await axiosClient.get<Resource<InvoiceView>>( // eslint-disable-line no-unused-vars
     `/api/propertyOwners/${id}/invoices`,
     {
       params,
@@ -100,7 +95,7 @@ export function useInvoices(
 }
 
 export const fetchInvoice = async (invoiceId: string) => {
-  const response = await axiosClient.get<InvoiceView>(
+  const response = await axiosClient.get<InvoiceView>( // eslint-disable-line no-unused-vars
     `/api/invoices/${invoiceId}`,
   );
 

@@ -9,10 +9,10 @@ interface Props {
   label: string;
   name: string;
   value: string;
-  handleChange: (e: ChangeEvent<any>) => void;
+  handleChange: (e: ChangeEvent<any>) => void; // eslint-disable-line no-unused-vars
   error?: string;
   touched?: boolean;
-  handleBlur?: (e: ChangeEvent<any>) => void;
+  handleBlur?: (e: ChangeEvent<any>) => void; // eslint-disable-line no-unused-vars
 }
 
 export const LogIssueDescription = ({

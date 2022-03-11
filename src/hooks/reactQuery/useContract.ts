@@ -21,7 +21,7 @@ import {Resource, RestError} from '../../models/misc';
 import {usePropertyManager} from './usePropertyManager';
 
 export const fetchContractElevatorCount = async (contractId: string[]) => {
-  const response = await axiosClient.get<{[key: string]: number}>(
+  const response = await axiosClient.get<{[key: string]: number}>( // eslint-disable-line no-unused-vars
     `/api/contracts/elevators/count`,
     {
       params: {contractId},
@@ -36,7 +36,7 @@ export const fetchContracts = async (
   id: string,
   params: QueryContractParams,
 ) => {
-  const response = await axiosClient.get<Resource<ContractView>>(
+  const response = await axiosClient.get<Resource<ContractView>>( // eslint-disable-line no-unused-vars
     `/api/propertyOwners/${id}/contracts`,
     {
       params,
@@ -48,7 +48,7 @@ export const fetchContracts = async (
 };
 
 const fetchContractDetails = async (contractId: string) => {
-  const response = await axiosClient.get<ContractView>(
+  const response = await axiosClient.get<ContractView>( // eslint-disable-line no-unused-vars
     `/api/contracts/${contractId}`,
   );
   return staticContractDetails;

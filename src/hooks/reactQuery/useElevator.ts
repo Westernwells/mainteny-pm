@@ -2,26 +2,12 @@ import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import * as _ from 'lodash';
 import getCenter from 'geolib/es/getCenter';
-import {Axios, AxiosResponse} from 'axios';
+import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {queryKeys} from 'reactQuery/constants';
-import {ServiceOrderView} from 'models/service-order';
 
-import {ElevatorOrderPair, ElevatorsByAddress} from 'pages/Units/Models';
-import {
-  Elevator,
-  ElevatorCategory,
-  ElevatorStatus,
-  ElevatorView,
-} from '../../models/elevator';
-import {
-  Location,
-  Page,
-  Priority,
-  Resource,
-  RestError,
-  State,
-} from '../../models/misc';
+import {Elevator, ElevatorView} from '../../models/elevator';
+import {Location, Page, Resource, RestError} from '../../models/misc';
 import {usePropertyManager} from './usePropertyManager';
 import {MaintainerView} from '../../models/technician';
 

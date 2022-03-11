@@ -6,12 +6,14 @@ import {ServiceOrderType} from 'models/service-order';
 import {ServiceOrderIcons} from 'components/ServiceOrderIcons';
 import Grid from '@mui/material/Grid';
 
+/* eslint-disable no-unused-vars */
 interface Props {
   bodyContainerStyle?: {[key: string]: string | number};
   minHeight?: number | string;
 }
 
 export const ServiceHistory = ({bodyContainerStyle, minHeight}: Props) => {
+  /* eslint-enable no-unused-vars */
   const theme = useTheme();
   return (
     <Grid
@@ -20,15 +22,13 @@ export const ServiceHistory = ({bodyContainerStyle, minHeight}: Props) => {
         borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
         pt: '1.5em',
         pb: '0.5em',
-      }}
-    >
+      }}>
       <Grid xs={3} item>
         <Box display="flex">
           <Typography variant="subtitle1">24 Sep 2021, </Typography>
           <Typography
             variant="body2"
-            sx={{mt: '0.35em', color: theme.palette.text.secondary}}
-          >
+            sx={{mt: '0.35em', color: theme.palette.text.secondary}}>
             {' '}
             {' 5PM - 6PM'}
           </Typography>
@@ -65,8 +65,7 @@ export const ServiceHistory = ({bodyContainerStyle, minHeight}: Props) => {
             <Typography
               variant="chip"
               color={theme.palette.text.secondary}
-              sx={{textTransform: 'capitalize'}}
-            >
+              sx={{textTransform: 'capitalize'}}>
               Completed
             </Typography>
           </Box>
