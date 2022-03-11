@@ -10,19 +10,19 @@ interface Props {
 }
 
 export const SettingCard = ({header, children}: Props) => (
-    <Card
-      sx={{
-        boxShadow: 'none',
-      }}
-    >
-      <CardHeader
-        sx={{textTransform: 'capitalize'}}
-        title={
-          <Typography variant="h6" pt={2}>
-            {header}
-          </Typography>
-        }
-      />
-      <CardContent>{children}</CardContent>
-    </Card>
-  );
+  <Card
+    sx={{
+      boxShadow: 'none',
+    }}
+  >
+    <CardHeader
+      sx={{textTransform: 'capitalize'}}
+      title={
+        <Typography variant="h6" pt={2}>
+          {header}
+        </Typography>
+      }
+    />
+    <CardContent>{children}</CardContent>
+  </Card>
+);

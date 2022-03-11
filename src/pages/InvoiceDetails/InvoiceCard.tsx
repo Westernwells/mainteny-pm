@@ -23,20 +23,20 @@ export const InvoiceCard = ({
   header,
   children,
 }: Props) => (
-    <Card
-      sx={{
-        border: 'none',
-        minHeight,
-        ...containerStyles,
-      }}
-    >
-      <CardHeader
-        sx={{pb: '1.5em', ...headerContainerStyle}}
-        action={
-          headerActionIcon ? <IconButton>{headerActionIcon}</IconButton> : null
-        }
-        title={header}
-      />
-      <CardContent sx={{...bodyContainerStyle}}>{children}</CardContent>
-    </Card>
-  );
+  <Card
+    sx={{
+      border: 'none',
+      minHeight,
+      ...containerStyles,
+    }}
+  >
+    <CardHeader
+      sx={{pb: '1.5em', ...headerContainerStyle}}
+      action={
+        headerActionIcon ? <IconButton>{headerActionIcon}</IconButton> : null
+      }
+      title={header}
+    />
+    <CardContent sx={{...bodyContainerStyle}}>{children}</CardContent>
+  </Card>
+);

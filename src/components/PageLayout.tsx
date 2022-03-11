@@ -16,35 +16,35 @@ export const PageLayout = ({
   excludeDefaultSpacing,
   overflowY,
 }: Props) => (
+  <Box
+    maxWidth="100%"
+    display="flex"
+    minHeight="100vh"
+    sx={{
+      // We can design a custom scrollbar here, we can also make showing scrollbar optional
+      overflowY: overflowY ? 'scroll' : 'hidden',
+      '::-webkit-scrollbar': {
+        width: 0,
+        background: 'transparent',
+      },
+    }}
+  >
+    <AppTopBar />
+    {!excludeSidebar ? (
+      <Box sx={{maxWidth: '20%'}}>
+        <AppDrawer />
+      </Box>
+    ) : null}
     <Box
-      maxWidth="100%"
-      display="flex"
-      minHeight="100vh"
       sx={{
-        // We can design a custom scrollbar here, we can also make showing scrollbar optional
-        overflowY: overflowY ? 'scroll' : 'hidden',
-        '::-webkit-scrollbar': {
-          width: 0,
-          background: 'transparent',
-        },
+        flexGrow: 1,
+        pt: !excludeDefaultSpacing ? 12 : null,
+        px: !excludeDefaultSpacing ? 5 : null,
+        // pb: '1em',
+        // border: '2px solid red'
       }}
     >
-      <AppTopBar />
-      {!excludeSidebar ? (
-        <Box sx={{maxWidth: '20%'}}>
-          <AppDrawer />
-        </Box>
-      ) : null}
-      <Box
-        sx={{
-          flexGrow: 1,
-          pt: !excludeDefaultSpacing ? 12 : null,
-          px: !excludeDefaultSpacing ? 5 : null,
-          // pb: '1em',
-          // border: '2px solid red'
-        }}
-      >
-        {children}
-      </Box>
+      {children}
     </Box>
-  );
+  </Box>
+);
