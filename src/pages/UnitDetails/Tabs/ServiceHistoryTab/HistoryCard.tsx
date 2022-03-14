@@ -49,7 +49,7 @@ interface Props {
   collapsedChildren?: JSX.Element | null;
   expanded?: boolean;
   handleExpandClick?: () => void;
-  showMoreSection?: true;
+  showActionSection?: true;
   showPointer?: boolean;
   selected?: boolean;
   onCardSelect?: () => void;
@@ -93,7 +93,7 @@ export const HistoryCard = ({
   subtitle,
   showMoreReportDetails,
   showAlert,
-  showMoreSection,
+  showActionSection,
   collapsedChildren = null,
   expanded = false,
   handleExpandClick = () => {},
@@ -252,7 +252,7 @@ export const HistoryCard = ({
           </>
         )}
       </CardContent>
-      {showMoreSection && serviceOrderReport?.attachments.length ? (
+      {!noContent && showActionSection ? (
         <>
           <CardActions
             disableSpacing

@@ -6,7 +6,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {SplitButton} from 'components/SplitButton';
 import Box from '@mui/material/Box';
 import {PageCard} from 'components/PageCard';
+import {EmptyIllustration} from 'components/EmptyIllustration';
 import {createEmptyResource} from 'utils/paging-utils';
+import HideImageIcon from '@mui/icons-material/HideImage';
+import useTheme from '@mui/material/styles/useTheme';
 import {
   useServiceOrderReport,
   useServiceOrders,
@@ -24,6 +27,7 @@ import {HistoryAttachments} from './HistoryAttachments';
 const pageSize = 10;
 
 export const ServiceHistoryTab = () => {
+  const theme = useTheme();
   const {id: elevatorId} = useParams();
   const [selectedYear, setSelectedYear] = useState(
     getYear(new Date()).toString(),
@@ -189,13 +193,29 @@ export const ServiceHistoryTab = () => {
             removeServiceOrderType
             removeServiceOrderStatus
             showMoreReportDetails={!!serviceOrderReport.length}
-            showMoreSection
+            showActionSection
             containerStyles={{
               pt: '0.5em',
             }}
             handleExpandClick={handleExpandClick}
             expanded={expanded}
-            collapsedChildren={<HistoryAttachments downloadUrl={downloadUrl} />}
+            collapsedChildren={
+              downloadUrl?.length ? (
+                <HistoryAttachments downloadUrl={downloadUrl} />
+              ) : (
+                <EmptyIllustration
+                  label="No image attachments are added to the work report!"
+                  labelStyle={{mt: '1em', color: theme.palette.text.secondary}}
+                  labelVariant="subtitle2"
+                  icon={
+                    <HideImageIcon
+                      color="primary"
+                      sx={{width: '2.875rem', height: '2.875rem'}}
+                    />
+                  }
+                />
+              )
+            }
             headerTitle="Work Report"
             subtitle={currentReportDate || 'Awaiting completion of visit'}
           />
