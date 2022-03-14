@@ -85,10 +85,7 @@ function generateLabels(timeFrame: TimeFrame) {
 }
 
 function generateData(timeFrame: TimeFrame) {
-  return formatDates(timeFrame).map((day) => {
-    console.log(day);
-    return _.random(100, 800);
-  });
+  return formatDates(timeFrame).map(() => _.random(100, 800));
 }
 
 export const ElevatorAvailabilitySection = () => {
