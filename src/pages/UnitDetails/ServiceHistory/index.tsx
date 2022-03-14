@@ -14,6 +14,7 @@ interface Props {
 }
 
 export const ServiceHistory = ({serviceOrder}: Props) => {
+  console.log(serviceOrder, '!!!!!!!!!!!!');
   const theme = useTheme();
   return (
     <Grid

@@ -1,9 +1,11 @@
 import {ServiceOrderView} from 'models/service-order';
 import useTheme from '@mui/material/styles/useTheme';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import {createEmptyResource} from 'utils/paging-utils';
-import {endOfMonth, startOfDay} from 'date-fns';
+import {endOfYear, startOfYear} from 'date-fns';
 import {toRestDateTime} from 'utils/datetime';
 import {useParams} from 'react-router-dom';
 import {ReactComponent as Escalator} from 'assets/icons/Escalator.svg';
@@ -19,9 +21,13 @@ import {ElevatorBasicSection} from '../ElevatorBasicSection';
 import {TechnicianSection} from '../TechnicianSection';
 import {ServiceHistory} from '../ServiceHistory';
 
+interface Props {
+  getServiceHistoryTabIndex?: (value: number) => void;
+}
+
 const pageSize = 10;
 
-export const OverviewTab = () => {
+export const OverviewTab = ({getServiceHistoryTabIndex}: Props) => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
 
@@ -33,12 +39,13 @@ export const OverviewTab = () => {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
     elevatorIds: elevatorId,
-    start: toRestDateTime(startOfDay(new Date())),
-    end: toRestDateTime(endOfMonth(new Date())),
+    start: toRestDateTime(startOfYear(new Date())),
+    end: toRestDateTime(endOfYear(new Date())),
     pageSize,
     pageIndex: 0,
     query: '',
   });
+
   return (
     <>
       <Grid container spacing={2} sx={{mt: '1em'}}>
@@ -112,9 +119,40 @@ export const OverviewTab = () => {
         <Grid item xs={12}>
           <PageCard
             contentPadding="1.5em"
-            headerLabel="All Services"
+            headerContainerOverrideStyles={{backgroundColor: '#fff'}}
+            customHeader={
+              <Box display="flex" justifyContent="space-between">
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      color: theme.palette.text.primary,
+                    }}
+                  >
+                    All Services
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{textDecoration: 'underline', cursor: 'pointer'}}
+                  onClick={() =>
+                    getServiceHistoryTabIndex && getServiceHistoryTabIndex(1)
+                  }
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      color: theme.palette.primary.light,
+                    }}
+                  >
+                    View all
+                  </Typography>
+                </Box>
+              </Box>
+            }
             minHeight="10rem"
           >
+            {console.log(serviceOrders, '++++++++++===')}
             {serviceOrders.data.map((serviceOrder) => (
               <ServiceHistory
                 key={serviceOrder.id}

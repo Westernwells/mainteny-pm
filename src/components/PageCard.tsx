@@ -9,7 +9,8 @@ import useTheme from '@mui/material/styles/useTheme';
 
 export interface Props {
   children: ReactNode;
-  headerLabel: string;
+  headerLabel?: string;
+  customHeader?: JSX.Element;
   headerContainerOverrideStyles?: {[key: string]: string | number};
   headerTextOverrideStyles?: {[key: string]: string | number};
   headerActionIcon?: JSX.Element;
@@ -19,12 +20,13 @@ export interface Props {
 
 export const PageCard = ({
   children,
-  headerLabel,
+  headerLabel = '',
   headerContainerOverrideStyles,
   headerTextOverrideStyles,
   headerActionIcon,
   minHeight,
   contentPadding,
+  customHeader,
 }: Props) => {
   const theme = useTheme();
   return (
@@ -36,7 +38,6 @@ export const PageCard = ({
     >
       <CardHeader
         sx={{
-          background: theme.palette.inputBackground.main,
           height: '2rem',
           mt: '1em',
           mx: '0.5em',
@@ -48,15 +49,17 @@ export const PageCard = ({
           ) : null
         }
         title={
-          <Typography
-            variant="subtitle2"
-            sx={{
-              color: theme.palette.action.active,
-              ...headerTextOverrideStyles,
-            }}
-          >
-            {headerLabel}
-          </Typography>
+          customHeader || (
+            <Typography
+              variant="subtitle1"
+              sx={{
+                color: theme.palette.text.primary,
+                ...headerTextOverrideStyles,
+              }}
+            >
+              {headerLabel}
+            </Typography>
+          )
         }
       />
       <CardContent

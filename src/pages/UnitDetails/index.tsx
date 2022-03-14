@@ -139,7 +139,9 @@ export const UnitsDetail = () => {
         }}
       >
         <TabsBody value={value} index={0}>
-          <OverviewTab />
+          <OverviewTab
+            getServiceHistoryTabIndex={(tabIndex: number) => setValue(tabIndex)}
+          />
         </TabsBody>
 
         <TabsBody value={value} index={1}>

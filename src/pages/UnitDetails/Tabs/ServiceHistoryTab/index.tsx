@@ -17,7 +17,7 @@ import {
 import {formatDate, getDateObject, toRestDateTime} from 'utils/datetime';
 import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {useElevatorById} from 'hooks/reactQuery/useElevator';
-import {startOfDay, getYear, eachYearOfInterval, endOfYear} from 'date-fns';
+import {getYear, eachYearOfInterval, endOfYear, startOfYear} from 'date-fns';
 import {useParams} from 'react-router-dom';
 import {HistoryCard} from './HistoryCard';
 import {HistoryReport} from './HistoryReport';
@@ -48,7 +48,7 @@ export const ServiceHistoryTab = () => {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
     elevatorIds: elevatorId,
-    start: toRestDateTime(startOfDay(new Date(selectedYear))),
+    start: toRestDateTime(startOfYear(new Date(selectedYear))),
     end: toRestDateTime(endOfYear(new Date(selectedYear))),
     pageSize: 50,
     pageIndex: 0,
