@@ -10,6 +10,7 @@ import {EmptyIllustration} from 'components/EmptyIllustration';
 import {createEmptyResource} from 'utils/paging-utils';
 import HideImageIcon from '@mui/icons-material/HideImage';
 import useTheme from '@mui/material/styles/useTheme';
+import {ReactComponent as NotesIcon} from 'assets/icons/Notes.svg';
 import {
   useServiceOrderReport,
   useServiceOrders,
@@ -19,6 +20,11 @@ import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {useElevatorById} from 'hooks/reactQuery/useElevator';
 import {getYear, eachYearOfInterval, endOfYear, startOfYear} from 'date-fns';
 import {useParams} from 'react-router-dom';
+import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
+
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+
 import {HistoryCard} from './HistoryCard';
 import {HistoryReport} from './HistoryReport';
 import {HistoryBasicDetails} from './HistoryBasicDetails';
@@ -38,6 +44,7 @@ export const ServiceHistoryTab = () => {
   const [expanded, setExpanded] = useState<boolean>();
   const [selectedOrder, setSelectedOrder] = useState<ServiceOrderView>();
   const [currentReportDate, setCurrentReportDate] = useState<string>();
+  const [filterActive, setFilterActive] = useState(false);
   const [currentScheduleDate, setCurrentScheduleDate] = useState<string | null>(
     null,
   );
@@ -147,7 +154,6 @@ export const ServiceHistoryTab = () => {
         return setSelectedStatus([ServiceOrderStatus.SCHEDULED]);
       }
       return setSelectedStatus([value.split(' ').join('_').toUpperCase()]);
-      // return setSelectedStatus([...selectedStatus, value]);
     }
     return setSelectedStatus([]);
   };
@@ -155,73 +161,102 @@ export const ServiceHistoryTab = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={8}>
-        <HistoryBasicDetails>
-          <HistoryCard
-            showTimeCategory
-            // noContent={!selectedOrder}
-            serviceOrder={selectedOrder}
-            headerTitle={currentScheduleDate || ''}
-            description={selectedOrder?.description}
-            scheduledTime={
-              currentScheduleDate && currentScheduleTime
-                ? `${currentScheduleDate}, ${currentScheduleTime}`
-                : ''
-            }
-            minHeight="30vh"
-            isDetailCard
-            removeBottomLeftRadius
-            removeBottomRightRadius
-            showAlert
-            headerActionIcon={<MoreVertIcon />}
-            subtitle={currentScheduleTime || ''}
-            containerStyles={{
-              borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-              pt: '0.5em',
+        {filterActive && !serviceOrders.total ? (
+          <Card
+            sx={{
+              border: 'none',
+              height: '74vh',
             }}
+          >
+            <CardContent>
+              <EmptyIllustration
+                containerStyle={{mt: 10}}
+                labelStyle={{mt: 2, mb: 2}}
+                label="No service history entries for the applied filters!"
+              />
+            </CardContent>
+          </Card>
+        ) : !serviceOrders.total ? (
+          <EmptyIllustration
+            containerStyle={{mt: 10}}
+            labelStyle={{mt: 2, mb: 2}}
+            label="No service history entries for the applied filters!"
           />
-        </HistoryBasicDetails>
-        <HistoryReport>
-          <HistoryCard
-            serviceOrder={selectedOrder}
-            noContent={!serviceOrderReport.length}
-            serviceOrderReport={serviceOrderReport[0]}
-            reportIsLoading={serviceOrderReportLoading}
-            minHeight="30vh"
-            isDetailCard
-            removeTopLeftRadius
-            removeTopRightRadius
-            removeServiceOrderType
-            removeServiceOrderStatus
-            showMoreReportDetails={!!serviceOrderReport.length}
-            showActionSection
-            containerStyles={{
-              pt: '0.5em',
-            }}
-            handleExpandClick={handleExpandClick}
-            expanded={expanded}
-            collapsedChildren={
-              downloadUrl?.length ? (
-                <HistoryAttachments downloadUrl={downloadUrl} />
-              ) : (
-                <EmptyIllustration
-                  label="No image attachments are added to the work report!"
-                  labelStyle={{mt: '1em', color: theme.palette.text.secondary}}
-                  labelVariant="subtitle2"
-                  icon={
-                    <HideImageIcon
-                      color="primary"
-                      sx={{width: '2.875rem', height: '2.875rem'}}
+        ) : (
+          <>
+            <HistoryBasicDetails>
+              <HistoryCard
+                showTimeCategory
+                // noContent={!selectedOrder}
+                serviceOrder={selectedOrder}
+                headerTitle={currentScheduleDate || ''}
+                description={selectedOrder?.description}
+                scheduledTime={
+                  currentScheduleDate && currentScheduleTime
+                    ? `${currentScheduleDate}, ${currentScheduleTime}`
+                    : ''
+                }
+                minHeight="30vh"
+                isDetailCard
+                removeBottomLeftRadius
+                removeBottomRightRadius
+                showAlert
+                headerActionIcon={<MoreVertIcon />}
+                subtitle={currentScheduleTime || ''}
+                containerStyles={{
+                  borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                  pt: '0.5em',
+                }}
+              />
+            </HistoryBasicDetails>
+            <HistoryReport>
+              <HistoryCard
+                serviceOrder={selectedOrder}
+                noContent={!serviceOrderReport.length}
+                serviceOrderReport={serviceOrderReport[0]}
+                reportIsLoading={serviceOrderReportLoading}
+                minHeight="30vh"
+                isDetailCard
+                removeTopLeftRadius
+                removeTopRightRadius
+                removeServiceOrderType
+                removeServiceOrderStatus
+                showMoreReportDetails={!!serviceOrderReport.length}
+                showActionSection
+                containerStyles={{
+                  pt: '0.5em',
+                }}
+                handleExpandClick={handleExpandClick}
+                expanded={expanded}
+                collapsedChildren={
+                  downloadUrl?.length ? (
+                    <HistoryAttachments downloadUrl={downloadUrl} />
+                  ) : (
+                    <EmptyIllustration
+                      label="No image attachments are added to the work report!"
+                      labelStyle={{
+                        mt: '1em',
+                        color: theme.palette.text.secondary,
+                      }}
+                      labelVariant="subtitle2"
+                      icon={
+                        <HideImageIcon
+                          color="primary"
+                          sx={{width: '2.875rem', height: '2.875rem'}}
+                        />
+                      }
                     />
-                  }
-                />
-              )
-            }
-            headerTitle="Work Report"
-            subtitle={currentReportDate || 'Awaiting completion of visit'}
-          />
-        </HistoryReport>
+                  )
+                }
+                headerTitle="Work Report"
+                subtitle={currentReportDate || 'Awaiting completion of visit'}
+              />
+            </HistoryReport>
+          </>
+        )}
       </Grid>
       <Grid item xs={4}>
+        {serviceOrders.total && !filterActive}
         <PageCard
           headerLabel="All Services"
           contentPadding="0rem"
@@ -242,7 +277,10 @@ export const ServiceHistoryTab = () => {
                 selectionStyle={{background: '#fff', cursor: 'default'}}
                 selectedOption={`Year: ${selectedYear}`}
                 options={getYears()}
-                onSelectedOptionChanged={(value) => setSelectedYear(value)}
+                onSelectedOptionChanged={(value) => {
+                  setFilterActive(true);
+                  setSelectedYear(value);
+                }}
               />
             </Box>
             <SplitButton
@@ -252,33 +290,64 @@ export const ServiceHistoryTab = () => {
               selectionStyle={{background: '#fff', cursor: 'default'}}
               selectedOption={`Status: ${selectedStatusView}`}
               options={getStatus()}
-              onSelectedOptionChanged={onStatusSelect}
+              onSelectedOptionChanged={(value) => {
+                setFilterActive(true);
+                onStatusSelect(value);
+              }}
             />
           </Box>
           <Box sx={{height: '55vh', overflowY: 'scroll'}}>
-            {serviceOrders.data.map((serviceOrder: ServiceOrderView) => (
-              <HistoryCard
-                serviceOrder={serviceOrder}
-                headerTitle={formatDate(
-                  serviceOrder.schedules[0].startTime,
-                  'dd MMM YYY',
-                )}
-                subtitle={`${formatDate(
-                  serviceOrder?.schedules[0].startTime,
-                  'ha',
-                )} - ${formatDate(serviceOrder?.schedules[0].endTime, 'ha')}`}
-                description={serviceOrder.description}
-                key={serviceOrder.id}
-                selected={serviceOrder.id === selectedOrder?.id}
-                onCardSelect={() => setSelectedOrder(serviceOrder)}
-                containerStyles={{borderRadius: 0}}
-                showPointer
-                removeShadows
-                bodyContainerStyle={{
-                  borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                }}
+            {filterActive && !serviceOrders.total ? (
+              <EmptyIllustration
+                containerStyle={{mt: 10}}
+                labelStyle={{mt: 2, mb: 2}}
+                actionBtn={
+                  <CustomButtonUnstyled
+                    label="Reset Filters"
+                    styles={{
+                      background: theme.palette.primary.main,
+                      color: '#fff',
+                      '&:hover': {
+                        background: theme.palette.primary.main,
+                      },
+                    }}
+                    onClick={() => {
+                      setFilterActive(false);
+                      setSelectedYear(getYear(new Date()).toString());
+                      setSelectedStatus([]);
+                      setSelectedStatusView('All');
+                    }}
+                  />
+                }
+                icon={<NotesIcon />}
+                label="No service history entries for
+the applied filters!"
               />
-            ))}
+            ) : (
+              serviceOrders.data.map((serviceOrder: ServiceOrderView) => (
+                <HistoryCard
+                  serviceOrder={serviceOrder}
+                  headerTitle={formatDate(
+                    serviceOrder.schedules[0].startTime,
+                    'dd MMM YYY',
+                  )}
+                  subtitle={`${formatDate(
+                    serviceOrder?.schedules[0].startTime,
+                    'ha',
+                  )} - ${formatDate(serviceOrder?.schedules[0].endTime, 'ha')}`}
+                  description={serviceOrder.description}
+                  key={serviceOrder.id}
+                  selected={serviceOrder.id === selectedOrder?.id}
+                  onCardSelect={() => setSelectedOrder(serviceOrder)}
+                  containerStyles={{borderRadius: 0}}
+                  showPointer
+                  removeShadows
+                  bodyContainerStyle={{
+                    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                  }}
+                />
+              ))
+            )}
           </Box>
         </PageCard>
       </Grid>
