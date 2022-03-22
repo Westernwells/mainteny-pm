@@ -39,7 +39,8 @@ export const CustomButtonUnstyled = ({
       ...styles,
     }}
     startIcon={startIcon}
-    endIcon={endIcon}>
+    endIcon={endIcon}
+  >
     {label}
   </Button>
 );
