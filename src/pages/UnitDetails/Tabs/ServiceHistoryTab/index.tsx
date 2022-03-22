@@ -51,6 +51,7 @@ export const ServiceHistoryTab = () => {
   const [currentScheduleTime, setCurrentScheduleTime] = useState<string | null>(
     null,
   );
+
   const {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
@@ -158,10 +159,16 @@ export const ServiceHistoryTab = () => {
     return setSelectedStatus([]);
   };
 
-  return (
+  return !filterActive && !serviceOrders.total ? (
+    <EmptyIllustration
+      containerStyle={{mt: 10}}
+      labelStyle={{mt: 2, mb: 2}}
+      label="No service history entries made so far!"
+    />
+  ) : (
     <Grid container spacing={2}>
       <Grid item xs={8}>
-        {filterActive && !serviceOrders.total ? (
+        {!serviceOrders.total ? (
           <Card
             sx={{
               border: 'none',
@@ -176,13 +183,9 @@ export const ServiceHistoryTab = () => {
               />
             </CardContent>
           </Card>
-        ) : !serviceOrders.total ? (
-          <EmptyIllustration
-            containerStyle={{mt: 10}}
-            labelStyle={{mt: 2, mb: 2}}
-            label="No service history entries for the applied filters!"
-          />
-        ) : (
+        ) : null}
+
+        {serviceOrders.total ? (
           <>
             <HistoryBasicDetails>
               <HistoryCard
@@ -253,10 +256,9 @@ export const ServiceHistoryTab = () => {
               />
             </HistoryReport>
           </>
-        )}
+        ) : null}
       </Grid>
       <Grid item xs={4}>
-        {serviceOrders.total && !filterActive}
         <PageCard
           headerLabel="All Services"
           contentPadding="0rem"
@@ -297,7 +299,7 @@ export const ServiceHistoryTab = () => {
             />
           </Box>
           <Box sx={{height: '55vh', overflowY: 'scroll'}}>
-            {filterActive && !serviceOrders.total ? (
+            {!serviceOrders.total ? (
               <EmptyIllustration
                 containerStyle={{mt: 10}}
                 labelStyle={{mt: 2, mb: 2}}
