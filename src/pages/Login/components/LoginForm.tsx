@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEye';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import TextField from '@mui/material/TextField';
@@ -81,13 +82,15 @@ export const LoginForm = ({
             }}
           />
           <Box display="flex" justifyContent="flex-end" mt={1}>
-            <Button
-              variant="text"
-              color="info"
-              sx={{textTransform: 'capitalize'}}
-            >
-              Forgot Password?
-            </Button>
+            <Link to="/reset-password" style={{textDecoration: 'none'}}>
+              <Button
+                variant="text"
+                color="info"
+                sx={{textTransform: 'capitalize'}}
+              >
+                Forgot Password?
+              </Button>
+            </Link>
           </Box>
         </Box>
 
