@@ -9,6 +9,7 @@ interface Props {
   containerStyle?: {[key: string]: string | number};
   labelStyle?: {[key: string]: string | number};
   labelVariant?: any;
+  actionBtn?: JSX.Element;
 }
 
 export const EmptyIllustration = ({
@@ -17,6 +18,7 @@ export const EmptyIllustration = ({
   containerStyle,
   labelStyle,
   labelVariant,
+  actionBtn,
 }: Props) => {
   const theme = useTheme();
   return (
@@ -36,6 +38,7 @@ export const EmptyIllustration = ({
       >
         {label}
       </Typography>
+      {actionBtn}
     </Box>
   );
 };
