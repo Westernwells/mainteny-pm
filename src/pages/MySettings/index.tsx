@@ -56,6 +56,7 @@ export const MySettings = () => {
       userPhone: manager.userAccount.contact.phone,
       userDesignation: role,
       accountEmail: manager.userAccount.contact.email,
+      userAvatar: manager.userAccount.photoUrl,
     });
   };
 
@@ -75,8 +76,8 @@ export const MySettings = () => {
         },
         firstName: name[0] || '',
         lastName: name[1] || '',
-        photoUrl: '',
         username: fields.accountEmail,
+        photoUrl: fields.userAvatar,
       },
     };
     updateSettings(body as {userAccount: UpdateUserAccountData});
@@ -92,7 +93,11 @@ export const MySettings = () => {
     <Box sx={{mb: 2, mt: 12, px: 4}}>
       <BackAction label="My Settings" />
       <form onSubmit={formik.handleSubmit}>
-        <SettingsGrid setDrawerOpen={setDrawerOpen} formik={formik} />
+        <SettingsGrid
+          setDrawerOpen={setDrawerOpen}
+          formik={formik}
+          handleSubmit={() => handleSettingsUpdate(formik.values)}
+        />
         <BottomDrawer
           handleSubmit={() => handleSettingsUpdate(formik.values)}
           drawerOpen={drawerOpen}
