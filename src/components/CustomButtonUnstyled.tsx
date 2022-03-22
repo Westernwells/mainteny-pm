@@ -7,6 +7,7 @@ interface Props {
   endIcon?: JSX.Element;
   onClick?: () => void;
   disabled?: boolean;
+  styles?: any;
 }
 
 export const CustomButtonUnstyled = ({
@@ -15,6 +16,7 @@ export const CustomButtonUnstyled = ({
   startIcon,
   endIcon,
   disabled,
+  styles,
   onClick = () => {},
 }: Props) => (
   <Button
@@ -34,6 +36,7 @@ export const CustomButtonUnstyled = ({
       '&:hover': {
         background: 'transparent',
       },
+      ...styles,
     }}
     startIcon={startIcon}
     endIcon={endIcon}
