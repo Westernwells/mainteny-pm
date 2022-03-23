@@ -9,6 +9,7 @@ import {
   endOfDay,
   isWithinInterval,
 } from 'date-fns';
+import {useNavigate} from 'react-router-dom';
 import {toDate} from 'utils/datetime';
 import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
 import {ContractView, QueryContractParams} from '../../models/contract';
@@ -189,10 +190,20 @@ export const useQueryContract = (
   );
 };
 
-export const useFetchContractDetails = (contractId: string) =>
-  useQuery([qk.contractDetails, contractId], () =>
-    fetchContractDetails(contractId),
+export const useFetchContractDetails = (contractId: string) => {
+  const navigate = useNavigate();
+  return useQuery(
+    [qk.contractDetails, contractId],
+    () => fetchContractDetails(contractId),
+    {
+      onError: (err: any) => {
+        if (err.response.status === 500) {
+          navigate('/404');
+        }
+      },
+    },
   );
+};
 
 export const useContractElevatorCount = (
   contracts: ContractView[],

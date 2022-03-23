@@ -13,6 +13,7 @@ import {MySettings} from 'pages/MySettings';
 import {UnitsDetail} from 'pages/UnitDetails';
 import {ContractDetails} from 'pages/ContractDetails';
 import {MyUnits} from 'pages/Units';
+import {NotFound} from 'pages/NotFound';
 import {ProtectedRoutes} from 'routes/ProtectedRoutes';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {AuthRoutes} from './AuthRoutes';
@@ -105,5 +106,7 @@ export const Router = () => (
         }
       />
     </Route>
+
+    <Route path="*" element={<NotFound />} />
   </Routes>
 );
