@@ -71,7 +71,7 @@ export const UnitSection = ({
             sx={{cursor: 'pointer'}}
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
               e.preventDefault();
-              navigate(`/units/${elevatorOrder.elevator.id}`);
+              navigate(`/units/details/${elevatorOrder.elevator.id}`);
             }}
           >
             <Box display="flex" alignItems="center">
