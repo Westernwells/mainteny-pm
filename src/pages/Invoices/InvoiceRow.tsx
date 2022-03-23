@@ -34,7 +34,7 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
       }}
       onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
-        navigate(`/invoices/${invoice.id}`);
+        navigate(`/invoices/details/${invoice.id}`);
       }}
     >
       <Grid container sx={{pl: 2}}>

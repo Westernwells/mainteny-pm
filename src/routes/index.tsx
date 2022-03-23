@@ -44,7 +44,7 @@ export const Router = () => (
         }
       />
       <Route
-        path="/units/:id"
+        path="/units/details/:id"
         element={
           <PageLayout excludeDefaultSpacing overflowY>
             <UnitsDetail />
@@ -62,7 +62,7 @@ export const Router = () => (
       />
 
       <Route
-        path="/contracts/:id"
+        path="/contracts/details/:id"
         element={
           <PageLayout overflowY>
             <ContractDetails />
@@ -80,7 +80,7 @@ export const Router = () => (
       />
 
       <Route
-        path="/invoices/:id"
+        path="/invoices/details/:id"
         element={
           <PageLayout overflowY>
             <InvoiceDetails />
