@@ -35,47 +35,6 @@ interface ServiceOrderReportPayload {
   serviceOrderId: string | string[];
 }
 
-export const fetchServiceOrders = async (
-  params: any,
-  propertyOwnerId: string,
-): Promise<Resource<ServiceOrderView>> => {
-  const response: AxiosResponse<Resource<ServiceOrderView>> =
-    await axiosClient.get(
-      `/api/propertyOwners/${propertyOwnerId}/scheduledOrders`,
-      {
-        params,
-        paramsSerializer,
-      },
-    );
-  return response.data;
-};
-
-export const fetchServiceOrderReport = async (
-  params: ServiceOrderReportPayload,
-) => {
-  const response = await axiosClient.get<ServiceOrderReport[]>(
-    `/api/serviceOrders/reports`,
-    {
-      params,
-      paramsSerializer,
-    },
-  );
-  return response.data;
-};
-
-export const fetchElevatorAvailability = async (
-  params: ElevatorAvailabilityParams,
-) => {
-  const response = await axiosClient.get<ElevatorAvailability>(
-    `/api/availabilities/elevators`,
-    {
-      params,
-      paramsSerializer,
-    },
-  );
-  return response.data;
-};
-
 const filterByNextVisit = (
   serviceOrderViewRes: Resource<ServiceOrderView>,
   nextVisit: string[],
@@ -194,6 +153,19 @@ export const logIssue = async (body: OptionalCreateNonScheduledBody) => {
   });
 };
 
+export const fetchElevatorAvailability = async (
+  params: ElevatorAvailabilityParams,
+) => {
+  const response = await axiosClient.get<ElevatorAvailability>(
+    `/api/availabilities/elevators`,
+    {
+      params,
+      paramsSerializer,
+    },
+  );
+  return response.data;
+};
+
 export const useFetchElevatorAvailability = (elevatorIds: string[]) => {
   const params = {
     elevatorId: elevatorIds,
@@ -210,6 +182,19 @@ export const useFetchElevatorAvailability = (elevatorIds: string[]) => {
   );
 };
 
+export const fetchServiceOrderReport = async (
+  params: ServiceOrderReportPayload,
+) => {
+  const response = await axiosClient.get<ServiceOrderReport[]>(
+    `/api/serviceOrders/reports`,
+    {
+      params,
+      paramsSerializer,
+    },
+  );
+  return response.data;
+};
+
 export function useServiceOrderReport(params: ServiceOrderReportPayload) {
   return useQuery<ServiceOrderReport[], RestError>(
     [queryKeys.fetchServiceOrderReport, params],
@@ -218,12 +203,30 @@ export function useServiceOrderReport(params: ServiceOrderReportPayload) {
   );
 }
 
+export const fetchServiceOrders = async (
+  params: any,
+  propertyOwnerId: string,
+): Promise<Resource<ServiceOrderView>> => {
+  const response: AxiosResponse<Resource<ServiceOrderView>> =
+    await axiosClient.get(
+      `/api/propertyOwners/${propertyOwnerId}/scheduledOrders`,
+      {
+        params,
+        paramsSerializer,
+      },
+    );
+  return response.data;
+};
+
 export function useServiceOrders(params: any) {
   const {data: user} = usePropertyManager();
   return useQuery<Resource<ServiceOrderView>, RestError>(
     [queryKeys.fetchServiceOrders, params],
     () => fetchServiceOrders(params, user!.propertyOwner.id),
-    {enabled: !!user && !!params.elevatorIds},
+    {
+      enabled: !!user && !!params.elevatorIds,
+      select: useCallback((data) => data, [user, params]),
+    },
   );
 }
 

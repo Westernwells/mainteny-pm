@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
@@ -201,13 +202,6 @@ export const HistoryCard = ({
                   icon={<LockClockIcon color="info" />}
                   iconBackground={theme.palette.info.outlinedHoverBg}
                   bodyText={scheduledTime || ''}
-                />
-                <CardProps
-                  label="Preferred Time"
-                  bodyTextVariant="body1"
-                  icon={<AccessTimeIcon color="warning" />}
-                  iconBackground={theme.palette.warning.outlinedHoverBg}
-                  bodyText="24 Sep 2021, 3PM"
                 />
               </Box>
             ) : null}
