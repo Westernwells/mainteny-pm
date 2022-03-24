@@ -188,8 +188,9 @@ export const ServiceHistoryTab = () => {
           <>
             <HistoryBasicDetails>
               <HistoryCard
-                showTimeCategory
-                // noContent={!selectedOrder}
+                showTimeCategory={
+                  selectedOrder?.status !== ServiceOrderStatus.COMPLETED
+                }
                 serviceOrder={selectedOrder}
                 headerTitle={currentScheduleDate || ''}
                 description={selectedOrder?.description}
