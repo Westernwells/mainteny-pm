@@ -14,14 +14,12 @@ import {ElevatorStatus, ElevatorView} from '../../models/elevator';
 
 export interface UnitsSectionProperty {
   elevatorsByAddress: ElevatorsByAddress;
-  setDrawerOpen: (state: boolean) => void; // eslint-disable-line no-unused-vars
-  /* eslint-disable no-unused-vars */
+  setDrawerOpen: (state: boolean) => void;
   setField: (
     field: string,
     value: any,
     shouldValidate?: boolean | undefined,
   ) => Promise<void> | Promise<FormikErrors<any>>;
-  /* eslint-enable no-unused-vars */
 }
 
 export const UnitSection = ({
@@ -71,7 +69,7 @@ export const UnitSection = ({
             sx={{cursor: 'pointer'}}
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
               e.preventDefault();
-              navigate(`/units/${elevatorOrder.elevator.id}`);
+              navigate(`/units/details/${elevatorOrder.elevator.id}`);
             }}>
             <Box display="flex" alignItems="center">
               <Elevator style={{marginRight: '10px'}} />

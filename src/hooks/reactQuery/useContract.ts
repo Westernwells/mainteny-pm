@@ -1,8 +1,7 @@
 import {useCallback} from 'react';
-import {useQuery} from 'react-query';
+import {useQuery, UseQueryOptions} from 'react-query';
 import * as _ from 'lodash';
 import {queryKeys as qk} from 'reactQuery/constants';
-import {staticContractDetails} from 'pages/ContractDetails/data';
 import {
   addDays,
   startOfDay,
@@ -10,51 +9,45 @@ import {
   endOfDay,
   isWithinInterval,
 } from 'date-fns';
+import {useNavigate} from 'react-router-dom';
 import {toDate} from 'utils/datetime';
-import {
-  staticContractElevatorCount,
-  staticContracts,
-} from 'pages/Contracts/data';
 import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
 import {ContractView, QueryContractParams} from '../../models/contract';
 import {Resource, RestError} from '../../models/misc';
 import {usePropertyManager} from './usePropertyManager';
 
 export const fetchContractElevatorCount = async (contractId: string[]) => {
-  const response = await axiosClient.get<{[key: string]: number}>( // eslint-disable-line no-unused-vars
+  const response = await axiosClient.get<{[key: string]: number}>(
     `/api/contracts/elevators/count`,
     {
       params: {contractId},
       paramsSerializer,
     },
   );
-  console.log(response);
 
-  return staticContractElevatorCount;
+  return response.data;
 };
 
 export const fetchContracts = async (
   id: string,
   params: QueryContractParams,
 ) => {
-  const response = await axiosClient.get<Resource<ContractView>>( // eslint-disable-line no-unused-vars
+  const response = await axiosClient.get<Resource<ContractView>>(
     `/api/propertyOwners/${id}/contracts`,
     {
       params,
       paramsSerializer,
     },
   );
-  console.log(response);
 
-  return staticContracts;
+  return response.data;
 };
 
 const fetchContractDetails = async (contractId: string) => {
-  const response = await axiosClient.get<ContractView>( // eslint-disable-line no-unused-vars
+  const response = await axiosClient.get<ContractView>(
     `/api/contracts/${contractId}`,
   );
-  console.log(response);
-  return staticContractDetails;
+  return response.data;
 };
 
 const filterByExpiryData = (
@@ -171,19 +164,20 @@ const filterContracts = (
     const prices = filterByPrice(result, filter.price);
     result = {...result, data: prices, total: prices.length};
   }
-
   return result;
 };
 
 export const useQueryContract = (
   params: QueryContractParams,
   filter: {expiryDate: string[]; contractor: string[]; price: number[][]},
+  options?: UseQueryOptions<any, any, any>,
 ) => {
   const {data: user} = usePropertyManager();
   return useQuery<Resource<ContractView>, RestError, Resource<ContractView>>(
     [qk.contracts, params],
     () => fetchContracts(user!.propertyOwner.id, params),
     {
+      ...options,
       enabled: !!user,
       select: useCallback(
         (contractsRes: Resource<ContractView>) => {
@@ -196,17 +190,31 @@ export const useQueryContract = (
   );
 };
 
-export const useFetchContractDetails = (contractId: string) =>
-  useQuery([qk.contractDetails, contractId], () =>
-    fetchContractDetails(contractId),
-  );
-
-export const useContractElevatorCount = (contracts: ContractView[]) => {
-  const contractIds = contracts.map((contract) => contract.id);
+export const useFetchContractDetails = (contractId: string) => {
+  const navigate = useNavigate();
   return useQuery(
+    [qk.contractDetails, contractId],
+    () => fetchContractDetails(contractId),
+    {
+      onError: (err: any) => {
+        if (err.response.status === 500) {
+          navigate('/404');
+        }
+      },
+    },
+  );
+};
+
+export const useContractElevatorCount = (
+  contracts: ContractView[],
+  options?: UseQueryOptions<{[key: string]: number}, RestError, ContractView[]>,
+) => {
+  const contractIds = contracts.map((contract) => contract.id);
+  return useQuery<{[key: string]: number}, RestError, ContractView[]>(
     [qk.fetchContractElevatorCount, contractIds],
     () => fetchContractElevatorCount(contractIds),
     {
+      ...options,
       enabled: !!contracts.length,
       select: useCallback(
         (data) =>

@@ -116,7 +116,7 @@ export const Notifications = () => {
           <NotificationCard />
         </Box>
       </Box>
-      (
+
       <Fade in={showFabIcon}>
         <Box
           onClick={() => {

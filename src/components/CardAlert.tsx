@@ -6,7 +6,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 interface Props {
   alertIcon?: JSX.Element;
-  message: string;
+  message: string | null;
   status?: 'error' | 'info' | 'success' | 'warning';
 }
 

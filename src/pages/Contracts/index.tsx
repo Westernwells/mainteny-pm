@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {ChangeEvent, MouseEvent, useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Fade from '@mui/material/Fade';
@@ -6,25 +6,28 @@ import {GridRowsProp} from '@mui/x-data-grid';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {FilterFields} from 'components/FilterFields';
-import {columns, makeRows} from './ContractsDataGridProps';
+import TablePagination from '@mui/material/TablePagination';
+import useTheme from '@mui/material/styles/useTheme';
 import {
   useContractElevatorCount,
   useQueryContract,
-} from '../../hooks/reactQuery/useContract';
-import {ContractOrderField, ContractView} from '../../models/contract';
-import {BtnGroupType, Order} from '../../models/misc';
-import {createEmptyResource, makePage} from '../../utils/paging-utils';
-import {Widget} from '../../components/Widget';
+} from 'hooks/reactQuery/useContract';
+import {ContractOrderField, ContractView} from 'models/contract';
+import {Order} from 'models/misc';
+import {createEmptyResource, makePage} from 'utils/paging-utils';
+import {Widget} from 'components/Widget';
+import {columns, makeRows} from './ContractsDataGridProps';
 
-const pageSize = 10;
+const pageSize = 2;
 
 export const Contracts = () => {
   const [search, setSearch] = useState('');
-  const page = useRef(makePage(0, pageSize)).current;
+  const [page, setPage] = useState(makePage(0, pageSize));
   const [showFilter, setShowFilter] = useState(false);
   const [expiryDate, setExpiryDate] = useState<string[]>([]);
   const [contractor, setContractor] = useState<string[]>([]);
   const [cost, setCost] = useState<number[][]>([]);
+  const theme = useTheme();
   const [contractorFilterItems, setConractorFileterItems] = useState<string[]>(
     [],
   );
@@ -39,10 +42,12 @@ export const Contracts = () => {
         query: search,
       },
       {expiryDate, contractor, price: cost},
+      {keepPreviousData: true},
     );
 
   const {data: contractWithUnits} = useContractElevatorCount(
     contractResource.data,
+    {keepPreviousData: true},
   );
 
   const costRangeConvertor = (selectedItems: string[]) => {
@@ -74,7 +79,6 @@ export const Contracts = () => {
 
   useEffect(() => {
     const options: string[] = [];
-    console.log('test');
 
     if (contractWithUnits) {
       contractWithUnits?.forEach((item) => {
@@ -105,11 +109,11 @@ export const Contracts = () => {
         </Box>
         <Box mt={1}>
           <Widget
-            btnGroupType={BtnGroupType.ICON}
             searchPlaceholder="Try 'Astralift BV'"
             onSearchTextChanged={setSearch}
             setShowFilter={setShowFilter}
             showFilter={showFilter}
+            hideViewOption
           />
         </Box>
       </Box>
@@ -148,7 +152,28 @@ export const Contracts = () => {
           </FilterFields>
         </Box>
       </Fade>
-      <DataGridLayout rows={rows} columns={columns} />
+      <DataGridLayout hideFooter rows={rows} columns={columns} />
+
+      <TablePagination
+        sx={{
+          '& .MuiTablePagination-selectLabel': {
+            color: theme.palette.text.secondary,
+          },
+        }}
+        component="div"
+        count={contractResource.total}
+        page={page.pageIndex}
+        onPageChange={(
+          event: MouseEvent<HTMLButtonElement> | null,
+          newPage: number,
+        ) => setPage({...page, pageIndex: newPage})}
+        rowsPerPage={page.pageSize}
+        onRowsPerPageChange={(
+          event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+        ) =>
+          setPage({pageSize: parseInt(event.target.value, 10), pageIndex: 0})
+        }
+      />
     </Box>
   );
 };

@@ -20,7 +20,6 @@ import {
 } from 'chart.js';
 import {EmptySection} from 'components/EmptySection';
 import {Bar} from 'react-chartjs-2';
-
 import {SplitButton} from '../../components/SplitButton';
 import {formatDate} from '../../utils/datetime';
 

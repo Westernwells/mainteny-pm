@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEye';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import TextField from '@mui/material/TextField';
@@ -9,9 +10,9 @@ import EmailSharp from '@mui/icons-material/EmailSharp';
 import CircularProgress from '@mui/material/CircularProgress';
 
 interface Props {
-  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void; // eslint-disable-line no-unused-vars
-  handleChange: (e: React.ChangeEvent<any>) => void; // eslint-disable-line no-unused-vars
-  handleBlur: (e: React.FocusEvent<any, Element>) => void; // eslint-disable-line no-unused-vars
+  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
+  handleChange: (e: React.ChangeEvent<any>) => void;
+  handleBlur: (e: React.FocusEvent<any, Element>) => void;
   email: string;
   emailTouched: boolean | undefined;
   emailError: string | undefined;
@@ -80,12 +81,14 @@ export const LoginForm = ({
             }}
           />
           <Box display="flex" justifyContent="flex-end" mt={1}>
-            <Button
-              variant="text"
-              color="info"
-              sx={{textTransform: 'capitalize'}}>
-              Forgot Password?
-            </Button>
+            <Link to="/reset-password" style={{textDecoration: 'none'}}>
+              <Button
+                variant="text"
+                color="info"
+                sx={{textTransform: 'capitalize'}}>
+                Forgot Password?
+              </Button>
+            </Link>
           </Box>
         </Box>
 

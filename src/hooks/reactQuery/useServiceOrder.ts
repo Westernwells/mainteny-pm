@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 import {useSnackbar} from 'notistack';
-import {useMutation, useQuery} from 'react-query';
+import {useMutation, useQuery, UseQueryOptions} from 'react-query';
 import * as _ from 'lodash';
 import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
@@ -84,7 +84,6 @@ const filterByNextVisit = (
   let key: number | string;
 
   const monthIndex = getMonth(new Date());
-  // const nextMonth = setMonth(new Date(), monthIndex+1)
 
   const serviceOrderViewMap = _.groupBy(
     serviceOrderViewRes.data,
@@ -211,11 +210,11 @@ export const useFetchElevatorAvailability = (elevatorIds: string[]) => {
   );
 };
 
-export function useServiceOrderReport(params?: ServiceOrderReportPayload) {
+export function useServiceOrderReport(params: ServiceOrderReportPayload) {
   return useQuery<ServiceOrderReport[], RestError>(
     [queryKeys.fetchServiceOrderReport, params],
     () => fetchServiceOrderReport(params as ServiceOrderReportPayload),
-    {enabled: !!params && !!params.serviceOrderId.length},
+    {enabled: !!params.serviceOrderId || !!params.serviceOrderId.length},
   );
 }
 
@@ -231,6 +230,7 @@ export function useServiceOrders(params: any) {
 export function useFetchServiceOrdersByElevators(
   elevatorRes: Resource<ElevatorView>,
   filter: {nextVisit: string[]; availabilityRange: number[][]},
+  options?: UseQueryOptions<any, any, any>,
 ) {
   const {data: user} = usePropertyManager();
   const elevatorIds = elevatorRes?.data.map((elevator) => elevator.id);
@@ -252,6 +252,7 @@ export function useFetchServiceOrdersByElevators(
         user!.propertyOwner.id,
       ),
     {
+      ...options,
       enabled: !!user && !!availability,
       select: useCallback(
         (serviceOrderView: Resource<ServiceOrderView>) => {

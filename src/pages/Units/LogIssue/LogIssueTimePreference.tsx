@@ -12,7 +12,6 @@ interface Props {
   children: React.ReactNode;
   date: Date | null;
   time: Date | null;
-
   setTime: (state: Date | null) => void;
 }
 

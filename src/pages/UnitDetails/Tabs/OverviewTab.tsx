@@ -1,53 +1,59 @@
-import {Elevator} from 'models/elevator';
 import {ServiceOrderView} from 'models/service-order';
 import useTheme from '@mui/material/styles/useTheme';
-
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-
 import {createEmptyResource} from 'utils/paging-utils';
-import {endOfMonth, startOfDay} from 'date-fns';
+import {endOfYear, startOfYear} from 'date-fns';
 import {toRestDateTime} from 'utils/datetime';
 import {useParams} from 'react-router-dom';
 import {ReactComponent as Escalator} from 'assets/icons/Escalator.svg';
 import {PageCard} from 'components/PageCard';
-import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
 
+import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
+import {EmptyIllustration} from 'components/EmptyIllustration';
+import {
+  useElevatorById,
+  useElevatorMaintainers,
+} from 'hooks/reactQuery/useElevator';
 import {ElevatorAvailabilitySection} from '../ElevatorAvailabilitySection';
 import {ElevatorBasicSection} from '../ElevatorBasicSection';
 import {TechnicianSection} from '../TechnicianSection';
-import {MaintainerView} from '../../../models/technician';
 import {ServiceHistory} from '../ServiceHistory';
+
+interface Props {
+  getServiceHistoryTabIndex?: (value: number) => void;
+}
 
 const pageSize = 10;
 
-interface Props {
-  elevator?: Elevator;
-  maintainers: MaintainerView[];
-}
-
-export const OverviewTab = ({elevator, maintainers}: Props) => {
+export const OverviewTab = ({getServiceHistoryTabIndex}: Props) => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
+
+  const {data: elevator} = useElevatorById(elevatorId);
+
+  const {data: maintainers = []} = useElevatorMaintainers(elevatorId);
+
   const {
-    data: runningServiceOrders = createEmptyResource<ServiceOrderView>(
-      pageSize,
-    ),
+    data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
     elevatorIds: elevatorId,
-    start: toRestDateTime(startOfDay(new Date())),
-    end: toRestDateTime(endOfMonth(new Date())),
-    pageSize: 2,
+    start: toRestDateTime(startOfYear(new Date())),
+    end: toRestDateTime(endOfYear(new Date())),
+    pageSize,
     pageIndex: 0,
     query: '',
   });
+
   return (
     <>
       <Grid container spacing={2} sx={{mt: '1em'}}>
         <Grid item xs={4}>
           <ElevatorBasicSection
             elevator={elevator}
-            serviceOrder={runningServiceOrders.data[0]}
+            serviceOrder={serviceOrders.data[0]}
             rows={[
               {
                 leftLabel: elevator?.model,
@@ -112,11 +118,52 @@ export const OverviewTab = ({elevator, maintainers}: Props) => {
 
       <Grid container sx={{mt: '1em'}}>
         <Grid item xs={12}>
-          <PageCard contentPadding="1.5em" headerLabel="Service History">
-            <ServiceHistory />
-            {[1, 2, 3, 4, 5, 6, 7].map(() => (
-              <ServiceHistory />
-            ))}
+          <PageCard
+            contentPadding="1.5em"
+            headerContainerOverrideStyles={{backgroundColor: '#fff'}}
+            customHeader={
+              <Box display="flex" justifyContent="space-between">
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      color: theme.palette.text.primary,
+                    }}>
+                    All Services
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    textDecoration: 'underline',
+                    cursor: 'pointer',
+                    display: serviceOrders.data.length ? 'block' : 'none',
+                  }}
+                  onClick={() =>
+                    getServiceHistoryTabIndex && getServiceHistoryTabIndex(1)
+                  }>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      color: theme.palette.primary.light,
+                    }}>
+                    View all
+                  </Typography>
+                </Box>
+              </Box>
+            }
+            minHeight="10rem">
+            {!serviceOrders.data.length ? (
+              <EmptyIllustration label="No service history entries made so far!" />
+            ) : (
+              serviceOrders.data.map((serviceOrder) => (
+                <ServiceHistory
+                  key={serviceOrder.id}
+                  serviceOrder={serviceOrder}
+                />
+              ))
+            )}
+            {}
           </PageCard>
         </Grid>
       </Grid>

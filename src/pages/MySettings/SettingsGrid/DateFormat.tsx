@@ -18,7 +18,7 @@ interface Props {
   formData: {
     dateFormat: string;
   };
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // eslint-disable-line no-unused-vars
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const DateFormat = ({formData, onChange}: Props) => (

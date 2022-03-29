@@ -9,11 +9,12 @@ import {Locale} from './Locale';
 import {PersonalDetails} from './PersonalDetails';
 
 interface Props {
+  handleSubmit: () => void;
   setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   formik: FormikProps<FormFeilds>;
 }
 
-export const SettingsGrid = ({setDrawerOpen, formik}: Props) => {
+export const SettingsGrid = ({setDrawerOpen, handleSubmit, formik}: Props) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     formik.handleChange(e);
     setDrawerOpen(true);
@@ -32,13 +33,9 @@ export const SettingsGrid = ({setDrawerOpen, formik}: Props) => {
       <Grid xs={7} item>
         <Box display="flex" flexDirection="column" gap={2}>
           <PersonalDetails
-            formData={{
-              userName: formik.values.userName,
-              userAvatar: formik.values.userAvatar,
-              userDesignation: formik.values.userDesignation,
-              userPhone: formik.values.userPhone,
-            }}
+            formik={formik}
             onChange={handleChange}
+            handleSubmit={handleSubmit}
           />
           <Locale
             formData={{
@@ -53,7 +50,7 @@ export const SettingsGrid = ({setDrawerOpen, formik}: Props) => {
         <Box display="flex" flexDirection="column" gap={2}>
           <Account
             formData={{
-              accoutEmail: formik.values.accountEmail,
+              accoutEmail: formik.values.accountEmail || '',
               accoutPassword: formik.values.accountPassword,
             }}
             onChange={handleChange}

@@ -5,13 +5,13 @@ import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {usePropertyManager} from './usePropertyManager';
 
 export const fetchDownloadUrl = async (
-  pdfPath: string[],
+  filePath: string[],
   serviceCompanyId: string,
 ) => {
   const response = await axiosClient.get<{[key: string]: string}>(
     `/api/media/signedUrl/download`,
     {
-      params: {file: pdfPath, serviceCompanyId},
+      params: {file: filePath, serviceCompanyId},
       paramsSerializer,
     },
   );
@@ -20,22 +20,22 @@ export const fetchDownloadUrl = async (
 };
 
 export const useDownloadUrl = (
-  pdfPath: string[],
+  filePath: string[],
   options?: {[key: string]: any},
 ) => {
   const {data: propertyManager} = usePropertyManager();
   const serviceCompanyId = propertyManager?.userAccount.serviceCompany.id;
   return useQuery(
-    [qk.invoiceDownloadUrl, pdfPath, serviceCompanyId],
-    () => fetchDownloadUrl(pdfPath, serviceCompanyId!),
+    [qk.downloadUrl, filePath, serviceCompanyId],
+    () => fetchDownloadUrl(filePath, serviceCompanyId!),
     {
-      enabled: !!pdfPath.length && !!serviceCompanyId,
+      enabled: !!filePath.length && !!serviceCompanyId,
       refetchOnWindowFocus: false,
       cacheTime: 0,
       ...options,
       select: useCallback(
-        (data) => pdfPath?.map((item) => data[item]),
-        [pdfPath],
+        (data) => filePath?.map((item) => data[item]),
+        [filePath],
       ),
     },
   );

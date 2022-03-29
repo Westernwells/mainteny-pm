@@ -104,6 +104,6 @@ export const makeRows = (contracts: any): GridRowsProp =>
         units: item.units,
         cost: `${item.price} €`,
         expiryDate: formatDate(item.endTime),
-        navigateTo: item.id,
+        navigateTo: `details/${item.id}`,
       }))
     : console.error('No Data');

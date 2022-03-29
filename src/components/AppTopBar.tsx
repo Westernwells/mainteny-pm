@@ -1,22 +1,25 @@
 import Box from '@mui/material/Box';
 import Language from '@mui/icons-material/Language';
 import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
 import AppBar from '@mui/material/AppBar';
 import {Link} from 'react-router-dom';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import useTheme from '@mui/material/styles/useTheme';
-
 import {ReactComponent as LogoutIcon} from 'assets/icons/Logout.svg';
 import {ReactComponent as Logo} from 'assets/icons/Logo.svg';
 import {useAuth} from 'hooks/useAuth';
 import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
-import {UserAvatar} from './UserAvatar';
+import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 
 export const AppTopBar = () => {
   const theme = useTheme();
   const {signout} = useAuth();
   const {data: user} = usePropertyManager();
+  const {data: downloadUrl} = useDownloadUrl(
+    user?.userAccount.photoUrl ? [user?.userAccount.photoUrl] : [],
+  );
   return (
     <AppBar
       sx={{
@@ -62,13 +65,9 @@ export const AppTopBar = () => {
 
             <Link to="/settings" style={{textDecoration: 'none'}}>
               <Box ml={8} display="flex" alignItems="center">
-                <UserAvatar
-                  src={user?.userAccount.photoUrl}
-                  alt={
-                    user
-                      ? `${user?.userAccount.firstName} ${user?.userAccount.lastName}`
-                      : ''
-                  }
+                <Avatar
+                  alt={`${user?.userAccount.firstName} ${user?.userAccount.lastName}`}
+                  src={downloadUrl ? downloadUrl[0] : null}
                 />
                 <Box ml={2}>
                   <Typography

@@ -45,7 +45,7 @@ interface Props {
   label: string;
   value: string;
   id: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // eslint-disable-line no-unused-vars
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 
   children?: ReactNode | null;
   select?: boolean;

@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {ChangeEvent, MouseEvent, useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {ElevatorView} from 'models/elevator';
@@ -17,8 +17,9 @@ import * as Yup from 'yup';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
-import {BtnGroupType} from 'models/misc';
+
 import {FilterFields} from 'components/FilterFields';
+
 import useTheme from '@mui/material/styles/useTheme';
 import {UnitSection} from './UnitSection';
 import {UnitsMapsView} from './UnitsMapsView';
@@ -28,6 +29,8 @@ import {LogIssueDescription} from './LogIssue/LogIssueDescription';
 import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
 import {LogIssueTimePreference} from './LogIssue/LogIssueTimePreference';
 import {LogIssueDateTime} from './LogIssue/LogIssueDateTime';
+
+const pageInfo = makePage(0, 3);
 
 interface FormikFields {
   description: string;
@@ -45,7 +48,7 @@ export const MyUnits = () => {
     centerCoord: {longitude: 0, latitude: 0},
   }).current;
   const [search, setSearch] = useState('');
-  const page = useRef(makePage(0, 10)).current; // TODO: implement paging
+  const [page, setPage] = useState(pageInfo); // TODO: implement paging
   const [showFilter, setShowFilter] = useState(false);
   const [availability, setAvailability] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
@@ -56,14 +59,18 @@ export const MyUnits = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
 
-  const {data: elevatorResponse = fallback} = useAllElevators(search, page, {
+  const {data: elevatorResponse = fallback} = useAllElevators(
+    search,
+    page,
     status,
-  });
+    {keepPreviousData: true},
+  );
   const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
     elevatorResponse.elevator,
     {nextVisit, availabilityRange: availability},
+    {keepPreviousData: true},
   );
-  console.log(elevatorResponse.elevator);
+
   const availabilityRangeConvertor = (selectedItems: string[]) => {
     const range: number[][] = [];
     selectedItems.forEach((item) => {
@@ -122,6 +129,15 @@ export const MyUnits = () => {
     setShowMapview(false);
   };
 
+  const handlePageChange = (
+    _e: MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    setPage({...page, pageIndex: newPage});
+  };
+
+  useEffect(() => {});
+
   useEffect(() => {
     if (!showFilter) {
       setStatus([]);
@@ -144,7 +160,6 @@ export const MyUnits = () => {
             mapViewActive={showMapview}
             setShowFilter={setShowFilter}
             showFilter={showFilter}
-            btnGroupType={BtnGroupType.ICON}
           />
         </Box>
       </Box>
@@ -197,11 +212,17 @@ export const MyUnits = () => {
             }}
             component="div"
             count={elevatorResponse.elevator.total}
-            page={elevatorResponse.elevator.page.pageIndex}
-            // TODO: Implement paging
-            onPageChange={() => console.log('page change')}
-            rowsPerPage={elevatorResponse.elevator.page.pageSize}
-            //  onRowsPerPageChange={handleChangeRowsPerPage}
+            page={page.pageIndex}
+            onPageChange={handlePageChange}
+            rowsPerPage={page.pageSize}
+            onRowsPerPageChange={(
+              event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+            ) =>
+              setPage({
+                pageSize: parseInt(event.target.value, 10),
+                pageIndex: 0,
+              })
+            }
           />
         </>
       ) : (

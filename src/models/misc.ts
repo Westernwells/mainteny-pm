@@ -165,6 +165,7 @@ export interface DateRange {
 export interface Fee {
   amount: number;
   currency: string;
+  fractionDigits: number;
 }
 
 export enum Priority {
@@ -181,6 +182,10 @@ export interface StringValueResponse {
 export interface Fee {
   amount: number;
   currency: string;
+}
+
+export interface FileWithPreview extends File {
+  preview: string;
 }
 
 export type WithOptional<T, K extends keyof T> = Omit<T, K> &

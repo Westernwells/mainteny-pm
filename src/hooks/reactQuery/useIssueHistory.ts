@@ -1,6 +1,4 @@
 import {AxiosResponse} from 'axios';
-import {ServiceOrderType, ServiceOrderView} from 'models/service-order';
-import {useCallback} from 'react';
 import {useQuery} from 'react-query';
 import {queryKeys as qks} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
@@ -38,34 +36,28 @@ export const breakDownHistoryResource: Resource<BreakdownHistoryView> = {
   total: 10,
 };
 
-export const fetchIssueHistory = async (
+export const fetchIssueHistories = async (
   params: any,
-): Promise<Resource<ServiceOrderView>> => {
-  const response: AxiosResponse<Resource<ServiceOrderView>> =
-    await axiosClient.get(`/api/serviceOrders`, {
+  elevatorId: string,
+): Promise<Resource<BreakdownHistoryView>> => {
+  const response: AxiosResponse<Resource<BreakdownHistoryView>> =
+    await axiosClient.get(`/api/elevators/${elevatorId}/breakdownHistories`, {
       params,
       paramsSerializer,
     });
   return response.data;
 };
 
-export function useIssueHistory(params: any) {
+export function useIssueHistory(params: any, elevatorId?: string) {
   // console.log(params, '|||+====')
   return useQuery(
-    [qks.fetchIssueHistory, params],
-    () => fetchIssueHistory(params),
+    [qks.fetchIssueHistory, elevatorId, params],
+    () => fetchIssueHistories(params, elevatorId!),
     {
-      enabled: !!params.serviceCompanyId && !!params.elevatorIds,
-      select: useCallback((history: Resource<ServiceOrderView>) => {
-        const issues = history.data.filter(
-          (item) => item.type !== ServiceOrderType.REGULAR,
-        );
-        return {
-          ...history,
-          total: issues.length,
-          data: issues,
-        };
-      }, []),
+      enabled: !!elevatorId,
+      // select: useCallback((history: Resource<BreakdownHistoryView>) => {
+
+      // }, []),
     },
   );
 }

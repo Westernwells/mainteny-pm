@@ -1,6 +1,5 @@
-import {addDays, setHours, setMinutes} from 'date-fns';
 import {ElevatorView} from '../../models/elevator';
-import {ServiceOrder, ServiceOrderView} from '../../models/service-order';
+import {ServiceOrderView} from '../../models/service-order';
 import {Address} from '../../models/misc';
 import {getDateObject} from '../../utils/datetime';
 
@@ -15,13 +14,6 @@ export interface ElevatorsByAddress {
 }
 
 // TODO: this is the mocked call to get date in the future
-export function calculateNextVisitDate(
-  serviceOrder: ServiceOrder | ServiceOrderView,
-): Date {
-  const schedule = getDateObject(serviceOrder.schedules[0].startTime);
-  const startDateTime = setMinutes(
-    setHours(new Date(), schedule.getHours()),
-    schedule.getMinutes(),
-  );
-  return addDays(startDateTime, schedule.getDate());
+export function calculateNextVisitDate(time: string): Date {
+  return getDateObject(time);
 }

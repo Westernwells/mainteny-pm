@@ -159,7 +159,7 @@ export const ContractDetails = () => {
               companyName={contractDetails?.propertyOwner.address.fullName}
               personName={contractDetails?.serviceCompany.name}
               email={contractDetails?.serviceCompany.contact.email}
-              partyRole={contractDetails?.serviceCompany.role}
+              partyRole="Service Company"
               partyType="Contractor"
               chipColor="info"
               chipTextColor={theme.palette.info.main}
@@ -169,7 +169,7 @@ export const ContractDetails = () => {
               companyName={contractDetails?.propertyOwner.address.fullName}
               personName={contractDetails?.propertyOwner.name}
               email={contractDetails?.propertyOwner.contact.email}
-              partyRole={contractDetails?.propertyOwner.role}
+              partyRole="Property Manager"
               partyType="Customer"
               chipColor="info"
               chipTextColor={theme.palette.info.main}

@@ -15,7 +15,7 @@ interface Props {
     localeLanguage: string;
     localeTimezone: string;
   };
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // eslint-disable-line no-unused-vars
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Locale = ({formData, onChange}: Props) => (

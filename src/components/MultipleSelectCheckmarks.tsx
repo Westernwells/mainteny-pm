@@ -19,9 +19,10 @@ const MenuProps = {
     },
   },
 };
+
 interface Props {
   options: string[];
-  getSelectedValue?: (item: string[]) => any; // eslint-disable-line no-unused-vars
+  getSelectedValue?: (item: string[]) => any;
   label: string;
   multiple?: boolean;
 }
@@ -37,6 +38,7 @@ export const MultipleSelectCheckmarks = ({
   const visibility = selectedItems.length
     ? {visibility: 'visible'}
     : {visibility: 'hidden'};
+
   const handleChange = (event: SelectChangeEvent<typeof selectedItems>) => {
     const {
       target: {value},
@@ -54,6 +56,7 @@ export const MultipleSelectCheckmarks = ({
       getSelectedValue(selectedItems);
     }
   }, [selectedItems]);
+
   return (
     <Box mb={3}>
       <FormControl sx={{m: 1, width: '13.75rem'}}>
@@ -66,6 +69,7 @@ export const MultipleSelectCheckmarks = ({
           input={<OutlinedInput sx={{background: '#fff'}} label={label} />}
           renderValue={() => selectedItems.join(',')}
           MenuProps={MenuProps}
+          // sx={{maxHeight: 30}}
           size="small">
           {!multiple ? (
             <MenuItem

@@ -19,7 +19,7 @@ export const PageLayout = ({
   <Box
     maxWidth="100%"
     display="flex"
-    minHeight="100vh"
+    height="100vh"
     sx={{
       // We can design a custom scrollbar here, we can also make showing scrollbar optional
       overflowY: overflowY ? 'scroll' : 'hidden',
@@ -38,9 +38,7 @@ export const PageLayout = ({
       sx={{
         flexGrow: 1,
         pt: !excludeDefaultSpacing ? 12 : null,
-        px: !excludeDefaultSpacing ? 5 : null,
-        // pb: '1em',
-        // border: '2px solid red'
+        px: !excludeDefaultSpacing ? '2.5em' : null,
       }}>
       {children}
     </Box>

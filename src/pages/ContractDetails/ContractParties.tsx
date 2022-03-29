@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
-
 import {ServiceCompanyView} from 'models/service-company';
 import {ClientView} from 'models/client';
 import {StatusChip} from 'components/StatusChip';

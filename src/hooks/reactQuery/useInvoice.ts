@@ -3,25 +3,22 @@ import * as _ from 'lodash';
 import {useCallback} from 'react';
 import {queryKeys as qk} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
-import {invoiceDetail} from 'pages/InvoiceDetails/data';
-import {invoices} from 'pages/Invoices/data';
-import {Resource, RestError} from '../../models/misc';
-import {InvoiceView, QueryInvoiceParams} from '../../models/invoice';
-import {usePropertyManager} from './usePropertyManager';
+import {PropertyManager} from 'models/propertyManager';
+import {Resource, RestError} from 'models/misc';
+import {InvoiceView, QueryInvoiceParams} from 'models/invoice';
 
 export const fetchInvoices = async (
   params: QueryInvoiceParams,
   id: string,
 ): Promise<Resource<InvoiceView>> => {
-  const response = await axiosClient.get<Resource<InvoiceView>>( // eslint-disable-line no-unused-vars
+  const response = await axiosClient.get<Resource<InvoiceView>>(
     `/api/propertyOwners/${id}/invoices`,
     {
       params,
       paramsSerializer,
     },
   );
-  console.log(response);
-  return Promise.resolve(invoices);
+  return response.data;
 };
 
 export const filterByTotalAmount = (
@@ -41,6 +38,7 @@ export const filterByTotalAmount = (
     inRange(item.totalAmount.amount, amountRange),
   );
 };
+
 const filterByStatus = (
   invoiceRes: Resource<InvoiceView>,
   status: string[],
@@ -58,6 +56,7 @@ const filterByStatus = (
     });
   return filteredResult;
 };
+
 const filterInvoices = (
   invoicesRes: Resource<InvoiceView>,
   filters: {amount: number[][]; status: string[]},
@@ -77,10 +76,10 @@ const filterInvoices = (
 export function useInvoices(
   params: QueryInvoiceParams,
   filters: {amount: number[][]; status: string[]},
+  user?: PropertyManager,
 ) {
-  const {data: user} = usePropertyManager();
   return useQuery<Resource<InvoiceView>, RestError>(
-    [qk.fetchInvoices, params, user?.id],
+    [qk.fetchInvoices, params],
     () => fetchInvoices(params, user!.propertyOwner.id),
     {
       enabled: !!user,
@@ -96,12 +95,10 @@ export function useInvoices(
 }
 
 export const fetchInvoice = async (invoiceId: string) => {
-  const response = await axiosClient.get<InvoiceView>( // eslint-disable-line no-unused-vars
+  const response = await axiosClient.get<InvoiceView>(
     `/api/invoices/${invoiceId}`,
   );
-  console.log(response);
-
-  return invoiceDetail;
+  return response.data;
 };
 
 export function useInvoiceDetail(invoiceId?: string) {
@@ -109,33 +106,3 @@ export function useInvoiceDetail(invoiceId?: string) {
     enabled: !!invoiceId,
   });
 }
-
-export const fetchInvoiceDownloadUrl = async (
-  pdfPath: string,
-  serviceCompanyId: string,
-) => {
-  const response = await axiosClient.get<{[key: string]: string}>(
-    `/api/media/signedUrl/download`,
-    {
-      params: {file: pdfPath, serviceCompanyId},
-      paramsSerializer,
-    },
-  );
-
-  return response.data;
-};
-
-export const useInvoiceDownloadUrl = (pdfPath?: string) => {
-  const {data: propertyManager} = usePropertyManager();
-  const serviceCompanyId = propertyManager?.userAccount.serviceCompany.id;
-  return useQuery(
-    [qk.invoiceDownloadUrl, pdfPath, serviceCompanyId],
-    () => fetchInvoiceDownloadUrl(pdfPath!, serviceCompanyId!),
-    {
-      enabled: !!pdfPath && !!serviceCompanyId,
-      refetchOnWindowFocus: false,
-      cacheTime: 0,
-      select: useCallback((data) => data[pdfPath!], [pdfPath]),
-    },
-  );
-};

@@ -8,9 +8,15 @@ interface Props {
   drawerOpen: boolean;
   setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   resetForm: () => void;
+  handleSubmit: () => void;
 }
 
-export const BottomDrawer = ({drawerOpen, setDrawerOpen, resetForm}: Props) => {
+export const BottomDrawer = ({
+  drawerOpen,
+  setDrawerOpen,
+  resetForm,
+  handleSubmit,
+}: Props) => {
   const theme = useTheme();
   const handleReset = () => {
     resetForm();
@@ -43,6 +49,7 @@ export const BottomDrawer = ({drawerOpen, setDrawerOpen, resetForm}: Props) => {
           Cancel
         </Button>
         <Button
+          onClick={handleSubmit}
           size="small"
           sx={{px: '3em', py: '.5em'}}
           variant="contained"

@@ -1,7 +1,6 @@
-import {useState, SyntheticEvent} from 'react';
+import {useState} from 'react';
 import Box from '@mui/material/Box';
-import {useParams, useNavigate} from 'react-router-dom';
-import makeStyles from '@mui/styles/makeStyles';
+import {useNavigate} from 'react-router-dom';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -10,42 +9,9 @@ import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import useTheme from '@mui/material/styles/useTheme';
-import {EmptySection} from 'components/EmptySection';
-import {
-  useElevatorById,
-  useElevatorMaintainers,
-} from 'hooks/reactQuery/useElevator';
 import {OverviewTab} from './Tabs/OverviewTab';
 import {ServiceHistoryTab} from './Tabs/ServiceHistoryTab';
-
-const useStyles = makeStyles(() => {
-  const theme = useTheme();
-  return {
-    tabs: {
-      '& .MuiTabs-indicator': {
-        display: 'flex',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-      },
-    },
-    tab: {
-      '&.MuiTab-textColorPrimary': {
-        color: theme.palette.primary.main,
-      },
-      '&.Mui-selected': {
-        color: theme.palette.primary.main,
-        '& .item-label': {
-          '&::before': {
-            backgroundColor: theme.palette.primary.main,
-          },
-          '& .item-icon': {
-            color: theme.palette.secondary.main,
-          },
-        },
-      },
-    },
-  };
-});
+import {TabsBody} from './Tabs';
 
 const tabItems = [
   {
@@ -70,34 +36,9 @@ const a11yProps = (index: number) => ({
 // TODO: enable the rule again
 // eslint-disable-next-line
 export const UnitsDetail = () => {
+  const [value, setValue] = useState(0);
   const theme = useTheme();
   const navigate = useNavigate();
-  const classes = useStyles();
-  const {id: elevatorId} = useParams();
-  const [value, setValue] = useState(0);
-  const handleChange = (event: SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
-  const {data: elevator} = useElevatorById(elevatorId);
-  const {data: maintainers = []} = useElevatorMaintainers(elevatorId);
-
-  const tabPanel = () => {
-    switch (value) {
-      case 0:
-        return <OverviewTab elevator={elevator} maintainers={maintainers} />;
-      case 1:
-        return <ServiceHistoryTab />;
-      case 2:
-        return (
-          <Box mt={16} sx={{display: 'grid', placeItems: 'center'}}>
-            <EmptySection label="Data will be available here only for IoT enabled elevators!" />
-          </Box>
-        );
-      default:
-        return null;
-    }
-  };
 
   return (
     <Box
@@ -107,9 +48,8 @@ export const UnitsDetail = () => {
       <Box
         sx={{
           display: 'flex',
-          paddingTop: 2,
           paddingLeft: '35px',
-          mt: 10,
+          mt: 11,
         }}>
         <ArrowBack
           onClick={() => navigate(-1)}
@@ -121,9 +61,15 @@ export const UnitsDetail = () => {
           }}
         />
         <Tabs
-          className={classes.tabs}
+          sx={{
+            '& .MuiTabs-indicator': {
+              display: 'flex',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+            },
+          }}
           value={value}
-          onChange={handleChange}
+          onChange={(e: any, newValue: number) => setValue(newValue)}
           textColor="secondary">
           {tabItems.map((item, index) => (
             <Tab
@@ -155,23 +101,47 @@ export const UnitsDetail = () => {
                   </Typography>
                 </Box>
               }
-              sx={{height: 30, textTransform: 'capitalize'}}
+              sx={{
+                height: 30,
+                textTransform: 'capitalize',
+                '&.MuiTab-textColorPrimary': {
+                  color: theme.palette.primary.main,
+                },
+                '&.Mui-selected': {
+                  color: theme.palette.primary.main,
+                  '& .item-label': {
+                    '&::before': {
+                      backgroundColor: theme.palette.primary.main,
+                    },
+                    '& .item-icon': {
+                      color: theme.palette.secondary.main,
+                    },
+                  },
+                },
+              }}
               {...a11yProps(index)}
-              className={classes.tab}
             />
           ))}
         </Tabs>
       </Box>
       <Box
         sx={{
-          px: 5,
-          mt: '1px',
+          px: '2.5em',
+          mt: 2,
           '::-webkit-scrollbar': {
             width: 0,
             background: 'transparent',
           },
         }}>
-        {tabPanel()}
+        <TabsBody value={value} index={0}>
+          <OverviewTab
+            getServiceHistoryTabIndex={(tabIndex: number) => setValue(tabIndex)}
+          />
+        </TabsBody>
+
+        <TabsBody value={value} index={1}>
+          <ServiceHistoryTab />
+        </TabsBody>
       </Box>
     </Box>
   );
