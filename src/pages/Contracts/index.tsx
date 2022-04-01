@@ -1,13 +1,12 @@
-import {ChangeEvent, MouseEvent, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Fade from '@mui/material/Fade';
 import {GridRowsProp} from '@mui/x-data-grid';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {FilterFields} from 'components/FilterFields';
-import TablePagination from '@mui/material/TablePagination';
-import useTheme from '@mui/material/styles/useTheme';
+import {PageOverviewLayout} from 'components/PageOverviewLayout';
+import {CustomPagination} from 'components/CustomPagination';
 import {
   useContractElevatorCount,
   useQueryContract,
@@ -18,7 +17,7 @@ import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {Widget} from 'components/Widget';
 import {columns, makeRows} from './ContractsDataGridProps';
 
-const pageSize = 10;
+const pageSize = 25;
 
 export const Contracts = () => {
   const [search, setSearch] = useState('');
@@ -27,7 +26,7 @@ export const Contracts = () => {
   const [expiryDate, setExpiryDate] = useState<string[]>([]);
   const [contractor, setContractor] = useState<string[]>([]);
   const [cost, setCost] = useState<number[][]>([]);
-  const theme = useTheme();
+  const [pageCount, setPageCount] = useState(0);
   const [contractorFilterItems, setConractorFileterItems] = useState<string[]>(
     [],
   );
@@ -101,22 +100,21 @@ export const Contracts = () => {
     }
   }, [contractWithUnits, showFilter]);
 
+  useEffect(() => {
+    setPageCount(Math.ceil(contractResource.total / page.pageSize));
+  }, [contractResource, page.pageSize]);
+
   return (
-    <Box>
-      <Box display="flex" justifyContent="space-between">
-        <Box sx={{mb: 4}}>
-          <Typography variant="h4">Contracts</Typography>
-        </Box>
-        <Box mt={1}>
-          <Widget
-            searchPlaceholder="Try 'Astralift BV'"
-            onSearchTextChanged={setSearch}
-            setShowFilter={setShowFilter}
-            showFilter={showFilter}
-            hideViewOption
-          />
-        </Box>
-      </Box>
+    <PageOverviewLayout
+      label="Contracts"
+      renderWidget={
+        <Widget
+          searchPlaceholder="Try 'Astralift BV'"
+          onSearchTextChanged={(val: string) => setSearch(val)}
+          setShowFilter={setShowFilter}
+          showFilter={showFilter}
+        />
+      }>
       <Fade in={showFilter} unmountOnExit>
         <Box>
           <FilterFields setShowFilter={setShowFilter}>
@@ -152,28 +150,23 @@ export const Contracts = () => {
           </FilterFields>
         </Box>
       </Fade>
-      <DataGridLayout hideFooter rows={rows} columns={columns} />
+      <Box>
+        <DataGridLayout hideFooter rows={rows} columns={columns} />
 
-      <TablePagination
-        sx={{
-          '& .MuiTablePagination-selectLabel': {
-            color: theme.palette.text.secondary,
-          },
-        }}
-        component="div"
-        count={contractResource.total}
-        page={page.pageIndex}
-        onPageChange={(
-          event: MouseEvent<HTMLButtonElement> | null,
-          newPage: number,
-        ) => setPage({...page, pageIndex: newPage})}
-        rowsPerPage={page.pageSize}
-        onRowsPerPageChange={(
-          event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-        ) =>
-          setPage({pageSize: parseInt(event.target.value, 10), pageIndex: 0})
-        }
-      />
-    </Box>
+        {pageCount && page.pageSize < contractResource.total ? (
+          <CustomPagination
+            pageSize={page.pageSize}
+            handlePageSizeChange={(newPageSize: number) =>
+              setPage({...page, pageSize: newPageSize})
+            }
+            handlePageChange={(newPage: number) => {
+              setPage({...page, pageIndex: newPage - 1});
+            }}
+            pageCount={pageCount}
+            totalRows={contractResource.total}
+          />
+        ) : null}
+      </Box>
+    </PageOverviewLayout>
   );
 };
