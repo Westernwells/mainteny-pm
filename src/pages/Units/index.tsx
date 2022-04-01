@@ -30,7 +30,7 @@ import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
 import {LogIssueTimePreference} from './LogIssue/LogIssueTimePreference';
 import {LogIssueDateTime} from './LogIssue/LogIssueDateTime';
 
-const pageInfo = makePage(0, 3);
+const pageInfo = makePage(0, 10);
 
 interface FormikFields {
   description: string;

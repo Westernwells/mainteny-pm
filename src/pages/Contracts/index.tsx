@@ -18,7 +18,7 @@ import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {Widget} from 'components/Widget';
 import {columns, makeRows} from './ContractsDataGridProps';
 
-const pageSize = 2;
+const pageSize = 10;
 
 export const Contracts = () => {
   const [search, setSearch] = useState('');
