@@ -17,7 +17,9 @@ import {formatDate, toDate} from '../../utils/datetime';
 const defaultProps = {
   editable: false,
   renderHeader: (params: GridColumnHeaderParams) => (
-    <Typography variant="subtitle2">{params.colDef.headerName}</Typography>
+    <Typography variant="tableHeaderText" color="textSecondary">
+      {params.colDef.headerName}
+    </Typography>
   ),
   renderCell: (params: GridRenderCellParams<any, any, any>) => (
     <Typography variant="subtitle2">{params.value}</Typography>
@@ -70,7 +72,9 @@ export const columns: GridColDef[] = [
     ...defaultAlignment,
     editable: false,
     renderHeader: (params: GridColumnHeaderParams) => (
-      <Typography variant="subtitle2">{params.colDef.headerName}</Typography>
+      <Typography variant="tableHeaderText" color="textSecondary">
+        {params.colDef.headerName}
+      </Typography>
     ),
     renderCell: (params: GridRenderCellParams<any, any, any>) => {
       const theme = useTheme();
@@ -100,7 +104,9 @@ export const columns: GridColDef[] = [
     ...defaultAlignment,
 
     renderHeader: (params) => (
-      <Typography variant="subtitle2">{params.colDef.headerName}</Typography>
+      <Typography variant="tableHeaderText" color="textSecondary">
+        {params.colDef.headerName}
+      </Typography>
     ),
     renderCell: (params) => (
       <FileDownloadOutlinedIcon
