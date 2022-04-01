@@ -1,14 +1,13 @@
-import {ChangeEvent, MouseEvent, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
 import {GridRowsProp} from '@mui/x-data-grid';
 import {FilterFields} from 'components/FilterFields';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {DataGridLayout} from 'components/DataGridLayout';
+import {PageOverviewLayout} from 'components/PageOverviewLayout';
+import {CustomPagination} from 'components/CustomPagination';
 
-import TablePagination from '@mui/material/TablePagination';
-import useTheme from '@mui/material/styles/useTheme';
 import {useQueryClient} from 'react-query';
 import {queryKeys as qks} from 'reactQuery/constants';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
@@ -19,14 +18,16 @@ import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
 import {InvoiceStatus, InvoiceStatusView, InvoiceView} from 'models/invoice';
 import {columns, makeRows} from './InvoicesDataGridProps';
 
+const pageSize = 25;
+
 export const Invoices = () => {
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(makePage(0, 10)); // TODO: implement paging
+  const [page, setPage] = useState(makePage(0, pageSize)); // TODO: implement paging
   const [showFilter, setShowFilter] = useState(false);
   const [amount, setAmount] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
+  const [pageCount, setPageCount] = useState(0);
   const [rows, setRows] = useState<GridRowsProp>([]);
-  const theme = useTheme();
   const queryClient = useQueryClient();
   const {data: user} = usePropertyManager();
 
@@ -100,22 +101,21 @@ export const Invoices = () => {
     }
   }, [invoiceResource, showFilter]);
 
+  useEffect(() => {
+    setPageCount(Math.ceil(invoiceResource.total / page.pageSize));
+  }, [invoiceResource, pageSize]);
+
   return (
-    <Box>
-      <Box display="flex" justifyContent="space-between">
-        <Box sx={{mb: 4}}>
-          <Typography variant="h4">Invoices</Typography>
-        </Box>
-        <Box mt={1}>
-          <Widget
-            searchPlaceholder="Try 'INV000001'"
-            onSearchTextChanged={setSearch}
-            setShowFilter={setShowFilter}
-            showFilter={showFilter}
-            hideViewOption
-          />
-        </Box>
-      </Box>
+    <PageOverviewLayout
+      label="Invoices"
+      renderWidget={
+        <Widget
+          searchPlaceholder="Try 'INV000001'"
+          onSearchTextChanged={(val: string) => setSearch(val)}
+          setShowFilter={setShowFilter}
+          showFilter={showFilter}
+        />
+      }>
       <Fade in={showFilter} unmountOnExit>
         <Box>
           <FilterFields setShowFilter={setShowFilter}>
@@ -148,28 +148,22 @@ export const Invoices = () => {
           </FilterFields>
         </Box>
       </Fade>
-
-      <DataGridLayout hideFooter rows={rows} columns={columns} />
-      <TablePagination
-        sx={{
-          '& .MuiTablePagination-selectLabel': {
-            color: theme.palette.text.secondary,
-          },
-        }}
-        component="div"
-        count={invoiceResource.total}
-        page={page.pageIndex}
-        onPageChange={(
-          event: MouseEvent<HTMLButtonElement> | null,
-          newPage: number,
-        ) => setPage({...page, pageIndex: newPage})}
-        rowsPerPage={page.pageSize}
-        onRowsPerPageChange={(
-          event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-        ) =>
-          setPage({pageSize: parseInt(event.target.value, 10), pageIndex: 0})
-        }
-      />
-    </Box>
+      <Box>
+        <DataGridLayout hideFooter rows={rows} columns={columns} />
+        {pageCount ? (
+          <CustomPagination
+            pageSize={page.pageSize}
+            handlePageSizeChange={(newPageSize: number) =>
+              setPage({...page, pageSize: newPageSize})
+            }
+            handlePageChange={(newPage: number) => {
+              setPage({...page, pageIndex: newPage - 1});
+            }}
+            pageCount={pageCount}
+            totalRows={invoiceResource?.total}
+          />
+        ) : null}
+      </Box>
+    </PageOverviewLayout>
   );
 };

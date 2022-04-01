@@ -86,7 +86,9 @@ export const columns: GridColDef[] = [
     ...defaultAlignment,
 
     renderHeader: (params) => (
-      <Typography variant="subtitle2">{params.colDef.headerName}</Typography>
+      <Typography variant="tableHeaderText" color="textSecondary">
+        {params.colDef.headerName}
+      </Typography>
     ),
     renderCell: () => (
       <FileDownloadOutlinedIcon
