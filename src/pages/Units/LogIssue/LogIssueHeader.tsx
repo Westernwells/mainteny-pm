@@ -7,11 +7,12 @@ export const LogIssueHeader = () => {
   return (
     <Box
       sx={{
-        background: theme.palette.inputBackground.main,
         py: 1,
         px: 2,
       }}>
-      <Typography variant="subtitle1">Log an issue</Typography>
+      <Typography variant="h5" sx={{color: theme.palette.text.primary}}>
+        Log an Issue
+      </Typography>
     </Box>
   );
 };
