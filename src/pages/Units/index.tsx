@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography';
 import {ElevatorView} from 'models/elevator';
 
 import {Widget} from 'components/Widget';
+import {DataGridLayout} from 'components/DataGridLayout';
+import {GridRowsProp} from '@mui/x-data-grid';
 import {CustomPagination} from 'components/CustomPagination';
 import {LogIssue} from 'pages/Units/LogIssue';
 import {
@@ -21,9 +23,8 @@ import {useAllElevators} from 'hooks/reactQuery/useElevator';
 import {FilterFields} from 'components/FilterFields';
 
 import useTheme from '@mui/material/styles/useTheme';
-import {UnitSection} from './UnitSection';
+import {columns, makeRows} from './UnitsDataGridProps';
 import {UnitsMapsView} from './UnitsMapsView';
-import {UnitColumns} from './UnitColumns';
 import {LogIssueBody} from './LogIssue/LogIssueBody';
 import {LogIssueDescription} from './LogIssue/LogIssueDescription';
 import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
@@ -58,6 +59,7 @@ export const MyUnits = () => {
   const [logIssueTime, setLogIssueTime] = useState<Date | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [pageCount, setPageCount] = useState(0);
+  const [rows, setRows] = useState<GridRowsProp>([]);
   const theme = useTheme();
 
   const {data: elevatorResponse = fallback} = useAllElevators(
@@ -137,6 +139,19 @@ export const MyUnits = () => {
       setAvailability([]);
     }
   }, [showFilter]);
+  useEffect(() => {
+    if (elevatorsByAddressList?.length) {
+      setRows(
+        makeRows({
+          elevatorsByAddress: elevatorsByAddressList,
+          setDrawerOpen,
+          setField: formik.setFieldValue,
+        }),
+      );
+    } else {
+      setRows([]);
+    }
+  }, [elevatorsByAddressList]);
 
   useEffect(() => {
     setPageCount(Math.ceil(elevatorResponse.elevator.total / page.pageSize));
@@ -189,18 +204,8 @@ export const MyUnits = () => {
 
       {!showMapview ? (
         <>
-          <UnitColumns />
-          <Box
-            sx={{height: '69vh', overflowY: 'scroll', paddingBottom: '1rem'}}>
-            {elevatorsByAddressList?.map((elevatorsByAddress) => (
-              <UnitSection
-                key={elevatorsByAddress.address.id}
-                elevatorsByAddress={elevatorsByAddress}
-                setDrawerOpen={setDrawerOpen}
-                setField={formik.setFieldValue}
-              />
-            ))}
-          </Box>
+          <DataGridLayout columns={columns} rows={rows} hideFooter />
+
           {pageCount && page.pageSize < elevatorResponse.elevator.total ? (
             <CustomPagination
               pageSize={page.pageSize}
