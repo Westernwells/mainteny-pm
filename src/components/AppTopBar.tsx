@@ -30,7 +30,9 @@ export const AppTopBar = () => {
         paddingLeft: '3rem',
       }}>
       <Box display="flex" justifyContent="space-between" pt={2} pb={1}>
-        <Logo width={155.22} height={32} />
+        <Link to="/">
+          <Logo width={155.22} height={32} />
+        </Link>
 
         <Box justifyContent="flex-end">
           <Box
