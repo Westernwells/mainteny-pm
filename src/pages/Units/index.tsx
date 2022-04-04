@@ -1,9 +1,12 @@
-import {ChangeEvent, MouseEvent, useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {ElevatorView} from 'models/elevator';
 
 import {Widget} from 'components/Widget';
+import {DataGridLayout} from 'components/DataGridLayout';
+import {GridRowsProp} from '@mui/x-data-grid';
+import {CustomPagination} from 'components/CustomPagination';
 import {LogIssue} from 'pages/Units/LogIssue';
 import {
   useFetchServiceOrdersByElevators,
@@ -11,7 +14,6 @@ import {
 } from 'hooks/reactQuery/useServiceOrder';
 import Fade from '@mui/material/Fade';
 import Drawer from '@mui/material/Drawer';
-import {TablePagination} from '@mui/material';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
@@ -21,16 +23,15 @@ import {useAllElevators} from 'hooks/reactQuery/useElevator';
 import {FilterFields} from 'components/FilterFields';
 
 import useTheme from '@mui/material/styles/useTheme';
-import {UnitSection} from './UnitSection';
+import {columns, makeRows} from './UnitsDataGridProps';
 import {UnitsMapsView} from './UnitsMapsView';
-import {UnitColumns} from './UnitColumns';
 import {LogIssueBody} from './LogIssue/LogIssueBody';
 import {LogIssueDescription} from './LogIssue/LogIssueDescription';
 import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
 import {LogIssueTimePreference} from './LogIssue/LogIssueTimePreference';
 import {LogIssueDateTime} from './LogIssue/LogIssueDateTime';
 
-const pageInfo = makePage(0, 10);
+const pageSize = 25;
 
 interface FormikFields {
   description: string;
@@ -48,7 +49,7 @@ export const MyUnits = () => {
     centerCoord: {longitude: 0, latitude: 0},
   }).current;
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(pageInfo); // TODO: implement paging
+  const [page, setPage] = useState(makePage(0, pageSize));
   const [showFilter, setShowFilter] = useState(false);
   const [availability, setAvailability] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
@@ -57,6 +58,8 @@ export const MyUnits = () => {
   const [logIssueDate, setLogIssueDate] = useState<Date | null>(null);
   const [logIssueTime, setLogIssueTime] = useState<Date | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [pageCount, setPageCount] = useState(0);
+  const [rows, setRows] = useState<GridRowsProp>([]);
   const theme = useTheme();
 
   const {data: elevatorResponse = fallback} = useAllElevators(
@@ -129,15 +132,6 @@ export const MyUnits = () => {
     setShowMapview(false);
   };
 
-  const handlePageChange = (
-    _e: MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    setPage({...page, pageIndex: newPage});
-  };
-
-  useEffect(() => {});
-
   useEffect(() => {
     if (!showFilter) {
       setStatus([]);
@@ -145,6 +139,24 @@ export const MyUnits = () => {
       setAvailability([]);
     }
   }, [showFilter]);
+  useEffect(() => {
+    if (elevatorsByAddressList?.length) {
+      setRows(
+        makeRows({
+          elevatorsByAddress: elevatorsByAddressList,
+          setDrawerOpen,
+          setField: formik.setFieldValue,
+        }),
+      );
+    } else {
+      setRows([]);
+    }
+  }, [elevatorsByAddressList]);
+
+  useEffect(() => {
+    setPageCount(Math.ceil(elevatorResponse.elevator.total / page.pageSize));
+  }, [elevatorResponse, page.pageSize]);
+
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" maxWidth="100%">
@@ -192,38 +204,21 @@ export const MyUnits = () => {
 
       {!showMapview ? (
         <>
-          <UnitColumns />
-          <Box
-            sx={{height: '69vh', overflowY: 'scroll', paddingBottom: '1rem'}}>
-            {elevatorsByAddressList?.map((elevatorsByAddress) => (
-              <UnitSection
-                key={elevatorsByAddress.address.id}
-                elevatorsByAddress={elevatorsByAddress}
-                setDrawerOpen={setDrawerOpen}
-                setField={formik.setFieldValue}
-              />
-            ))}
-          </Box>
-          <TablePagination
-            sx={{
-              '& .MuiTablePagination-selectLabel': {
-                color: theme.palette.text.secondary,
-              },
-            }}
-            component="div"
-            count={elevatorResponse.elevator.total}
-            page={page.pageIndex}
-            onPageChange={handlePageChange}
-            rowsPerPage={page.pageSize}
-            onRowsPerPageChange={(
-              event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-            ) =>
-              setPage({
-                pageSize: parseInt(event.target.value, 10),
-                pageIndex: 0,
-              })
-            }
-          />
+          <DataGridLayout columns={columns} rows={rows} hideFooter />
+
+          {pageCount && page.pageSize < elevatorResponse.elevator.total ? (
+            <CustomPagination
+              pageSize={page.pageSize}
+              handlePageSizeChange={(newPageSize: number) =>
+                setPage({...page, pageSize: newPageSize})
+              }
+              handlePageChange={(newPage: number) => {
+                setPage({...page, pageIndex: newPage - 1});
+              }}
+              pageCount={pageCount}
+              totalRows={elevatorResponse.elevator.total}
+            />
+          ) : null}
         </>
       ) : (
         <UnitsMapsView
