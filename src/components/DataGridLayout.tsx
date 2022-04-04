@@ -9,6 +9,30 @@ interface Props {
 
 export const DataGridLayout = ({rows, columns, hideFooter = false}: Props) => {
   const navigate = useNavigate();
+
+  const rowClassNames: any[string] = [];
+  rows.forEach((item) => {
+    if (item.showHeader) {
+      rowClassNames[`& .MuiDataGrid-rowHeading-${item.id}`] = {
+        marginTop: '2em',
+        position: 'relative',
+        '&::before': {
+          content: `"${item.headerText}"`,
+          position: 'absolute',
+          width: '100%',
+          top: '-2em',
+          paddingBlock: '.5em .25em',
+          paddingLeft: '.75em',
+          color: 'text.secondary',
+          fontWeight: 600,
+          fontSize: '0.9375rem',
+          lineHeight: 1.73,
+          letterSpacing: '0.15px',
+        },
+      };
+    }
+  });
+
   return (
     <DataGrid
       headerHeight={50}
@@ -23,6 +47,9 @@ export const DataGridLayout = ({rows, columns, hideFooter = false}: Props) => {
           navigate(params.row.navigateTo);
         }
       }}
+      getRowClassName={(params) =>
+        params.row.showHeader ? `MuiDataGrid-rowHeading-${params.row.id}` : ''
+      }
       sx={{
         height: 'max(400px, 60vh) !important',
         maxHeight: '73vh',
@@ -61,6 +88,7 @@ export const DataGridLayout = ({rows, columns, hideFooter = false}: Props) => {
         '& .MuiDataGrid-cell': {
           borderBottom: '2px solid #F0F4F5',
         },
+        ...rowClassNames,
       }}
     />
   );
