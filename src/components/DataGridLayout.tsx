@@ -23,6 +23,8 @@ export const DataGridLayout = ({rows, columns, hideFooter = false}: Props) => {
           top: '-2em',
           paddingBlock: '.5em .25em',
           paddingLeft: '.75em',
+          borderTop: '2px solid #F0F4F5',
+          background: '#fff',
           color: 'text.secondary',
           fontWeight: 600,
           fontSize: '0.9375rem',
@@ -72,7 +74,6 @@ export const DataGridLayout = ({rows, columns, hideFooter = false}: Props) => {
           display: 'none',
         },
         '& .MuiDataGrid-main': {
-          background: '#fff',
           '& *:focus, & *:focus-within': {
             '& *': {
               outline: 'none',
