@@ -20,8 +20,7 @@ variables:
     paths:
       - build/
       - Dockerfile
-      - nginx.prod.conf
-      - nginx.stage.conf
+      - nginx.conf
 
 .build-images: &build-image-template
   stage: build-images
@@ -40,7 +39,6 @@ variables:
       --context $CI_PROJECT_DIR 
       --dockerfile Dockerfile 
       --destination ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${ENV}
-      --build-arg ENV=${ENV}
 
 .deploy_project: &deploy-template
   stage: deploy
@@ -60,9 +58,9 @@ variables:
     ENV: stage
     CACHE_PATH: /pm*
   script:
-    - echo "Deploying ${IMAGE_SUFFIX} on environment $STACK"
-    - pulumi stack select pm.$STACK
-    - pulumi config set --path "mainteny:k8sConfig.services[0].image" ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${IMAGE_ENV}
+    - echo "Deploying ${IMAGE_SUFFIX} on environment $ENV"
+    - pulumi stack select pm.$ENV
+    - pulumi config set --path "mainteny:k8sConfig.services[0].image" ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${ENV}
     - pulumi config set mainteny:version ${CI_COMMIT_SHORT_SHA}_$(date '+%Y%m%d')
     - pulumi config set mainteny:deploymentTimeStamp "$(date)"
     - pulumi up -y
@@ -74,7 +72,7 @@ variables:
       "payload={
       \"channel\": \"#release-notifications\",
       \"username\": \"ReleaseBot\",
-      \"text\": \"*Property Manager UI $STACK Release* :rocket:\n
+      \"text\": \"*Property Manager UI $ENV Release* :rocket:\n
       *Git commit Message*: $CI_COMMIT_MESSAGE\n
       *Git commit ID*: <https://gitlab.com/mainteny/applications/pm/-/commit/$CI_COMMIT_SHA|$CI_COMMIT_SHORT_SHA>
       \",
@@ -101,7 +99,7 @@ build-stage:
   <<: *build-template
   variables:
     ENV: stage
-    PUBLIC_URL: /pm-test
+    PUBLIC_URL: /pm
   rules:
     - if: $CI_MERGE_REQUEST_ID
       when: never
@@ -147,9 +145,7 @@ deploy-stage:
     - if: "$CI_COMMIT_REF_NAME == 'main'"
       variables:
         ENV: stage
-        STACK: test.stage
-        IMAGE_ENV: stage
-        CACHE_PATH: /pm-test*
+        CACHE_PATH: /pm*
       when: on_success
     - when: never
 
@@ -160,9 +156,7 @@ deploy-production:
   rules:
     - if: "$CI_COMMIT_REF_NAME == 'main'"
       variables:
-        ENV: stage
-        STACK: stage
-        IMAGE_ENV: prod
+        ENV: prod
         CACHE_PATH: /pm*
       when: manual
     - when: never
