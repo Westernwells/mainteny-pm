@@ -24,7 +24,7 @@ const defaultProps = {
     </Typography>
   ),
   renderCell: (params: GridRenderCellParams<any, any, any>) => (
-    <Typography variant="subtitle2">{params.value}</Typography>
+    <Typography variant="subtitle2">{params.value || '-'}</Typography>
   ),
 };
 const defaultAlignment: {
@@ -54,7 +54,7 @@ export const columns: GridColDef[] = [
     renderCell: (params: GridRenderCellParams<any, any, any>) => (
       <>
         <Elevator style={{marginInline: '.25em'}} />
-        <Typography variant="subtitle2">{params.value}</Typography>
+        <Typography variant="subtitle2">{params.value || '-'}</Typography>
       </>
     ),
   },
@@ -77,7 +77,26 @@ export const columns: GridColDef[] = [
     headerName: 'AVAILABILITY',
     type: 'number',
     ...defaultAlignment,
-    ...defaultProps,
+    editable: false,
+    sortable: false,
+    renderHeader: (params: GridColumnHeaderParams) => (
+      <Typography variant="tableHeaderText" color="textSecondary">
+        {params.colDef.headerName}
+      </Typography>
+    ),
+    renderCell: (params: GridRenderCellParams<any, any, any>) => (
+      <Typography
+        variant="subtitle2"
+        color={
+          params.value >= 100
+            ? 'success.main'
+            : params.value >= 80
+            ? 'warning.main'
+            : 'error.main'
+        }>
+        {params.value ? `${params.value}%` : '-'}
+      </Typography>
+    ),
   },
   {
     field: 'status',
