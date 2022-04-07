@@ -27,7 +27,7 @@ export const Account = ({formData, onChange}: Props) => {
       <Typography
         variant="helperText"
         sx={{color: theme.palette.secondary.main, py: '0'}}>
-        Cannot change email as it is tied to the account
+        Uh oh! This can&apos;t be changed, sorry. We use this to identify you.
       </Typography>
       <FormInput
         label="Password"
