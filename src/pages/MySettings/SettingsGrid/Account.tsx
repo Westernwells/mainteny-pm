@@ -22,12 +22,16 @@ export const Account = ({formData, onChange}: Props) => {
         value={formData.accoutEmail}
         type="email"
         onChange={() => {}}
+        helperText={
+          <Typography
+            variant="helperText"
+            sx={{color: theme.palette.secondary.main, py: '0'}}>
+            Uh oh! This can&apos;t be changed, sorry. We use this to identify
+            you.
+          </Typography>
+        }
       />
-      <Typography
-        variant="helperText"
-        sx={{color: theme.palette.secondary.main, py: '0'}}>
-        Uh oh! This can&apos;t be changed, sorry. We use this to identify you.
-      </Typography>
+
       <FormInput
         label="Password"
         id="accountPassword"
