@@ -20,9 +20,8 @@ export const Account = ({formData, onChange}: Props) => {
         label="Email"
         id="accountEmail"
         value={formData.accoutEmail}
-        onChange={onChange}
         type="email"
-        disabled
+        onChange={() => {}}
       />
       <Typography
         variant="helperText"
