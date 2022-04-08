@@ -79,6 +79,7 @@ export interface ContractView {
   startTime: string;
   endTime: string;
   units?: number;
+  elevators: ElevatorView[];
 
   status: ContractStatus;
   search: string;
