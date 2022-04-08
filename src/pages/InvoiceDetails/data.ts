@@ -1,3 +1,5 @@
+import {Role} from '../../models/user';
+
 export const invoiceDetail = {
   id: 'c986b9b9-da45-4ff9-8675-4ea0491fac8b',
   number: 'INV000006',
@@ -139,7 +141,7 @@ export const invoiceDetail = {
             lastName: 'Haun',
             photoUrl: '',
             contact: {phone: ' +4900000000000', email: 'otto@haun.com'},
-            roles: ['TECHNICIAN'],
+            roles: [Role.TECHNICIAN],
             status: 'RESET_PASSWORD',
             meta: {
               createdAt: '2021-05-31T21:58:35.871299Z',
