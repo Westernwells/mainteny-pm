@@ -78,7 +78,7 @@ export const ContractDetails = () => {
                 <Typography variant="subtitle1">#CNT000128</Typography>
                 <StatusChip
                   color="success"
-                  label="In Effect"
+                  label="Running"
                   textColor={theme.palette.success.main}
                   bgColor={theme.palette.success.outlinedHoverBg}
                 />
