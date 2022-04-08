@@ -12,7 +12,7 @@ export const BackAction = ({label}: Props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   return (
-    <Box display="flex" sx={{mb: '1em'}}>
+    <Box display="flex">
       <Box
         mr={2}
         sx={{cursor: 'pointer', mt: '0.2em'}}
