@@ -7,7 +7,7 @@ interface Props {
   bodyTextVariant: any;
   titleTextVariant?: any;
   iconBackground?: string;
-  bodyText: string;
+  bodyText?: string;
   iconMaxHeight?: string | number;
   containerStyles?: {[key: string]: string | number};
 }
@@ -22,13 +22,14 @@ export const CardProps = ({
   iconMaxHeight,
   containerStyles,
 }: Props) => (
-  <Box display="flex" width="100%" sx={{...containerStyles}}>
+  <Box display="flex" sx={{...containerStyles}}>
     <Box
       sx={{
         background: iconBackground,
         p: '0.7em',
         display: 'flex',
         justifyContent: 'center',
+        flexGrow: 1,
         mr: '1em',
         maxHeight: iconMaxHeight || 'default',
       }}>
