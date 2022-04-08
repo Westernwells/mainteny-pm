@@ -84,12 +84,7 @@ export const ContractDetails = () => {
                 />
               </Box>
             }>
-            <ContractBasic
-              startTime={contractDetails?.startTime}
-              endTime={contractDetails?.endTime}
-              costPerYear={contractDetails?.price}
-              type={contractDetails?.type.toLowerCase()}
-            />
+            {!isLoading && <ContractBasic contract={contractDetails!} />}
           </ContractCard>
 
           <ContractCard
