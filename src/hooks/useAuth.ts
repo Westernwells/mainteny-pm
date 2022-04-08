@@ -3,6 +3,8 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {axiosClient} from 'utils/axios-utils';
 import {useSnackbar} from 'notistack';
 import {useUserSession} from './reactQuery/useUserSession';
+import {UserSession} from '../models/session';
+import {Role} from '../models/user';
 
 interface UseAuth {
   signin: (email: string, password: string) => Promise<void>; // eslint-disable-line no-unused-vars
@@ -25,16 +27,15 @@ export const useAuth = (): UseAuth => {
   ): Promise<void> => {
     try {
       setLoading(true);
-      const {data: user, status} = await axiosClient({
-        url: urlEndpoint,
-        method: 'POST',
-        data: {username: email, password},
-      });
+      const {data: user, status} = await axiosClient.post<UserSession>(
+        urlEndpoint,
+        {username: email, password},
+      );
 
       console.log(status, '######');
 
-      if (user?.token) {
-        if (!user.userAccount.roles.includes('PROPERTY_MANAGER')) {
+      if (user.token) {
+        if (!user.userAccount.roles.includes(Role.PROPERTY_MANAGER)) {
           enqueueSnackbar(
             'Uh oh! As a Service Manager, please login at https://app.mainteny.com/',
             {
