@@ -15,11 +15,26 @@ import {differenceInDays, isBefore} from 'date-fns';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import {Progress} from 'components/Progress';
 
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import ElevatorIcon from '@mui/icons-material/Elevator';
+import {useState} from 'react';
 import {ContractBasic} from './ContractBasic';
 import {ContractParties} from './ContractParties';
 import {ContractScope} from './ContractScope';
 import {ContractTimeline} from './ContractTimeline';
 import {ContractCard} from './ContractCard';
+import {Tabs} from '../../components/Tabs';
+
+const tabItems = [
+  {
+    label: 'Overview',
+    icon: <ManageSearchIcon />,
+  },
+  {
+    label: 'Units',
+    icon: <ElevatorIcon />,
+  },
+];
 
 export const ContractDetails = () => {
   const {id: contractId} = useParams();
@@ -51,11 +66,19 @@ export const ContractDetails = () => {
   if (isLoading) {
     return <Progress />;
   }
+  const [tabIndex, setTabIndex] = useState(0);
 
   return (
     <Box>
-      <Box display="flex" justifyContent="space-between" mb="0.5em">
+      <Box
+        display="flex"
+        style={{
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '0.5em',
+        }}>
         <BackAction label="Contract Details" />
+        <Tabs index={tabIndex} setIndex={setTabIndex} items={tabItems} />
         <CustomButtonUnstyled
           label="Download Contract"
           size="small"
