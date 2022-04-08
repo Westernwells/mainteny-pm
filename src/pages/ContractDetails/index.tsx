@@ -179,7 +179,7 @@ export const ContractDetails = () => {
         </Grid>
         <Grid xs={4} item>
           <ContractCard
-            containerStyles={{minHeight: '26vh', py: '1em'}}
+            containerStyles={{minHeight: '100%', py: '1em'}}
             header={
               <Typography variant="subtitle1">Contract Timeline</Typography>
             }>
