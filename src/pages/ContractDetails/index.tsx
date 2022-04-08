@@ -18,7 +18,6 @@ import {Progress} from 'components/Progress';
 import {ContractBasic} from './ContractBasic';
 import {ContractParties} from './ContractParties';
 import {ContractScope} from './ContractScope';
-import {ContractPaymentDetails} from './ContractPaymentDetails';
 import {ContractTimeline} from './ContractTimeline';
 import {ContractCard} from './ContractCard';
 
@@ -202,17 +201,6 @@ export const ContractDetails = () => {
               unUsedContractDays={unUsedContractDays}
               usedContractDays={usedContractDays}
               totalContractDays={totalContractDays}
-            />
-          </ContractCard>
-
-          <ContractCard
-            minHeight="25vh"
-            containerStyles={{mt: '1em', py: '1em'}}
-            header={
-              <Typography variant="subtitle1">Payment Details</Typography>
-            }>
-            <ContractPaymentDetails
-              name={contractDetails?.propertyOwner.name}
             />
           </ContractCard>
         </Grid>
