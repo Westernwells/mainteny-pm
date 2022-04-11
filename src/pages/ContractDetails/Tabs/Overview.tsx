@@ -12,11 +12,11 @@ import {ContractBasic} from '../ContractBasic';
 import {ContractScope} from '../ContractScope';
 import {ContractParties} from '../ContractParties';
 import {ContractTimeline} from '../ContractTimeline';
-import {ContractView} from '../../../models/contract';
+import {Contract} from '../../../models/contract';
 import {toDate} from '../../../utils/datetime';
 
 interface Props {
-  contract: ContractView;
+  contract: Contract;
 }
 
 export const Overview = ({contract}: Props) => {
