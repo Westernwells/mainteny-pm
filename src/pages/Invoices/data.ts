@@ -1,4 +1,5 @@
 import {Resource} from '../../models/misc';
+import {Role} from '../../models/user';
 
 export const invoices: Resource<any> = {
   data: [
@@ -143,7 +144,7 @@ export const invoices: Resource<any> = {
                 lastName: 'Haun',
                 photoUrl: '',
                 contact: {phone: ' +4900000000000', email: 'otto@haun.com'},
-                roles: ['TECHNICIAN'],
+                roles: [Role.TECHNICIAN],
                 status: 'RESET_PASSWORD',
                 meta: {
                   createdAt: '2021-05-31T21:58:35.871299Z',
@@ -361,7 +362,7 @@ export const invoices: Resource<any> = {
                 lastName: 'Haun',
                 photoUrl: '',
                 contact: {phone: ' +4900000000000', email: 'otto@haun.com'},
-                roles: ['TECHNICIAN'],
+                roles: [Role.TECHNICIAN],
                 status: 'RESET_PASSWORD',
                 meta: {
                   createdAt: '2021-05-31T21:58:35.871299Z',
@@ -580,7 +581,7 @@ export const invoices: Resource<any> = {
                 lastName: 'Haun',
                 photoUrl: '',
                 contact: {phone: ' +4900000000000', email: 'otto@haun.com'},
-                roles: ['TECHNICIAN'],
+                roles: [Role.TECHNICIAN],
                 status: 'RESET_PASSWORD',
                 meta: {
                   createdAt: '2021-05-31T21:58:35.871299Z',
@@ -799,7 +800,7 @@ export const invoices: Resource<any> = {
                 lastName: 'Haun',
                 photoUrl: '',
                 contact: {phone: ' +4900000000000', email: 'otto@haun.com'},
-                roles: ['TECHNICIAN'],
+                roles: [Role.TECHNICIAN],
                 status: 'RESET_PASSWORD',
                 meta: {
                   createdAt: '2021-05-31T21:58:35.871299Z',
@@ -1018,7 +1019,7 @@ export const invoices: Resource<any> = {
                 lastName: 'Haun',
                 photoUrl: '',
                 contact: {phone: ' +4900000000000', email: 'otto@haun.com'},
-                roles: ['TECHNICIAN'],
+                roles: [Role.TECHNICIAN],
                 status: 'RESET_PASSWORD',
                 meta: {
                   createdAt: '2021-05-31T21:58:35.871299Z',
@@ -1237,7 +1238,7 @@ export const invoices: Resource<any> = {
                 lastName: 'Haun',
                 photoUrl: '',
                 contact: {phone: ' +4900000000000', email: 'otto@haun.com'},
-                roles: ['TECHNICIAN'],
+                roles: [Role.TECHNICIAN],
                 status: 'RESET_PASSWORD',
                 meta: {
                   createdAt: '2021-05-31T21:58:35.871299Z',
@@ -1456,7 +1457,7 @@ export const invoices: Resource<any> = {
                 lastName: 'Haun',
                 photoUrl: '',
                 contact: {phone: ' +4900000000000', email: 'otto@haun.com'},
-                roles: ['TECHNICIAN'],
+                roles: [Role.TECHNICIAN],
                 status: 'RESET_PASSWORD',
                 meta: {
                   createdAt: '2021-05-31T21:58:35.871299Z',

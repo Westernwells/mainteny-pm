@@ -7,7 +7,7 @@ import {
   StringValueResponse,
 } from '../../models/misc';
 import {UserSession} from '../../models/session';
-import {UserAccountStatus} from '../../models/user';
+import {Role, UserAccountStatus} from '../../models/user';
 
 export function useLogin(username: string, password: string) {
   console.log(username);
@@ -21,7 +21,7 @@ export function useLogin(username: string, password: string) {
       lastName: 'User',
       photoUrl: '',
       contact: {phone: '+4900000000000', email: 'admin@mainteny.com'},
-      roles: ['ADMIN'],
+      roles: [Role.ADMIN],
       serviceCompany: {
         id: 'd6aa11ab-bdec-40ed-85fc-e69a32d61fcc',
         name: 'Mainteny',
