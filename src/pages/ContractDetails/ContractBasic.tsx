@@ -8,10 +8,10 @@ import DangerousIcon from '@mui/icons-material/Dangerous';
 import TimerIcon from '@mui/icons-material/Timer';
 import BusinessIcon from '@mui/icons-material/Business';
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
-import {ContractView} from '../../models/contract';
+import {Contract} from '../../models/contract';
 
 interface Props {
-  contract: ContractView;
+  contract: Contract;
 }
 
 export const ContractBasic = ({contract}: Props) => {

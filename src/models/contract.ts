@@ -39,6 +39,7 @@ export interface Contract {
   propertyOwner: Client;
   serviceCompany: ServiceCompany;
   type: ContractType;
+  number: string;
   elevators: ContractElevator[];
   visitsNumber: number;
   sla: number;
