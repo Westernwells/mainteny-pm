@@ -11,6 +11,7 @@ import ElevatorIcon from '@mui/icons-material/Elevator';
 import {useState} from 'react';
 import {Tabs} from '../../components/Tabs';
 import {Overview} from './Tabs/Overview';
+import {Units} from './Tabs/Units';
 
 const tabItems = [
   {
@@ -51,6 +52,9 @@ export const ContractDetails = () => {
         />
       </Box>
       {tabIndex === 0 && !isLoading && <Overview contract={contract!} />}
+      {tabIndex === 1 && !isLoading && (
+        <Units units={contract!.elevators.map(({elevator}) => elevator)} />
+      )}
     </Box>
   );
 };
