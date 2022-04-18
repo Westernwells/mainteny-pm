@@ -46,7 +46,7 @@ export const Router = () => (
       <Route
         path="/units/details/:id"
         element={
-          <PageLayout excludeDefaultSpacing overflowY>
+          <PageLayout excludeDefaultSpacing pageScrollable>
             <UnitsDetail />
           </PageLayout>
         }
@@ -64,7 +64,7 @@ export const Router = () => (
       <Route
         path="/contracts/details/:id"
         element={
-          <PageLayout overflowY>
+          <PageLayout pageScrollable>
             <ContractDetails />
           </PageLayout>
         }
@@ -82,7 +82,7 @@ export const Router = () => (
       <Route
         path="/invoices/details/:id"
         element={
-          <PageLayout overflowY>
+          <PageLayout pageScrollable>
             <InvoiceDetails />
           </PageLayout>
         }
@@ -91,7 +91,7 @@ export const Router = () => (
       <Route
         path="/notifications"
         element={
-          <PageLayout excludeSidebar excludeDefaultSpacing overflowY>
+          <PageLayout excludeSidebar excludeDefaultSpacing pageScrollable>
             <Notifications />
           </PageLayout>
         }
@@ -100,7 +100,7 @@ export const Router = () => (
       <Route
         path="/settings"
         element={
-          <PageLayout excludeSidebar excludeDefaultSpacing overflowY>
+          <PageLayout excludeSidebar excludeDefaultSpacing pageScrollable>
             <MySettings />
           </PageLayout>
         }

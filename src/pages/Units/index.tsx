@@ -1,6 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import {ElevatorView} from 'models/elevator';
 
 import {Widget} from 'components/Widget';
@@ -19,6 +18,7 @@ import * as Yup from 'yup';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
+import {PageOverviewLayout} from 'components/PageOverviewLayout';
 
 import {FilterFields} from 'components/FilterFields';
 
@@ -31,7 +31,7 @@ import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
 import {LogIssueTimePreference} from './LogIssue/LogIssueTimePreference';
 import {LogIssueDateTime} from './LogIssue/LogIssueDateTime';
 
-const pageSize = 25;
+const pageSize = 15;
 
 interface FormikFields {
   description: string;
@@ -158,24 +158,19 @@ export const MyUnits = () => {
   }, [elevatorResponse, page.pageSize]);
 
   return (
-    <Box>
-      <Box display="flex" justifyContent="space-between" maxWidth="100%">
-        <Box sx={{mb: 4, mt: 1}}>
-          <Typography variant="h4">Units</Typography>
-        </Box>
-        <Box>
-          <Widget
-            searchPlaceholder="Try ‘Schindler’ or ‘Mitsubishi’"
-            onSearchTextChanged={onSearchTextChanged}
-            openMapView={openMapView}
-            closeMapView={closeMapView}
-            mapViewActive={showMapview}
-            setShowFilter={setShowFilter}
-            showFilter={showFilter}
-          />
-        </Box>
-      </Box>
-
+    <PageOverviewLayout
+      label="Units"
+      renderWidget={
+        <Widget
+          searchPlaceholder="Try ‘Schindler’ or ‘Mitsubishi’"
+          onSearchTextChanged={onSearchTextChanged}
+          openMapView={openMapView}
+          closeMapView={closeMapView}
+          mapViewActive={showMapview}
+          setShowFilter={setShowFilter}
+          showFilter={showFilter}
+        />
+      }>
       <Fade in={showFilter} unmountOnExit>
         <Box>
           <FilterFields setShowFilter={setShowFilter}>
@@ -293,6 +288,6 @@ export const MyUnits = () => {
           </form>
         </Box>
       </Drawer>
-    </Box>
+    </PageOverviewLayout>
   );
 };
