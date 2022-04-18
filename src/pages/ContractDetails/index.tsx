@@ -13,6 +13,7 @@ import {BackAction} from 'components/BackAction';
 import {toDate} from 'utils/datetime';
 import {differenceInDays, isBefore} from 'date-fns';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import {Progress} from 'components/Progress';
 
 import {ContractBasic} from './ContractBasic';
 import {ContractParties} from './ContractParties';
@@ -47,6 +48,10 @@ export const ContractDetails = () => {
     !isLoading && isBefore(new Date(), toDate(contractDetails?.endTime))
       ? differenceInDays(toDate(contractDetails?.endTime), new Date())
       : 0;
+
+  if (isLoading) {
+    return <Progress />;
+  }
 
   return (
     <Box>

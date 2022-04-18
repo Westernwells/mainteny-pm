@@ -48,9 +48,14 @@ export const useAuth = (): UseAuth => {
         // update stored user data
         updateUser(user);
         if (location.state?.from) {
-          navigate(`/${location.state.from.pathname}`, {replace: true});
+          navigate(
+            `/${location.state.from.pathname}${
+              location.state.from.search ? location.state.from.search : ''
+            }`,
+            {replace: true},
+          );
         } else {
-          navigate('/units', {replace: true});
+          navigate('/units?pageIndex=1&pageSize=25', {replace: true});
         }
       }
     } catch (errorResponse: any) {

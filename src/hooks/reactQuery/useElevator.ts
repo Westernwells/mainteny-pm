@@ -100,6 +100,7 @@ export const useElevatorMaintainers = (elevatorId?: string) =>
   );
 
 export const fetchElevators = async (query: string, page: Page, id: string) => {
+  console.log(page, '!!!!######$$');
   const response = await axiosClient.get<Resource<ElevatorView>>(
     `/api/propertyOwners/${id}/elevators`,
     {
@@ -116,6 +117,7 @@ export function useAllElevators(
   status: string[],
   options?: UseQueryOptions<any, any, any>,
 ) {
+  // console.log(page, '!!!!!!!!')
   const {data: user} = usePropertyManager();
   return useQuery<
     Resource<ElevatorView>,

@@ -34,7 +34,10 @@ export const Router = () => (
       <Route path="/reset-password/reset" element={<PasswordReset />} />
     </Route>
     <Route element={<ProtectedRoutes />}>
-      <Route path="/" element={<Navigate to="/units" />} />
+      <Route
+        path="/"
+        element={<Navigate to="/units?pageIndex=1&pageSize=25" />}
+      />
       <Route
         path="/units"
         element={

@@ -5,6 +5,7 @@ import {
   GridColDef,
   GridRowsProp,
 } from '@mui/x-data-grid';
+import LinearProgress from '@mui/material/LinearProgress';
 import {useNavigate} from 'react-router-dom';
 
 interface Props extends DataGridProps {
@@ -57,6 +58,9 @@ export const DataGridLayout = ({
         flexGrow: 1,
       }}>
       <DataGrid
+        components={{
+          LoadingOverlay: LinearProgress,
+        }}
         loading={loading}
         headerHeight={50}
         rows={rows}
@@ -74,8 +78,6 @@ export const DataGridLayout = ({
           params.row.showHeader ? `MuiDataGrid-rowHeading-${params.row.id}` : ''
         }
         sx={{
-          // height: 'max(400px, 60vh) !important',
-          // maxHeight: '73vh',
           height,
           width: '100%',
           my: '0.5em',
@@ -96,6 +98,10 @@ export const DataGridLayout = ({
             display: 'none',
           },
           '& .MuiDataGrid-main': {
+            '.MuiLinearProgress-root': {
+              top: 50,
+              zIndex: 1,
+            },
             '& *:focus, & *:focus-within': {
               '& *': {
                 outline: 'none',

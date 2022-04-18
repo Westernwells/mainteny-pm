@@ -8,6 +8,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import {StatusChip} from 'components/StatusChip';
 import {CardProps} from 'components/CardProps';
 import {BackAction} from 'components/BackAction';
+import {Progress} from 'components/Progress';
 import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
 import {useInvoiceDetail} from 'hooks/reactQuery/useInvoice';
 import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
@@ -15,17 +16,22 @@ import {formatDate, getDateObject} from 'utils/datetime';
 import {formatCurrency} from 'utils/currency';
 import {InvoiceStatus, InvoiceStatusView} from 'models/invoice';
 import {HistoryCard} from 'pages/UnitDetails/Tabs/ServiceHistoryTab/HistoryCard';
+import {PdfGenerationStatus} from 'models/misc';
 import {InvoiceCard} from './InvoiceCard';
 import {Invoice} from './Invoice';
 import {RelatedTo} from './RelatedTo';
 
 export const InvoiceDetails = () => {
   const {id: invoiceId} = useParams();
-  const {data: invoice} = useInvoiceDetail(invoiceId);
+  const {data: invoice, isLoading, isFetched} = useInvoiceDetail(invoiceId);
   const {data: downloadUrl} = useDownloadUrl(
-    invoice?.additionalInfo.pdfPath ? [invoice?.additionalInfo.pdfPath] : [],
+    isFetched ? [invoice!.additionalInfo.pdfPath] : [],
   );
   const theme = useTheme();
+
+  if (isLoading) {
+    return <Progress />;
+  }
 
   return (
     <Box>
@@ -114,7 +120,10 @@ export const InvoiceDetails = () => {
                 </Box>
               </Box>
             }>
-            <Invoice downloadUrl={downloadUrl ? downloadUrl[0] : null} />
+            {invoice!.additionalInfo.pdfGenerationStatus ===
+            PdfGenerationStatus.DONE ? (
+              <Invoice downloadUrl={downloadUrl ? downloadUrl[0] : null} />
+            ) : null}
           </InvoiceCard>
         </Grid>
 

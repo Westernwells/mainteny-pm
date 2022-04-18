@@ -21,6 +21,12 @@ import {useAllElevators} from 'hooks/reactQuery/useElevator';
 import {PageOverviewLayout} from 'components/PageOverviewLayout';
 
 import {FilterFields} from 'components/FilterFields';
+import {Progress} from 'components/Progress';
+import {useSearchParams} from 'react-router-dom';
+import {
+  formatSearchParamsPageIndex,
+  formatSearchParamsPageSize,
+} from 'utils/utils';
 
 import useTheme from '@mui/material/styles/useTheme';
 import {columns, makeRows} from './UnitsDataGridProps';
@@ -50,6 +56,7 @@ export const MyUnits = () => {
   }).current;
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, pageSize));
+  const [queryParams, setQueryParams] = useSearchParams();
   const [showFilter, setShowFilter] = useState(false);
   const [availability, setAvailability] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
@@ -68,7 +75,12 @@ export const MyUnits = () => {
     status,
     {keepPreviousData: true},
   );
-  const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
+  const {
+    data: elevatorsByAddressList,
+    isIdle,
+    isLoading,
+    isFetching,
+  } = useFetchServiceOrdersByElevators(
     elevatorResponse.elevator,
     {nextVisit, availabilityRange: availability},
     {keepPreviousData: true},
@@ -133,6 +145,16 @@ export const MyUnits = () => {
   };
 
   useEffect(() => {
+    const currentParams = Object.fromEntries([...queryParams]);
+
+    setPage({
+      ...page,
+      pageSize: Number(currentParams.pageSize),
+      pageIndex: Number(currentParams.pageIndex) - 1,
+    });
+  }, [queryParams]);
+
+  useEffect(() => {
     if (!showFilter) {
       setStatus([]);
       setNextVisit([]);
@@ -156,6 +178,10 @@ export const MyUnits = () => {
   useEffect(() => {
     setPageCount(Math.ceil(elevatorResponse.elevator.total / page.pageSize));
   }, [elevatorResponse, page.pageSize]);
+
+  if (isIdle || isLoading) {
+    return <Progress />;
+  }
 
   return (
     <PageOverviewLayout
@@ -199,23 +225,49 @@ export const MyUnits = () => {
 
       {!showMapview ? (
         <>
-          <DataGridLayout columns={columns} rows={rows} hideFooter />
-
+          <DataGridLayout
+            hideFooter
+            rows={rows}
+            columns={columns}
+            loading={isFetching}
+          />
           {pageCount && page.pageSize < elevatorResponse.elevator.total ? (
             <CustomPagination
               pageSize={page.pageSize}
+              pageIndex={page.pageIndex}
               handlePageSizeChange={(newPageSize: number) =>
-                setPage({...page, pageSize: newPageSize})
+                setQueryParams(
+                  formatSearchParamsPageSize(newPageSize, queryParams),
+                )
               }
-              handlePageChange={(newPage: number) => {
-                setPage({...page, pageIndex: newPage - 1});
-              }}
+              handlePageChange={(newPage: number) =>
+                setQueryParams(
+                  formatSearchParamsPageIndex(newPage, queryParams),
+                )
+              }
               pageCount={pageCount}
               totalRows={elevatorResponse.elevator.total}
             />
           ) : null}
         </>
       ) : (
+        // <>
+        //   <DataGridLayout columns={columns} rows={rows} hideFooter />
+
+        //   {pageCount && page.pageSize < elevatorResponse.elevator.total ? (
+        //     <CustomPagination
+        //       pageSize={page.pageSize}
+        //       handlePageSizeChange={(newPageSize: number) =>
+        //         setPage({...page, pageSize: newPageSize})
+        //       }
+        //       handlePageChange={(newPage: number) => {
+        //         setPage({...page, pageIndex: newPage - 1});
+        //       }}
+        //       pageCount={pageCount}
+        //       totalRows={elevatorResponse.elevator.total}
+        //     />
+        //   ) : null}
+        // </>
         <UnitsMapsView
           elevatorsByAddressList={elevatorsByAddressList}
           centerCoord={elevatorResponse?.centerCoord}
