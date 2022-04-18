@@ -88,16 +88,6 @@ const filterByNextVisit = (
   return mergedResult;
 };
 
-const inRange = (value: number, range: number[][]) => {
-  let result: boolean = false;
-  range.forEach((item) => {
-    if (value > item[0] && value <= item[1]) {
-      result = true;
-    }
-  });
-  return result;
-};
-
 const filterServiceOrder = (
   serviceOrderViewRes: Resource<ServiceOrderView>,
   filter: {nextVisit: string[]},
@@ -232,7 +222,7 @@ export function useServiceOrders(params: any) {
 
 export function useFetchServiceOrdersByElevators(
   elevatorRes: Resource<ElevatorView>,
-  filter: {nextVisit: string[]; availabilityRange: number[][]},
+  filter: {nextVisit: string[]},
   options?: UseQueryOptions<any, any, any>,
 ) {
   const {data: user} = usePropertyManager();
@@ -274,16 +264,6 @@ export function useFetchServiceOrdersByElevators(
                 ...item,
                 elevators: item.elevators.filter((x) => x.serviceOrder),
               }));
-          }
-          if (filter.availabilityRange.length) {
-            response = response
-              .map((item) => ({
-                ...item,
-                elevators: item.elevators.filter((x) =>
-                  inRange(x.elevator.availability, filter.availabilityRange),
-                ),
-              }))
-              .filter((item) => item.elevators.length !== 0);
           }
           return response;
         },

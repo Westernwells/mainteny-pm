@@ -58,7 +58,6 @@ export const MyUnits = () => {
   const [page, setPage] = useState(makePage(0, pageSize));
   const [queryParams, setQueryParams] = useSearchParams();
   const [showFilter, setShowFilter] = useState(false);
-  const [availability, setAvailability] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
   const [nextVisit, setNextVisit] = useState<string[]>([]);
   const [showMapview, setShowMapview] = useState(false);
@@ -82,36 +81,9 @@ export const MyUnits = () => {
     isFetching,
   } = useFetchServiceOrdersByElevators(
     elevatorResponse.elevator,
-    {nextVisit, availabilityRange: availability},
+    {nextVisit},
     {keepPreviousData: true},
   );
-
-  const availabilityRangeConvertor = (selectedItems: string[]) => {
-    const range: number[][] = [];
-    selectedItems.forEach((item) => {
-      switch (item) {
-        case 'Under 40%':
-          range.push([0, 40]);
-          // '40 - 60%', '60 - 80%', 'Above 80%'
-          break;
-        case '40 - 60%':
-          range.push([40, 60]);
-
-          break;
-        case '60 - 80%':
-          range.push([60, 80]);
-
-          break;
-        case 'Above 80%':
-          range.push([80, 100]);
-
-          break;
-        default:
-          break;
-      }
-    });
-    setAvailability(range);
-  };
 
   const {mutate: logIssue} = useLogIssue();
 
@@ -158,7 +130,6 @@ export const MyUnits = () => {
     if (!showFilter) {
       setStatus([]);
       setNextVisit([]);
-      setAvailability([]);
     }
   }, [showFilter]);
   useEffect(() => {
@@ -200,13 +171,6 @@ export const MyUnits = () => {
       <Fade in={showFilter} unmountOnExit>
         <Box>
           <FilterFields setShowFilter={setShowFilter}>
-            <MultipleSelectCheckmarks
-              label="Availability"
-              options={['Under 40%', '40 - 60%', '60 - 80%', 'Above 80%']}
-              getSelectedValue={(item) => availabilityRangeConvertor(item)}
-              multiple={false}
-            />
-
             <MultipleSelectCheckmarks
               label="Status"
               options={['RUNNING', 'STOPPED']}
@@ -251,23 +215,6 @@ export const MyUnits = () => {
           ) : null}
         </>
       ) : (
-        // <>
-        //   <DataGridLayout columns={columns} rows={rows} hideFooter />
-
-        //   {pageCount && page.pageSize < elevatorResponse.elevator.total ? (
-        //     <CustomPagination
-        //       pageSize={page.pageSize}
-        //       handlePageSizeChange={(newPageSize: number) =>
-        //         setPage({...page, pageSize: newPageSize})
-        //       }
-        //       handlePageChange={(newPage: number) => {
-        //         setPage({...page, pageIndex: newPage - 1});
-        //       }}
-        //       pageCount={pageCount}
-        //       totalRows={elevatorResponse.elevator.total}
-        //     />
-        //   ) : null}
-        // </>
         <UnitsMapsView
           elevatorsByAddressList={elevatorsByAddressList}
           centerCoord={elevatorResponse?.centerCoord}
@@ -285,9 +232,7 @@ export const MyUnits = () => {
         anchor="right"
         hideBackdrop
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        // onBackdropClick={() => formik.resetForm()}
-      >
+        onClose={() => setDrawerOpen(false)}>
         <Box sx={{width: '30.06rem'}}>
           <form onSubmit={formik.handleSubmit}>
             <LogIssue
