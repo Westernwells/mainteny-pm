@@ -116,6 +116,7 @@ export function useAllElevators(
   status: string[],
   options?: UseQueryOptions<any, any, any>,
 ) {
+  // console.log(page, '!!!!!!!!')
   const {data: user} = usePropertyManager();
   return useQuery<
     Resource<ElevatorView>,

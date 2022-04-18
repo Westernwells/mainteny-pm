@@ -13,7 +13,13 @@ export const AuthRoutes = () => {
   if (user?.token) {
     return (
       <Navigate
-        to={authRouteActive ? '/units' : location.state.from.pathname}
+        to={
+          authRouteActive
+            ? '/units?pageIndex=1&pageSize=25'
+            : `${location.state.from.pathname}${
+                location.state.from.search ? location.state.from.search : ''
+              }`
+        }
         state={{from: location}}
         replace
       />

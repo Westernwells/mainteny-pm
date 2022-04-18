@@ -13,17 +13,19 @@ interface Props {
   handlePageChange?: (newPage: number) => void;
   pageCount?: number;
   totalRows?: number;
+  pageIndex?: number;
 }
 
 export const CustomPagination = ({
   handlePageSizeChange,
-  pageSize,
   handlePageChange,
+  pageSize,
   pageCount,
   totalRows,
+  pageIndex,
 }: Props) => {
   const theme = useTheme();
-  const [page, setPage] = useState(makePage(0, pageSize || 10));
+  const [page, setPage] = useState(makePage(pageIndex || 0, pageSize || 10));
   const [currentPageDetails, setCurrentPageDetails] = useState<string | null>(
     null,
   );
@@ -71,7 +73,6 @@ export const CustomPagination = ({
           <CustomSelect
             handleChange={onPageSizeChange}
             options={[
-              {label: '10', value: 10},
               {label: '25', value: 25},
               {label: '50', value: 50},
             ]}
@@ -82,7 +83,7 @@ export const CustomPagination = ({
         </Box>
         <Pagination
           count={pageCount || 10}
-          defaultPage={1}
+          defaultPage={pageIndex ? pageIndex + 1 : 1}
           shape="rounded"
           onChange={(event: React.ChangeEvent<unknown>, newPage: number) => {
             event.preventDefault();

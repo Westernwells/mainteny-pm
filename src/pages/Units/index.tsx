@@ -1,6 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import {ElevatorView} from 'models/elevator';
 
 import {Widget} from 'components/Widget';
@@ -19,8 +18,15 @@ import * as Yup from 'yup';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
+import {PageOverviewLayout} from 'components/PageOverviewLayout';
 
 import {FilterFields} from 'components/FilterFields';
+import {Progress} from 'components/Progress';
+import {useSearchParams} from 'react-router-dom';
+import {
+  formatSearchParamsPageIndex,
+  formatSearchParamsPageSize,
+} from 'utils/utils';
 
 import useTheme from '@mui/material/styles/useTheme';
 import {columns, makeRows} from './UnitsDataGridProps';
@@ -31,7 +37,7 @@ import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
 import {LogIssueTimePreference} from './LogIssue/LogIssueTimePreference';
 import {LogIssueDateTime} from './LogIssue/LogIssueDateTime';
 
-const pageSize = 25;
+const pageSize = 15;
 
 interface FormikFields {
   description: string;
@@ -50,8 +56,8 @@ export const MyUnits = () => {
   }).current;
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, pageSize));
+  const [queryParams, setQueryParams] = useSearchParams();
   const [showFilter, setShowFilter] = useState(false);
-  const [availability, setAvailability] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
   const [nextVisit, setNextVisit] = useState<string[]>([]);
   const [showMapview, setShowMapview] = useState(false);
@@ -68,38 +74,16 @@ export const MyUnits = () => {
     status,
     {keepPreviousData: true},
   );
-  const {data: elevatorsByAddressList} = useFetchServiceOrdersByElevators(
+  const {
+    data: elevatorsByAddressList,
+    isIdle,
+    isLoading,
+    isFetching,
+  } = useFetchServiceOrdersByElevators(
     elevatorResponse.elevator,
-    {nextVisit, availabilityRange: availability},
+    {nextVisit},
     {keepPreviousData: true},
   );
-
-  const availabilityRangeConvertor = (selectedItems: string[]) => {
-    const range: number[][] = [];
-    selectedItems.forEach((item) => {
-      switch (item) {
-        case 'Under 40%':
-          range.push([0, 40]);
-          // '40 - 60%', '60 - 80%', 'Above 80%'
-          break;
-        case '40 - 60%':
-          range.push([40, 60]);
-
-          break;
-        case '60 - 80%':
-          range.push([60, 80]);
-
-          break;
-        case 'Above 80%':
-          range.push([80, 100]);
-
-          break;
-        default:
-          break;
-      }
-    });
-    setAvailability(range);
-  };
 
   const {mutate: logIssue} = useLogIssue();
 
@@ -133,10 +117,19 @@ export const MyUnits = () => {
   };
 
   useEffect(() => {
+    const currentParams = Object.fromEntries([...queryParams]);
+
+    setPage({
+      ...page,
+      pageSize: Number(currentParams.pageSize),
+      pageIndex: Number(currentParams.pageIndex) - 1,
+    });
+  }, [queryParams]);
+
+  useEffect(() => {
     if (!showFilter) {
       setStatus([]);
       setNextVisit([]);
-      setAvailability([]);
     }
   }, [showFilter]);
   useEffect(() => {
@@ -157,35 +150,27 @@ export const MyUnits = () => {
     setPageCount(Math.ceil(elevatorResponse.elevator.total / page.pageSize));
   }, [elevatorResponse, page.pageSize]);
 
-  return (
-    <Box>
-      <Box display="flex" justifyContent="space-between" maxWidth="100%">
-        <Box sx={{mb: 4, mt: 1}}>
-          <Typography variant="h4">Units</Typography>
-        </Box>
-        <Box>
-          <Widget
-            searchPlaceholder="Try ‘Schindler’ or ‘Mitsubishi’"
-            onSearchTextChanged={onSearchTextChanged}
-            openMapView={openMapView}
-            closeMapView={closeMapView}
-            mapViewActive={showMapview}
-            setShowFilter={setShowFilter}
-            showFilter={showFilter}
-          />
-        </Box>
-      </Box>
+  if (isIdle || isLoading) {
+    return <Progress />;
+  }
 
+  return (
+    <PageOverviewLayout
+      label="Units"
+      renderWidget={
+        <Widget
+          searchPlaceholder="Try ‘Schindler’ or ‘Mitsubishi’"
+          onSearchTextChanged={onSearchTextChanged}
+          openMapView={openMapView}
+          closeMapView={closeMapView}
+          mapViewActive={showMapview}
+          setShowFilter={setShowFilter}
+          showFilter={showFilter}
+        />
+      }>
       <Fade in={showFilter} unmountOnExit>
         <Box>
           <FilterFields setShowFilter={setShowFilter}>
-            <MultipleSelectCheckmarks
-              label="Availability"
-              options={['Under 40%', '40 - 60%', '60 - 80%', 'Above 80%']}
-              getSelectedValue={(item) => availabilityRangeConvertor(item)}
-              multiple={false}
-            />
-
             <MultipleSelectCheckmarks
               label="Status"
               options={['RUNNING', 'STOPPED']}
@@ -204,17 +189,26 @@ export const MyUnits = () => {
 
       {!showMapview ? (
         <>
-          <DataGridLayout columns={columns} rows={rows} hideFooter />
-
+          <DataGridLayout
+            hideFooter
+            rows={rows}
+            columns={columns}
+            loading={isFetching}
+          />
           {pageCount && page.pageSize < elevatorResponse.elevator.total ? (
             <CustomPagination
               pageSize={page.pageSize}
+              pageIndex={page.pageIndex}
               handlePageSizeChange={(newPageSize: number) =>
-                setPage({...page, pageSize: newPageSize})
+                setQueryParams(
+                  formatSearchParamsPageSize(newPageSize, queryParams),
+                )
               }
-              handlePageChange={(newPage: number) => {
-                setPage({...page, pageIndex: newPage - 1});
-              }}
+              handlePageChange={(newPage: number) =>
+                setQueryParams(
+                  formatSearchParamsPageIndex(newPage, queryParams),
+                )
+              }
               pageCount={pageCount}
               totalRows={elevatorResponse.elevator.total}
             />
@@ -238,9 +232,7 @@ export const MyUnits = () => {
         anchor="right"
         hideBackdrop
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        // onBackdropClick={() => formik.resetForm()}
-      >
+        onClose={() => setDrawerOpen(false)}>
         <Box sx={{width: '30.06rem'}}>
           <form onSubmit={formik.handleSubmit}>
             <LogIssue
@@ -293,6 +285,6 @@ export const MyUnits = () => {
           </form>
         </Box>
       </Drawer>
-    </Box>
+    </PageOverviewLayout>
   );
 };

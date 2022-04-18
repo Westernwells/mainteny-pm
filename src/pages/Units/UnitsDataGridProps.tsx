@@ -73,32 +73,6 @@ export const columns: GridColDef[] = [
     ...defaultProps,
   },
   {
-    field: 'availability',
-    headerName: 'AVAILABILITY',
-    type: 'number',
-    ...defaultAlignment,
-    editable: false,
-    sortable: false,
-    renderHeader: (params: GridColumnHeaderParams) => (
-      <Typography variant="tableHeaderText" color="textSecondary">
-        {params.colDef.headerName}
-      </Typography>
-    ),
-    renderCell: (params: GridRenderCellParams<any, any, any>) => (
-      <Typography
-        variant="subtitle2"
-        color={
-          params.value >= 100
-            ? 'success.main'
-            : params.value >= 80
-            ? 'warning.main'
-            : 'error.main'
-        }>
-        {params.value ? `${params.value}%` : '-'}
-      </Typography>
-    ),
-  },
-  {
     field: 'status',
     headerName: 'STATUS',
     type: 'string',
@@ -212,7 +186,6 @@ export const makeRows = ({
         unitName: item.elevator.model,
         lastVisit: item.elevator.lastVisitDate,
         nextVisit: item.elevator.nextVisitDate,
-        availability: item.elevator.availability,
         status: item.elevator.status,
         showHeader: item.showAddress,
         headerText: item.address.fullName,
