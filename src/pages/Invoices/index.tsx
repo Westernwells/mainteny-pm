@@ -7,13 +7,9 @@ import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {PageOverviewLayout} from 'components/PageOverviewLayout';
 import {CustomPagination} from 'components/CustomPagination';
-
-import {useQueryClient} from 'react-query';
-import {queryKeys as qks} from 'reactQuery/constants';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
-import {fetchInvoices, useInvoices} from 'hooks/reactQuery/useInvoice';
+import {useInvoices} from 'hooks/reactQuery/useInvoice';
 import {Widget} from 'components/Widget';
-import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
 import {InvoiceStatus, InvoiceStatusView, InvoiceView} from 'models/invoice';
 import {Progress} from 'components/Progress';
 import {useSearchParams} from 'react-router-dom';
@@ -34,8 +30,6 @@ export const Invoices = () => {
   const [status, setStatus] = useState<string[]>([]);
   const [pageCount, setPageCount] = useState(0);
   const [rows, setRows] = useState<GridRowsProp>([]);
-  const queryClient = useQueryClient();
-  const {data: user} = usePropertyManager();
   const {
     data: invoiceResource = createEmptyResource<InvoiceView>(10),
     isLoading,
@@ -48,7 +42,7 @@ export const Invoices = () => {
       status: [InvoiceStatus.PAID, InvoiceStatus.NOT_PAID],
     },
     {amount, status},
-    user,
+    {keepPreviousData: true},
   );
 
   useEffect(() => {
@@ -60,24 +54,6 @@ export const Invoices = () => {
       pageIndex: Number(currentParams.pageIndex) - 1,
     });
   }, [queryParams]);
-
-  //  prefetch next page when page changes
-  useEffect(() => {
-    // assume increment of page by one
-    const nextPage = page.pageIndex + 1;
-    const newPageInfo = {pageIndex: nextPage, pageSize: page.pageSize};
-    const params = {
-      pageIndex: newPageInfo.pageIndex,
-      pageSize: newPageInfo.pageSize,
-      query: search,
-      status: [InvoiceStatus.PAID, InvoiceStatus.NOT_PAID],
-    };
-    if (user && invoiceResource) {
-      queryClient.prefetchQuery([qks.fetchInvoices, params], () =>
-        fetchInvoices(params, user.propertyOwner.id),
-      );
-    }
-  }, [queryClient, page, search, user, invoiceResource]);
 
   const amountRangeConvertor = (selectedItems: string[]) => {
     const range: number[][] = [];
@@ -107,17 +83,17 @@ export const Invoices = () => {
   };
 
   useEffect(() => {
-    if (invoiceResource?.data) {
+    if (invoiceResource.total) {
       setRows(makeRows(invoiceResource));
-    } else {
-      setRows([]);
     }
+  }, [invoiceResource]);
 
+  useEffect(() => {
     if (!showFilter) {
       setAmount([]);
       setStatus([]);
     }
-  }, [invoiceResource, showFilter]);
+  }, [showFilter]);
 
   useEffect(() => {
     setPageCount(Math.ceil(invoiceResource.total / page.pageSize));
