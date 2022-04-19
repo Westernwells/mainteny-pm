@@ -11,6 +11,7 @@ import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {useInvoices} from 'hooks/reactQuery/useInvoice';
 import {Widget} from 'components/Widget';
 import {InvoiceStatus, InvoiceStatusView, InvoiceView} from 'models/invoice';
+import {EmptySection} from 'components/EmptySection';
 import {Progress} from 'components/Progress';
 import {useSearchParams} from 'react-router-dom';
 import {
@@ -34,6 +35,7 @@ export const Invoices = () => {
     data: invoiceResource = createEmptyResource<InvoiceView>(10),
     isLoading,
     isFetching,
+    isFetched,
   } = useInvoices(
     {
       pageIndex: page.pageIndex,
@@ -98,6 +100,19 @@ export const Invoices = () => {
   useEffect(() => {
     setPageCount(Math.ceil(invoiceResource.total / page.pageSize));
   }, [invoiceResource, pageSize]);
+
+  if (isFetched && !invoiceResource.total) {
+    return (
+      <EmptySection
+        label="No invoices yet. You will see invoices here once they are created"
+        btnLabel="Add Invoice"
+        containerStyle={{
+          height: '100%',
+          mb: '10em',
+        }}
+      />
+    );
+  }
 
   if (isLoading) {
     return <Progress />;
