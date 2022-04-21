@@ -12,7 +12,7 @@ import {ReactComponent as Escalator} from 'assets/icons/Escalator.svg';
 import {PageCard} from 'components/PageCard';
 
 import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
-import {EmptyIllustration} from 'components/EmptyIllustration';
+import {EmptySection} from 'components/EmptySection';
 import {
   useElevatorById,
   useElevatorMaintainers,
@@ -154,7 +154,7 @@ export const OverviewTab = ({getServiceHistoryTabIndex}: Props) => {
             }
             minHeight="10rem">
             {!serviceOrders.data.length ? (
-              <EmptyIllustration label="No service history entries made so far!" />
+              <EmptySection label="No service history entries made so far!" />
             ) : (
               serviceOrders.data.map((serviceOrder) => (
                 <ServiceHistory
@@ -163,7 +163,6 @@ export const OverviewTab = ({getServiceHistoryTabIndex}: Props) => {
                 />
               ))
             )}
-            {}
           </PageCard>
         </Grid>
       </Grid>

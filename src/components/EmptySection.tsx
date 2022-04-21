@@ -1,12 +1,13 @@
 import Typography from '@mui/material/Typography';
 import Box, {BoxProps} from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import {ReactComponent as LaptopIllustration} from 'assets/illustrations/Laptop.svg';
 import {ReactComponent as ClipboardIllustration} from 'assets/illustrations/Clipboard.svg';
-import Button from '@mui/material/Button';
+import HideImageIcon from '@mui/icons-material/HideImage';
 
 interface Props extends BoxProps {
   label: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: 'tiny' | 'small' | 'medium' | 'large';
   containerStyle?: {[key: string]: string | number};
   labelStyle?: {[key: string]: string | number};
   labelVariant?: any;
@@ -26,6 +27,7 @@ export const EmptySection = ({
   showActionBtn = false,
 }: Props) => {
   const Width = {
+    tiny: '56px',
     small: '128px',
     medium: '192px',
     large: '256px',
@@ -35,6 +37,13 @@ export const EmptySection = ({
       case 'clipboard':
         return (
           <ClipboardIllustration style={{width: '100%', height: '100%'}} />
+        );
+      case 'no-image':
+        return (
+          <HideImageIcon
+            style={{width: '100%', height: '100%'}}
+            color="disabled"
+          />
         );
       default:
         return <LaptopIllustration style={{width: '100%', height: '100%'}} />;
