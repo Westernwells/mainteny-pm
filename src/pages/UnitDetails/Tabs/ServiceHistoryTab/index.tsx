@@ -33,7 +33,7 @@ export const ServiceHistoryTab = () => {
   );
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [selectedStatusView, setSelectedStatusView] = useState('All');
-  const [isEmpty, setIsEmpty] = useState<boolean>(false);
+  const [isEmpty, setIsEmpty] = useState(false);
   const [expanded, setExpanded] = useState<boolean>();
   const [selectedOrder, setSelectedOrder] = useState<ServiceOrderView>();
   const [currentReportDate, setCurrentReportDate] = useState<string>();
