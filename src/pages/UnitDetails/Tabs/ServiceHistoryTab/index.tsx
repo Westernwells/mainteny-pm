@@ -261,6 +261,8 @@ export const ServiceHistoryTab = () => {
         <PageCard
           headerLabel="All Services"
           contentPadding="0rem"
+          containerStyles={{height: '100%'}}
+          bodyContainerStyles={{height: '100%'}}
           headerContainerOverrideStyles={{
             background: 'none',
             mt: 'default',
@@ -294,7 +296,7 @@ export const ServiceHistoryTab = () => {
           </Box>
           {isEmpty ? (
             <Box
-              sx={{height: '55vh'}}
+              sx={{height: '55vh', border: '1px solid green'}}
               display="flex"
               flexDirection="column"
               alignItems="center">
@@ -309,7 +311,7 @@ export const ServiceHistoryTab = () => {
               </Button>
             </Box>
           ) : (
-            <Box sx={{height: '55vh', overflowY: 'scroll'}}>
+            <Box sx={{height: '100%', overflowY: 'scroll'}}>
               {serviceOrders.data.map((serviceOrder: ServiceOrderView) => (
                 <HistoryCard
                   serviceOrder={serviceOrder}
