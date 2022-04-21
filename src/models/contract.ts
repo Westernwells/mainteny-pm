@@ -39,6 +39,7 @@ export interface Contract {
   propertyOwner: Client;
   serviceCompany: ServiceCompany;
   type: ContractType;
+  number: string;
   elevators: ContractElevator[];
   visitsNumber: number;
   sla: number;
@@ -79,6 +80,7 @@ export interface ContractView {
   startTime: string;
   endTime: string;
   units?: number;
+  elevators: ElevatorView[];
 
   status: ContractStatus;
   search: string;

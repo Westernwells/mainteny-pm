@@ -12,7 +12,11 @@ import {
 import {useNavigate} from 'react-router-dom';
 import {toDate} from 'utils/datetime';
 import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
-import {ContractView, QueryContractParams} from '../../models/contract';
+import {
+  Contract,
+  ContractView,
+  QueryContractParams,
+} from '../../models/contract';
 import {Resource, RestError} from '../../models/misc';
 import {usePropertyManager} from './usePropertyManager';
 
@@ -44,7 +48,7 @@ export const fetchContracts = async (
 };
 
 const fetchContractDetails = async (contractId: string) => {
-  const response = await axiosClient.get<ContractView>(
+  const response = await axiosClient.get<Contract>(
     `/api/contracts/${contractId}`,
   );
   return response.data;

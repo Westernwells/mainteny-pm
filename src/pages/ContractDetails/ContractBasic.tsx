@@ -4,59 +4,69 @@ import useTheme from '@mui/material/styles/useTheme';
 import {CardProps} from 'components/CardProps';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import TodayIcon from '@mui/icons-material/Today';
-import TocIcon from '@mui/icons-material/Toc';
+import DangerousIcon from '@mui/icons-material/Dangerous';
+import TimerIcon from '@mui/icons-material/Timer';
+import BusinessIcon from '@mui/icons-material/Business';
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
+import {Contract} from '../../models/contract';
 
 interface Props {
-  startTime?: string;
-  endTime?: string;
-  costPerYear?: number;
-  type?: string;
+  contract: Contract;
 }
 
-export const ContractBasic = ({
-  startTime,
-  endTime,
-  costPerYear,
-  type,
-}: Props) => {
+export const ContractBasic = ({contract}: Props) => {
   const theme = useTheme();
+  const {price, startTime, endTime, type, visitsNumber, elevators} = contract;
+  const information = [
+    {
+      label: 'Cost Per Year',
+      Icon: MonetizationOnOutlinedIcon,
+      value: `${price.toLocaleString()} EUR`,
+    },
+    {
+      label: 'Start Date',
+      Icon: TodayIcon,
+      value: formatDate(toDate(startTime), 'dd MMM YYY'),
+    },
+    {
+      label: 'End Date',
+      Icon: DangerousIcon,
+      value: formatDate(toDate(endTime), 'dd MMM YYY'),
+    },
+    {
+      label: 'Visits Per Year',
+      Icon: TimerIcon,
+      value: `${visitsNumber}`,
+    },
+    {
+      label: 'Contract Type',
+      Icon: BusinessIcon,
+      value: type,
+    },
+    {
+      label: 'Number of Units',
+      Icon: WorkspacesIcon,
+      value: `${elevators.length}`,
+    },
+  ];
   return (
-    <Box display="flex">
-      <CardProps
-        label="Cost per Year"
-        bodyTextVariant="subtitle1"
-        icon={<MonetizationOnOutlinedIcon color="info" />}
-        containerStyles={{mr: '0.5em'}}
-        iconBackground={theme.palette.info.outlinedHoverBg}
-        iconMaxHeight="3rem"
-        bodyText={costPerYear ? `${costPerYear.toLocaleString()} EUR` : ''}
-      />
-
-      <CardProps
-        label="Effective Dates"
-        bodyTextVariant="subtitle1"
-        icon={<TodayIcon color="info" />}
-        iconBackground={theme.palette.info.outlinedHoverBg}
-        containerStyles={{flexGrow: 1}}
-        iconMaxHeight="3rem"
-        bodyText={`${startTime && formatDate(toDate(startTime), 'dd MMM YYY')}
-        -
-        ${endTime && formatDate(toDate(endTime), 'dd MMM YYY')}`}
-      />
-
-      <CardProps
-        label="Contract Type"
-        bodyTextVariant="subtitle1"
-        icon={<TocIcon color="info" />}
-        containerStyles={{
-          ml: '0.5em',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-        iconBackground={theme.palette.info.outlinedHoverBg}
-        iconMaxHeight="3rem"
-        bodyText={type || ''}
-      />
+    <Box
+      display="grid"
+      sx={{
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        justifyItems: 'start',
+        rowGap: 1,
+      }}>
+      {information.map(({label, Icon, value}) => (
+        <CardProps
+          label={label.toUpperCase()}
+          bodyTextVariant="subtitle1"
+          icon={<Icon color="info" />}
+          iconBackground={theme.palette.info.outlinedHoverBg}
+          iconMaxHeight="3rem"
+          bodyText={value}
+        />
+      ))}
     </Box>
   );
 };
