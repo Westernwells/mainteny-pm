@@ -29,13 +29,10 @@ export const ContractDetails = () => {
 
   const {data: contract, isLoading} = useFetchContractDetails(contractId!);
 
-  if (isLoading) {
-    return <Progress />;
-  }
   const [tabIndex, setTabIndex] = useState(0);
 
   return (
-    <Box>
+    <Box style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
       <Box
         display="flex"
         style={{
@@ -51,9 +48,12 @@ export const ContractDetails = () => {
           startIcon={<FileDownloadIcon color="primary" />}
         />
       </Box>
+      {isLoading && <Progress />}
       {tabIndex === 0 && !isLoading && <Overview contract={contract!} />}
       {tabIndex === 1 && !isLoading && (
-        <Units units={contract!.elevators.map(({elevator}) => elevator)} />
+        <Box style={{display: 'flex', height: '100%'}}>
+          <Units units={contract!.elevators.map(({elevator}) => elevator)} />
+        </Box>
       )}
     </Box>
   );
