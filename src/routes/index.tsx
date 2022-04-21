@@ -1,13 +1,10 @@
+import {Helmet} from 'react-helmet';
 import {PageLayout} from 'components/PageLayout';
+import {Login} from 'pages/Login';
+import {ResetPassword} from 'pages/ResetPassword';
 import {Contracts} from 'pages/Contracts';
 import {Invoices} from 'pages/Invoices';
 import {InvoiceDetails} from 'pages/InvoiceDetails';
-import {Login} from 'pages/Login';
-import {
-  PasswordAuthenticate,
-  PasswordRequest,
-  PasswordReset,
-} from 'pages/PasswordReset';
 import {Notifications} from 'pages/Notifications';
 import {MySettings} from 'pages/MySettings';
 import {UnitsDetail} from 'pages/UnitDetails';
@@ -16,100 +13,158 @@ import {MyUnits} from 'pages/Units';
 import {NotFound} from 'pages/NotFound';
 import {ProtectedRoutes} from 'routes/ProtectedRoutes';
 import {Navigate, Route, Routes} from 'react-router-dom';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {AuthRoutes} from './AuthRoutes';
 
-export const Router = () => (
-  <Routes>
-    <Route element={<AuthRoutes />}>
-      <Route path="/login" element={<Login />} />
+export const Router = () => {
+  const titleTail = 'Service Manager Portal';
+  const {user} = useUserSession();
+  const fullName = `${user?.userAccount.firstName} ${user?.userAccount.lastName}`;
+
+  return (
+    <Routes>
       <Route
-        path="/reset-password"
-        element={<Navigate to="/reset-password/request" />}
-      />
-      <Route path="/reset-password/request" element={<PasswordRequest />} />
-      <Route
-        path="/reset-password/authenticate"
-        element={<PasswordAuthenticate />}
-      />
-      <Route path="/reset-password/reset" element={<PasswordReset />} />
-    </Route>
-    <Route element={<ProtectedRoutes />}>
-      <Route
-        path="/"
-        element={<Navigate to="/units?pageIndex=1&pageSize=25" />}
-      />
-      <Route
-        path="/units"
         element={
-          <PageLayout>
-            <MyUnits />
-          </PageLayout>
-        }
-      />
-      <Route
-        path="/units/details/:id"
-        element={
-          <PageLayout excludeDefaultSpacing pageScrollable>
-            <UnitsDetail />
-          </PageLayout>
-        }
-      />
+          <>
+            <Helmet>
+              <title>{`Mainteny - ${titleTail}`}</title>
+            </Helmet>
+            <AuthRoutes />
+          </>
+        }>
+        <Route path="/login" element={<Login />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+      </Route>
+      <Route element={<ProtectedRoutes />}>
+        <Route
+          path="/"
+          element={<Navigate to="/units?pageIndex=1&pageSize=25" />}
+        />
+        <Route
+          path="/units"
+          element={
+            <>
+              <Helmet>
+                <title>{`Units - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout>
+                <MyUnits />
+              </PageLayout>
+            </>
+          }
+        />
+        <Route
+          path="/units/details/:id"
+          element={
+            <>
+              <Helmet>
+                <title>{`Unit Details - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout pageScrollable>
+                <UnitsDetail />
+              </PageLayout>
+            </>
+          }
+        />
+
+        <Route
+          path="/contracts"
+          element={
+            <>
+              <Helmet>
+                <title>{`Contracts - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout>
+                <Contracts />
+              </PageLayout>
+            </>
+          }
+        />
+
+        <Route
+          path="/contracts/details/:id"
+          element={
+            <>
+              <Helmet>
+                <title>{`Contract Details - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout pageScrollable>
+                <ContractDetails />
+              </PageLayout>
+            </>
+          }
+        />
+
+        <Route
+          path="/invoices"
+          element={
+            <>
+              <Helmet>
+                <title>{`Invoices - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout>
+                <Invoices />
+              </PageLayout>
+            </>
+          }
+        />
+
+        <Route
+          path="/invoices/details/:id"
+          element={
+            <>
+              <Helmet>
+                <title>{`Invoice Details - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout pageScrollable>
+                <InvoiceDetails />
+              </PageLayout>
+            </>
+          }
+        />
+
+        <Route
+          path="/notifications"
+          element={
+            <>
+              <Helmet>
+                <title>{`Notifications - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout excludeSidebar pageScrollable excludeDefaultSpacing>
+                <Notifications />
+              </PageLayout>
+            </>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <>
+              <Helmet>
+                <title>{`${fullName} - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout excludeSidebar excludeDefaultSpacing pageScrollable>
+                <MySettings />
+              </PageLayout>
+            </>
+          }
+        />
+      </Route>
 
       <Route
-        path="/contracts"
+        path="*"
         element={
-          <PageLayout>
-            <Contracts />
-          </PageLayout>
+          <>
+            <Helmet>
+              <title>{`Page not found - ${titleTail}`}</title>
+            </Helmet>
+            <PageLayout excludeSidebar excludeDefaultSpacing pageScrollable>
+              <NotFound />
+            </PageLayout>
+          </>
         }
       />
-
-      <Route
-        path="/contracts/details/:id"
-        element={
-          <PageLayout pageScrollable>
-            <ContractDetails />
-          </PageLayout>
-        }
-      />
-
-      <Route
-        path="/invoices"
-        element={
-          <PageLayout>
-            <Invoices />
-          </PageLayout>
-        }
-      />
-
-      <Route
-        path="/invoices/details/:id"
-        element={
-          <PageLayout pageScrollable>
-            <InvoiceDetails />
-          </PageLayout>
-        }
-      />
-
-      <Route
-        path="/notifications"
-        element={
-          <PageLayout excludeSidebar excludeDefaultSpacing pageScrollable>
-            <Notifications />
-          </PageLayout>
-        }
-      />
-
-      <Route
-        path="/settings"
-        element={
-          <PageLayout excludeSidebar excludeDefaultSpacing pageScrollable>
-            <MySettings />
-          </PageLayout>
-        }
-      />
-    </Route>
-
-    <Route path="*" element={<NotFound />} />
-  </Routes>
-);
+    </Routes>
+  );
+};
