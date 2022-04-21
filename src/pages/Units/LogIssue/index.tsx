@@ -10,6 +10,7 @@ interface Props {
 }
 
 export const LogIssue = ({children, disabled, handleCancel}: Props) => (
+  // TODO: to be refactored and improved after VFA
   <Box
     height="100%"
     display="flex"

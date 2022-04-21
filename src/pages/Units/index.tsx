@@ -86,6 +86,7 @@ export const MyUnits = () => {
     {keepPreviousData: true},
   );
 
+  // TODO: LogIssue to be refactored and improved after VFA
   const {mutate: logIssue} = useLogIssue();
 
   const formik = useFormik<FormikFields>({
