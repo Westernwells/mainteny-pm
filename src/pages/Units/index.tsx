@@ -74,6 +74,7 @@ export const MyUnits = () => {
     status,
     {keepPreviousData: true},
   );
+
   const {
     data: elevatorsByAddressList,
     isIdle,
@@ -94,10 +95,21 @@ export const MyUnits = () => {
       moreInformation: '',
     },
     onSubmit: async (values, {resetForm}) => {
-      const body = {...values, elevatorId: values?.elevator?.id};
-      delete body.elevator;
+      const body = {
+        description: values.description,
+        moreInstruction: values.moreInformation,
+        serviceCompanyId: values.elevator?.propertyOwner.serviceCompanyId,
+        timePreference: logIssueTime
+          ? logIssueDate
+              ?.toJSON()
+              .split('T')[0]
+              .concat('T', logIssueTime.toJSON().split('T')[1])
+          : logIssueDate
+          ? logIssueDate.toJSON()
+          : new Date().toJSON(),
+        elevatorId: values.elevator?.id,
+      };
       await logIssue(body);
-      // setModalOpen(false);
       setDrawerOpen(false);
       resetForm();
     },
@@ -132,6 +144,7 @@ export const MyUnits = () => {
       setNextVisit([]);
     }
   }, [showFilter]);
+
   useEffect(() => {
     if (elevatorsByAddressList?.length) {
       setRows(
@@ -149,6 +162,10 @@ export const MyUnits = () => {
   useEffect(() => {
     setPageCount(Math.ceil(elevatorResponse.elevator.total / page.pageSize));
   }, [elevatorResponse, page.pageSize]);
+
+  useEffect(() => {
+    if (!logIssueTime) setLogIssueDate(null);
+  }, [logIssueTime]);
 
   if (isIdle || isLoading) {
     return <Progress />;

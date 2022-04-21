@@ -247,7 +247,9 @@ export interface ServiceOrderReport {
 
 export interface CreateNonScheduledServiceOrder {
   description: string;
+  moreInstruction: string;
   dueDate: string;
+  timePreference: string;
   elevatorId: string;
   externalId: string;
   serviceCompanyId: string;
@@ -257,7 +259,9 @@ export interface CreateNonScheduledServiceOrder {
 
 export type OptionalCreateNonScheduledBody = WithOptional<
   CreateNonScheduledServiceOrder,
+  | 'moreInstruction'
   | 'dueDate'
+  | 'timePreference'
   | 'externalId'
   | 'priority'
   | 'type'
