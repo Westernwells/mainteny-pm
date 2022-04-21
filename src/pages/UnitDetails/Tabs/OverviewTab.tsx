@@ -40,7 +40,7 @@ export const OverviewTab = ({getServiceHistoryTabIndex}: Props) => {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
     elevatorIds: elevatorId,
-    start: toRestDateTime(startOfYear(new Date())),
+    start: toRestDateTime(startOfYear(new Date('2000'))),
     end: toRestDateTime(endOfYear(new Date())),
     pageSize,
     pageIndex: 0,

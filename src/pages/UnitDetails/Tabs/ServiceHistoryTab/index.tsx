@@ -19,9 +19,6 @@ import {useElevatorById} from 'hooks/reactQuery/useElevator';
 import {getYear, eachYearOfInterval, endOfYear, startOfYear} from 'date-fns';
 import {useParams} from 'react-router-dom';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-
 import {HistoryCard} from './HistoryCard';
 import {HistoryReport} from './HistoryReport';
 import {HistoryBasicDetails} from './HistoryBasicDetails';
@@ -36,17 +33,30 @@ export const ServiceHistoryTab = () => {
   );
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [selectedStatusView, setSelectedStatusView] = useState('All');
-
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [expanded, setExpanded] = useState<boolean>();
   const [selectedOrder, setSelectedOrder] = useState<ServiceOrderView>();
   const [currentReportDate, setCurrentReportDate] = useState<string>();
-  const [filterActive, setFilterActive] = useState(false);
   const [currentScheduleDate, setCurrentScheduleDate] = useState<string | null>(
     null,
   );
   const [currentScheduleTime, setCurrentScheduleTime] = useState<string | null>(
     null,
   );
+
+  const {
+    data: totalServiceOrders = createEmptyResource<ServiceOrderView>(pageSize),
+  } = useServiceOrders({
+    elevatorIds: elevatorId,
+    start: toRestDateTime(startOfYear(new Date('2000'))),
+    end: toRestDateTime(endOfYear(new Date())),
+    pageSize: 1,
+    pageIndex: 0,
+    query: '',
+    status: [],
+  });
+
+  // const totalServiceOrders = {total: 1};
 
   const {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
@@ -102,6 +112,7 @@ export const ServiceHistoryTab = () => {
     if (serviceOrders) {
       setSelectedOrder(serviceOrders.data[0]);
     }
+    setIsEmpty(serviceOrders.data.length === 0);
   }, [serviceOrders]);
 
   const getYears = useCallback(() => {
@@ -161,31 +172,27 @@ export const ServiceHistoryTab = () => {
     setSelectedStatusView('All');
   };
 
-  return !filterActive && !serviceOrders.total ? (
-    <EmptySection
-      label="No service history entries made so far!"
-      size="large"
-      containerStyle={{mt: 12}}
-    />
-  ) : (
+  if (!totalServiceOrders.total) {
+    return (
+      <EmptySection
+        label="No service history entries made so far!"
+        size="large"
+        containerStyle={{mt: 12}}
+      />
+    );
+  }
+
+  return (
     <Grid container spacing={2}>
       <Grid item xs={8}>
-        {!serviceOrders.total ? (
-          <Card
-            sx={{
-              border: 'none',
-              height: '74vh',
-            }}>
-            <CardContent>
-              <EmptySection
-                label="No service history entries for the applied filters!"
-                containerStyle={{mt: 12}}
-              />
-            </CardContent>
-          </Card>
-        ) : null}
-
-        {serviceOrders.total ? (
+        {isEmpty ? (
+          <PageCard minHeight="100%">
+            <EmptySection
+              label="No service history entries for the applied filters!"
+              containerStyle={{mt: 12}}
+            />
+          </PageCard>
+        ) : (
           <>
             <HistoryBasicDetails>
               <HistoryCard
@@ -248,7 +255,7 @@ export const ServiceHistoryTab = () => {
               />
             </HistoryReport>
           </>
-        ) : null}
+        )}
       </Grid>
       <Grid item xs={4}>
         <PageCard
@@ -270,10 +277,7 @@ export const ServiceHistoryTab = () => {
                 selectionStyle={{background: '#fff', cursor: 'default'}}
                 selectedOption={`Year: ${selectedYear}`}
                 options={getYears()}
-                onSelectedOptionChanged={(value) => {
-                  setFilterActive(true);
-                  setSelectedYear(value);
-                }}
+                onSelectedOptionChanged={(value) => setSelectedYear(value)}
               />
             </Box>
             <SplitButton
@@ -284,30 +288,29 @@ export const ServiceHistoryTab = () => {
               selectedOption={`Status: ${selectedStatusView}`}
               options={getStatus()}
               onSelectedOptionChanged={(value) => {
-                setFilterActive(true);
                 onStatusSelect(value);
               }}
             />
           </Box>
-          <Box sx={{height: '55vh', overflowY: 'scroll'}}>
-            {!serviceOrders.total ? (
-              <Box
-                sx={{height: '55vh'}}
-                display="flex"
-                flexDirection="column"
-                alignItems="center">
-                <EmptySection
-                  label="No service history entries for the applied filters!"
-                  illustration="clipboard"
-                  size="small"
-                  containerStyle={{mt: 8, mb: 2}}
-                />
-                <Button variant="contained" onClick={resetFilters}>
-                  Reset Filters
-                </Button>
-              </Box>
-            ) : (
-              serviceOrders.data.map((serviceOrder: ServiceOrderView) => (
+          {isEmpty ? (
+            <Box
+              sx={{height: '55vh'}}
+              display="flex"
+              flexDirection="column"
+              alignItems="center">
+              <EmptySection
+                label="No service history entries for the applied filters!"
+                illustration="clipboard"
+                size="small"
+                containerStyle={{mt: 8, mb: 2}}
+              />
+              <Button variant="contained" onClick={resetFilters}>
+                Reset Filters
+              </Button>
+            </Box>
+          ) : (
+            <Box sx={{height: '55vh', overflowY: 'scroll'}}>
+              {serviceOrders.data.map((serviceOrder: ServiceOrderView) => (
                 <HistoryCard
                   serviceOrder={serviceOrder}
                   headerTitle={formatDate(
@@ -329,9 +332,9 @@ export const ServiceHistoryTab = () => {
                     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
                   }}
                 />
-              ))
-            )}
-          </Box>
+              ))}
+            </Box>
+          )}
         </PageCard>
       </Grid>
     </Grid>
