@@ -6,11 +6,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {SplitButton} from 'components/SplitButton';
 import Box from '@mui/material/Box';
 import {PageCard} from 'components/PageCard';
-import {EmptyIllustration} from 'components/EmptyIllustration';
+import {EmptySection} from 'components/EmptySection';
 import {createEmptyResource} from 'utils/paging-utils';
-import HideImageIcon from '@mui/icons-material/HideImage';
-import useTheme from '@mui/material/styles/useTheme';
-import {ReactComponent as NotesIcon} from 'assets/icons/Notes.svg';
+import {Button} from '@mui/material';
 import {
   useServiceOrderReport,
   useServiceOrders,
@@ -20,10 +18,6 @@ import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {useElevatorById} from 'hooks/reactQuery/useElevator';
 import {getYear, eachYearOfInterval, endOfYear, startOfYear} from 'date-fns';
 import {useParams} from 'react-router-dom';
-import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
-
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 
 import {HistoryCard} from './HistoryCard';
 import {HistoryReport} from './HistoryReport';
@@ -33,24 +27,36 @@ import {HistoryAttachments} from './HistoryAttachments';
 const pageSize = 10;
 
 export const ServiceHistoryTab = () => {
-  const theme = useTheme();
   const {id: elevatorId} = useParams();
   const [selectedYear, setSelectedYear] = useState(
     getYear(new Date()).toString(),
   );
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [selectedStatusView, setSelectedStatusView] = useState('All');
-
+  const [isEmpty, setIsEmpty] = useState(false);
   const [expanded, setExpanded] = useState<boolean>();
   const [selectedOrder, setSelectedOrder] = useState<ServiceOrderView>();
   const [currentReportDate, setCurrentReportDate] = useState<string>();
-  const [filterActive, setFilterActive] = useState(false);
   const [currentScheduleDate, setCurrentScheduleDate] = useState<string | null>(
     null,
   );
   const [currentScheduleTime, setCurrentScheduleTime] = useState<string | null>(
     null,
   );
+
+  const {
+    data: totalServiceOrders = createEmptyResource<ServiceOrderView>(pageSize),
+  } = useServiceOrders({
+    elevatorIds: elevatorId,
+    start: toRestDateTime(startOfYear(new Date('2000'))),
+    end: toRestDateTime(endOfYear(new Date())),
+    pageSize: 1,
+    pageIndex: 0,
+    query: '',
+    status: [],
+  });
+
+  // const totalServiceOrders = {total: 1};
 
   const {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
@@ -106,6 +112,7 @@ export const ServiceHistoryTab = () => {
     if (serviceOrders) {
       setSelectedOrder(serviceOrders.data[0]);
     }
+    setIsEmpty(serviceOrders.data.length === 0);
   }, [serviceOrders]);
 
   const getYears = useCallback(() => {
@@ -159,32 +166,33 @@ export const ServiceHistoryTab = () => {
     return setSelectedStatus([]);
   };
 
-  return !filterActive && !serviceOrders.total ? (
-    <EmptyIllustration
-      containerStyle={{mt: 10}}
-      labelStyle={{mt: 2, mb: 2}}
-      label="No service history entries made so far!"
-    />
-  ) : (
+  const resetFilters = () => {
+    setSelectedYear(getYear(new Date()).toString());
+    setSelectedStatus([]);
+    setSelectedStatusView('All');
+  };
+
+  if (!totalServiceOrders.total) {
+    return (
+      <EmptySection
+        label="No service history entries made so far!"
+        size="large"
+        containerStyle={{mt: 12}}
+      />
+    );
+  }
+
+  return (
     <Grid container spacing={2}>
       <Grid item xs={8}>
-        {!serviceOrders.total ? (
-          <Card
-            sx={{
-              border: 'none',
-              height: '74vh',
-            }}>
-            <CardContent>
-              <EmptyIllustration
-                containerStyle={{mt: 10}}
-                labelStyle={{mt: 2, mb: 2}}
-                label="No service history entries for the applied filters!"
-              />
-            </CardContent>
-          </Card>
-        ) : null}
-
-        {serviceOrders.total ? (
+        {isEmpty ? (
+          <PageCard minHeight="100%">
+            <EmptySection
+              label="No service history entries for the applied filters!"
+              containerStyle={{mt: 12}}
+            />
+          </PageCard>
+        ) : (
           <>
             <HistoryBasicDetails>
               <HistoryCard
@@ -235,19 +243,10 @@ export const ServiceHistoryTab = () => {
                   downloadUrl?.length ? (
                     <HistoryAttachments downloadUrl={downloadUrl} />
                   ) : (
-                    <EmptyIllustration
+                    <EmptySection
                       label="No image attachments are added to the work report!"
-                      labelStyle={{
-                        mt: '1em',
-                        color: theme.palette.text.secondary,
-                      }}
-                      labelVariant="subtitle2"
-                      icon={
-                        <HideImageIcon
-                          color="primary"
-                          sx={{width: '2.875rem', height: '2.875rem'}}
-                        />
-                      }
+                      illustration="no-image"
+                      size="tiny"
                     />
                   )
                 }
@@ -256,12 +255,14 @@ export const ServiceHistoryTab = () => {
               />
             </HistoryReport>
           </>
-        ) : null}
+        )}
       </Grid>
       <Grid item xs={4}>
         <PageCard
           headerLabel="All Services"
           contentPadding="0rem"
+          containerStyles={{height: '100%'}}
+          bodyContainerStyles={{height: '100%'}}
           headerContainerOverrideStyles={{
             background: 'none',
             mt: 'default',
@@ -278,10 +279,7 @@ export const ServiceHistoryTab = () => {
                 selectionStyle={{background: '#fff', cursor: 'default'}}
                 selectedOption={`Year: ${selectedYear}`}
                 options={getYears()}
-                onSelectedOptionChanged={(value) => {
-                  setFilterActive(true);
-                  setSelectedYear(value);
-                }}
+                onSelectedOptionChanged={(value) => setSelectedYear(value)}
               />
             </Box>
             <SplitButton
@@ -292,40 +290,29 @@ export const ServiceHistoryTab = () => {
               selectedOption={`Status: ${selectedStatusView}`}
               options={getStatus()}
               onSelectedOptionChanged={(value) => {
-                setFilterActive(true);
                 onStatusSelect(value);
               }}
             />
           </Box>
-          <Box sx={{height: '55vh', overflowY: 'scroll'}}>
-            {!serviceOrders.total ? (
-              <EmptyIllustration
-                containerStyle={{mt: 10}}
-                labelStyle={{mt: 2, mb: 2}}
-                actionBtn={
-                  <CustomButtonUnstyled
-                    label="Reset Filters"
-                    styles={{
-                      background: theme.palette.primary.main,
-                      color: '#fff',
-                      '&:hover': {
-                        background: theme.palette.primary.main,
-                      },
-                    }}
-                    onClick={() => {
-                      setFilterActive(false);
-                      setSelectedYear(getYear(new Date()).toString());
-                      setSelectedStatus([]);
-                      setSelectedStatusView('All');
-                    }}
-                  />
-                }
-                icon={<NotesIcon />}
-                label="No service history entries for
-the applied filters!"
+          {isEmpty ? (
+            <Box
+              sx={{height: '55vh', border: '1px solid green'}}
+              display="flex"
+              flexDirection="column"
+              alignItems="center">
+              <EmptySection
+                label="No service history entries for the applied filters!"
+                illustration="clipboard"
+                size="small"
+                containerStyle={{mt: 8, mb: 2}}
               />
-            ) : (
-              serviceOrders.data.map((serviceOrder: ServiceOrderView) => (
+              <Button variant="contained" onClick={resetFilters}>
+                Reset Filters
+              </Button>
+            </Box>
+          ) : (
+            <Box sx={{height: '100%', overflowY: 'scroll'}}>
+              {serviceOrders.data.map((serviceOrder: ServiceOrderView) => (
                 <HistoryCard
                   serviceOrder={serviceOrder}
                   headerTitle={formatDate(
@@ -347,9 +334,9 @@ the applied filters!"
                     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
                   }}
                 />
-              ))
-            )}
-          </Box>
+              ))}
+            </Box>
+          )}
         </PageCard>
       </Grid>
     </Grid>

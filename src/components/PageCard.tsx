@@ -16,6 +16,8 @@ export interface Props {
   headerActionIcon?: JSX.Element;
   minHeight?: number | string;
   contentPadding?: string | number;
+  containerStyles?: {[key: string]: string | number};
+  bodyContainerStyles?: {[key: string]: string | number};
 }
 
 export const PageCard = ({
@@ -27,6 +29,8 @@ export const PageCard = ({
   minHeight,
   contentPadding,
   customHeader,
+  containerStyles,
+  bodyContainerStyles,
 }: Props) => {
   const theme = useTheme();
   return (
@@ -34,6 +38,7 @@ export const PageCard = ({
       sx={{
         minHeight: minHeight || '26rem',
         boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
+        ...containerStyles,
       }}>
       <CardHeader
         sx={{
@@ -63,6 +68,7 @@ export const PageCard = ({
       <CardContent
         sx={{
           px: contentPadding || 'default',
+          ...bodyContainerStyles,
         }}>
         {children}
       </CardContent>
