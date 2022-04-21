@@ -56,8 +56,6 @@ export const ServiceHistoryTab = () => {
     status: [],
   });
 
-  // const totalServiceOrders = {total: 1};
-
   const {
     data: serviceOrders = createEmptyResource<ServiceOrderView>(pageSize),
   } = useServiceOrders({
@@ -296,7 +294,7 @@ export const ServiceHistoryTab = () => {
           </Box>
           {isEmpty ? (
             <Box
-              sx={{height: '55vh', border: '1px solid green'}}
+              sx={{height: '55vh'}}
               display="flex"
               flexDirection="column"
               alignItems="center">
