@@ -51,6 +51,7 @@ interface Props {
   select?: boolean;
   disabled?: boolean;
   type?: string;
+  helperText?: ReactNode;
 }
 export const FormInput = ({
   label,
@@ -61,6 +62,7 @@ export const FormInput = ({
   select = false,
   disabled = false,
   type = 'text',
+  helperText,
 }: Props) => (
   <Box
     sx={{
@@ -81,6 +83,7 @@ export const FormInput = ({
       onChange={onChange}
       select={select}
       disabled={disabled}
+      helperText={helperText}
       fullWidth>
       {children}
     </CustomInput>

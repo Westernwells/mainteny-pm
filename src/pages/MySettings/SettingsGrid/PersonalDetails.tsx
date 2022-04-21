@@ -294,8 +294,7 @@ export const PersonalDetails = ({formik, onChange, handleSubmit}: Props) => {
             label="Designation"
             id="userDesignation"
             value={formik.values.userDesignation}
-            onChange={onChange}
-            disabled
+            onChange={() => {}}
           />
           <FormInput
             label="Phone"
