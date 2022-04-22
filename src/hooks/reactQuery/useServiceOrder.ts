@@ -138,8 +138,11 @@ const groupElevatorByAddressList = (
 };
 
 export const logIssue = async (body: OptionalCreateNonScheduledBody) => {
-  await axiosClient.post(`/api/serviceOrders/nonscheduled`, {
-    ...body,
+  await axiosClient.post(`/api/elevators/${body.elevatorId}/issues`, {
+    description: body.description,
+    moreInstruction: body.moreInstruction,
+    serviceCompanyId: body.serviceCompanyId,
+    timePreference: body.timePreference,
   });
 };
 
