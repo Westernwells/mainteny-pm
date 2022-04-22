@@ -13,6 +13,7 @@ import {PageCard} from 'components/PageCard';
 
 import {useServiceOrders} from 'hooks/reactQuery/useServiceOrder';
 import {EmptySection} from 'components/EmptySection';
+import {useEffect} from 'react';
 import {
   useElevatorById,
   useElevatorMaintainers,
@@ -24,11 +25,15 @@ import {ServiceHistory} from '../ServiceHistory';
 
 interface Props {
   getServiceHistoryTabIndex?: (value: number) => void;
+  getCustomerName?: (value: string) => void;
 }
 
 const pageSize = 10;
 
-export const OverviewTab = ({getServiceHistoryTabIndex}: Props) => {
+export const OverviewTab = ({
+  getServiceHistoryTabIndex,
+  getCustomerName,
+}: Props) => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
 
@@ -46,6 +51,12 @@ export const OverviewTab = ({getServiceHistoryTabIndex}: Props) => {
     pageIndex: 0,
     query: '',
   });
+
+  useEffect(() => {
+    if (getCustomerName && elevator) {
+      getCustomerName(elevator.propertyOwner.name);
+    }
+  }, [elevator]);
 
   return (
     <>

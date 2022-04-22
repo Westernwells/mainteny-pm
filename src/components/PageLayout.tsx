@@ -24,6 +24,7 @@ export const PageLayout = ({
         ? {minHeight: '100vh', overflowY: 'scroll'}
         : {height: '98vh', overflowY: 'hidden'}),
     }}>
+    {console.log(excludeDefaultSpacing, '<<<')}
     <Box>
       <AppTopBar />
     </Box>
@@ -35,11 +36,12 @@ export const PageLayout = ({
       ) : null}
       <Box
         sx={{
-          flexGrow: 1,
           pt: !excludeDefaultSpacing ? 12 : null,
           px: !excludeDefaultSpacing ? 5 : null,
         }}
         display="flex"
+        flexGrow="1"
+        width="80%"
         flexDirection="column">
         {children}
       </Box>
