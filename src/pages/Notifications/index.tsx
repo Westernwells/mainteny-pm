@@ -37,7 +37,7 @@ export const Notifications = () => {
 
   return (
     <Box display="flex">
-      <Box sx={{mb: 2, mt: 12, width: 'min(48em, 90%)', mx: 'auto'}}>
+      <Box sx={{mb: 2, mt: 12, width: 'min(64em, 90%)', mx: 'auto'}}>
         <BackAction label="Notifications" />
 
         <Box>

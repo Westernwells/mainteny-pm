@@ -41,7 +41,7 @@ export const NotificationCard = ({
       mt={2}
       sx={{
         backgroundColor: '#fff',
-        p: 2,
+        p: 3,
         boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
         borderRadius: '4px',
       }}
