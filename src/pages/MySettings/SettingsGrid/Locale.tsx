@@ -1,5 +1,7 @@
 import React from 'react';
 import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
+import {Chip} from '@mui/material';
 import {SettingCard} from './SettingCard';
 import {FormInput} from './FormInput';
 
@@ -19,7 +21,32 @@ interface Props {
 }
 
 export const Locale = ({formData, onChange}: Props) => (
-  <SettingCard header="Language & Region">
+  <SettingCard
+    header={
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{zIndex: 'snackbar'}}>
+        Language & Region
+        <Chip
+          label="coming soon"
+          variant="outlined"
+          color="secondary"
+          size="small"
+        />
+      </Box>
+    }
+    containerStyles={{
+      position: 'relative',
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        inset: '0 0 0 0',
+        zIndex: 'modal',
+        cursor: 'not-allowed',
+      },
+    }}>
     <FormInput
       label="Language"
       id="localeLanguage"
