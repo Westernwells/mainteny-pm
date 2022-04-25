@@ -40,9 +40,10 @@ export const Account = ({formData, onChange}: Props) => (
     <FormInput
       label="Password"
       id="accountPassword"
-      value={formData.accoutPassword}
-      onChange={onChange}
+      value={formData.accoutPassword || '12345678'}
+      onChange={() => {}}
       type="password"
+      disabled
     />
   </SettingCard>
 );

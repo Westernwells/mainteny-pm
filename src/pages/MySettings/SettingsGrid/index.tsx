@@ -31,20 +31,11 @@ export const SettingsGrid = ({setDrawerOpen, handleSubmit, formik}: Props) => {
       }}
       container>
       <Grid xs={7} item>
-        <Box display="flex" flexDirection="column" gap={2}>
-          <PersonalDetails
-            formik={formik}
-            onChange={handleChange}
-            handleSubmit={handleSubmit}
-          />
-          <Locale
-            formData={{
-              localeLanguage: formik.values.localeLanguage,
-              localeTimezone: formik.values.localeTimezone,
-            }}
-            onChange={handleChange}
-          />
-        </Box>
+        <PersonalDetails
+          formik={formik}
+          onChange={handleChange}
+          handleSubmit={handleSubmit}
+        />
       </Grid>
       <Grid xs={5} item>
         <Box display="flex" flexDirection="column" gap={2}>
@@ -55,12 +46,21 @@ export const SettingsGrid = ({setDrawerOpen, handleSubmit, formik}: Props) => {
             }}
             onChange={handleChange}
           />
-          <DateFormat
+          <Locale
             formData={{
-              dateFormat: formik.values.dateFormat,
+              localeLanguage: formik.values.localeLanguage,
+              localeTimezone: formik.values.localeTimezone,
             }}
             onChange={handleChange}
           />
+          <Box display="none">
+            <DateFormat
+              formData={{
+                dateFormat: formik.values.dateFormat,
+              }}
+              onChange={handleChange}
+            />
+          </Box>
         </Box>
       </Grid>
     </Grid>

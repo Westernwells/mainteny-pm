@@ -253,7 +253,7 @@ export const PersonalDetails = ({formik, onChange, handleSubmit}: Props) => {
   );
 
   return (
-    <SettingCard header="Personal Details">
+    <SettingCard header="Personal Details" containerStyles={{height: '100%'}}>
       <Box display="flex" gap={4}>
         <Box
           sx={{position: 'relative'}}
