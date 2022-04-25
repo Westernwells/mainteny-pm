@@ -116,6 +116,7 @@ const filterElevators = (
 export function useAllElevators(
   query: string,
   page: Page,
+  // TODO: Create interface for filters
   filters?: {status: string; upcommingVisit: {start: Date; end: Date} | null},
   options?: UseQueryOptions<any, any, any>,
 ) {

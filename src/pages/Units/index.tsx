@@ -207,6 +207,13 @@ export const MyUnits = () => {
     if (!logIssueTime) setLogIssueDate(null);
   }, [logIssueTime]);
 
+  useEffect(() => {
+    if (!showFilter) {
+      setStatus('');
+      setUpcommingVisit(null);
+    }
+  }, [showFilter]);
+
   const openMapView = () => {
     setShowMapview(true);
   };

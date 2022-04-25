@@ -26,6 +26,7 @@ import {upcommingDates} from './Date';
 
 const pageSize = 25;
 
+// TODO: standardize this interface
 interface ExpiryDate {
   start: Date;
   end: Date;
@@ -112,6 +113,14 @@ export const Contracts = () => {
   useEffect(() => {
     setPageCount(Math.ceil(contractResource.total / page.pageSize));
   }, [contractResource, page.pageSize]);
+
+  useEffect(() => {
+    if (!showFilter) {
+      setExpiryDate(null);
+      setContractor([]);
+      setCost([]);
+    }
+  }, [showFilter]);
 
   if (isFetched && !totalContract) {
     return (
