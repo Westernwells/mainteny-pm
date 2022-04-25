@@ -2,15 +2,7 @@ import {useCallback} from 'react';
 import {useQuery, UseQueryOptions} from 'react-query';
 import * as _ from 'lodash';
 import {queryKeys as qk} from 'reactQuery/constants';
-import {
-  addDays,
-  startOfDay,
-  subDays,
-  endOfDay,
-  isWithinInterval,
-} from 'date-fns';
 import {useNavigate} from 'react-router-dom';
-import {toDate} from 'utils/datetime';
 import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
 import {
   Contract,
@@ -56,56 +48,18 @@ const fetchContractDetails = async (contractId: string) => {
 
 const filterByExpiryData = (
   contractsRes: Resource<ContractView>,
-  expiryDate: string[],
+  expiryDate: {
+    start: Date;
+    end: Date;
+  },
 ) => {
   let mergedResult = [] as ContractView[];
-  let start: Date;
-  let end: Date;
-
-  let contractMap = {} as {[key: string]: ContractView[]};
-  // TODO: Find a better solution to this
-  expiryDate.forEach((item) => {
-    switch (item) {
-      case 'Last 14 days': // TODO: create an enum
-        start = startOfDay(subDays(new Date(), 14));
-        end = endOfDay(new Date());
-        break;
-      case 'Today':
-        start = startOfDay(new Date());
-        end = endOfDay(new Date());
-        break;
-      case 'Next 7 days':
-        start = startOfDay(new Date());
-        end = endOfDay(addDays(new Date(), 7));
-        break;
-      case 'Next 14 days':
-        start = startOfDay(new Date());
-        end = endOfDay(addDays(new Date(), 14));
-        break;
-      default:
-        break;
-    }
-
-    contractsRes.data.forEach((contract) => {
-      if (isWithinInterval(toDate(contract.endTime), {start, end})) {
-        contractMap = {
-          ...contractMap,
-          [item]: contractMap[item]
-            ? [...contractMap[item], contract]
-            : [contract],
-        };
-      }
-    });
-  });
-
-  expiryDate
-    .map((item) => contractMap[item])
-    .filter((item) => item)
-    .forEach((item) => {
-      const diff = _.differenceBy(mergedResult, item, 'id');
-      mergedResult = [...diff, ...item];
-    });
-
+  mergedResult = contractsRes.data.filter(
+    (item) =>
+      'endTime' in item &&
+      new Date(item.endTime) > expiryDate.start &&
+      new Date(item.endTime) <= expiryDate.end,
+  );
   return mergedResult;
 };
 
@@ -151,11 +105,18 @@ export const filterByPrice = (
 
 const filterContracts = (
   contractsRes: Resource<ContractView>,
-  filter: {expiryDate?: string[]; contractor?: string[]; price?: number[][]},
+  filter: {
+    expiryDate?: {
+      start: Date;
+      end: Date;
+    } | null;
+    contractor?: string[];
+    price?: number[][];
+  },
 ) => {
   let result = {...contractsRes};
 
-  if (filter.expiryDate?.length) {
+  if (filter.expiryDate) {
     const expiryDates = filterByExpiryData(contractsRes, filter.expiryDate);
     result = {...result, data: expiryDates, total: expiryDates.length};
   }
@@ -174,7 +135,15 @@ const filterContracts = (
 
 export const useQueryContract = (
   params: QueryContractParams,
-  filter: {expiryDate?: string[]; contractor?: string[]; price?: number[][]},
+  // TODO: Create interface for filters
+  filter: {
+    expiryDate?: {
+      start: Date;
+      end: Date;
+    } | null;
+    contractor?: string[];
+    price?: number[][];
+  },
   options?: UseQueryOptions<any, any, any>,
 ) => {
   const {data: user} = usePropertyManager();

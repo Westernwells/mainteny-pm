@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
-import {ElevatorView} from 'models/elevator';
+import {ElevatorStatus, ElevatorView} from 'models/elevator';
 import * as _ from 'lodash';
 import {getCenter} from 'geolib';
 import {Location, Resource} from 'models/misc';
@@ -23,10 +23,11 @@ import {FilterFields} from 'components/FilterFields';
 import {Progress} from 'components/Progress';
 import {useSearchParams} from 'react-router-dom';
 import {
+  convertToMacro,
+  convertToText,
   formatSearchParamsPageIndex,
   formatSearchParamsPageSize,
 } from 'utils/utils';
-
 import useTheme from '@mui/material/styles/useTheme';
 import {EmptySection} from 'components/EmptySection';
 import {columns, makeRows} from './UnitsDataGridProps';
@@ -37,13 +38,18 @@ import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
 import {LogIssueTimePreference} from './LogIssue/LogIssueTimePreference';
 import {LogIssueDateTime} from './LogIssue/LogIssueDateTime';
 import {DataGridElevatorView, ElevatorByAddr} from './Models';
+import {upcommingDates} from './Date';
 
 const pageSize = 15;
-
 interface FormikFields {
   description: string;
   elevator?: ElevatorView;
   moreInformation: string;
+}
+
+interface UpcommingVisit {
+  start: Date;
+  end: Date;
 }
 
 const validationSchema = Yup.object().shape({
@@ -55,6 +61,7 @@ export const MyUnits = () => {
     elevatorByAddress: {} as ElevatorByAddr,
     centerCoord: {longitude: 0, latitude: 0},
   }).current;
+
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, pageSize));
   const [queryParams, setQueryParams] = useSearchParams();
@@ -65,6 +72,11 @@ export const MyUnits = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [pageCount, setPageCount] = useState(0);
   const [rows, setRows] = useState<GridRowsProp>([]);
+  const [status, setStatus] = useState('');
+  const [upcommingVisit, setUpcommingVisit] = useState<UpcommingVisit | null>(
+    null,
+  );
+
   const theme = useTheme();
 
   const [elevatorView, setElevatorView] = useState<{
@@ -82,7 +94,12 @@ export const MyUnits = () => {
     isFetched,
     isFetching,
     isIdle,
-  } = useAllElevators(search, page, {keepPreviousData: true});
+  } = useAllElevators(
+    search,
+    page,
+    {status, upcommingVisit},
+    {keepPreviousData: true},
+  );
 
   const {mutate: logIssue} = useLogIssue();
 
@@ -190,6 +207,13 @@ export const MyUnits = () => {
     if (!logIssueTime) setLogIssueDate(null);
   }, [logIssueTime]);
 
+  useEffect(() => {
+    if (!showFilter) {
+      setStatus('');
+      setUpcommingVisit(null);
+    }
+  }, [showFilter]);
+
   const openMapView = () => {
     setShowMapview(true);
   };
@@ -236,14 +260,26 @@ export const MyUnits = () => {
           <FilterFields setShowFilter={setShowFilter}>
             <MultipleSelectCheckmarks
               label="Status"
-              options={['RUNNING', 'STOPPED']}
-              getSelectedValue={() => {}}
+              options={Object.values(ElevatorStatus).map((item) =>
+                convertToText(item),
+              )}
+              getSelectedValue={(item) => {
+                if (item.length) setStatus(convertToMacro(item[0]));
+                else setStatus('');
+              }}
+              multiple={false}
             />
 
             <MultipleSelectCheckmarks
               label="Upcoming visits"
-              options={['This week', 'Next week', 'Next month']}
-              getSelectedValue={() => {}}
+              options={Object.keys(upcommingDates).map((item) =>
+                convertToText(item),
+              )}
+              getSelectedValue={(item: string[]) => {
+                if (item.length)
+                  setUpcommingVisit(upcommingDates[convertToMacro(item[0])]);
+                else setUpcommingVisit(null);
+              }}
               multiple={false}
             />
           </FilterFields>
