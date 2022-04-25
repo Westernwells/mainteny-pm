@@ -1,16 +1,16 @@
 import {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import {ElevatorView} from 'models/elevator';
+import * as _ from 'lodash';
+import {getCenter} from 'geolib';
+import {Location, Resource} from 'models/misc';
 
 import {Widget} from 'components/Widget';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {GridRowsProp} from '@mui/x-data-grid';
 import {CustomPagination} from 'components/CustomPagination';
 import {LogIssue} from 'pages/Units/LogIssue';
-import {
-  useFetchServiceOrdersByElevators,
-  useLogIssue,
-} from 'hooks/reactQuery/useServiceOrder';
+import {useLogIssue} from 'hooks/reactQuery/useServiceOrder';
 import Fade from '@mui/material/Fade';
 import Drawer from '@mui/material/Drawer';
 import {useFormik} from 'formik';
@@ -29,6 +29,7 @@ import {
 } from 'utils/utils';
 
 import useTheme from '@mui/material/styles/useTheme';
+import {EmptySection} from 'components/EmptySection';
 import {columns, makeRows} from './UnitsDataGridProps';
 import {UnitsMapsView} from './UnitsMapsView';
 import {LogIssueBody} from './LogIssue/LogIssueBody';
@@ -36,6 +37,7 @@ import {LogIssueDescription} from './LogIssue/LogIssueDescription';
 import {LogIssueUnitInput} from './LogIssue/LogIssueUnitInput';
 import {LogIssueTimePreference} from './LogIssue/LogIssueTimePreference';
 import {LogIssueDateTime} from './LogIssue/LogIssueDateTime';
+import {DataGridElevatorView, ElevatorByAddr} from './Models';
 
 const pageSize = 15;
 
@@ -51,15 +53,13 @@ const validationSchema = Yup.object().shape({
 
 export const MyUnits = () => {
   const fallback = useRef({
-    elevator: createEmptyResource<ElevatorView>(10),
+    elevatorByAddress: {} as ElevatorByAddr,
     centerCoord: {longitude: 0, latitude: 0},
   }).current;
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, pageSize));
   const [queryParams, setQueryParams] = useSearchParams();
   const [showFilter, setShowFilter] = useState(false);
-  const [status, setStatus] = useState<string[]>([]);
-  const [nextVisit, setNextVisit] = useState<string[]>([]);
   const [showMapview, setShowMapview] = useState(false);
   const [logIssueDate, setLogIssueDate] = useState<Date | null>(null);
   const [logIssueTime, setLogIssueTime] = useState<Date | null>(null);
@@ -68,26 +68,70 @@ export const MyUnits = () => {
   const [rows, setRows] = useState<GridRowsProp>([]);
   const theme = useTheme();
 
-  const {data: elevatorResponse = fallback} = useAllElevators(
-    search,
-    page,
-    status,
-    {keepPreviousData: true},
-  );
+  const [elevatorView, setElevatorView] = useState<{
+    elevatorByAddress: ElevatorByAddr;
+    centerCoord: Location;
+  }>(fallback);
 
   const {
-    data: elevatorsByAddressList,
-    isIdle,
+    data: {total: totalElevators} = createEmptyResource<ElevatorView>(10),
+  } = useAllElevators('', makePage(0, 1));
+
+  const {
+    data: elevatorResponse = createEmptyResource<ElevatorView>(10),
     isLoading,
+    isFetched,
     isFetching,
-  } = useFetchServiceOrdersByElevators(
-    elevatorResponse.elevator,
-    {nextVisit},
-    {keepPreviousData: true},
-  );
+  } = useAllElevators(search, page, {keepPreviousData: true});
+
+  const {mutate: logIssue} = useLogIssue();
+
+  const groupElevatorByAddressList = (elevatorRes?: Resource<ElevatorView>) => {
+    const elevatorMap = _.groupBy(
+      elevatorRes?.data,
+      (elevator: ElevatorView) => elevator.address.fullName,
+    );
+
+    return elevatorMap;
+  };
+
+  const flatenn = (elevators: {[key: string]: ElevatorView[]}) => {
+    let prevAdddressId = '';
+    const flatArray: DataGridElevatorView[] = [];
+    Object.keys(elevators).forEach((key) => {
+      elevators[key].forEach((elevator) => {
+        const {address} = elevator;
+        const showAddress = address.id !== prevAdddressId;
+        flatArray.push({showAddress, ...elevator});
+        prevAdddressId = address.id;
+      });
+    });
+    return flatArray;
+  };
+
+  useEffect(() => {
+    if (!isLoading) {
+      const latLng = elevatorResponse?.data.map((elevator: ElevatorView) => ({
+        latitude: elevator.address.location.latitude,
+        longitude: elevator.address.location.longitude,
+      }));
+      const centerCoord = getCenter(latLng) as unknown as Location;
+      const result = groupElevatorByAddressList(elevatorResponse);
+
+      setElevatorView({
+        elevatorByAddress: result,
+        centerCoord,
+      });
+    }
+  }, [isLoading, elevatorResponse]);
+
+  useEffect(() => {
+    if (elevatorResponse) {
+      setPageCount(Math.ceil(elevatorResponse.total / page.pageSize));
+    }
+  }, [elevatorResponse, page]);
 
   // TODO: LogIssue to be refactored and improved after VFA
-  const {mutate: logIssue} = useLogIssue();
 
   const formik = useFormik<FormikFields>({
     initialValues: {
@@ -117,18 +161,6 @@ export const MyUnits = () => {
     validationSchema,
   });
 
-  const onSearchTextChanged = (value: string) => {
-    setSearch(value);
-  };
-
-  const openMapView = () => {
-    setShowMapview(true);
-  };
-
-  const closeMapView = () => {
-    setShowMapview(false);
-  };
-
   useEffect(() => {
     const currentParams = Object.fromEntries([...queryParams]);
 
@@ -140,17 +172,11 @@ export const MyUnits = () => {
   }, [queryParams]);
 
   useEffect(() => {
-    if (!showFilter) {
-      setStatus([]);
-      setNextVisit([]);
-    }
-  }, [showFilter]);
-
-  useEffect(() => {
-    if (elevatorsByAddressList?.length) {
+    if (elevatorView.elevatorByAddress) {
+      const flatArr = flatenn(elevatorView.elevatorByAddress);
       setRows(
         makeRows({
-          elevatorsByAddress: elevatorsByAddressList,
+          elevators: flatArr,
           setDrawerOpen,
           setField: formik.setFieldValue,
         }),
@@ -158,32 +184,51 @@ export const MyUnits = () => {
     } else {
       setRows([]);
     }
-  }, [elevatorsByAddressList]);
-
-  useEffect(() => {
-    setPageCount(Math.ceil(elevatorResponse.elevator.total / page.pageSize));
-  }, [elevatorResponse, page.pageSize]);
+  }, [elevatorView]);
 
   useEffect(() => {
     if (!logIssueTime) setLogIssueDate(null);
   }, [logIssueTime]);
 
-  if (isIdle || isLoading) {
-    return <Progress />;
+  const openMapView = () => {
+    setShowMapview(true);
+  };
+
+  const closeMapView = () => {
+    setShowMapview(false);
+  };
+
+  if (isFetched && !totalElevators) {
+    return (
+      <EmptySection
+        label="No Elevators yet."
+        showActionBtn
+        btnLabel="Add Elevator"
+        containerStyle={{
+          height: '100%',
+          mb: '10em',
+        }}
+      />
+    );
   }
 
+  if (isLoading) {
+    return <Progress />;
+  }
   return (
     <PageOverviewLayout
       label="Units"
       renderWidget={
         <Widget
           searchPlaceholder="Try ‘Schindler’ or ‘Mitsubishi’"
-          onSearchTextChanged={onSearchTextChanged}
           openMapView={openMapView}
           closeMapView={closeMapView}
           mapViewActive={showMapview}
           setShowFilter={setShowFilter}
           showFilter={showFilter}
+          getSearchValue={(val: string) => {
+            setSearch(val);
+          }}
         />
       }>
       <Fade in={showFilter} unmountOnExit>
@@ -192,13 +237,13 @@ export const MyUnits = () => {
             <MultipleSelectCheckmarks
               label="Status"
               options={['RUNNING', 'STOPPED']}
-              getSelectedValue={(item) => setStatus(item)}
+              getSelectedValue={() => {}}
             />
 
             <MultipleSelectCheckmarks
               label="Upcoming visits"
               options={['This week', 'Next week', 'Next month']}
-              getSelectedValue={(item) => setNextVisit(item)}
+              getSelectedValue={() => {}}
               multiple={false}
             />
           </FilterFields>
@@ -213,7 +258,7 @@ export const MyUnits = () => {
             columns={columns}
             loading={isFetching}
           />
-          {pageCount && page.pageSize < elevatorResponse.elevator.total ? (
+          {pageCount && page.pageSize < elevatorResponse.total ? (
             <CustomPagination
               pageSize={page.pageSize}
               pageIndex={page.pageIndex}
@@ -228,14 +273,14 @@ export const MyUnits = () => {
                 )
               }
               pageCount={pageCount}
-              totalRows={elevatorResponse.elevator.total}
+              totalRows={elevatorResponse.total}
             />
           ) : null}
         </>
       ) : (
         <UnitsMapsView
-          elevatorsByAddressList={elevatorsByAddressList}
-          centerCoord={elevatorResponse?.centerCoord}
+          defaultCenterCoord={elevatorView?.centerCoord}
+          search={search}
         />
       )}
 
@@ -275,7 +320,7 @@ export const MyUnits = () => {
                 />
                 <LogIssueUnitInput
                   setField={formik.setFieldValue}
-                  elevators={elevatorResponse.elevator.data}
+                  elevators={elevatorResponse.data}
                   error={formik.errors.elevator}
                   touched={formik.touched.elevator}
                   handleBlur={formik.handleBlur}

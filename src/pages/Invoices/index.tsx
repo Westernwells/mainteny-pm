@@ -124,7 +124,9 @@ export const Invoices = () => {
       renderWidget={
         <Widget
           searchPlaceholder="Try 'INV000001'"
-          onSearchTextChanged={(val: string) => setSearch(val)}
+          getSearchValue={(val: string) => {
+            setSearch(val);
+          }}
           setShowFilter={setShowFilter}
           showFilter={showFilter}
         />

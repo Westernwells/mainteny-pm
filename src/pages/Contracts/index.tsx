@@ -134,7 +134,9 @@ export const Contracts = () => {
       renderWidget={
         <Widget
           searchPlaceholder="Try 'Astralift BV'"
-          onSearchTextChanged={(val: string) => setSearch(val)}
+          getSearchValue={(val: string) => {
+            setSearch(val);
+          }}
           setShowFilter={setShowFilter}
           showFilter={showFilter}
         />

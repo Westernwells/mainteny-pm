@@ -24,7 +24,6 @@ export const PageLayout = ({
         ? {minHeight: '100vh', overflowY: 'scroll'}
         : {height: '98vh', overflowY: 'hidden'}),
     }}>
-    {console.log(excludeDefaultSpacing, '<<<')}
     <Box>
       <AppTopBar />
     </Box>
