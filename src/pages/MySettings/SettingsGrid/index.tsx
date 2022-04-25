@@ -24,7 +24,7 @@ export const SettingsGrid = ({setDrawerOpen, handleSubmit, formik}: Props) => {
     <Grid
       columnSpacing={2}
       sx={{
-        width: '991px',
+        width: '998px',
         mx: 'auto',
         mt: '2em',
         mb: '7em',
