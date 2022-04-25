@@ -14,6 +14,7 @@ interface Props extends BoxProps {
   illustration?: string;
   showActionBtn?: boolean;
   btnLabel?: string;
+  btnAction?: () => void;
 }
 
 export const EmptySection = ({
@@ -25,6 +26,7 @@ export const EmptySection = ({
   illustration = 'laptop',
   btnLabel = '',
   showActionBtn = false,
+  btnAction,
 }: Props) => {
   const Width = {
     tiny: '56px',
@@ -66,7 +68,10 @@ export const EmptySection = ({
         {label}
       </Typography>
       {showActionBtn ? (
-        <Button sx={{textTransform: 'capitalize'}} variant="contained">
+        <Button
+          sx={{textTransform: 'capitalize'}}
+          variant="contained"
+          onClick={btnAction}>
           {btnLabel}
         </Button>
       ) : null}

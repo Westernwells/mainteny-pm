@@ -126,7 +126,13 @@ export const ElevatorAvailabilitySection = ({noStats}: Props) => {
           display="flex"
           justifyContent="center"
           alignItems="center">
-          <EmptySection label="Stats will appear here if the unit is IoT enabled!" />
+          <EmptySection
+            label="Interested in knowing how we can equip your unit with IoT and make it smart?"
+            showActionBtn
+            btnLabel="Book Demo"
+            containerStyle={{width: '80%'}}
+            btnAction={() => window.open('https://mainteny.com/demo')}
+          />
         </Box>
       ) : (
         <Box
