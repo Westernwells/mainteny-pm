@@ -7,6 +7,7 @@ import {
 } from '@mui/x-data-grid';
 import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import {StatusChip} from 'components/StatusChip';
 import {fetchDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
@@ -109,8 +110,7 @@ export const columns: GridColDef[] = [
       </Typography>
     ),
     renderCell: (params) => (
-      <FileDownloadOutlinedIcon
-        sx={{color: '#2196F3'}}
+      <IconButton
         onClick={async () => {
           const downloadUrls = await fetchDownloadUrl(
             params.value.pdfPath,
@@ -118,10 +118,11 @@ export const columns: GridColDef[] = [
           );
           const downloadUrlPaths = downloadUrls[params.value.pdfPath];
           if (downloadUrlPaths) {
-            window.open(downloadUrlPaths, '_self');
+            window.open(downloadUrlPaths, '_blank');
           }
-        }}
-      />
+        }}>
+        <FileDownloadOutlinedIcon sx={{color: 'info.main'}} />
+      </IconButton>
     ),
   },
 ];
