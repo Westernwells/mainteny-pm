@@ -201,7 +201,7 @@ export const MyUnits = () => {
   if (isFetched && !totalElevators) {
     return (
       <EmptySection
-        label="No Elevators yet."
+        label="Units will appear here once they are added!"
         showActionBtn
         btnLabel="Add Elevator"
         containerStyle={{

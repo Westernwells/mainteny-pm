@@ -103,8 +103,7 @@ export const Invoices = () => {
   if (isFetched && !invoiceResource.total) {
     return (
       <EmptySection
-        label="No invoices yet. You will see invoices here once they are created"
-        btnLabel="Add Invoice"
+        label="Invoices will appear here once they are created!"
         containerStyle={{
           height: '100%',
           mb: '10em',
