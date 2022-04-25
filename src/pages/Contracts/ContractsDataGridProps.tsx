@@ -104,14 +104,13 @@ export const columns: GridColDef[] = [
 ];
 
 export const makeRows = (contracts: any): GridRowsProp =>
-  contracts
-    ? contracts.map((item: ContractView, index: number) => ({
-        id: index,
-        contractor: item.serviceCompany.name,
-        contractNumber: item.number,
-        units: item.unitCount,
-        cost: `${item.price} €`,
-        expiryDate: formatDate(item.endTime),
-        navigateTo: `details/${item.id}`,
-      }))
-    : console.error('No Data');
+  contracts &&
+  contracts.map((item: ContractView, index: number) => ({
+    id: index,
+    contractor: item.serviceCompany.name,
+    contractNumber: item.number,
+    units: item.unitCount,
+    cost: `${item.price} €`,
+    expiryDate: formatDate(item.endTime),
+    navigateTo: `details/${item.id}`,
+  }));
