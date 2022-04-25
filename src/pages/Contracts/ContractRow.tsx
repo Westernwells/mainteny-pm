@@ -42,7 +42,7 @@ export const ContractRow = ({contract}: Props) => {
         <Grid item xs={1}>
           <Box display="flex" justifyContent="center">
             <Typography variant="largeBtnText">
-              {contract.units ? contract.units : 0}
+              {contract.unitCount ? contract.unitCount : 0}
             </Typography>
           </Box>
         </Grid>
