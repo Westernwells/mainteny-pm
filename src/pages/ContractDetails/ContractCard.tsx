@@ -25,6 +25,8 @@ export const ContractCard = ({
     sx={{
       border: 'none',
       minHeight,
+      // TODO: Use theme variable here
+      boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
       ...containerStyles,
     }}>
     <CardHeader
