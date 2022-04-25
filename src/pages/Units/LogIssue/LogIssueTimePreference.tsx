@@ -34,6 +34,7 @@ export const LogIssueTimePreference = ({
 
   const renderFormControl = (label: string, value: string) => (
     <FormControlLabel
+      key={label}
       onChange={(e) => handleChange(e)}
       value={value}
       control={<Radio />}

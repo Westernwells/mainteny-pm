@@ -1,29 +1,18 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import Button from '@mui/material/Button';
 import Elevator from '@mui/icons-material/Elevator';
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import {StatusChip} from 'components/StatusChip';
-import {FormikErrors} from 'formik';
-import {ElevatorsByAddress} from './Models';
-import {formatDate, toDate} from '../../utils/datetime';
 import {ElevatorStatus, ElevatorView} from '../../models/elevator';
-
-export interface UnitsSectionProperty {
-  elevatorsByAddress: ElevatorsByAddress;
-  setDrawerOpen: (state: boolean) => void;
-  setField: (
-    field: string,
-    value: any,
-    shouldValidate?: boolean | undefined,
-  ) => Promise<void> | Promise<FormikErrors<any>>;
-}
+import {UnitsSectionProperty} from './Models';
 
 export const UnitSection = ({
-  elevatorsByAddress,
+  elevators,
+  address,
   setDrawerOpen,
   setField,
 }: UnitsSectionProperty) => {
@@ -47,13 +36,13 @@ export const UnitSection = ({
       }}>
       <Box pl={3}>
         <Typography variant="largeBtnText" mt={1} color="textSecondary">
-          {elevatorsByAddress.address.fullName}
+          {address}
         </Typography>
       </Box>
 
-      {elevatorsByAddress.elevators.map((elevatorOrder) => (
+      {elevators.map((elevator) => (
         <Grid
-          key={elevatorOrder.elevator.id}
+          key={elevator.id}
           container
           sx={{
             paddingTop: 0.5,
@@ -69,13 +58,11 @@ export const UnitSection = ({
             sx={{cursor: 'pointer'}}
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
               e.preventDefault();
-              navigate(`/units/details/${elevatorOrder.elevator.id}`);
+              navigate(`details/${elevator.id}`);
             }}>
             <Box display="flex" alignItems="center">
               <Elevator style={{marginRight: '10px'}} />
-              <Typography variant="subtitle1">
-                {elevatorOrder.elevator.model}
-              </Typography>
+              <Typography variant="subtitle1">{elevator.model}</Typography>
             </Box>
           </Grid>
           <Grid
@@ -88,43 +75,24 @@ export const UnitSection = ({
               justifyContent: 'flex-end',
               alignItems: 'center',
             }}>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <Typography variant="largeBtnText">
-                {elevatorOrder.elevator.lastVisitDate || 'N/A'}
+                {elevator.lastVisitDate || 'N/A'}
               </Typography>
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <Typography variant="largeBtnText">
-                {' '}
-                {(elevatorOrder.serviceOrder &&
-                  formatDate(
-                    toDate(elevatorOrder.serviceOrder.schedules[0].startTime),
-                  )) ||
-                  ''}
+                {elevator.nextVisitDate || ''}
               </Typography>
             </Grid>
 
-            <Grid item xs={2}>
-              <Typography
-                variant="largeBtnText"
-                color={
-                  elevatorOrder.elevator.availability < 100
-                    ? 'textWarning'
-                    : 'textSuccess'
-                }>
-                <Box display="flex" justifyContent="center">
-                  {elevatorOrder.elevator.availability}%
-                </Box>
-              </Typography>
-            </Grid>
-
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <Box display="flex" justifyContent="center">
                 <StatusChip
-                  label={elevatorOrder.elevator.status}
+                  label={elevator.status}
                   color={
-                    elevatorOrder.elevator.status === ElevatorStatus.RUNNING
+                    elevator.status === ElevatorStatus.RUNNING
                       ? 'success'
                       : 'error'
                   }
@@ -142,7 +110,7 @@ export const UnitSection = ({
                     px: 3,
                     border: 'none',
                   }}
-                  onClick={() => handleClick(elevatorOrder.elevator)}>
+                  onClick={() => handleClick(elevator)}>
                   <Typography
                     variant="smallBtnText"
                     sx={{textTransform: 'capitalize'}}>

@@ -1,48 +1,12 @@
-import {useCallback} from 'react';
 import {useQuery, UseQueryOptions} from 'react-query';
-import * as _ from 'lodash';
-import getCenter from 'geolib/es/getCenter';
 import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {queryKeys} from 'reactQuery/constants';
 import {useNavigate} from 'react-router-dom';
-
-import {Elevator, ElevatorView} from '../../models/elevator';
-import {Location, Page, Resource, RestError} from '../../models/misc';
+import {Elevator, ElevatorView} from 'models/elevator';
+import {Page, Resource, RestError} from 'models/misc';
+import {MaintainerView} from 'models/technician';
 import {usePropertyManager} from './usePropertyManager';
-import {MaintainerView} from '../../models/technician';
-
-const filterByStatus = (
-  elevatorRes: Resource<ElevatorView>,
-  status: string[],
-) => {
-  let filterResult = [] as ElevatorView[];
-  const elevatorStatusMap = _.groupBy(
-    elevatorRes.data,
-    (elevator) => elevator.status,
-  );
-  status
-    .map((item) => elevatorStatusMap[item])
-    .filter((item) => item)
-    .forEach((item) => {
-      filterResult = [...filterResult, ...item];
-    });
-
-  return filterResult;
-};
-
-const filterElevator = (
-  elevatorRes: Resource<ElevatorView>,
-  status: string[],
-) => {
-  let result = {...elevatorRes};
-
-  if (status.length) {
-    const statusFilter = filterByStatus(elevatorRes, status);
-    result = {...result, data: statusFilter, total: statusFilter.length};
-  }
-  return result;
-};
 
 export const fetchElevator = async (elevatorId: string) => {
   const response = await axiosClient.get<Elevator>(
@@ -113,38 +77,15 @@ export const fetchElevators = async (query: string, page: Page, id: string) => {
 export function useAllElevators(
   query: string,
   page: Page,
-  status: string[],
   options?: UseQueryOptions<any, any, any>,
 ) {
-  // console.log(page, '!!!!!!!!')
   const {data: user} = usePropertyManager();
-  return useQuery<
-    Resource<ElevatorView>,
-    RestError,
-    {elevator: Resource<ElevatorView>; centerCoord: Location}
-  >(
+  return useQuery<Resource<ElevatorView>, RestError>(
     [queryKeys.fetchAllElevators, query, page, user?.propertyOwner.id],
     () => fetchElevators(query, page, user!.propertyOwner.id),
     {
       ...options,
       enabled: !!user,
-      select: useCallback(
-        (elevatorResponse: Resource<ElevatorView>) => {
-          let result = elevatorResponse;
-          result = filterElevator(elevatorResponse, status);
-          const latLng = result?.data.map((elevator: ElevatorView) => ({
-            latitude: elevator.address.location.latitude,
-            longitude: elevator.address.location.longitude,
-          }));
-          const centerCoord = getCenter(latLng) as unknown as Location;
-
-          return {
-            elevator: result,
-            centerCoord,
-          };
-        },
-        [status, user, query, page],
-      ),
     },
   );
 }

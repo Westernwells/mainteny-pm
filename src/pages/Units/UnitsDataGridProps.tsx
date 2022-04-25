@@ -10,10 +10,9 @@ import Button from '@mui/material/Button';
 import Elevator from '@mui/icons-material/Elevator';
 import {ElevatorStatus, ElevatorView} from 'models/elevator';
 import {useTheme} from '@mui/material';
-import {FormikErrors} from 'formik';
 import {StatusChip} from 'components/StatusChip';
-import {ElevatorsByAddress} from './Models';
-// import {formatDate, toDate} from '../../utils/datetime';
+import {FormikErrors} from 'formik';
+import {DataGridElevatorView} from './Models';
 
 const defaultProps = {
   editable: false,
@@ -151,48 +150,32 @@ export const columns: GridColDef[] = [
   },
 ];
 
-const flaten = (elevators: any, flatArray: any[] = []) => {
-  let pervAdddressId = '';
-  elevators.forEach((elevator: any) => {
-    const {address} = elevator;
-    elevator.elevators.forEach((item: any) => {
-      const showAddress = address.id !== pervAdddressId;
-      flatArray.push({address, showAddress, ...item});
-      pervAdddressId = address.id;
-    });
-  });
-
-  return flatArray;
-};
-export interface UnitsSectionProperty {
-  elevatorsByAddress: ElevatorsByAddress[];
+export const makeRows = ({
+  elevators,
+  setDrawerOpen,
+  setField,
+}: {
+  elevators: DataGridElevatorView[];
   setDrawerOpen: (state: boolean) => void;
   setField: (
     field: string,
     value: any,
     shouldValidate?: boolean | undefined,
   ) => Promise<void> | Promise<FormikErrors<any>>;
-}
-
-export const makeRows = ({
-  elevatorsByAddress,
-  setDrawerOpen,
-  setField,
-}: UnitsSectionProperty): GridRowsProp => {
-  const elevatorsList: any[] = flaten(elevatorsByAddress, []);
-  const result = elevatorsList.length
-    ? elevatorsList.map((item: any, index: number) => ({
+}): GridRowsProp => {
+  const result = elevators.length
+    ? elevators.map((elevator: DataGridElevatorView, index: number) => ({
         id: index,
-        unitName: item.elevator.model,
-        lastVisit: item.elevator.lastVisitDate,
-        nextVisit: item.elevator.nextVisitDate,
-        status: item.elevator.status,
-        showHeader: item.showAddress,
-        headerText: item.address.fullName,
-        elevator: item.elevator,
+        unitName: elevator.model,
+        lastVisit: elevator.lastVisitDate,
+        nextVisit: elevator.nextVisitDate,
+        status: elevator.status,
+        showHeader: elevator.showAddress,
+        headerText: elevator.address.fullName,
+        elevator,
         setDrawerOpen,
         setField,
-        navigateTo: `details/${item.elevator.id}`,
+        navigateTo: `details/${elevator.id}`,
       }))
     : console.error('No Data');
   return result || [];
