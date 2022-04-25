@@ -1,6 +1,8 @@
+import {useCallback} from 'react';
 import {useQuery, UseQueryOptions} from 'react-query';
 import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
+import * as _ from 'lodash';
 import {queryKeys} from 'reactQuery/constants';
 import {useNavigate} from 'react-router-dom';
 import {Elevator, ElevatorView} from 'models/elevator';
@@ -74,9 +76,47 @@ export const fetchElevators = async (query: string, page: Page, id: string) => {
   return response.data;
 };
 
+const filterByStatus = (elevatorRes: Resource<ElevatorView>, status: string) =>
+  _.groupBy(elevatorRes.data, (ivoice) => ivoice.status)[
+    status
+  ] as ElevatorView[];
+
+const filterByNextVisit = (
+  elevatorRes: Resource<ElevatorView>,
+  upcommingVisit: {start: Date; end: Date},
+) => {
+  let filteredResult = [] as ElevatorView[];
+
+  filteredResult = elevatorRes.data.filter(
+    (item) =>
+      'nextVisitDate' in item &&
+      new Date(item.nextVisitDate) > upcommingVisit.start &&
+      new Date(item.nextVisitDate) <= upcommingVisit.end,
+  );
+  return filteredResult;
+};
+
+const filterElevators = (
+  elevatorsRes: Resource<ElevatorView>,
+  filters: {status: string; upcommingVisit: {start: Date; end: Date} | null},
+) => {
+  let result = {...elevatorsRes};
+
+  if (filters.status.length) {
+    const status = filterByStatus(result, filters.status);
+    result = {...result, data: status, total: status.length};
+  }
+  if (filters.upcommingVisit) {
+    const nextVisits = filterByNextVisit(result, filters.upcommingVisit);
+    result = {...result, data: nextVisits, total: nextVisits.length};
+  }
+  return result;
+};
+
 export function useAllElevators(
   query: string,
   page: Page,
+  filters?: {status: string; upcommingVisit: {start: Date; end: Date} | null},
   options?: UseQueryOptions<any, any, any>,
 ) {
   const {data: user} = usePropertyManager();
@@ -86,6 +126,15 @@ export function useAllElevators(
     {
       ...options,
       enabled: !!user,
+      select: useCallback(
+        (elevatorRes: Resource<ElevatorView>) => {
+          let filteredResult = elevatorRes;
+          if (filters) filteredResult = filterElevators(elevatorRes, filters);
+
+          return filteredResult;
+        },
+        [filters],
+      ),
     },
   );
 }
