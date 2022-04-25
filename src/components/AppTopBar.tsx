@@ -52,7 +52,7 @@ export const AppTopBar = () => {
             </Box>
             <Link to="/notifications">
               <Badge
-                badgeContent={1}
+                badgeContent={7}
                 overlap="circular"
                 color="error"
                 sx={{
