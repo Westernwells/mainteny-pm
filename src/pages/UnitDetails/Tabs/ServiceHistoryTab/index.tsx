@@ -192,7 +192,11 @@ export const ServiceHistoryTab = () => {
           </PageCard>
         ) : (
           <>
-            <HistoryBasicDetails>
+            <HistoryBasicDetails
+              containerStyles={{
+                // TODO: Use theme variable here
+                boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
+              }}>
               <HistoryCard
                 showTimeCategory={
                   selectedOrder?.status !== ServiceOrderStatus.COMPLETED
@@ -207,6 +211,7 @@ export const ServiceHistoryTab = () => {
                 }
                 minHeight="30vh"
                 isDetailCard
+                removeShadows
                 removeBottomLeftRadius
                 removeBottomRightRadius
                 showAlert
@@ -218,7 +223,11 @@ export const ServiceHistoryTab = () => {
                 }}
               />
             </HistoryBasicDetails>
-            <HistoryReport>
+            <HistoryReport
+              containerStyles={{
+                // TODO: Use theme variable here
+                boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
+              }}>
               <HistoryCard
                 serviceOrder={selectedOrder}
                 noContent={!serviceOrderReport.length}
@@ -226,6 +235,7 @@ export const ServiceHistoryTab = () => {
                 reportIsLoading={serviceOrderReportLoading}
                 minHeight="30vh"
                 isDetailCard
+                removeShadows
                 removeTopLeftRadius
                 removeTopRightRadius
                 removeServiceOrderType
