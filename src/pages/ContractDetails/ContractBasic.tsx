@@ -26,12 +26,12 @@ export const ContractBasic = ({contract}: Props) => {
     {
       label: 'Start Date',
       Icon: TodayIcon,
-      value: formatDate(toDate(startTime), 'dd MMM YYY'),
+      value: formatDate(toDate(startTime)),
     },
     {
       label: 'End Date',
       Icon: DangerousIcon,
-      value: formatDate(toDate(endTime), 'dd MMM YYY'),
+      value: formatDate(toDate(endTime)),
     },
     {
       label: 'Visits Per Year',

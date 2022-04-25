@@ -65,7 +65,7 @@ export const InvoiceDetails = () => {
                     Generated on{' '}
                     {formatDate(
                       getDateObject(invoice?.meta.createdAt),
-                      'dd MMM YYY',
+                      'dd.MM.yyyy',
                     )}
                   </Typography>
                 </Box>
@@ -136,7 +136,6 @@ export const InvoiceDetails = () => {
                 serviceOrder={invoice?.serviceOrder}
                 headerTitle={formatDate(
                   invoice?.serviceOrder.schedules[0].startTime,
-                  'dd MMM YYY',
                 )}
                 subtitle={`${formatDate(
                   invoice?.serviceOrder.schedules[0].startTime,

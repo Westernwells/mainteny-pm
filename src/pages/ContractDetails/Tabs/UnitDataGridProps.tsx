@@ -97,7 +97,7 @@ export const makeRows = (elevators: Elevator[]): GridRowsProp =>
     unitNumber: elevator.number,
     address: elevator.address.fullName,
     lastVisitDate: formatDate(elevator.lastVisitDate),
-    nextVisitDate: '2022-04-12', // TODO: calculate it
+    nextVisitDate: formatDate('2022-04-12', 'dd.MM.yyyy'), // TODO: calculate it
     status: elevator.status,
     navigateTo: `/units/details/${elevator.id}`,
   }));

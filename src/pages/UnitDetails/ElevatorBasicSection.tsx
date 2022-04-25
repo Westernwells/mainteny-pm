@@ -111,7 +111,6 @@ export const ElevatorBasicSection = ({
         )}
         (${formatDate(
           calculateNextVisitDate(serviceOrder.schedules[0].startTime),
-          'dd MMM YYY',
         )})`}
         />
       )}

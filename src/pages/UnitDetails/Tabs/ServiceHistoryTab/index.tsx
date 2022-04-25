@@ -86,7 +86,7 @@ export const ServiceHistoryTab = () => {
   };
 
   const resolveScheduledDate = () =>
-    formatDate(selectedOrder?.schedules[0].startTime, 'dd MMM YYY') || null;
+    formatDate(selectedOrder?.schedules[0].startTime) || null;
 
   const resolveScheduledTime = () => {
     const startTime = formatDate(selectedOrder?.schedules[0].startTime, 'ha');
@@ -98,7 +98,7 @@ export const ServiceHistoryTab = () => {
   useEffect(() => {
     const date = formatDate(
       getDateObject(selectedOrder?.actualEndTime),
-      'dd MMM YYY',
+      'dd.MM.yyyy',
     );
     const result = date && `Resolved on ${date}`;
     setCurrentReportDate(result);
@@ -315,7 +315,7 @@ export const ServiceHistoryTab = () => {
                   serviceOrder={serviceOrder}
                   headerTitle={formatDate(
                     serviceOrder.schedules[0].startTime,
-                    'dd MMM YYY',
+                    'dd.MM.yyyy',
                   )}
                   subtitle={`${formatDate(
                     serviceOrder?.schedules[0].startTime,

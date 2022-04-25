@@ -41,7 +41,7 @@ export const LogIssueTimePreference = ({
       label={
         date && time ? (
           <Typography variant="body1">
-            {formatDate(date, 'dd MMM YYY')}, {formatDate(time, 'p')}
+            {formatDate(date)}, {formatDate(time, 'p')}
           </Typography>
         ) : (
           label

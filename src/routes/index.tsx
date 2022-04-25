@@ -17,7 +17,7 @@ import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {AuthRoutes} from './AuthRoutes';
 
 export const Router = () => {
-  const titleTail = 'Service Manager Portal';
+  const titleTail = 'Property Manager Portal';
   const {user} = useUserSession();
   const fullName = `${user?.userAccount.firstName} ${user?.userAccount.lastName}`;
 
