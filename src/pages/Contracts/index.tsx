@@ -108,8 +108,7 @@ export const Contracts = () => {
   if (isFetched && !totalContract) {
     return (
       <EmptySection
-        label="No contracts have been created yet. You will see contracts here once they are created"
-        showActionBtn
+        label="Contracts will appear here once they are created!"
         containerStyle={{
           height: '100%',
           mb: '10em',

@@ -57,7 +57,7 @@ export const DataGridLayout = ({
   rows.forEach((item) => {
     if (item.showHeader) {
       rowClassNames[`& .MuiDataGrid-rowHeading-${item.id}`] = {
-        marginTop: '2em',
+        marginTop: 'calc(2em + 4px)',
         position: 'relative',
         '&::before': {
           content: `"${item.headerText}"`,
