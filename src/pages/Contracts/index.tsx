@@ -147,6 +147,7 @@ export const Contracts = () => {
           getSearchValue={(val: string) => setSearch(val)}
           setShowFilter={setShowFilter}
           showFilter={showFilter}
+          hideViewOption
         />
       }>
       <Fade in={showFilter} unmountOnExit>

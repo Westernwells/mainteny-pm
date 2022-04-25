@@ -12,11 +12,11 @@ import {LocationPin} from '../../components/LocationPin';
 import {Location, Resource} from '../../models/misc';
 
 interface Props {
-  search: string;
+  search?: string;
   defaultCenterCoord?: Location;
 }
 
-export const UnitsMapsView = ({search, defaultCenterCoord}: Props) => {
+export const UnitsMapsView = ({search = '', defaultCenterCoord}: Props) => {
   const fallback = useRef({
     elevator: createEmptyResource<ElevatorView>(10),
     centerCoord: defaultCenterCoord || {longitude: 0, latitude: 0},
@@ -36,19 +36,38 @@ export const UnitsMapsView = ({search, defaultCenterCoord}: Props) => {
   } = useAllElevators(search, page);
 
   useEffect(() => {
+    if (page.pageIndex) {
+      setPage({...page, pageIndex: 0});
+    }
+  }, [search]);
+
+  const newElevatorView = () =>
+    !search
+      ? {
+          ...elevatorView,
+          elevator: {
+            ...elevatorView.elevator,
+            data: [...elevatorView.elevator.data, ...elevatorResponse.data],
+          },
+        }
+      : {...elevatorView, elevator: elevatorResponse};
+
+  useEffect(() => {
     if (!isLoading) {
       const currentTotal = (page.pageIndex + 1) * page.pageSize;
-      setElevatorView({
-        ...elevatorView,
-        elevator: {
-          ...elevatorView.elevator,
-          data: [...elevatorView.elevator.data, ...elevatorResponse.data],
-        },
-      });
+
+      setElevatorView(newElevatorView());
 
       if (currentTotal < elevatorResponse.total) {
         setPage({...page, pageIndex: page.pageIndex + 1});
-      } else {
+      }
+    }
+  }, [elevatorResponse]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      const currentTotal = (page.pageIndex + 1) * page.pageSize;
+      if (currentTotal >= elevatorResponse.total) {
         const latLng = elevatorView.elevator.data.map(
           (elevator: ElevatorView) => ({
             latitude: elevator.address.location.latitude,
@@ -57,8 +76,11 @@ export const UnitsMapsView = ({search, defaultCenterCoord}: Props) => {
         );
 
         const centerCoord = getCenter(latLng) as unknown as Location;
+        const centerCoordIsDifferent =
+          elevatorView.centerCoord.latitude !== centerCoord.latitude &&
+          elevatorView.centerCoord.longitude !== centerCoord.longitude;
 
-        if (centerCoord) {
+        if (centerCoord && centerCoordIsDifferent) {
           setElevatorView({
             ...elevatorView,
             centerCoord,
@@ -66,7 +88,7 @@ export const UnitsMapsView = ({search, defaultCenterCoord}: Props) => {
         }
       }
     }
-  }, [elevatorResponse]);
+  }, [elevatorView]);
 
   useEffect(() => {
     const result = elevatorView.elevator.data.map((elevator: ElevatorView) => ({

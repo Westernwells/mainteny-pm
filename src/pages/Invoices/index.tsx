@@ -127,6 +127,7 @@ export const Invoices = () => {
           }}
           setShowFilter={setShowFilter}
           showFilter={showFilter}
+          hideViewOption
         />
       }>
       <Fade in={showFilter} unmountOnExit>
