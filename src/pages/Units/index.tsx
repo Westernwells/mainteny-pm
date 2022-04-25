@@ -29,6 +29,7 @@ import {
   formatSearchParamsPageSize,
 } from 'utils/utils';
 import useTheme from '@mui/material/styles/useTheme';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import {EmptySection} from 'components/EmptySection';
 import {columns, makeRows} from './UnitsDataGridProps';
 import {UnitsMapsView} from './UnitsMapsView';
@@ -253,6 +254,7 @@ export const MyUnits = () => {
           getSearchValue={(val: string) => {
             setSearch(val);
           }}
+          toggleIcon={<LocationOnOutlinedIcon />}
         />
       }>
       <Fade in={showFilter} unmountOnExit>
