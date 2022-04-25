@@ -6,13 +6,13 @@ import Typography from '@mui/material/Typography';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
-import Avatar from '@mui/material/Avatar';
 import useTheme from '@mui/material/styles/useTheme';
 
 import {PageCard} from 'components/PageCard';
 
 import technicianImage from 'assets/images/avatar.png';
 import {MaintainerView, TechnicianView} from 'models/technician';
+import {UserAvatar} from 'components/UserAvatar';
 
 export interface TechnicianSectionProp {
   maintainers: MaintainerView[];
@@ -95,10 +95,10 @@ export const TechnicianSection = ({maintainers}: TechnicianSectionProp) => {
           <Box mr="1.2em">
             {index === 0 ? (
               <Box>
-                <Avatar
+                <UserAvatar
                   alt="Tech"
                   src={technicianImage}
-                  sx={{width: '3.125rem', height: '3.125rem'}}
+                  avatarStyle={{width: '3.125rem', height: '3.125rem'}}
                 />
               </Box>
             ) : (
