@@ -12,6 +12,8 @@ import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {PageOverviewLayout} from 'components/PageOverviewLayout';
 import {Widget} from 'components/Widget';
 import {
+  convertToMacro,
+  convertToText,
   formatSearchParamsPageIndex,
   formatSearchParamsPageSize,
 } from 'utils/utils';
@@ -20,15 +22,21 @@ import {EmptySection} from 'components/EmptySection';
 import {Progress} from 'components/Progress';
 import {costRangeConvertor as crConverter} from 'utils/contract-utils';
 import {columns, makeRows} from './ContractsDataGridProps';
+import {upcommingDates} from './Date';
 
 const pageSize = 25;
+
+interface ExpiryDate {
+  start: Date;
+  end: Date;
+}
 
 export const Contracts = () => {
   const [search, setSearch] = useState('');
   const [queryParams, setQueryParams] = useSearchParams();
   const [page, setPage] = useState(makePage(0, pageSize));
   const [showFilter, setShowFilter] = useState(false);
-  const [expiryDate, setExpiryDate] = useState<string[]>([]);
+  const [expiryDate, setExpiryDate] = useState<ExpiryDate | null>();
   const [contractor, setContractor] = useState<string[]>([]);
   const [cost, setCost] = useState<number[][]>([]);
   const [pageCount, setPageCount] = useState(0);
@@ -137,13 +145,14 @@ export const Contracts = () => {
           <FilterFields setShowFilter={setShowFilter}>
             <MultipleSelectCheckmarks
               label="Expiry Date"
-              options={[
-                'Last 14 days', // TODO: Create an enum to handle this
-                'Today',
-                'Next 7 days',
-                'Next 14 days',
-              ]}
-              getSelectedValue={(item) => setExpiryDate(item)}
+              options={Object.keys(upcommingDates).map((item) =>
+                convertToText(item),
+              )}
+              getSelectedValue={(item) => {
+                if (item.length)
+                  setExpiryDate(upcommingDates[convertToMacro(item[0])]);
+                else setExpiryDate(null);
+              }}
               multiple={false}
             />
 
