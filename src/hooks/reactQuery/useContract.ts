@@ -151,20 +151,21 @@ export const filterByPrice = (
 
 const filterContracts = (
   contractsRes: Resource<ContractView>,
-  filter: {expiryDate: string[]; contractor: string[]; price: number[][]},
+  filter: {expiryDate?: string[]; contractor?: string[]; price?: number[][]},
 ) => {
   let result = {...contractsRes};
 
-  if (filter.expiryDate.length) {
+  if (filter.expiryDate?.length) {
     const expiryDates = filterByExpiryData(contractsRes, filter.expiryDate);
     result = {...result, data: expiryDates, total: expiryDates.length};
   }
 
-  if (filter.contractor.length) {
+  if (filter.contractor?.length) {
     const contractors = filterByContractor(result, filter.contractor);
     result = {...result, data: contractors, total: contractors.length};
   }
-  if (filter.price.length) {
+
+  if (filter.price?.length) {
     const prices = filterByPrice(result, filter.price);
     result = {...result, data: prices, total: prices.length};
   }
@@ -173,7 +174,7 @@ const filterContracts = (
 
 export const useQueryContract = (
   params: QueryContractParams,
-  filter: {expiryDate: string[]; contractor: string[]; price: number[][]},
+  filter: {expiryDate?: string[]; contractor?: string[]; price?: number[][]},
   options?: UseQueryOptions<any, any, any>,
 ) => {
   const {data: user} = usePropertyManager();

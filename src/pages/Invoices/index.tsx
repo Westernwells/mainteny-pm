@@ -6,7 +6,6 @@ import {FilterFields} from 'components/FilterFields';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {PageOverviewLayout} from 'components/PageOverviewLayout';
-import {CustomPagination} from 'components/CustomPagination';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {useInvoices} from 'hooks/reactQuery/useInvoice';
 import {Widget} from 'components/Widget';
@@ -164,30 +163,22 @@ export const Invoices = () => {
         </Box>
       </Fade>
 
-      <>
-        <DataGridLayout
-          rows={rows}
-          columns={columns}
-          loading={isFetching}
-          hideFooter
-        />
-        {pageCount ? (
-          <CustomPagination
-            pageSize={page.pageSize}
-            pageIndex={page.pageIndex}
-            handlePageSizeChange={(newPageSize: number) =>
-              setQueryParams(
-                formatSearchParamsPageSize(newPageSize, queryParams),
-              )
-            }
-            handlePageChange={(newPage: number) =>
-              setQueryParams(formatSearchParamsPageIndex(newPage, queryParams))
-            }
-            pageCount={pageCount}
-            totalRows={invoiceResource?.total}
-          />
-        ) : null}
-      </>
+      <DataGridLayout
+        rows={rows}
+        columns={columns}
+        loading={isFetching}
+        hideFooter={pageCount <= 1}
+        pageSize={page.pageSize}
+        pageIndex={page.pageIndex}
+        handlePageSizeChange={(newPageSize: number) =>
+          setQueryParams(formatSearchParamsPageSize(newPageSize, queryParams))
+        }
+        handlePageChange={(newPage: number) =>
+          setQueryParams(formatSearchParamsPageIndex(newPage, queryParams))
+        }
+        pageCount={pageCount}
+        totalRows={invoiceResource?.total}
+      />
     </PageOverviewLayout>
   );
 };

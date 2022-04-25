@@ -5,43 +5,58 @@ import {GridRowsProp} from '@mui/x-data-grid';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {FilterFields} from 'components/FilterFields';
-import {PageOverviewLayout} from 'components/PageOverviewLayout';
-import {CustomPagination} from 'components/CustomPagination';
-import {
-  useContractElevatorCount,
-  useQueryContract,
-} from 'hooks/reactQuery/useContract';
+import {useQueryContract} from 'hooks/reactQuery/useContract';
 import {ContractOrderField, ContractView} from 'models/contract';
 import {Order} from 'models/misc';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
+import {PageOverviewLayout} from 'components/PageOverviewLayout';
 import {Widget} from 'components/Widget';
-import {useSearchParams} from 'react-router-dom';
-import {Progress} from 'components/Progress';
 import {
-  formatSearchParamsPageSize,
   formatSearchParamsPageIndex,
+  formatSearchParamsPageSize,
 } from 'utils/utils';
+import {useSearchParams} from 'react-router-dom';
+import {EmptySection} from 'components/EmptySection';
+import {Progress} from 'components/Progress';
+import {costRangeConvertor as crConverter} from 'utils/contract-utils';
 import {columns, makeRows} from './ContractsDataGridProps';
 
 const pageSize = 25;
 
 export const Contracts = () => {
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(makePage(0, pageSize));
   const [queryParams, setQueryParams] = useSearchParams();
+  const [page, setPage] = useState(makePage(0, pageSize));
   const [showFilter, setShowFilter] = useState(false);
   const [expiryDate, setExpiryDate] = useState<string[]>([]);
   const [contractor, setContractor] = useState<string[]>([]);
   const [cost, setCost] = useState<number[][]>([]);
   const [pageCount, setPageCount] = useState(0);
-  const [contractorFilterItems, setConractorFileterItems] = useState<string[]>(
+  const [contractorFilterItems, setContractorFilterItems] = useState<string[]>(
     [],
   );
   const [rows, setRows] = useState<GridRowsProp>([]);
+
+  const {data: {total: totalContract} = createEmptyResource<ContractView>(10)} =
+    useQueryContract(
+      {
+        order: Order.DESC,
+        orderBy: ContractOrderField.CREATED_TIME,
+        pageIndex: 0,
+        pageSize: 1,
+        query: '',
+        status: [],
+      },
+      {},
+      {keepPreviousData: true},
+    );
+
   const {
     data: contractResource = createEmptyResource<ContractView>(10),
     isLoading,
     isFetching,
+    isFetched,
+    isIdle,
   } = useQueryContract(
     {
       order: Order.DESC,
@@ -49,42 +64,11 @@ export const Contracts = () => {
       pageIndex: page.pageIndex,
       pageSize: page.pageSize,
       query: search,
+      status: [],
     },
     {expiryDate, contractor, price: cost},
     {keepPreviousData: true},
   );
-
-  const {data: contractWithUnits} = useContractElevatorCount(
-    contractResource.data,
-    {keepPreviousData: true},
-  );
-
-  const costRangeConvertor = (selectedItems: string[]) => {
-    const range: number[][] = [];
-    selectedItems.forEach((item) => {
-      switch (item) {
-        case 'Below 1000 €':
-          range.push([0, 1000]);
-          break;
-
-        case '1000 - 3000 €':
-          range.push([1000, 3000]);
-          break;
-
-        case '3000 - 5000 €':
-          range.push([3000, 5000]);
-          break;
-
-        case 'Above 5000 €':
-          range.push([5000, 99999]);
-          break;
-
-        default:
-          break;
-      }
-    });
-    setCost(range);
-  };
 
   useEffect(() => {
     const currentParams = Object.fromEntries([...queryParams]);
@@ -96,35 +80,45 @@ export const Contracts = () => {
     });
   }, [queryParams]);
 
+  const costRangeConvertor = (selectedItems: string[]) => {
+    const range = crConverter(selectedItems);
+    setCost(range);
+  };
+
   useEffect(() => {
     const options: string[] = [];
+    // TODO: Resolve 'any' here
+    contractResource.data.forEach((item: any) => {
+      if (
+        !options.includes(item.serviceCompany.name) &&
+        !contractorFilterItems.includes(item.serviceCompany.name)
+      ) {
+        options.push(item.serviceCompany.name);
+      }
+    });
+    setRows(makeRows(contractResource.data));
 
-    if (contractWithUnits) {
-      contractWithUnits?.forEach((item) => {
-        if (
-          !options.includes(item.serviceCompany.name) &&
-          !contractorFilterItems.includes(item.serviceCompany.name)
-        ) {
-          options.push(item.serviceCompany.name);
-        }
-      });
-      setRows(makeRows(contractWithUnits));
-    } else {
-      setRows([]);
-    }
-    setConractorFileterItems([...contractorFilterItems, ...options]);
-    if (!showFilter) {
-      setExpiryDate([]);
-      setContractor([]);
-      setCost([]);
-    }
-  }, [contractWithUnits, showFilter]);
+    setContractorFilterItems([...contractorFilterItems, ...options]);
+  }, [contractResource, showFilter]);
 
   useEffect(() => {
     setPageCount(Math.ceil(contractResource.total / page.pageSize));
   }, [contractResource, page.pageSize]);
 
-  if (isLoading) {
+  if (isFetched && !totalContract) {
+    return (
+      <EmptySection
+        label="No contracts have been created yet. You will see contracts here once they are created"
+        showActionBtn
+        containerStyle={{
+          height: '100%',
+          mb: '10em',
+        }}
+      />
+    );
+  }
+
+  if (isLoading || isIdle) {
     return <Progress />;
   }
 
@@ -134,9 +128,7 @@ export const Contracts = () => {
       renderWidget={
         <Widget
           searchPlaceholder="Try 'Astralift BV'"
-          getSearchValue={(val: string) => {
-            setSearch(val);
-          }}
+          getSearchValue={(val: string) => setSearch(val)}
           setShowFilter={setShowFilter}
           showFilter={showFilter}
         />
@@ -176,36 +168,23 @@ export const Contracts = () => {
           </FilterFields>
         </Box>
       </Fade>
-      {isLoading ? (
-        <Progress />
-      ) : (
-        <>
-          <DataGridLayout
-            hideFooter
-            rows={rows}
-            columns={columns}
-            loading={isFetching}
-          />
-          {pageCount && page.pageSize < contractResource.total ? (
-            <CustomPagination
-              pageSize={page.pageSize}
-              pageIndex={page.pageIndex}
-              handlePageSizeChange={(newPageSize: number) =>
-                setQueryParams(
-                  formatSearchParamsPageSize(newPageSize, queryParams),
-                )
-              }
-              handlePageChange={(newPage: number) =>
-                setQueryParams(
-                  formatSearchParamsPageIndex(newPage, queryParams),
-                )
-              }
-              pageCount={pageCount}
-              totalRows={contractResource.total}
-            />
-          ) : null}
-        </>
-      )}
+
+      <DataGridLayout
+        hideFooter={pageCount <= 1}
+        rows={rows}
+        columns={columns}
+        loading={isFetching}
+        pageSize={page.pageSize}
+        pageIndex={page.pageIndex}
+        handlePageSizeChange={(newPageSize: number) =>
+          setQueryParams(formatSearchParamsPageSize(newPageSize, queryParams))
+        }
+        handlePageChange={(newPage: number) =>
+          setQueryParams(formatSearchParamsPageIndex(newPage, queryParams))
+        }
+        pageCount={pageCount}
+        totalRows={contractResource.total}
+      />
     </PageOverviewLayout>
   );
 };

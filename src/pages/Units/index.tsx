@@ -8,7 +8,6 @@ import {Location, Resource} from 'models/misc';
 import {Widget} from 'components/Widget';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {GridRowsProp} from '@mui/x-data-grid';
-import {CustomPagination} from 'components/CustomPagination';
 import {LogIssue} from 'pages/Units/LogIssue';
 import {useLogIssue} from 'hooks/reactQuery/useServiceOrder';
 import Fade from '@mui/material/Fade';
@@ -82,6 +81,7 @@ export const MyUnits = () => {
     isLoading,
     isFetched,
     isFetching,
+    isIdle,
   } = useAllElevators(search, page, {keepPreviousData: true});
 
   const {mutate: logIssue} = useLogIssue();
@@ -212,7 +212,7 @@ export const MyUnits = () => {
     );
   }
 
-  if (isLoading) {
+  if (isLoading || isIdle) {
     return <Progress />;
   }
   return (
@@ -251,32 +251,22 @@ export const MyUnits = () => {
       </Fade>
 
       {!showMapview ? (
-        <>
-          <DataGridLayout
-            hideFooter
-            rows={rows}
-            columns={columns}
-            loading={isFetching}
-          />
-          {pageCount && page.pageSize < elevatorResponse.total ? (
-            <CustomPagination
-              pageSize={page.pageSize}
-              pageIndex={page.pageIndex}
-              handlePageSizeChange={(newPageSize: number) =>
-                setQueryParams(
-                  formatSearchParamsPageSize(newPageSize, queryParams),
-                )
-              }
-              handlePageChange={(newPage: number) =>
-                setQueryParams(
-                  formatSearchParamsPageIndex(newPage, queryParams),
-                )
-              }
-              pageCount={pageCount}
-              totalRows={elevatorResponse.total}
-            />
-          ) : null}
-        </>
+        <DataGridLayout
+          hideFooter={pageCount <= 1}
+          rows={rows}
+          columns={columns}
+          loading={isFetching}
+          pageSize={page.pageSize}
+          pageIndex={page.pageIndex}
+          handlePageSizeChange={(newPageSize: number) =>
+            setQueryParams(formatSearchParamsPageSize(newPageSize, queryParams))
+          }
+          handlePageChange={(newPage: number) =>
+            setQueryParams(formatSearchParamsPageIndex(newPage, queryParams))
+          }
+          pageCount={pageCount}
+          totalRows={elevatorResponse.total}
+        />
       ) : (
         <UnitsMapsView
           defaultCenterCoord={elevatorView?.centerCoord}

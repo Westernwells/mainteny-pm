@@ -7,6 +7,7 @@ import {
 } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import {ContractView} from 'models/contract';
 import {formatDate} from '../../utils/datetime';
 
 const defaultProps = {
@@ -101,11 +102,11 @@ export const columns: GridColDef[] = [
 
 export const makeRows = (contracts: any): GridRowsProp =>
   contracts
-    ? contracts.map((item: any, index: number) => ({
+    ? contracts.map((item: ContractView, index: number) => ({
         id: index,
         contractor: item.serviceCompany.name,
         contractNumber: item.number,
-        units: item.units,
+        units: item.unitCount,
         cost: `${item.price} €`,
         expiryDate: formatDate(item.endTime),
         navigateTo: `details/${item.id}`,
