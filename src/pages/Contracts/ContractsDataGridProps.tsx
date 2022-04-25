@@ -5,6 +5,7 @@ import {
   GridRenderCellParams,
   GridRowsProp,
 } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import {ContractView} from 'models/contract';
@@ -92,10 +93,12 @@ export const columns: GridColDef[] = [
       </Typography>
     ),
     renderCell: () => (
-      <FileDownloadOutlinedIcon
-        sx={{color: '#2196F3'}}
-        onClick={() => console.log('ACTION: Download')}
-      />
+      <IconButton
+        onClick={() =>
+          window.open(`${process.env.PUBLIC_URL}/CNT1000001.pdf`, '_blank')
+        }>
+        <FileDownloadOutlinedIcon sx={{color: 'info.main'}} />
+      </IconButton>
     ),
   },
 ];
