@@ -39,7 +39,7 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
       <Grid container sx={{pl: 2}}>
         <Grid item xs={2}>
           <Typography variant="subtitle2">
-            {formatDate(toDate(invoice.issuedDate), 'dd MMM YYY')}
+            {formatDate(toDate(invoice.issuedDate))}
           </Typography>
         </Grid>
 

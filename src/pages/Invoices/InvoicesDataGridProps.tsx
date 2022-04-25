@@ -130,7 +130,7 @@ export const makeRows = (invoices: any): GridRowsProp =>
   invoices.data
     ? invoices.data.map((item: any, index: number) => ({
         id: index,
-        invoiceDate: formatDate(toDate(item.issuedDate), 'dd MMM YYY'),
+        invoiceDate: formatDate(toDate(item.issuedDate)),
         invoiceNumber: item.number,
         serviceCompany: item.serviceCompany.name,
         amount: `${formatCurrency(

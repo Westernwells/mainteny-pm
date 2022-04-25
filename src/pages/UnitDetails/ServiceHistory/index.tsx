@@ -26,7 +26,7 @@ export const ServiceHistory = ({serviceOrder}: Props) => {
       <Grid xs={3} item>
         <Box display="flex">
           <Typography variant="subtitle1" sx={{mr: '0.3em'}}>
-            {formatDate(serviceOrder.schedules[0].startTime, 'dd MMM YYY')},
+            {formatDate(serviceOrder.schedules[0].startTime)},
           </Typography>
           <Typography
             variant="body2"

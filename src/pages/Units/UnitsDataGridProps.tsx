@@ -12,6 +12,7 @@ import {ElevatorStatus, ElevatorView} from 'models/elevator';
 import {useTheme} from '@mui/material';
 import {StatusChip} from 'components/StatusChip';
 import {FormikErrors} from 'formik';
+import {formatDate} from 'utils/datetime';
 import {DataGridElevatorView} from './Models';
 
 const defaultProps = {
@@ -167,8 +168,8 @@ export const makeRows = ({
     ? elevators.map((elevator: DataGridElevatorView, index: number) => ({
         id: index,
         unitName: elevator.model,
-        lastVisit: elevator.lastVisitDate,
-        nextVisit: elevator.nextVisitDate,
+        lastVisit: formatDate(elevator.lastVisitDate),
+        nextVisit: formatDate(elevator.nextVisitDate),
         status: elevator.status,
         showHeader: elevator.showAddress,
         headerText: elevator.address.fullName,
