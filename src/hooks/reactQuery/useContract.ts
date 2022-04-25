@@ -135,6 +135,7 @@ const filterContracts = (
 
 export const useQueryContract = (
   params: QueryContractParams,
+  // TODO: Create interface for filters
   filter: {
     expiryDate?: {
       start: Date;
