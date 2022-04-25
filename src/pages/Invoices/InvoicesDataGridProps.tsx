@@ -5,14 +5,14 @@ import {
   GridRenderCellParams,
   GridRowsProp,
 } from '@mui/x-data-grid';
-import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import {StatusChip} from 'components/StatusChip';
+import Chip from '@mui/material/Chip';
 import {fetchDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
-import {InvoiceStatus, InvoiceStatusView} from 'models/invoice';
+import {InvoiceStatus} from 'models/invoice';
 import {formatCurrency} from 'utils/currency';
+import {convertToText} from 'utils/utils';
 import {formatDate, toDate} from '../../utils/datetime';
 
 const defaultProps = {
@@ -35,6 +35,17 @@ const defaultAlignment: {
   headerAlign: 'center',
   align: 'center',
 };
+
+function getChipColor(status: InvoiceStatus) {
+  switch (status) {
+    case InvoiceStatus.PAID:
+      return 'success';
+    case InvoiceStatus.NOT_PAID:
+      return 'warning';
+    default:
+      return 'default';
+  }
+}
 
 export const columns: GridColDef[] = [
   {
@@ -77,23 +88,13 @@ export const columns: GridColDef[] = [
         {params.colDef.headerName}
       </Typography>
     ),
-    renderCell: (params: GridRenderCellParams<any, any, any>) => {
-      const theme = useTheme();
-      return (
-        <StatusChip
-          label={
-            params.value === InvoiceStatus.PAID
-              ? InvoiceStatusView.PAID
-              : InvoiceStatusView.NOT_PAID
-          }
-          bgColor={
-            params.value === InvoiceStatus.PAID
-              ? theme.palette.success.main
-              : theme.state?.ratingActive
-          }
-        />
-      );
-    },
+    renderCell: (params: GridRenderCellParams<any, any, any>) => (
+      <Chip
+        variant="outlined"
+        label={convertToText(params.value)}
+        color={getChipColor(params.value)}
+      />
+    ),
   },
   {
     field: 'actions',
@@ -128,25 +129,24 @@ export const columns: GridColDef[] = [
 ];
 
 export const makeRows = (invoices: any): GridRowsProp =>
-  invoices.data
-    ? invoices.data.map((item: any, index: number) => ({
-        id: index,
-        invoiceDate: formatDate(toDate(item.issuedDate)),
-        invoiceNumber: item.number,
-        serviceCompany: item.serviceCompany.name,
-        amount: `${formatCurrency(
-          item
-            ? item.totalAmount.amount / 10 ** item.totalAmount.fractionDigits!
-            : 0,
-          {
-            currency: item.totalAmount.currency,
-          },
-        )}`,
-        status: item.status,
-        actions: {
-          pdfPath: item.additionalInfo.pdfPath,
-          serviceCompanyId: item.serviceCompany.id,
-        },
-        navigateTo: `/details/${item.id}`,
-      }))
-    : console.error('No Data');
+  invoices.data &&
+  invoices.data.map((item: any, index: number) => ({
+    id: index,
+    invoiceDate: formatDate(toDate(item.issuedDate)),
+    invoiceNumber: item.number,
+    serviceCompany: item.serviceCompany.name,
+    amount: `${formatCurrency(
+      item
+        ? item.totalAmount.amount / 10 ** item.totalAmount.fractionDigits!
+        : 0,
+      {
+        currency: item.totalAmount.currency,
+      },
+    )}`,
+    status: item.status,
+    actions: {
+      pdfPath: item.additionalInfo.pdfPath,
+      serviceCompanyId: item.serviceCompany.id,
+    },
+    navigateTo: `/details/${item.id}`,
+  }));
