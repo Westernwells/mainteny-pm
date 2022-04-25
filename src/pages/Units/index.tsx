@@ -227,8 +227,6 @@ export const MyUnits = () => {
     return (
       <EmptySection
         label="Units will appear here once they are added!"
-        showActionBtn
-        btnLabel="Add Elevator"
         containerStyle={{
           height: '100%',
           mb: '10em',
