@@ -33,10 +33,12 @@ export const LocationPin = ({
       style={{color: 'black'}}
       padding={1}>
       <Box display="flex">
-        <Box>
+        <Box sx={{flexGrow: 1}}>
           <Typography variant="caption" mt="1em">
             Company: <br />{' '}
-            <Typography color="text.secondary">
+            <Typography
+              color="text.secondary"
+              sx={{whiteSpace: 'wrap', mr: '0.5em'}}>
               {elevator.propertyOwner.name}
             </Typography>
           </Typography>
@@ -57,12 +59,12 @@ export const LocationPin = ({
         </Box>
       </Box>
       <Box display="flex" justifyContent="space-between" mt="1em">
-        <Box>
+        <Box sx={{flexGrow: 1}}>
           <Typography variant="caption">
             Elevator Address: <br />
             <Typography
               color="text.secondary"
-              sx={{whiteSpace: 'wrap', width: '98%', display: 'inline-block'}}>
+              sx={{whiteSpace: 'wrap', mr: '0.5em'}}>
               {elevator.address.fullName}
             </Typography>
           </Typography>
