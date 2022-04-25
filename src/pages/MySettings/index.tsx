@@ -90,7 +90,7 @@ export const MySettings = () => {
   };
 
   return (
-    <Box sx={{mb: 2, mt: 12, px: 4}}>
+    <Box sx={{mb: 2, mt: 12, width: 'min(64em, 90%)', mx: 'auto'}}>
       <BackAction label="My Settings" />
       <form onSubmit={formik.handleSubmit}>
         <SettingsGrid
