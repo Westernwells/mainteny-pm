@@ -1,5 +1,4 @@
 import {ChangeEvent, useState} from 'react';
-import Avatar from '@mui/material/Avatar';
 import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import {ReactComponent as EditIcon} from 'assets/icons/Edit.svg';
@@ -14,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import {FileWithPreview} from 'models/misc';
 import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
+import {UserAvatar} from 'components/UserAvatar';
 import {Area} from 'react-easy-crop/types'; // eslint-disable-line
 import {getUploadSignedUrl} from 'hooks/reactQuery/useUploadSignedUrl';
 import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
@@ -260,11 +260,10 @@ export const PersonalDetails = ({formik, onChange, handleSubmit}: Props) => {
           onClick={() => setOpen(true)}
           onMouseLeave={() => setUploadMode(false)}
           onMouseEnter={() => setUploadMode(true)}>
-          <Avatar
+          <UserAvatar
             alt={formik.values.fullName}
             src={downloadUrl ? downloadUrl[0] : ''}
-            variant="circular"
-            sx={{
+            avatarStyle={{
               width: '120px',
               height: '120px',
               aspectRatio: '1',
