@@ -7,9 +7,10 @@
 //   5. Add the name without suffix in the .env.template
 import * as fs from 'fs/promises';
 
-const ENV = process.env['ENV'];
+
+const ENV = process.env.NODE_ENV;
 const envFileName = `.env.${ENV}`;
-const envSuffix = ENV === 'prod' ? 'PROD' : 'STAGE';
+const envSuffix = ENV === 'production' ? 'PROD' : 'STAGE';
 
 const requiredVariables = await fs
   .readFile('.env.template', 'utf-8')
