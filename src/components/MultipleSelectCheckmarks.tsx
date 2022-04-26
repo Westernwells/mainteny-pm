@@ -59,7 +59,7 @@ export const MultipleSelectCheckmarks = ({
 
   return (
     <Box mb={3}>
-      <FormControl sx={{m: 1, width: '13.75rem'}}>
+      <FormControl size="small" sx={{m: 1, width: '13.75rem'}}>
         <InputLabel id={label}>{label}</InputLabel>
         <Select
           id={label}
@@ -70,7 +70,7 @@ export const MultipleSelectCheckmarks = ({
           renderValue={() => selectedItems.join(',')}
           MenuProps={MenuProps}
           // sx={{maxHeight: 30}}
-          size="small">
+        >
           {!multiple ? (
             <MenuItem
               disableTouchRipple
