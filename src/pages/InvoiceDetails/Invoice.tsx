@@ -18,7 +18,7 @@ export const Invoice = ({containerStyle, downloadUrl}: Props) => {
         sx={{
           backgroundColor: theme.palette.inputBackground.main,
           p: '1em',
-          width: '44vw',
+
           ...containerStyle,
         }}>
         <Box width="100%">

@@ -148,5 +148,5 @@ export const makeRows = (invoices: any): GridRowsProp =>
       pdfPath: item.additionalInfo.pdfPath,
       serviceCompanyId: item.serviceCompany.id,
     },
-    navigateTo: `/details/${item.id}`,
+    navigateTo: `/invoices/details/${item.id}`,
   }));

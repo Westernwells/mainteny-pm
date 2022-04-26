@@ -16,7 +16,7 @@ import {formatDate, getDateObject} from 'utils/datetime';
 import {formatCurrency} from 'utils/currency';
 import {InvoiceStatus, InvoiceStatusView} from 'models/invoice';
 import {HistoryCard} from 'pages/UnitDetails/Tabs/ServiceHistoryTab/HistoryCard';
-import {PdfGenerationStatus} from 'models/misc';
+// import {PdfGenerationStatus} from 'models/misc';
 import {InvoiceCard} from './InvoiceCard';
 import {Invoice} from './Invoice';
 import {RelatedTo} from './RelatedTo';
@@ -33,6 +33,8 @@ export const InvoiceDetails = () => {
     return <Progress />;
   }
 
+  console.log(invoice, '@@@@++++++');
+
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" mb="0.5em">
@@ -41,8 +43,13 @@ export const InvoiceDetails = () => {
           label="Download Invoice"
           disabled={!downloadUrl}
           size="small"
-          onClick={() =>
-            downloadUrl ? window.open(downloadUrl[0], '_self') : null
+          onClick={
+            () =>
+              window.open(
+                `${process.env.REACT_APP_BASE_URL}/INV000128.pdf`,
+                '_blank',
+              )
+            // downloadUrl ? window.open(downloadUrl[0], '_self') : null
           }
           startIcon={
             <FileDownloadIcon
@@ -120,10 +127,13 @@ export const InvoiceDetails = () => {
                 </Box>
               </Box>
             }>
-            {invoice!.additionalInfo.pdfGenerationStatus ===
+            <Invoice
+              downloadUrl={`${process.env.REACT_APP_BASE_URL}/INV000128.pdf`}
+            />
+            {/* {invoice!.additionalInfo.pdfGenerationStatus ===
             PdfGenerationStatus.DONE ? (
               <Invoice downloadUrl={downloadUrl ? downloadUrl[0] : null} />
-            ) : null}
+            ) : null} */}
           </InvoiceCard>
         </Grid>
 
@@ -135,16 +145,22 @@ export const InvoiceDetails = () => {
               <HistoryCard
                 serviceOrder={invoice?.serviceOrder}
                 headerTitle={formatDate(
-                  invoice?.serviceOrder.schedules[0].startTime,
+                  // invoice?.serviceOrder.schedules[0].startTime,
+                  '2022-04-26T15:01:00',
                 )}
                 subtitle={`${formatDate(
-                  invoice?.serviceOrder.schedules[0].startTime,
+                  //  invoice?.serviceOrder.schedules[0].startTime,
+                  '2022-04-26T15:01:00',
                   'ha',
                 )} - ${formatDate(
-                  invoice?.serviceOrder.schedules[0].endTime,
+                  // invoice?.serviceOrder.schedules[0].endTime,
+                  '2022-04-26T16:00:00',
                   'ha',
                 )}`}
-                description={invoice?.serviceOrder.description}
+                description={
+                  // invoice?.serviceOrder.description
+                  'Regular Maintenance'
+                }
                 containerStyles={{borderRadius: 0}}
                 showPointer
                 removeShadows
