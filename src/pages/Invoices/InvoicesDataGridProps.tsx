@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import Chip from '@mui/material/Chip';
-import {fetchDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
+// import {fetchDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {InvoiceStatus} from 'models/invoice';
 import {formatCurrency} from 'utils/currency';
 import {convertToText} from 'utils/utils';
@@ -113,14 +113,19 @@ export const columns: GridColDef[] = [
     renderCell: (params) => (
       <IconButton
         onClick={async () => {
-          const downloadUrls = await fetchDownloadUrl(
-            params.value.pdfPath,
-            params.value.serviceCompanyId,
+          console.log(params);
+          // const downloadUrls = await fetchDownloadUrl(
+          //   params.value.pdfPath,
+          //   params.value.serviceCompanyId,
+          // );
+          // const downloadUrlPaths = downloadUrls[params.value.pdfPath];
+          // if (downloadUrlPaths) {
+          //   window.open(`${process.env.REACT_APP_BASE_URL}/INV000128.pdf`, '_blank');
+          // }
+          window.open(
+            `${process.env.REACT_APP_BASE_URL}/INV000128.pdf`,
+            '_blank',
           );
-          const downloadUrlPaths = downloadUrls[params.value.pdfPath];
-          if (downloadUrlPaths) {
-            window.open(downloadUrlPaths, '_blank');
-          }
         }}>
         <FileDownloadOutlinedIcon sx={{color: 'info.main'}} />
       </IconButton>
