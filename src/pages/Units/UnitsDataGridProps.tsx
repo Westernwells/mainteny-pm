@@ -10,9 +10,10 @@ import Button from '@mui/material/Button';
 import Elevator from '@mui/icons-material/Elevator';
 import {ElevatorStatus, ElevatorView} from 'models/elevator';
 import {useTheme} from '@mui/material';
-import {StatusChip} from 'components/StatusChip';
+import Chip from '@mui/material/Chip';
 import {FormikErrors} from 'formik';
 import {formatDate} from 'utils/datetime';
+import {convertToText} from 'utils/utils';
 import {DataGridElevatorView} from './Models';
 
 const defaultProps = {
@@ -36,6 +37,19 @@ const defaultAlignment: {
   headerAlign: 'center',
   align: 'center',
 };
+
+function getElevatorStatusChipColor(status: ElevatorStatus) {
+  switch (status) {
+    case ElevatorStatus.RUNNING:
+      return 'success';
+    case ElevatorStatus.BROKEN:
+      return 'error';
+    case ElevatorStatus.STOPPED:
+      return 'warning';
+    default:
+      return 'default';
+  }
+}
 
 export const columns: GridColDef[] = [
   {
@@ -85,23 +99,13 @@ export const columns: GridColDef[] = [
         {params.colDef.headerName}
       </Typography>
     ),
-    renderCell: (params: GridRenderCellParams<any, any, any>) => {
-      const theme = useTheme();
-      return (
-        <StatusChip
-          label={
-            params.value === ElevatorStatus.RUNNING
-              ? ElevatorStatus.RUNNING
-              : ElevatorStatus.STOPPED
-          }
-          bgColor={
-            params.value === ElevatorStatus.RUNNING
-              ? theme.palette.success.main
-              : theme.state?.ratingActive
-          }
-        />
-      );
-    },
+    renderCell: (params: GridRenderCellParams<any, any, any>) => (
+      <Chip
+        variant="outlined"
+        label={convertToText(params.value)}
+        color={getElevatorStatusChipColor(params.value)}
+      />
+    ),
   },
   {
     field: 'actions',
@@ -164,20 +168,20 @@ export const makeRows = ({
     shouldValidate?: boolean | undefined,
   ) => Promise<void> | Promise<FormikErrors<any>>;
 }): GridRowsProp => {
-  const result = elevators.length
-    ? elevators.map((elevator: DataGridElevatorView, index: number) => ({
-        id: index,
-        unitName: elevator.model,
-        lastVisit: formatDate(elevator.lastVisitDate),
-        nextVisit: formatDate(elevator.nextVisitDate),
-        status: elevator.status,
-        showHeader: elevator.showAddress,
-        headerText: elevator.address.fullName,
-        elevator,
-        setDrawerOpen,
-        setField,
-        navigateTo: `details/${elevator.id}`,
-      }))
-    : console.error('No Data');
+  const result =
+    elevators.length &&
+    elevators.map((elevator: DataGridElevatorView, index: number) => ({
+      id: index,
+      unitName: elevator.model,
+      lastVisit: formatDate(elevator.lastVisitDate),
+      nextVisit: formatDate(elevator.nextVisitDate),
+      status: elevator.status,
+      showHeader: elevator.showAddress,
+      headerText: elevator.address.fullName,
+      elevator,
+      setDrawerOpen,
+      setField,
+      navigateTo: `details/${elevator.id}`,
+    }));
   return result || [];
 };

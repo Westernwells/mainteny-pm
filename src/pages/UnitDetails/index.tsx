@@ -46,9 +46,12 @@ export const UnitsDetail = () => {
 
       <TabsBody value={value} index={2}>
         <EmptySection
-          label="Data will be available here only for IoT enabled elevators!"
+          label="Interested in knowing how we can equip your unit with IoT and make it smart?"
+          showActionBtn
+          btnLabel="Book Demo"
           size="large"
           containerStyle={{mt: 12}}
+          btnAction={() => window.open('https://mainteny.com/demo')}
         />
       </TabsBody>
     </Tabs>

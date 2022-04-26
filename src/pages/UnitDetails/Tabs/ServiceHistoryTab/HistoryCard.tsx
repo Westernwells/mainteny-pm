@@ -205,37 +205,41 @@ export const HistoryCard = ({
             ) : null}
 
             {showMoreReportDetails ? (
-              <Box display="flex" mt="2.5em">
-                <CardProps
-                  label="Technician"
-                  bodyTextVariant="body1"
-                  icon={<PersonOutlineOutlinedIcon color="info" />}
-                  iconBackground={theme.palette.info.outlinedHoverBg}
-                  bodyText={`${serviceOrder?.schedules[0].technician.userAccount.firstName}
+              <>
+                <Typography>{serviceOrderReport?.description}</Typography>
+                <Box display="flex" mt="2.5em" justifyContent="space-around">
+                  <CardProps
+                    label="Technician"
+                    bodyTextVariant="body1"
+                    icon={<PersonOutlineOutlinedIcon color="info" />}
+                    iconBackground={theme.palette.info.outlinedHoverBg}
+                    bodyText={`${serviceOrder?.schedules[0].technician.userAccount.firstName}
                  ${serviceOrder?.schedules[0].technician.userAccount.lastName}`}
-                />
-                <CardProps
-                  label="Cost"
-                  bodyTextVariant="caption"
-                  icon={<MonetizationOnOutlinedIcon color="success" />}
-                  iconBackground={theme.palette.success.outlinedHoverBg}
-                  bodyText={
-                    serviceOrderReport?.fee.amount
-                      ? `${serviceOrderReport?.fee.amount} EUR`
-                      : '0 EUR'
-                  }
-                />
+                  />
 
-                <CardProps
-                  label="Duration"
-                  bodyTextVariant="body1"
-                  icon={<TimerOutlinedIcon color="warning" />}
-                  iconBackground={theme.palette.warning.outlinedHoverBg}
-                  bodyText={`${+duration[0]}hrs ${
-                    Number(duration[1]) > 0 ? `${+duration[1]}mins` : ''
-                  }`}
-                />
-              </Box>
+                  <CardProps
+                    label="Cost"
+                    bodyTextVariant="caption"
+                    icon={<MonetizationOnOutlinedIcon color="success" />}
+                    iconBackground={theme.palette.success.outlinedHoverBg}
+                    bodyText={
+                      serviceOrderReport?.fee.amount
+                        ? `${serviceOrderReport?.fee.amount} EUR`
+                        : '0 EUR'
+                    }
+                  />
+
+                  <CardProps
+                    label="Duration"
+                    bodyTextVariant="body1"
+                    icon={<TimerOutlinedIcon color="warning" />}
+                    iconBackground={theme.palette.warning.outlinedHoverBg}
+                    bodyText={`${+duration[0]}hrs ${
+                      Number(duration[1]) > 0 ? `${+duration[1]}mins` : ''
+                    }`}
+                  />
+                </Box>
+              </>
             ) : null}
             {showAlert &&
             serviceOrder?.status === ServiceOrderStatus.SCHEDULED ? (

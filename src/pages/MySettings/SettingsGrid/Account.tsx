@@ -1,6 +1,5 @@
 import React from 'react';
-import useTheme from '@mui/material/styles/useTheme';
-import {Typography} from '@mui/material';
+import {Box, InputLabel, Typography} from '@mui/material';
 import {FormInput} from './FormInput';
 import {SettingCard} from './SettingCard';
 
@@ -12,33 +11,39 @@ interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Account = ({formData, onChange}: Props) => {
-  const theme = useTheme();
-  return (
-    <SettingCard header="Account">
+export const Account = ({formData, onChange}: Props) => (
+  <SettingCard header="Account">
+    <Box display="none">
       <FormInput
         label="Email"
         id="accountEmail"
-        value={formData.accoutEmail}
         type="email"
-        onChange={() => {}}
-        helperText={
-          <Typography
-            variant="helperText"
-            sx={{color: theme.palette.secondary.main, py: '0'}}>
-            Uh oh! This can&apos;t be changed, sorry. We use this to identify
-            you.
-          </Typography>
-        }
-      />
-
-      <FormInput
-        label="Password"
-        id="accountPassword"
-        value={formData.accoutPassword}
+        value={formData.accoutEmail}
         onChange={onChange}
-        type="password"
+        disabled
       />
-    </SettingCard>
-  );
-};
+    </Box>
+    <InputLabel htmlFor="accountEmailText">
+      <Typography variant="body2">Email</Typography>
+    </InputLabel>
+    <Box pl=".5em" pb=".75em">
+      <Typography
+        id="accountEmailText"
+        style={{cursor: 'not-allowed', paddingBlock: '.75em'}}>
+        {formData.accoutEmail}
+      </Typography>
+      <Typography variant="helperText" sx={{color: 'secondary.main'}}>
+        Uh oh! This can&apos;t be changed, sorry. We use this to identify you.
+      </Typography>
+    </Box>
+
+    <FormInput
+      label="Password"
+      id="accountPassword"
+      value={formData.accoutPassword || '12345678'}
+      onChange={() => {}}
+      type="password"
+      disabled
+    />
+  </SettingCard>
+);

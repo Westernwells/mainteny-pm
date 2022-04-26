@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import Language from '@mui/icons-material/Language';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
 import AppBar from '@mui/material/AppBar';
 import {Link} from 'react-router-dom';
@@ -12,6 +11,7 @@ import {ReactComponent as Logo} from 'assets/icons/Logo.svg';
 import {useAuth} from 'hooks/useAuth';
 import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
 import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
+import {UserAvatar} from './UserAvatar';
 
 export const AppTopBar = () => {
   const theme = useTheme();
@@ -52,7 +52,7 @@ export const AppTopBar = () => {
             </Box>
             <Link to="/notifications">
               <Badge
-                badgeContent={1}
+                badgeContent={7}
                 overlap="circular"
                 color="error"
                 sx={{
@@ -67,8 +67,12 @@ export const AppTopBar = () => {
 
             <Link to="/settings" style={{textDecoration: 'none'}}>
               <Box ml={8} display="flex" alignItems="center">
-                <Avatar
-                  alt={`${user?.userAccount.firstName} ${user?.userAccount.lastName}`}
+                <UserAvatar
+                  alt={
+                    user?.userAccount
+                      ? `${user?.userAccount.firstName} ${user?.userAccount.lastName}`
+                      : '-'
+                  }
                   src={downloadUrl ? downloadUrl[0] : null}
                 />
                 <Box ml={2}>

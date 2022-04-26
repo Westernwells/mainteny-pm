@@ -1,3 +1,4 @@
+import {ReactNode} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -18,6 +19,7 @@ interface Props {
   hideViewOption?: boolean;
   hideFilter?: boolean;
   getSearchValue?: (val: string) => void;
+  toggleIcon?: ReactNode;
 }
 
 export const Widget = ({
@@ -30,6 +32,7 @@ export const Widget = ({
   getSearchValue,
   hideViewOption = false,
   hideFilter = false,
+  toggleIcon,
 }: Props) => {
   const theme = useTheme();
 
@@ -102,7 +105,7 @@ export const Widget = ({
                 },
               }}
               variant="outlined">
-              <GridViewIcon />
+              {toggleIcon || <GridViewIcon />}
             </Button>
           </ButtonGroup>
         ) : null}

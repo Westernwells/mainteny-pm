@@ -29,6 +29,7 @@ import {
   formatSearchParamsPageSize,
 } from 'utils/utils';
 import useTheme from '@mui/material/styles/useTheme';
+import MapIcon from '@mui/icons-material/Map';
 import {EmptySection} from 'components/EmptySection';
 import {columns, makeRows} from './UnitsDataGridProps';
 import {UnitsMapsView} from './UnitsMapsView';
@@ -226,8 +227,6 @@ export const MyUnits = () => {
     return (
       <EmptySection
         label="Units will appear here once they are added!"
-        showActionBtn
-        btnLabel="Add Elevator"
         containerStyle={{
           height: '100%',
           mb: '10em',
@@ -253,6 +252,7 @@ export const MyUnits = () => {
           getSearchValue={(val: string) => {
             setSearch(val);
           }}
+          toggleIcon={<MapIcon />}
         />
       }>
       <Fade in={showFilter} unmountOnExit>
