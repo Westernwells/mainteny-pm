@@ -207,7 +207,11 @@ export const HistoryCard = ({
             {showMoreReportDetails ? (
               <>
                 <Typography>{serviceOrderReport?.description}</Typography>
-                <Box display="flex" mt="2.5em" justifyContent="space-around">
+                <Box
+                  display="flex"
+                  mt="2.5em"
+                  justifyContent="space-between"
+                  width="80%">
                   <CardProps
                     label="Technician"
                     bodyTextVariant="body1"
