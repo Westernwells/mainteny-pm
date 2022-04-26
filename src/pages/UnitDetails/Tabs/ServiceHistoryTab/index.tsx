@@ -179,7 +179,7 @@ export const ServiceHistoryTab = () => {
       />
     );
   }
-
+  console.log(serviceOrderReport);
   return (
     <Grid container spacing={2}>
       <Grid item xs={8}>
