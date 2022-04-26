@@ -205,7 +205,7 @@ export const HistoryCard = ({
             ) : null}
 
             {showMoreReportDetails ? (
-              <Box display="flex" mt="2.5em">
+              <Box display="flex" mt="2.5em" justifyContent="space-around">
                 <CardProps
                   label="Technician"
                   bodyTextVariant="body1"
@@ -214,6 +214,7 @@ export const HistoryCard = ({
                   bodyText={`${serviceOrder?.schedules[0].technician.userAccount.firstName}
                  ${serviceOrder?.schedules[0].technician.userAccount.lastName}`}
                 />
+
                 <CardProps
                   label="Cost"
                   bodyTextVariant="caption"
