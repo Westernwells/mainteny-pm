@@ -143,7 +143,7 @@ export const Contracts = () => {
       label="Contracts"
       renderWidget={
         <Widget
-          searchPlaceholder="Try 'Astralift BV'"
+          searchPlaceholder="Search contractor number, contractor, expiry date etc."
           getSearchValue={(val: string) => setSearch(val)}
           setShowFilter={setShowFilter}
           showFilter={showFilter}

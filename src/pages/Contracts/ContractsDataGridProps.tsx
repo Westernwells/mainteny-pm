@@ -34,6 +34,13 @@ const defaultAlignment: {
 
 export const columns: GridColDef[] = [
   {
+    field: 'contractNumber',
+    headerName: 'CONTRACT NUMBER',
+    type: 'string',
+    ...defaultAlignment,
+    ...defaultProps,
+  },
+  {
     field: 'contractor',
     headerName: 'CONTRACTOR',
     type: 'string',
@@ -42,22 +49,15 @@ export const columns: GridColDef[] = [
     ...defaultProps,
   },
   {
-    field: 'contractNumber',
-    headerName: 'CONTRACT NO',
-    type: 'string',
+    field: 'cost',
+    headerName: 'COST/YEAR',
+    type: 'number',
     ...defaultAlignment,
     ...defaultProps,
   },
   {
     field: 'units',
     headerName: 'UNITS',
-    type: 'number',
-    ...defaultAlignment,
-    ...defaultProps,
-  },
-  {
-    field: 'cost',
-    headerName: 'COST/YEAR',
     type: 'number',
     ...defaultAlignment,
     ...defaultProps,
@@ -110,7 +110,7 @@ export const makeRows = (contracts: any): GridRowsProp =>
     contractor: item.serviceCompany.name,
     contractNumber: item.number,
     units: item.unitCount,
-    cost: `${item.price} €`,
+    cost: `€ ${item.price}`,
     expiryDate: formatDate(item.endTime),
     navigateTo: `details/${item.id}`,
   }));

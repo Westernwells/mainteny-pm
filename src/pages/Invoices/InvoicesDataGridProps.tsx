@@ -49,14 +49,6 @@ function getChipColor(status: InvoiceStatus) {
 
 export const columns: GridColDef[] = [
   {
-    field: 'invoiceDate',
-    headerName: 'INVOICE DATE',
-    type: 'string',
-    flex: 2,
-    headerAlign: 'left',
-    ...defaultProps,
-  },
-  {
     field: 'invoiceNumber',
     headerName: 'INVOICE NUMBER',
     type: 'string',
@@ -75,6 +67,14 @@ export const columns: GridColDef[] = [
     headerName: 'TOTAL AMOUNT',
     type: 'string',
     ...defaultAlignment,
+    ...defaultProps,
+  },
+  {
+    field: 'invoiceDate',
+    headerName: 'INVOICE DATE',
+    type: 'string',
+    flex: 2,
+    headerAlign: 'left',
     ...defaultProps,
   },
   {
