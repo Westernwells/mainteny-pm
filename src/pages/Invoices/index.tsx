@@ -121,7 +121,7 @@ export const Invoices = () => {
       label="Invoices"
       renderWidget={
         <Widget
-          searchPlaceholder="Try 'INV000001'"
+          searchPlaceholder="Search invoice number, service company, invoice date, status etc."
           getSearchValue={(val: string) => {
             setSearch(val);
           }}
