@@ -5,21 +5,22 @@ import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {queryKeys} from 'reactQuery/constants';
 import {axiosClient} from 'utils/axios-utils';
 import {useSnackbar} from 'notistack';
-import {useUserSession} from './useUserSession';
+import {useUser} from './useUserSession';
 
-const fetchPropertyManager = async (username: string) => {
+const fetchPropertyManager = async (id: string) => {
   const response: AxiosResponse<PropertyManager> = await axiosClient({
     method: 'GET',
-    url: `/api/users/propertyManager/${username}`,
+    url: `/api/propertyOwners/${id}`,
   });
   return response.data;
 };
 
 export const usePropertyManager = () => {
-  const {user} = useUserSession();
+  const {data: user} = useUser();
+  console.log(user, '$$$$$$');
   return useQuery(
-    [queryKeys.propertyManager, user?.userAccount.username],
-    () => fetchPropertyManager(user!.userAccount.username),
+    [queryKeys.propertyManager, user?.userData.propertyOwner.id],
+    () => fetchPropertyManager(user!.userData.propertyOwner.id),
     {
       enabled: !!user,
     },

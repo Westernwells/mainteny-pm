@@ -1,5 +1,6 @@
 import {ServiceCompany, ServiceCompanyView} from './service-company';
 import {AddressRecord, Meta, Contact, TimeWindowRecord} from './misc';
+import {PropertyManager} from './propertyManager';
 
 export enum UserAccountStatus {
   NORMAL = 'NORMAL',
@@ -93,4 +94,10 @@ export interface CreateServiceManagerRecord {
 export interface UpdateServiceManagerRecord {
   userAccount: UpdateUserAccountData;
   technician?: TechnicianData;
+}
+
+export interface CommonUserView {
+  userAccount: UserAccountView;
+  userData: PropertyManager;
+  id: string;
 }

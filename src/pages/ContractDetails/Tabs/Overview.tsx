@@ -12,11 +12,11 @@ import {ContractBasic} from '../ContractBasic';
 import {ContractScope} from '../ContractScope';
 import {ContractParties} from '../ContractParties';
 import {ContractTimeline} from '../ContractTimeline';
-import {Contract} from '../../../models/contract';
+import {ContractView} from '../../../models/contract';
 import {toDate} from '../../../utils/datetime';
 
 interface Props {
-  contract: Contract;
+  contract: ContractView;
 }
 
 export const Overview = ({contract}: Props) => {
@@ -46,7 +46,7 @@ export const Overview = ({contract}: Props) => {
           containerStyles={{pt: '1em'}}
           header={
             <Box display="flex" justifyContent="space-between">
-              <Typography variant="subtitle1">#{contract?.number}</Typography>
+              <Typography variant="subtitle1">#{contract.number}</Typography>
               <StatusChip
                 color="success"
                 label="Running"
@@ -127,9 +127,9 @@ export const Overview = ({contract}: Props) => {
             </Box>
           }>
           <ContractParties
-            companyName={contract?.propertyOwner.address.fullName}
+            companyName=""
             personName={contract?.serviceCompany.name}
-            email={contract?.serviceCompany.contact.email}
+            email=""
             partyRole="Service Company"
             partyType="Contractor"
             chipColor="info"
@@ -137,7 +137,7 @@ export const Overview = ({contract}: Props) => {
             chipBgColor={theme.palette.info.outlinedHoverBg}
           />
           <ContractParties
-            companyName={contract?.propertyOwner.address.fullName}
+            companyName=""
             personName={contract?.propertyOwner.name}
             email={contract?.propertyOwner.contact.email}
             partyRole="Property Manager"

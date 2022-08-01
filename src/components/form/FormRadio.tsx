@@ -1,0 +1,41 @@
+import React, {ChangeEvent} from 'react';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio, {RadioProps} from '@mui/material/Radio';
+import {SxProps, Typography} from '@mui/material';
+
+interface Props {
+  value?: string;
+  handleChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  label?: string | JSX.Element;
+  checked?: boolean;
+  disabled?: boolean;
+  name?: string;
+  radioProps?: RadioProps;
+  labelProps?: SxProps;
+}
+
+export const FormRadio = ({
+  value,
+  handleChange,
+  label = '',
+  checked,
+  disabled,
+  name,
+  radioProps,
+  labelProps,
+}: Props) => (
+  <FormControlLabel
+    value={value}
+    control={
+      <Radio
+        value={value}
+        checked={checked}
+        disabled={disabled}
+        name={name}
+        onChange={handleChange}
+        {...radioProps}
+      />
+    }
+    label={<Typography sx={{...labelProps}}>{label}</Typography>}
+  />
+);

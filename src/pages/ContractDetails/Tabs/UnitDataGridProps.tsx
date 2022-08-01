@@ -83,8 +83,8 @@ export const columns: GridColDef[] = [
     renderCell: (params: GridRenderCellParams<ElevatorStatus>) => (
       <Chip
         variant="outlined"
-        label={capitalize(params.value.toLocaleLowerCase())}
-        color={getElevatorStatusChipColor(params.value)}
+        label={capitalize(params.value!.toLocaleLowerCase())}
+        color={getElevatorStatusChipColor(params.value!)}
       />
     ),
   },

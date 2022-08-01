@@ -4,10 +4,10 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
 import useTheme from '@mui/material/styles/useTheme';
 import {formatDate} from 'utils/datetime';
-import {Contract} from 'models/contract';
+import {ContractView} from 'models/contract';
 
 interface Props {
-  contractDetails?: Contract;
+  contractDetails?: ContractView;
   usedContractDays: number | false;
   unUsedContractDays: number | false;
   totalContractDays: number | false;

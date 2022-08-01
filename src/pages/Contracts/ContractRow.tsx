@@ -42,7 +42,8 @@ export const ContractRow = ({contract}: Props) => {
         <Grid item xs={1}>
           <Box display="flex" justifyContent="center">
             <Typography variant="largeBtnText">
-              {contract.unitCount ? contract.unitCount : 0}
+              {null}
+              {/* {contract.unitCount ? contract.unitCount : 0} */}
             </Typography>
           </Box>
         </Grid>
@@ -50,10 +51,11 @@ export const ContractRow = ({contract}: Props) => {
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center">
             <Typography variant="largeBtnText">
-              {contract.price.toLocaleString('en-US', {
+              {null}
+              {/* {contract.price.toLocaleString('en-US', {
                 style: 'currency',
                 currency: contract.currency,
-              })}
+              })} */}
             </Typography>
           </Box>
         </Grid>

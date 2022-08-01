@@ -1,17 +1,15 @@
-import Box from '@mui/material/Box';
-import {useFetchContractDetails} from 'hooks/reactQuery/useContract';
-import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
-import {useParams} from 'react-router-dom';
-import {BackAction} from 'components/BackAction';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import {Progress} from 'components/Progress';
-
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import ElevatorIcon from '@mui/icons-material/Elevator';
+/* eslint-disable */
 import {useState} from 'react';
-import {Tabs} from '../../components/Tabs';
-import {Overview} from './Tabs/Overview';
-import {Units} from './Tabs/Units';
+import {TabsBody} from 'components/TabsBody';
+import {Tabs} from 'components/Tabs';
+import ElevatorIcon from '@mui/icons-material/Elevator';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
+import {useFetchContractDetails} from 'hooks/reactQuery/useContract';
+import {useParams} from 'react-router';
+// import {UnitsTab} from './Tabs/UnitsTab';
+// import {ContractOverview} from './Tabs/ContractOverview';
 
 const tabItems = [
   {
@@ -25,36 +23,58 @@ const tabItems = [
 ];
 
 export const ContractDetails = () => {
+  const [tabValue, setTabValue] = useState(0);
   const {id: contractId} = useParams();
+  const {data: contractDetails, isLoading} = useFetchContractDetails(
+    contractId!,
+  );
 
-  const {data: contract, isLoading} = useFetchContractDetails(contractId!);
+  const {data: downloadUrl} = useDownloadUrl(
+    contractDetails?.additionalInfo?.documents?.length
+      ? [contractDetails?.additionalInfo?.documents[0]?.uri]
+      : [],
+  );
 
-  const [tabIndex, setTabIndex] = useState(0);
+  const fileName =
+    contractDetails?.additionalInfo?.documents &&
+    contractDetails?.additionalInfo?.documents?.length > 0
+      ? contractDetails?.additionalInfo?.documents[0]?.description
+      : 'contract';
 
   return (
-    <Box style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-      <Box
-        display="flex"
-        style={{
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '0.5em',
-        }}>
-        <BackAction label="Contract Details" />
-        <Tabs index={tabIndex} setIndex={setTabIndex} items={tabItems} />
-        <CustomButtonUnstyled
-          label="Download Contract"
-          size="small"
-          startIcon={<FileDownloadIcon color="primary" />}
-        />
-      </Box>
-      {isLoading && <Progress />}
-      {tabIndex === 0 && !isLoading && <Overview contract={contract!} />}
-      {tabIndex === 1 && !isLoading && (
-        <Box style={{display: 'flex', height: '100%'}}>
-          <Units units={contract!.elevators.map(({elevator}) => elevator)} />
-        </Box>
-      )}
-    </Box>
+    <Tabs
+      tabItems={tabItems}
+      currentIndex={tabValue}
+      onChange={(index) => setTabValue(index)}
+      showActionBtn
+      btnLabel="Download contract"
+      actionBtnVariant="outlined"
+      disableBtnAction={!Object.values(downloadUrl || {}).length}
+      actionButtonIcon={<FileDownloadIcon color="primary" />}
+      btnOnClick={() => {
+        if (downloadUrl && Object.values(downloadUrl).length) {
+          const uploadUrl = Object.values(downloadUrl)[0];
+          fetch(uploadUrl).then((response) =>
+            response.blob().then((file) => {
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(file);
+              link.setAttribute('download', fileName);
+              link.click();
+            }),
+          );
+        }
+      }}>
+      <TabsBody value={tabValue} index={0}>
+        {null}
+        {/* <ContractOverview
+          contractDetails={contractDetails!}
+          isLoading={isLoading}
+        /> */}
+      </TabsBody>
+      <TabsBody value={tabValue} index={1}>
+        {null}
+        {/* <UnitsTab elevators={contractDetails?.elevators || []} /> */}
+      </TabsBody>
+    </Tabs>
   );
 };

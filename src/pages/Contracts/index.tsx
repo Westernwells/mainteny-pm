@@ -36,7 +36,7 @@ export const Contracts = () => {
   const [search, setSearch] = useState('');
   const [queryParams, setQueryParams] = useSearchParams();
   const [page, setPage] = useState(makePage(0, pageSize));
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter] = useState(false);
   const [expiryDate, setExpiryDate] = useState<ExpiryDate | null>();
   const [contractor, setContractor] = useState<string[]>([]);
   const [cost, setCost] = useState<number[][]>([]);
@@ -145,14 +145,11 @@ export const Contracts = () => {
         <Widget
           searchPlaceholder="Search contractor number, contractor, expiry date etc."
           getSearchValue={(val: string) => setSearch(val)}
-          setShowFilter={setShowFilter}
-          showFilter={showFilter}
-          hideViewOption
         />
       }>
       <Fade in={showFilter} unmountOnExit>
         <Box>
-          <FilterFields setShowFilter={setShowFilter}>
+          <FilterFields>
             <MultipleSelectCheckmarks
               label="Expiry Date"
               options={Object.keys(upcommingDates).map((item) =>

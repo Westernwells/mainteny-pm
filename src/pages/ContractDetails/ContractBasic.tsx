@@ -1,3 +1,4 @@
+// eslint-disable */
 import Box from '@mui/material/Box';
 import {formatDate, toDate} from 'utils/datetime';
 import useTheme from '@mui/material/styles/useTheme';
@@ -8,20 +9,20 @@ import DangerousIcon from '@mui/icons-material/Dangerous';
 import TimerIcon from '@mui/icons-material/Timer';
 import BusinessIcon from '@mui/icons-material/Business';
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
-import {Contract} from '../../models/contract';
+import {ContractView} from '../../models/contract';
 
 interface Props {
-  contract: Contract;
+  contract: ContractView;
 }
 
 export const ContractBasic = ({contract}: Props) => {
   const theme = useTheme();
-  const {price, startTime, endTime, type, visitsNumber, elevators} = contract;
+  const {startTime, endTime, type, visitsNumber, elevators} = contract;
   const information = [
     {
       label: 'Cost Per Year',
       Icon: MonetizationOnOutlinedIcon,
-      value: `${price.toLocaleString()} EUR`,
+      value: `50 Eur`,
     },
     {
       label: 'Start Date',

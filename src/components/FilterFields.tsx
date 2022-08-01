@@ -1,4 +1,5 @@
 import React, {ReactNode} from 'react';
+import {useTranslation} from 'react-i18next';
 import Box from '@mui/material/Box';
 import {Typography} from '@mui/material';
 import useTheme from '@mui/material/styles/useTheme';
@@ -6,24 +7,36 @@ import useTheme from '@mui/material/styles/useTheme';
 interface Props {
   children: ReactNode;
   containerStyle?: {[key: string]: string | number};
-  setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
+  wrapperStyle?: {[key: string]: string | number};
+  showFilter?: boolean;
+  hideClear?: boolean;
+  onClear?: () => void;
 }
 
 export const FilterFields = ({
   children,
   containerStyle,
-  setShowFilter,
+  wrapperStyle,
+  hideClear,
+  showFilter = true,
+  onClear,
 }: Props) => {
+  const {t} = useTranslation();
   const theme = useTheme();
-  return (
-    <Box display="flex" justifyContent="space-between" sx={{...containerStyle}}>
-      <Box display="flex">{children}</Box>
-      <Typography
-        onClick={() => setShowFilter(false)}
-        mt={2}
-        sx={{cursor: 'pointer', color: theme.palette.info.main}}>
-        Clear all
-      </Typography>
+  return showFilter ? (
+    <Box display="flex" sx={{...containerStyle}}>
+      <Box display="flex" sx={{...wrapperStyle}}>
+        {children}
+      </Box>
+      {!hideClear ? (
+        <Typography
+          component="div"
+          onClick={() => onClear && onClear()}
+          mt="0.5em"
+          sx={{cursor: 'pointer', color: theme.palette.info.main}}>
+          {t('Clear all')}
+        </Typography>
+      ) : null}
     </Box>
-  );
+  ) : null;
 };

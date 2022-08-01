@@ -3,6 +3,8 @@ import {getStoredUser, setStoredUser, clearStoredUser} from 'userStorage';
 import {queryKeys} from 'reactQuery/constants';
 import {UserSession} from 'models/session';
 import {differenceInMinutes} from 'date-fns';
+import {axiosClient} from 'utils/axios-utils';
+import {CommonUserView} from 'models/user';
 
 interface UseUserSession {
   user?: UserSession | null;
@@ -49,3 +51,19 @@ export function useUserSession(): UseUserSession {
 
   return {user, updateUser, clearUser};
 }
+
+const fetchUser = async (id: string) => {
+  const response = await axiosClient.get<CommonUserView>(`/api/users/${id}`);
+  return response.data;
+};
+
+export const useUser = () => {
+  const {user} = useUserSession();
+  return useQuery(
+    [queryKeys.fetchUser, user?.userAccount.id],
+    () => fetchUser(user!.userAccount.id),
+    {
+      enabled: !!user,
+    },
+  );
+};

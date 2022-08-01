@@ -5,7 +5,7 @@ import {queryKeys as qk} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {Resource, RestError} from 'models/misc';
 import {InvoiceView, QueryInvoiceParams} from 'models/invoice';
-import {usePropertyManager} from './usePropertyManager';
+import {useUserSession} from './useUserSession';
 
 export const fetchInvoices = async (
   params: QueryInvoiceParams,
@@ -82,10 +82,10 @@ export function useInvoices(
     Resource<InvoiceView>
   >,
 ) {
-  const {data: user} = usePropertyManager();
+  const {user} = useUserSession();
   return useQuery<Resource<InvoiceView>, RestError>(
     [qk.fetchInvoices, params],
-    () => fetchInvoices(params, user!.propertyOwner.id),
+    () => fetchInvoices(params, user!.userAccount.id),
     {
       enabled: !!user,
       select: useCallback(

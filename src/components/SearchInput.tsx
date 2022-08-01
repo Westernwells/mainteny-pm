@@ -1,16 +1,31 @@
-import {useCallback} from 'react';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
+import {RefObject, useCallback} from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import * as _ from 'lodash';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   placeholder?: string;
-  onValueChanged?: (value: string) => void; // eslint-disable-line no-unused-vars
+  onValueChanged?: (value: string) => void;
+  width?: string;
+  containerStyle?: {[key: string]: string | number};
+  variant?: 'standard' | 'filled' | 'outlined' | undefined;
+  label?: string;
+  refInput?: RefObject<HTMLInputElement>;
 }
 
-export const Searchnput = ({placeholder, onValueChanged}: Props) => {
+export const SearchInput = ({
+  placeholder,
+  onValueChanged,
+  width,
+  containerStyle,
+  variant,
+  label,
+  refInput,
+}: Props) => {
+  const {t} = useTranslation();
+
   const debouncedChangeHandler = useCallback(
     _.debounce((e) => {
       onValueChanged?.(e.nativeEvent.target.value);
@@ -19,29 +34,53 @@ export const Searchnput = ({placeholder, onValueChanged}: Props) => {
   );
 
   return (
-    <Paper
-      component="form"
-      sx={{
-        p: '2px 4px',
-        display: 'flex',
-        alignItems: 'center',
-        boxShadow: 0,
-        width: '23rem',
-        border: '1px solid #E4E9F2',
-      }}>
-      <IconButton
-        type="submit"
-        sx={{p: '10px'}}
-        aria-label="search"
-        onClick={(e) => e.preventDefault()}>
-        <SearchIcon />
-      </IconButton>
-      <InputBase
-        sx={{ml: 1, flex: 1}}
-        placeholder={placeholder && placeholder}
-        inputProps={{'aria-label': 'Type ‘Schindler’ or ‘Blue Plaza’'}}
-        onChange={debouncedChangeHandler}
-      />
-    </Paper>
+    <TextField
+      size="small"
+      sx={
+        variant === 'outlined'
+          ? {
+              width: width || '20rem',
+              background: '#fff',
+              '& .MuiInputAdornment-root': {
+                marginRight: '-7px',
+              },
+
+              ...containerStyle,
+            }
+          : {
+              width: width || '20rem',
+              border: 'none',
+              background: '#fff',
+              '& .MuiOutlinedInput-root:hover': {
+                '& > fieldset': {
+                  borderColor: '#fff',
+                },
+              },
+              '& .MuiOutlinedInput-root.Mui-focused': {
+                '& > fieldset': {
+                  borderColor: '#fff',
+                },
+              },
+
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: '1px solid #fff',
+              },
+              ...containerStyle,
+            }
+      }
+      placeholder={placeholder && t(placeholder)}
+      variant={variant}
+      label={label && t(label)}
+      inputRef={refInput}
+      onChange={debouncedChangeHandler}
+      InputLabelProps={{shrink: variant === 'outlined'}}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <SearchIcon />
+          </InputAdornment>
+        ),
+      }}
+    />
   );
 };

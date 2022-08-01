@@ -9,14 +9,14 @@ import useTheme from '@mui/material/styles/useTheme';
 import {ReactComponent as LogoutIcon} from 'assets/icons/Logout.svg';
 import {ReactComponent as Logo} from 'assets/icons/Logo.svg';
 import {useAuth} from 'hooks/useAuth';
-import {usePropertyManager} from 'hooks/reactQuery/usePropertyManager';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {UserAvatar} from './UserAvatar';
 
 export const AppTopBar = () => {
   const theme = useTheme();
   const {signout} = useAuth();
-  const {data: user} = usePropertyManager();
+  const {user} = useUserSession();
   const {data: downloadUrl} = useDownloadUrl(
     user?.userAccount.photoUrl ? [user?.userAccount.photoUrl] : [],
   );

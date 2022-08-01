@@ -1,16 +1,12 @@
+/* eslint-disable */
 import {useCallback} from 'react';
 import {useQuery, UseQueryOptions} from 'react-query';
 import * as _ from 'lodash';
 import {queryKeys as qk} from 'reactQuery/constants';
-import {useNavigate} from 'react-router-dom';
 import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
-import {
-  Contract,
-  ContractView,
-  QueryContractParams,
-} from '../../models/contract';
+import {ContractView, QueryContractParams} from '../../models/contract';
 import {Resource, RestError} from '../../models/misc';
-import {usePropertyManager} from './usePropertyManager';
+import {useUserSession} from './useUserSession';
 
 export const fetchContractElevatorCount = async (contractId: string[]) => {
   const response = await axiosClient.get<{[key: string]: number}>(
@@ -36,13 +32,6 @@ export const fetchContracts = async (
     },
   );
 
-  return response.data;
-};
-
-const fetchContractDetails = async (contractId: string) => {
-  const response = await axiosClient.get<Contract>(
-    `/api/contracts/${contractId}`,
-  );
   return response.data;
 };
 
@@ -84,55 +73,6 @@ export const filterByContractor = (
   return mergedResult;
 };
 
-export const filterByPrice = (
-  contractsRes: Resource<ContractView>,
-  price: number[][],
-) => {
-  let mergedResult = [] as ContractView[];
-
-  const inRange = (item: number, range: number[][]) => {
-    let result = false;
-    range.forEach((interval) => {
-      if (item >= interval[0] && item < interval[1]) {
-        result = true;
-      }
-    });
-    return result;
-  };
-  mergedResult = contractsRes.data.filter((item) => inRange(item.price, price));
-  return mergedResult;
-};
-
-const filterContracts = (
-  contractsRes: Resource<ContractView>,
-  filter: {
-    expiryDate?: {
-      start: Date;
-      end: Date;
-    } | null;
-    contractor?: string[];
-    price?: number[][];
-  },
-) => {
-  let result = {...contractsRes};
-
-  if (filter.expiryDate) {
-    const expiryDates = filterByExpiryData(contractsRes, filter.expiryDate);
-    result = {...result, data: expiryDates, total: expiryDates.length};
-  }
-
-  if (filter.contractor?.length) {
-    const contractors = filterByContractor(result, filter.contractor);
-    result = {...result, data: contractors, total: contractors.length};
-  }
-
-  if (filter.price?.length) {
-    const prices = filterByPrice(result, filter.price);
-    result = {...result, data: prices, total: prices.length};
-  }
-  return result;
-};
-
 export const useQueryContract = (
   params: QueryContractParams,
   // TODO: Create interface for filters
@@ -146,38 +86,27 @@ export const useQueryContract = (
   },
   options?: UseQueryOptions<any, any, any>,
 ) => {
-  const {data: user} = usePropertyManager();
+  const {user} = useUserSession();
   return useQuery<Resource<ContractView>, RestError, Resource<ContractView>>(
     [qk.contracts, params],
-    () => fetchContracts(user!.propertyOwner.id, params),
+    () => fetchContracts(user!.userAccount.id, params),
     {
       ...options,
       enabled: !!user,
-      select: useCallback(
-        (contractsRes: Resource<ContractView>) => {
-          const filterResult = filterContracts(contractsRes, filter);
-          return filterResult;
-        },
-        [filter],
-      ),
     },
   );
 };
 
-export const useFetchContractDetails = (contractId: string) => {
-  const navigate = useNavigate();
-  return useQuery(
-    [qk.contractDetails, contractId],
-    () => fetchContractDetails(contractId),
-    {
-      onError: (err: any) => {
-        if (err.response.status === 500) {
-          navigate('/404');
-        }
-      },
-    },
+const fetchContractDetails = async (contractId: string) => {
+  const response = await axiosClient.get<ContractView>(
+    `/api/contracts/${contractId}`,
   );
+  return response.data;
 };
+export const useFetchContractDetails = (contractId: string) =>
+  useQuery([qk.contractDetails, contractId], () =>
+    fetchContractDetails(contractId),
+  );
 
 export const useContractElevatorCount = (
   contracts: ContractView[],

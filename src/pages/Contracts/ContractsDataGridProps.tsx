@@ -109,8 +109,8 @@ export const makeRows = (contracts: any): GridRowsProp =>
     id: index,
     contractor: item.serviceCompany.name,
     contractNumber: item.number,
-    units: item.unitCount,
-    cost: `€ ${item.price}`,
+    units: 1,
+    cost: `4 €`,
     expiryDate: formatDate(item.endTime),
     navigateTo: `details/${item.id}`,
   }));

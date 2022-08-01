@@ -29,7 +29,7 @@ import {
   ElevatorView,
 } from '../../models/elevator';
 import {ElevatorOrderPair, ElevatorsByAddress} from '../../pages/Units/Models';
-import {usePropertyManager} from './usePropertyManager';
+import {useUserSession} from './useUserSession';
 
 interface ServiceOrderReportPayload {
   serviceOrderId: string | string[];
@@ -212,10 +212,10 @@ export const fetchServiceOrders = async (
 };
 
 export function useServiceOrders(params: any) {
-  const {data: user} = usePropertyManager();
+  const {user} = useUserSession();
   return useQuery<Resource<ServiceOrderView>, RestError>(
     [queryKeys.fetchServiceOrders, params],
-    () => fetchServiceOrders(params, user!.propertyOwner.id),
+    () => fetchServiceOrders(params, user!.userAccount.id),
     {
       enabled: !!user && !!params.elevatorIds,
       select: useCallback((data) => data, [user, params]),
@@ -228,7 +228,7 @@ export function useFetchServiceOrdersByElevators(
   filter: {nextVisit: string[]},
   options?: UseQueryOptions<any, any, any>,
 ) {
-  const {data: user} = usePropertyManager();
+  const {user} = useUserSession();
   const elevatorIds = elevatorRes?.data.map((elevator) => elevator.id);
   const {data: availability} = useFetchElevatorAvailability(elevatorIds);
   const start = toRestDateTime(new Date());
@@ -245,7 +245,7 @@ export function useFetchServiceOrdersByElevators(
           elevatorIds,
           query: '',
         },
-        user!.propertyOwner.id,
+        user!.userAccount.id,
       ),
     {
       ...options,
@@ -278,9 +278,9 @@ export function useFetchServiceOrdersByElevators(
 }
 
 export const useLogIssue = () => {
-  const {data: propertyManager} = usePropertyManager();
+  const {user} = useUserSession();
   const {enqueueSnackbar} = useSnackbar();
-  const serviceCompanyId = propertyManager?.userAccount.serviceCompany.id;
+  const serviceCompanyId = user?.userAccount.serviceCompany.id;
 
   const {mutate, isLoading} = useMutation(
     (body: OptionalCreateNonScheduledBody) =>

@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 import GoogleMapReact from 'google-map-react';
 import Box from '@mui/system/Box';
+import {DatePicker} from 'components/DatePicker';
 import useSupercluster from 'use-supercluster';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
@@ -8,41 +9,70 @@ import {ElevatorView} from 'models/elevator';
 import {getCenter} from 'geolib';
 import Supercluster from 'supercluster';
 import {Typography} from '@mui/material';
-import {LocationPin} from '../../components/LocationPin';
-import {Location, Resource} from '../../models/misc';
+import {LocationPin} from 'components/LocationPin';
+import {Location, Resource} from 'models/misc';
+import {FilterFields} from 'components/FilterFields';
+import {Widget} from 'components/Widget';
+import {FlexContainer} from 'components/FlexContainer';
+import {useFormatDate} from 'hooks/useFormatDate';
 
-interface Props {
-  search?: string;
-  defaultCenterCoord?: Location;
-}
-
-export const UnitsMapsView = ({search = '', defaultCenterCoord}: Props) => {
+export const UnitMapsView = () => {
+  const formatDate = useFormatDate();
   const fallback = useRef({
     elevator: createEmptyResource<ElevatorView>(10),
-    centerCoord: defaultCenterCoord || {longitude: 0, latitude: 0},
+    centerCoord: {longitude: 13.390206, latitude: 52.535152},
   }).current;
   const mapRef = useRef<any>();
+  const [lastVisitStart, setLastVisitStart] = useState<Date | null>(null);
+  const [lastVisitEnd, setLastVisitEnd] = useState<Date | null>(null);
+  const [nextVisitStart, setNextVisitStart] = useState<Date | null>(null);
+  const [nextVisitEnd, setNextVisitEnd] = useState<Date | null>(null);
   const [zoom, setZoom] = useState(20);
+  const [search, setSearch] = useState('');
   const [points, setPoints] = useState<any>([]);
   const [bounds, setBounds] = useState<any>([]);
   const [page, setPage] = useState(makePage(0, 100));
+  const [resetDatePicker, setResetDatePicker] = useState(false);
   const [elevatorView, setElevatorView] = useState<{
     elevator: Resource<ElevatorView>;
     centerCoord: Location;
   }>(fallback);
+  const textInput = useRef<HTMLInputElement>(null);
+
   const {
     data: elevatorResponse = createEmptyResource<ElevatorView>(10),
     isLoading,
-  } = useAllElevators(search, page);
+    isFetching,
+  } = useAllElevators({
+    query: search,
+    pageIndex: page.pageIndex,
+    pageSize: page.pageSize,
+    ...(lastVisitStart && {
+      lastVisitDateStart: formatDate(lastVisitStart, 'yyyy-MM-dd'),
+    }),
+    ...(lastVisitEnd && {
+      lastVisitDateEnd: formatDate(lastVisitEnd, 'yyyy-MM-dd'),
+    }),
+    ...(nextVisitStart && {
+      nextVisitDateStart: formatDate(nextVisitStart, 'yyyy-MM-dd'),
+    }),
+    ...(nextVisitEnd && {
+      nextVisitDateEnd: formatDate(nextVisitEnd, 'yyyy-MM-dd'),
+    }),
+  });
 
   useEffect(() => {
     if (page.pageIndex) {
       setPage({...page, pageIndex: 0});
     }
-  }, [search]);
+  }, [search, lastVisitStart, lastVisitEnd, nextVisitStart, nextVisitEnd]);
 
   const newElevatorView = () =>
-    !search
+    !search &&
+    !lastVisitStart &&
+    !lastVisitEnd &&
+    !nextVisitStart &&
+    !nextVisitEnd
       ? {
           ...elevatorView,
           elevator: {
@@ -62,10 +92,10 @@ export const UnitsMapsView = ({search = '', defaultCenterCoord}: Props) => {
         setPage({...page, pageIndex: page.pageIndex + 1});
       }
     }
-  }, [elevatorResponse]);
+  }, [elevatorResponse, isLoading]);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && !isFetching) {
       const currentTotal = (page.pageIndex + 1) * page.pageSize;
       if (currentTotal >= elevatorResponse.total) {
         const latLng = elevatorView.elevator.data.map(
@@ -138,25 +168,104 @@ export const UnitsMapsView = ({search = '', defaultCenterCoord}: Props) => {
     mapRef.current.panTo({lat, lng});
   };
 
-  const mapEmptyState = () => (
-    <GoogleMapReact
-      bootstrapURLKeys={{key: process.env.REACT_APP_GOOGLE_MAPS_KEY!}}
-      defaultCenter={defaultProps.center}
-      defaultZoom={defaultProps.zoom}
-      zoom={10}
-    />
+  const clearFilters = () => {
+    setLastVisitStart(null);
+    setLastVisitEnd(null);
+    setNextVisitStart(null);
+    setNextVisitEnd(null);
+    setResetDatePicker(true);
+    setSearch('');
+    if (textInput.current) {
+      textInput.current.value = '';
+    }
+  };
+
+  const renderFilterItems = () => (
+    <FilterFields onClear={() => clearFilters()} wrapperStyle={{width: '90%'}}>
+      <DatePicker
+        defaultDate={lastVisitStart}
+        containerStyles={{mr: '1em'}}
+        reset={resetDatePicker}
+        getReset={(val) => {
+          if (val) {
+            setResetDatePicker(false);
+          }
+        }}
+        maxDate={lastVisitEnd || new Date()}
+        getSelectedDate={(date) => setLastVisitStart(date)}
+        textFieldProps={{
+          label: 'Last Visit Start',
+          sx: {background: '#fff'},
+        }}
+      />
+      <DatePicker
+        defaultDate={lastVisitEnd}
+        maxDate={new Date()}
+        reset={resetDatePicker}
+        getReset={(val) => {
+          if (val) {
+            setResetDatePicker(false);
+          }
+        }}
+        minDate={lastVisitStart || undefined}
+        containerStyles={{mr: '1em'}}
+        getSelectedDate={(date) => setLastVisitEnd(date)}
+        textFieldProps={{
+          label: 'Last Visit End',
+          sx: {background: '#fff'},
+        }}
+      />
+
+      <DatePicker
+        defaultDate={nextVisitStart}
+        minDate={new Date()}
+        reset={resetDatePicker}
+        getReset={(val) => {
+          if (val) {
+            setResetDatePicker(false);
+          }
+        }}
+        maxDate={nextVisitEnd || undefined}
+        containerStyles={{mr: '1em'}}
+        getSelectedDate={(date) => setNextVisitStart(date)}
+        textFieldProps={{
+          label: 'Next Visit Start',
+          sx: {background: '#fff'},
+        }}
+      />
+      <DatePicker
+        defaultDate={nextVisitEnd}
+        reset={resetDatePicker}
+        getReset={(val) => {
+          if (val) {
+            setResetDatePicker(false);
+          }
+        }}
+        minDate={nextVisitStart || new Date()}
+        containerStyles={{mr: '1em'}}
+        getSelectedDate={(date) => setNextVisitEnd(date)}
+        textFieldProps={{
+          label: 'Next Visit End',
+          sx: {background: '#fff'},
+        }}
+      />
+    </FilterFields>
   );
 
-  if (!isLoading && !elevatorResponse.total) {
-    return (
-      <Box height="100vh" width="99%">
-        {mapEmptyState()}
-      </Box>
-    );
-  }
+  const renderWidget = () => (
+    <Box sx={{display: 'flex', justifyContent: 'flex-end', mb: '0.5em'}}>
+      <Widget
+        searchPlaceholder="Search by number, model, customer, address etc."
+        getSearchValue={(val) => setSearch(val)}
+        filterItems={renderFilterItems()}
+        refInput={textInput}
+      />
+    </Box>
+  );
 
   return (
-    <Box height="100vh" width="99%">
+    <FlexContainer>
+      {renderWidget()}
       <GoogleMapReact
         bootstrapURLKeys={{key: process.env.REACT_APP_GOOGLE_MAPS_KEY!}}
         yesIWantToUseGoogleMapApiInternals
@@ -233,6 +342,6 @@ export const UnitsMapsView = ({search = '', defaultCenterCoord}: Props) => {
           );
         })}
       </GoogleMapReact>
-    </Box>
+    </FlexContainer>
   );
 };
