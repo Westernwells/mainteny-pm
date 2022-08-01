@@ -1,6 +1,17 @@
+import {MouseEvent} from 'react';
+
 export interface RestError {
   errorCode: string;
   message: string;
+}
+
+export interface Amount {
+  currency: string;
+  fractionDigits: number;
+  grossAmount: number;
+  netAmount: number;
+  percentageVat: number;
+  vat: number;
 }
 
 export enum State {
@@ -193,6 +204,11 @@ export enum PdfGenerationStatus {
   ERROR = 'ERROR',
   INIT = 'INIT',
   RUNNING = 'RUNNING',
+}
+
+export interface MenuBtnProps {
+  label: string;
+  action: (event: MouseEvent<HTMLLIElement>) => void;
 }
 
 export type WithOptional<T, K extends keyof T> = Omit<T, K> &

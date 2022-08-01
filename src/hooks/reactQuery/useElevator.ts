@@ -1,14 +1,12 @@
-import {useCallback} from 'react';
 import {useQuery, UseQueryOptions} from 'react-query';
 import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
-import * as _ from 'lodash';
 import {queryKeys} from 'reactQuery/constants';
 import {useNavigate} from 'react-router-dom';
-import {Elevator, ElevatorView} from 'models/elevator';
-import {Page, Resource, RestError} from 'models/misc';
+import {Elevator, ElevatorQueryParams, ElevatorView} from 'models/elevator';
+import {Resource, RestError} from 'models/misc';
 import {MaintainerView} from 'models/technician';
-import {usePropertyManager} from './usePropertyManager';
+import {useUser} from './useUserSession';
 
 export const fetchElevator = async (elevatorId: string) => {
   const response = await axiosClient.get<Elevator>(
@@ -65,77 +63,31 @@ export const useElevatorMaintainers = (elevatorId?: string) =>
     },
   );
 
-export const fetchElevators = async (query: string, page: Page, id: string) => {
+export const fetchElevators = async (
+  params: Partial<ElevatorQueryParams>,
+  id: string,
+) => {
   const response = await axiosClient.get<Resource<ElevatorView>>(
     `/api/propertyOwners/${id}/elevators`,
     {
-      params: {query, ...page},
+      params,
       paramsSerializer,
     },
   );
   return response.data;
 };
 
-const filterByStatus = (elevatorRes: Resource<ElevatorView>, status: string) =>
-  _.groupBy(elevatorRes.data, (ivoice) => ivoice.status)[
-    status
-  ] as ElevatorView[];
-
-const filterByNextVisit = (
-  elevatorRes: Resource<ElevatorView>,
-  upcommingVisit: {start: Date; end: Date},
-) => {
-  let filteredResult = [] as ElevatorView[];
-
-  filteredResult = elevatorRes.data.filter(
-    (item) =>
-      'nextVisitDate' in item &&
-      new Date(item.nextVisitDate) > upcommingVisit.start &&
-      new Date(item.nextVisitDate) <= upcommingVisit.end,
-  );
-  return filteredResult;
-};
-
-const filterElevators = (
-  elevatorsRes: Resource<ElevatorView>,
-  filters: {status: string; upcommingVisit: {start: Date; end: Date} | null},
-) => {
-  let result = {...elevatorsRes};
-
-  if (filters.status.length) {
-    const status = filterByStatus(result, filters.status);
-    result = {...result, data: status, total: status.length};
-  }
-  if (filters.upcommingVisit) {
-    const nextVisits = filterByNextVisit(result, filters.upcommingVisit);
-    result = {...result, data: nextVisits, total: nextVisits.length};
-  }
-  return result;
-};
-
 export function useAllElevators(
-  query: string,
-  page: Page,
-  // TODO: Create interface for filters
-  filters?: {status: string; upcommingVisit: {start: Date; end: Date} | null},
+  params: Partial<ElevatorQueryParams>,
   options?: UseQueryOptions<any, any, any>,
 ) {
-  const {data: user} = usePropertyManager();
+  const {data: user} = useUser();
   return useQuery<Resource<ElevatorView>, RestError>(
-    [queryKeys.fetchAllElevators, query, page, user?.propertyOwner.id],
-    () => fetchElevators(query, page, user!.propertyOwner.id),
+    [queryKeys.fetchAllElevators, params, user?.userData.propertyOwner.id],
+    () => fetchElevators(params, user!.userData.propertyOwner.id),
     {
       ...options,
       enabled: !!user,
-      select: useCallback(
-        (elevatorRes: Resource<ElevatorView>) => {
-          let filteredResult = elevatorRes;
-          if (filters) filteredResult = filterElevators(elevatorRes, filters);
-
-          return filteredResult;
-        },
-        [filters],
-      ),
     },
   );
 }

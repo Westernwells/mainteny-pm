@@ -1,8 +1,8 @@
 import {Box} from '@mui/system';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
-import DesktopTimePicker from '@mui/lab/DesktopTimePicker';
+import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {DatePicker as MuiDatePicker} from '@mui/x-date-pickers/DatePicker';
+import {TimePicker as MuiTimePicker} from '@mui/x-date-pickers/TimePicker';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
@@ -28,7 +28,7 @@ export const LogIssueDateTime = ({setDate, setTime, time, date}: Props) => {
       <Box display="flex">
         <Box sx={{mr: 1}}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DesktopDatePicker
+            <MuiDatePicker
               label="Date"
               value={date}
               minDate={new Date()}
@@ -40,7 +40,7 @@ export const LogIssueDateTime = ({setDate, setTime, time, date}: Props) => {
           </LocalizationProvider>
         </Box>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DesktopTimePicker
+          <MuiTimePicker
             label="Time"
             value={time}
             onChange={(newValue: Date | null) => {

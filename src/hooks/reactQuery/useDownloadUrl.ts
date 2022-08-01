@@ -2,7 +2,7 @@ import {useQuery} from 'react-query';
 import {useCallback} from 'react';
 import {queryKeys as qk} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
-import {usePropertyManager} from './usePropertyManager';
+import {useUserSession} from './useUserSession';
 
 export const fetchDownloadUrl = async (
   filePath: string[],
@@ -23,8 +23,8 @@ export const useDownloadUrl = (
   filePath: string[],
   options?: {[key: string]: any},
 ) => {
-  const {data: propertyManager} = usePropertyManager();
-  const serviceCompanyId = propertyManager?.userAccount.serviceCompany.id;
+  const {user} = useUserSession();
+  const serviceCompanyId = user?.userAccount.serviceCompany.id;
   return useQuery(
     [qk.downloadUrl, filePath, serviceCompanyId],
     () => fetchDownloadUrl(filePath, serviceCompanyId!),

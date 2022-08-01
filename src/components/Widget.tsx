@@ -1,113 +1,101 @@
-import {ReactNode} from 'react';
+import {ReactNode, RefObject} from 'react';
+import {useTranslation} from 'react-i18next';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import useTheme from '@mui/material/styles/useTheme';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import GridViewIcon from '@mui/icons-material/GridView';
-import Button from '@mui/material/Button';
-import {Searchnput} from './SearchInput';
+import AddIcon from '@mui/icons-material/Add';
+import {MenuBtnProps} from 'models/misc';
+import {SearchInput} from './SearchInput';
+import {MenuBtn} from './MenuBtn';
+import {Button} from './Button';
 
 interface Props {
   searchPlaceholder?: string;
-  openMapView?: () => void;
-  closeMapView?: () => void;
-  mapViewActive?: boolean;
-  showFilter: boolean;
-  setShowFilter: (state: boolean) => void;
-  hideViewOption?: boolean;
-  hideFilter?: boolean;
+  hideSearchInput?: boolean;
   getSearchValue?: (val: string) => void;
-  toggleIcon?: ReactNode;
+  showActionBtn?: boolean;
+  showMenuActionBtn?: Boolean;
+  btnLabel?: string;
+  btnOnClick?: () => void;
+  containerStyles?: {[key: string]: string | number};
+  menu?: MenuBtnProps[];
+  filterItems?: ReactNode;
+  refInput?: RefObject<HTMLInputElement>;
 }
 
 export const Widget = ({
   searchPlaceholder,
-  openMapView,
-  closeMapView,
-  mapViewActive,
-  showFilter,
-  setShowFilter,
+  showActionBtn = false,
+  hideSearchInput = false,
+  btnLabel = '',
   getSearchValue,
-  hideViewOption = false,
-  hideFilter = false,
-  toggleIcon,
+  btnOnClick,
+  containerStyles,
+  showMenuActionBtn,
+  menu,
+  filterItems,
+  refInput,
 }: Props) => {
-  const theme = useTheme();
-
+  const {t} = useTranslation();
   return (
-    <Box>
-      <Box display="flex">
-        {!hideFilter ? (
-          <Box display="flex" mr={3}>
-            <Button
-              onClick={() => setShowFilter(!showFilter)}
-              disableRipple
-              size={theme.breakpoints.down('md') ? 'small' : 'large'}
-              sx={{
-                backgroundColor: showFilter
-                  ? theme.palette.action.selected
-                  : theme.palette.primary.outlinedHoverBg,
-                border: 'none',
-                py: 1,
-                height: 48,
-                ':hover': {
-                  border: 'none',
-                },
-              }}
-              variant="outlined"
-              startIcon={<FilterListIcon />}>
-              <Typography variant="body1" sx={{textTransform: 'capitalize'}}>
-                Filter
-              </Typography>
-            </Button>
-          </Box>
-        ) : null}
-
-        <Box mr={!hideViewOption ? 3 : 0}>
-          <Searchnput
-            placeholder={searchPlaceholder}
+    <Box
+      display="flex"
+      sx={{height: '2.5rem', flexGrow: 1, ...containerStyles}}>
+      {!hideSearchInput ? (
+        <Box sx={{mr: '1em'}}>
+          <SearchInput
+            containerStyle={{height: '100%'}}
+            placeholder={searchPlaceholder && t(searchPlaceholder)}
             onValueChanged={(value: string) =>
               getSearchValue && getSearchValue(value)
             }
+            refInput={refInput}
           />
         </Box>
-        {!hideViewOption ? (
-          <ButtonGroup variant="outlined" size="small" sx={{height: 48}}>
-            <Button
-              disableRipple
-              variant="outlined"
-              onClick={() => (closeMapView ? closeMapView() : () => {})}
-              sx={{
-                background: !mapViewActive
-                  ? theme.palette.action.selected
-                  : '#fff',
-                '&:hover': {
-                  background: !mapViewActive
-                    ? theme.palette.action.selected
-                    : '#fff',
-                },
-              }}>
-              <FormatListBulletedIcon />
-            </Button>
-            <Button
-              disableRipple
-              onClick={() => (openMapView ? openMapView() : () => {})}
-              sx={{
-                background: mapViewActive
-                  ? theme.palette.action.selected
-                  : '#fff',
-                '&:hover': {
-                  background: mapViewActive
-                    ? theme.palette.action.selected
-                    : '#fff',
-                },
-              }}
-              variant="outlined">
-              {toggleIcon || <GridViewIcon />}
-            </Button>
-          </ButtonGroup>
+      ) : null}
+      {filterItems || null}
+
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          flexGrow: 1,
+        }}>
+        {showActionBtn ? (
+          <Button
+            // label="Filter"
+            buttonProps={{
+              onClick: () => (btnOnClick ? btnOnClick() : () => {}),
+              sx: {
+                textTransform: 'capitalize',
+                ml: '0.8em',
+              },
+              variant: 'contained',
+              color: 'primary',
+              size: 'small',
+              startIcon: <AddIcon />,
+            }}>
+            <Typography variant="body1" sx={{textTransform: 'capitalize'}}>
+              {t(btnLabel)}
+            </Typography>
+          </Button>
+        ) : null}
+
+        {showMenuActionBtn && menu ? (
+          <MenuBtn
+            startIcon={<AddIcon />}
+            label={t(btnLabel)}
+            menu={menu}
+            size="large"
+            color="primary"
+            sx={{
+              textTransform: 'capitalize',
+              ml: '0.8em',
+              py: '0.7em',
+            }}
+            variant="contained"
+            disableRipple
+            disableFocusRipple
+          />
         ) : null}
       </Box>
     </Box>

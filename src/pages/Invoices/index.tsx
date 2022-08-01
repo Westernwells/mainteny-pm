@@ -25,7 +25,7 @@ export const Invoices = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, pageSize));
   const [queryParams, setQueryParams] = useSearchParams();
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter] = useState(false);
   const [amount, setAmount] = useState<number[][]>([]);
   const [status, setStatus] = useState<string[]>([]);
   const [pageCount, setPageCount] = useState(0);
@@ -125,14 +125,11 @@ export const Invoices = () => {
           getSearchValue={(val: string) => {
             setSearch(val);
           }}
-          setShowFilter={setShowFilter}
-          showFilter={showFilter}
-          hideViewOption
         />
       }>
       <Fade in={showFilter} unmountOnExit>
         <Box>
-          <FilterFields setShowFilter={setShowFilter}>
+          <FilterFields>
             <MultipleSelectCheckmarks
               label="Total Amount"
               options={[
