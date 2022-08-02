@@ -15,7 +15,6 @@ import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {formatDate, getDateObject} from 'utils/datetime';
 import {formatCurrency} from 'utils/currency';
 import {InvoiceStatus, InvoiceStatusView} from 'models/invoice';
-import {HistoryCard} from 'pages/UnitDetails/Tabs/ServiceHistoryTab/HistoryCard';
 // import {PdfGenerationStatus} from 'models/misc';
 import {InvoiceCard} from './InvoiceCard';
 import {Invoice} from './Invoice';
@@ -136,34 +135,7 @@ export const InvoiceDetails = () => {
           <InvoiceCard
             header={<Typography variant="subtitle1">Related To</Typography>}
             headerContainerStyle={{pb: '0.5em'}}>
-            <RelatedTo>
-              <HistoryCard
-                serviceOrder={invoice?.serviceOrder}
-                headerTitle={formatDate(
-                  // invoice?.serviceOrder.schedules[0].startTime,
-                  '2022-04-26T15:01:00',
-                )}
-                subtitle={`${formatDate(
-                  //  invoice?.serviceOrder.schedules[0].startTime,
-                  '2022-04-26T15:01:00',
-                  'ha',
-                )} - ${formatDate(
-                  // invoice?.serviceOrder.schedules[0].endTime,
-                  '2022-04-26T16:00:00',
-                  'ha',
-                )}`}
-                description={
-                  // invoice?.serviceOrder.description
-                  'Regular Maintenance'
-                }
-                containerStyles={{borderRadius: 0}}
-                showPointer
-                removeShadows
-                bodyContainerStyle={{
-                  borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                }}
-              />
-            </RelatedTo>
+            <RelatedTo>{null}</RelatedTo>
           </InvoiceCard>
 
           <InvoiceCard
