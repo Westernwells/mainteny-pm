@@ -113,15 +113,10 @@ export const InvoiceDetails = () => {
                         ? InvoiceStatusView.PAID
                         : InvoiceStatusView.NOT_PAID
                     }
-                    textColor={
+                    color={
                       invoice?.status === InvoiceStatus.PAID
-                        ? theme.palette.success.main
-                        : theme.palette.warning.main
-                    }
-                    bgColor={
-                      invoice?.status === InvoiceStatus.PAID
-                        ? theme.palette.success.outlinedHoverBg
-                        : theme.palette.warning.outlinedHoverBg
+                        ? 'success'
+                        : 'warning'
                     }
                   />
                 </Box>

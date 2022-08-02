@@ -64,10 +64,10 @@ export const InvoiceRow = ({invoice}: InvoiceRowProps) => {
           <Box display="flex" justifyContent="center">
             <StatusChip
               label={InvoiceStatusView[invoice.status]}
-              bgColor={
+              color={
                 invoice.status === InvoiceStatus.PAID
-                  ? theme.palette.success.main
-                  : theme.state?.ratingActive
+                  ? 'success'
+                  : 'action.active'
               }
             />
           </Box>

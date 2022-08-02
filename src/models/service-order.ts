@@ -19,6 +19,7 @@ export enum ServiceOrderStatus {
   COMPLETED = 'COMPLETED',
   CANCELLED = 'CANCELLED',
   EXPIRED = 'EXPIRED',
+  DONE = 'DONE',
 }
 
 export enum ServiceOrderType {

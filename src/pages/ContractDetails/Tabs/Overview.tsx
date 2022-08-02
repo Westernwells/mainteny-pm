@@ -6,6 +6,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import Alert from '@mui/material/Alert';
 import useTheme from '@mui/material/styles/useTheme';
 import {differenceInDays, isBefore} from 'date-fns';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {ContractCard} from '../ContractCard';
 import {StatusChip} from '../../../components/StatusChip';
 import {ContractBasic} from '../ContractBasic';
@@ -21,6 +22,7 @@ interface Props {
 
 export const Overview = ({contract}: Props) => {
   const theme = useTheme();
+  const {user} = useUserSession();
   const totalContractDays = differenceInDays(
     toDate(contract?.endTime),
     toDate(contract?.startTime),
@@ -47,12 +49,7 @@ export const Overview = ({contract}: Props) => {
           header={
             <Box display="flex" justifyContent="space-between">
               <Typography variant="subtitle1">#{contract.number}</Typography>
-              <StatusChip
-                color="success"
-                label="Running"
-                textColor={theme.palette.success.main}
-                bgColor={theme.palette.success.outlinedHoverBg}
-              />
+              <StatusChip color="success" label="Running" />
             </Box>
           }>
           <ContractBasic contract={contract} />
@@ -127,25 +124,26 @@ export const Overview = ({contract}: Props) => {
             </Box>
           }>
           <ContractParties
-            companyName=""
-            personName={contract?.serviceCompany.name}
-            email=""
-            partyRole="Service Company"
-            partyType="Contractor"
-            chipColor="info"
-            chipTextColor={theme.palette.info.main}
-            chipBgColor={theme.palette.info.outlinedHoverBg}
+            name={user?.userAccount.serviceCompany.name}
+            occupation="Service Company"
+            address={user?.userAccount.serviceCompany.postalAddress?.fullName}
+            phoneNumber={user?.userAccount.serviceCompany.contact.phone}
+            partyType="CONTRACTOR"
+            chipStyles={{
+              chipMaxChars: 15,
+              chipColor: 'warning',
+            }}
           />
+
           <ContractParties
-            companyName=""
-            personName={contract?.propertyOwner.name}
-            email={contract?.propertyOwner.contact.email}
-            partyRole="Property Manager"
-            partyType="Customer"
-            chipColor="info"
-            chipTextColor={theme.palette.info.main}
-            chipBgColor={theme.palette.info.outlinedHoverBg}
-            containerStyle={{mt: '3em'}}
+            name={contract?.propertyOwner.name}
+            occupation="Property Owner"
+            address={contract?.propertyOwner.postalAddress.fullName}
+            phoneNumber={contract?.propertyOwner.contact.phone}
+            partyType="CUSTOMER"
+            chipStyles={{
+              chipColor: 'primary',
+            }}
           />
         </ContractCard>
       </Grid>

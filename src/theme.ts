@@ -15,6 +15,8 @@ export const theme = createTheme({
       dark: '#00A0CC',
       contrastText: '#FFFFFF',
       outlinedHoverBg: 'rgba(0, 209, 255, 0.08)',
+      containedHoverBackground:
+        'linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), #00D1FF',
     },
     text: {
       primary: '#222B45',
@@ -29,7 +31,6 @@ export const theme = createTheme({
       disabledBackground: 'rgba(34, 43, 69, 0.12)',
       focus: 'rgba(34, 43, 69, 0.12)',
     },
-
     error: {
       light: '#FF605A',
       main: '#FF182F',
@@ -46,7 +47,7 @@ export const theme = createTheme({
       contrastText: '#FFFFFF',
     },
     warning: {
-      light: '#FFB547',
+      light: '#FFB400',
       main: '#ED6C02',
       dark: '#C77700',
       contrastText: '#FFFFFF',
@@ -63,7 +64,10 @@ export const theme = createTheme({
       default: '#F2F6F8',
     },
     inputBackground: {main: '#F7F9FC'},
+    divider: '#F3F5F6',
     amber: {main: '#FF8F00', light: '#FFF8E1'},
+    eden: {main: 'rgba(15, 76, 100)', light: 'rgba(15, 76, 100, 0.5)'},
+    suvaGrey: {main: 'rgba(144, 144, 144))', light: 'rgba(144, 144, 144, 0.2)'},
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
     contrastThreshold: 3,
@@ -110,10 +114,6 @@ export const theme = createTheme({
       fontSize: '1rem',
       lineHeight: 1.6,
       letterSpacing: '0.15px',
-      // [breakpoints.down("xs")]: {
-      //   fontSize: "3rem",
-      //   color: 'red'
-      // }
     },
     subtitle1: {
       fontWeight: 600,
@@ -155,9 +155,16 @@ export const theme = createTheme({
   state: {
     hover: 'rgba(15, 76, 100, 0.08)',
     ratingActive: '#FFB400',
+    scheduleWarningColor: '#FFB547',
+    aubergine: '#231F20',
   },
   components: {
     MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'capitalize',
+        },
+      },
       variants: [
         {
           props: {size: 'large'},
@@ -210,6 +217,16 @@ export const theme = createTheme({
           fontSize: '0.75rem',
           lineHeight: 2,
           letterSpacing: '0.15px',
+
+          '& .MuiInputLabel-asterisk': {
+            color: 'red',
+          },
+        },
+        shrink: {
+          transform: 'translate(14px, -11px) scale(1) !important',
+        },
+        outlined: {
+          transform: 'translate(14px, 10px) scale(1)',
         },
       },
     },
@@ -256,7 +273,6 @@ export const theme = createTheme({
         root: {
           '&.Mui-selected': {
             background: '#457892',
-            borderLeft: '8px solid #222B45',
             boxSizing: 'border-box',
           },
         },
@@ -282,6 +298,7 @@ export const theme = createTheme({
             letterSpacing: '0.15px',
           },
         },
+
         {
           props: {variant: 'mediumBtnText'},
           style: {
@@ -316,7 +333,7 @@ export const theme = createTheme({
         {
           props: {variant: 'tableHeaderText'},
           style: {
-            fontFamily: 'Roboto',
+            fontFamily: 'Open Sans',
             fontWeight: 500,
             fontSize: '0.875rem',
             lineHeight: 1.7,
@@ -326,7 +343,7 @@ export const theme = createTheme({
         {
           props: {variant: 'alertTitleText'},
           style: {
-            fontFamily: 'Roboto',
+            fontFamily: 'Open Sans',
             fontWeight: 500,
             fontSize: '1rem',
             lineHeight: 1.5,
@@ -336,7 +353,7 @@ export const theme = createTheme({
         {
           props: {variant: 'helperText'},
           style: {
-            fontFamily: 'Roboto',
+            fontFamily: 'Open Sans',
             fontWeight: 400,
             fontSize: '0.75rem',
             lineHeight: 1.66,
@@ -352,7 +369,33 @@ export const theme = createTheme({
             letterSpacing: '0.16px',
           },
         },
+        {
+          props: {variant: 'inputLabel'},
+          style: {
+            fontWeight: 400,
+            fontSize: '0.75rem',
+            lineHeight: 0.75,
+            letterSpacing: '0.15px',
+          },
+        },
+        {
+          props: {variant: 'tooltip'},
+          style: {
+            fontWeight: 500,
+            fontSize: '0.625rem',
+            lineHeight: 0.875,
+          },
+        },
       ],
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            color: '#222B45',
+          },
+        },
+      },
     },
   },
 });

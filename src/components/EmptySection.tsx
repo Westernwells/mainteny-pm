@@ -1,9 +1,13 @@
-import Typography from '@mui/material/Typography';
+import Typography, {TypographyProps} from '@mui/material/Typography';
+import {useTranslation} from 'react-i18next';
 import Box, {BoxProps} from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import {ReactComponent as LaptopIllustration} from 'assets/illustrations/Laptop.svg';
 import {ReactComponent as ClipboardIllustration} from 'assets/illustrations/Clipboard.svg';
-import HideImageIcon from '@mui/icons-material/HideImage';
+import {ReactComponent as AttachmentIllustration} from 'assets/illustrations/Attachment.svg';
+import {ReactComponent as QRCodeIllustration} from 'assets/illustrations/QR.svg';
+import {ReactComponent as StockIllustration} from 'assets/illustrations/Stock.svg';
+import {ReactComponent as SupplierIllustration} from 'assets/illustrations/Supplier.svg';
+import {Button} from './Button';
 
 interface Props extends BoxProps {
   label: string;
@@ -11,10 +15,18 @@ interface Props extends BoxProps {
   containerStyle?: {[key: string]: string | number};
   labelStyle?: {[key: string]: string | number};
   labelVariant?: any;
-  illustration?: string;
+  illustration?:
+    | 'attachment'
+    | 'clipboard'
+    | 'laptop'
+    | 'qrcode'
+    | 'stock'
+    | 'supplier';
   showActionBtn?: boolean;
   btnLabel?: string;
   btnAction?: () => void;
+  subLabel?: string;
+  subLabelProps?: TypographyProps;
 }
 
 export const EmptySection = ({
@@ -27,7 +39,10 @@ export const EmptySection = ({
   btnLabel = '',
   showActionBtn = false,
   btnAction,
+  subLabel = '',
+  subLabelProps = {},
 }: Props) => {
+  const {t} = useTranslation();
   const Width = {
     tiny: '56px',
     small: '128px',
@@ -36,21 +51,25 @@ export const EmptySection = ({
   };
   const getIllustration = (variant: string) => {
     switch (variant) {
+      case 'attachment':
+        return (
+          <AttachmentIllustration style={{width: '100%', height: '100%'}} />
+        );
       case 'clipboard':
         return (
           <ClipboardIllustration style={{width: '100%', height: '100%'}} />
         );
-      case 'no-image':
-        return (
-          <HideImageIcon
-            style={{width: '100%', height: '100%'}}
-            color="disabled"
-          />
-        );
+      case 'qrcode':
+        return <QRCodeIllustration style={{width: '100%', height: '100%'}} />;
+      case 'stock':
+        return <StockIllustration style={{width: '100%', height: '100%'}} />;
+      case 'supplier':
+        return <SupplierIllustration style={{width: '100%', height: '100%'}} />;
       default:
         return <LaptopIllustration style={{width: '100%', height: '100%'}} />;
     }
   };
+
   return (
     <Box
       display="flex"
@@ -65,14 +84,22 @@ export const EmptySection = ({
         variant={labelVariant || 'subtitle2'}
         textAlign="center"
         sx={{...labelStyle}}>
-        {label}
+        {t(label)}
       </Typography>
+      {subLabel && (
+        <Typography variant="body2" textAlign="center" {...subLabelProps}>
+          {t(subLabel)}
+        </Typography>
+      )}
       {showActionBtn ? (
         <Button
-          sx={{textTransform: 'capitalize'}}
-          variant="contained"
-          onClick={btnAction}>
-          {btnLabel}
+          label="Create Service Order"
+          buttonProps={{
+            onClick: btnAction,
+            variant: 'contained',
+            size: 'medium',
+          }}>
+          {t(btnLabel)}
         </Button>
       ) : null}
     </Box>

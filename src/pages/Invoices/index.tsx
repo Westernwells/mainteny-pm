@@ -5,7 +5,7 @@ import {GridRowsProp} from '@mui/x-data-grid';
 import {FilterFields} from 'components/FilterFields';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {DataGridLayout} from 'components/DataGridLayout';
-import {PageOverviewLayout} from 'components/PageOverviewLayout';
+import {PageListingLayout} from 'components/PageListingLayout';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {useInvoices} from 'hooks/reactQuery/useInvoice';
 import {Widget} from 'components/Widget';
@@ -117,8 +117,7 @@ export const Invoices = () => {
   }
 
   return (
-    <PageOverviewLayout
-      label="Invoices"
+    <PageListingLayout
       renderWidget={
         <Widget
           searchPlaceholder="Search invoice number, service company, invoice date, status etc."
@@ -176,6 +175,6 @@ export const Invoices = () => {
         pageCount={pageCount}
         totalRows={invoiceResource?.total}
       />
-    </PageOverviewLayout>
+    </PageListingLayout>
   );
 };
