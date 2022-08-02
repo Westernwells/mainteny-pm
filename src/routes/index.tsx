@@ -7,7 +7,6 @@ import {Invoices} from 'pages/Invoices';
 import {InvoiceDetails} from 'pages/InvoiceDetails';
 import {Notifications} from 'pages/Notifications';
 import {MySettings} from 'pages/MySettings';
-import {UnitsDetail} from 'pages/UnitDetails';
 import {ContractDetails} from 'pages/ContractDetails';
 import {MyUnits} from 'pages/Units';
 import {NotFound} from 'pages/NotFound';
@@ -60,9 +59,7 @@ export const Router = () => {
               <Helmet>
                 <title>{`Unit Details - ${titleTail}`}</title>
               </Helmet>
-              <PageLayout pageScrollable>
-                <UnitsDetail />
-              </PageLayout>
+              <PageLayout pageScrollable>{null}</PageLayout>
             </>
           }
         />
