@@ -1,114 +1,147 @@
 import Box from '@mui/material/Box';
-import Language from '@mui/icons-material/Language';
+import {useTranslation} from 'react-i18next';
+import LanguageIcon from '@mui/icons-material/Language';
 import Typography from '@mui/material/Typography';
-import Badge from '@mui/material/Badge';
-import AppBar from '@mui/material/AppBar';
-import {Link} from 'react-router-dom';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import Avatar from '@mui/material/Avatar';
 import useTheme from '@mui/material/styles/useTheme';
-import {ReactComponent as LogoutIcon} from 'assets/icons/Logout.svg';
-import {ReactComponent as Logo} from 'assets/icons/Logo.svg';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import i18n from 'i18n';
 import {useAuth} from 'hooks/useAuth';
-import {useUserSession} from 'hooks/reactQuery/useUserSession';
-import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
-import {UserAvatar} from './UserAvatar';
+import {useEffect, useState} from 'react';
+import {axiosClient} from 'utils/axios-utils';
+import {Role} from 'models/user';
+import {convertToText, languageMap} from 'utils/utils';
+// import {useQueryClient} from 'react-query';
+// import {Notifications} from 'pages/Notifications';
+import {Language} from 'models/misc';
+// import {queryKeys} from 'reactQuery/constants';
+import {useUserSession} from '../hooks/reactQuery/useUserSession';
+import {MenuBtn} from './MenuBtn';
+import {BackAction} from './BackAction';
 
-export const AppTopBar = () => {
+interface Props {
+  pageTitle?: string;
+  showBackAction?: boolean;
+  backBtnLabel?: string;
+}
+
+export const AppTopBar = ({
+  pageTitle,
+  showBackAction,
+  backBtnLabel = '',
+}: Props) => {
+  const {t} = useTranslation();
   const theme = useTheme();
+  const [selectedLng, setSelectedLng] = useState('');
   const {signout} = useAuth();
-  const {user} = useUserSession();
-  const {data: downloadUrl} = useDownloadUrl(
-    user?.userAccount.photoUrl ? [user?.userAccount.photoUrl] : [],
+  const {user, updateUser} = useUserSession();
+  // const queryClient = useQueryClient();
+  const fullName = `${user?.userAccount.firstName} ${user?.userAccount.lastName}`;
+
+  useEffect(() => {
+    if (user) {
+      const {language} = user.userAccount.serviceCompany;
+      axiosClient.defaults.headers.common.language = language;
+      i18n.changeLanguage(language);
+      setSelectedLng(language.split('-')[0].toUpperCase());
+      // queryClient.invalidateQueries(queryKeys.serviceOrderActivity);
+    }
+  }, [user]);
+
+  const changeLanguage = (lang: string) => {
+    updateUser({
+      ...user!,
+      userAccount: {
+        ...user!.userAccount,
+        serviceCompany: {
+          ...user!.userAccount.serviceCompany,
+          language: languageMap[lang] as Language,
+        },
+      },
+    });
+  };
+
+  const profileBtnLabel = () => (
+    <Box ml={2}>
+      <Typography
+        color="#222B45"
+        variant="subtitle1"
+        gutterBottom={false}
+        sx={{textTransform: 'capitalize'}}>
+        {fullName}
+      </Typography>
+      <Typography
+        variant="subtitle2"
+        sx={{
+          textTransform: 'capitalize',
+          fontSize: '0.875rem',
+          padding: 0,
+          color: theme.palette.text.secondary,
+        }}>
+        {user
+          ? convertToText(
+              user.userAccount.roles.includes(Role.SERVICE_MANAGER)
+                ? Role.SERVICE_MANAGER
+                : user.userAccount.roles[0],
+            )
+          : '-'}
+      </Typography>
+    </Box>
   );
+
   return (
-    <AppBar
+    <Box
       sx={{
-        backgroundColor: '#fff',
-        zIndex: theme.zIndex.drawer + 1,
-        boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
-        paddingRight: '2.5rem',
-        paddingLeft: '3rem',
+        display: 'flex',
       }}>
-      <Box display="flex" justifyContent="space-between" pt={2} pb={1}>
-        <Link to="/">
-          <Logo width={155.22} height={32} />
-        </Link>
-
-        <Box justifyContent="flex-end">
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center">
-            <Box display="flex" mt={1} alignItems="center">
-              <Language sx={{color: '#231F20'}} />
-              <Typography
-                variant="body2"
-                color="#8F9BB3"
-                fontSize={12}
-                fontWeight={500}
-                letterSpacing={0.14}>
-                ENG
-              </Typography>
-            </Box>
-            <Link to="/notifications">
-              <Badge
-                badgeContent={7}
-                overlap="circular"
-                color="error"
-                sx={{
-                  marginLeft: 4,
-                  marginTop: 1,
-                  color: '#FF4B55',
-                  cursor: 'pointer',
-                }}>
-                <NotificationsNoneIcon color="primary" />
-              </Badge>
-            </Link>
-
-            <Link to="/settings" style={{textDecoration: 'none'}}>
-              <Box ml={8} display="flex" alignItems="center">
-                <UserAvatar
-                  alt={
-                    user?.userAccount
-                      ? `${user?.userAccount.firstName} ${user?.userAccount.lastName}`
-                      : '-'
-                  }
-                  src={downloadUrl ? downloadUrl[0] : null}
-                />
-                <Box ml={2}>
-                  <Typography
-                    color="#222B45"
-                    variant="subtitle1"
-                    gutterBottom={false}
-                    sx={{textTransform: 'capitalize'}}>
-                    {user?.userAccount.firstName} {user?.userAccount.lastName}
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      textTransform: 'capitalize',
-                      fontSize: '0.875rem',
-                      padding: 0,
-                      color: theme.palette.text.secondary,
-                    }}>
-                    {user?.userAccount.roles[0]
-                      .split('_')
-                      .join(' ')
-                      .toLowerCase()}
-                  </Typography>
-                </Box>
-              </Box>
-            </Link>
-
-            <Box sx={{marginLeft: 6}}>
-              <LogoutIcon
-                style={{cursor: 'pointer'}}
-                onClick={() => signout()}
-              />
-            </Box>
+      <Box width="4.5rem" />
+      <Box sx={{display: 'flex', justifyContent: 'space-between', flexGrow: 1}}>
+        {showBackAction ? (
+          <BackAction label={backBtnLabel} containerStyle={{mt: '1em'}} />
+        ) : null}
+        <Typography
+          variant="h4"
+          component="div"
+          sx={{display: 'flex', alignItems: 'center', mt: '0.2em'}}>
+          {pageTitle || null}
+        </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Box display="flex" mt={1} alignItems="center">
+            <MenuBtn
+              startIcon={<LanguageIcon sx={{color: '#231F20'}} />}
+              label={selectedLng}
+              menu={[
+                {
+                  label: 'English',
+                  action: () => changeLanguage('en-US'),
+                },
+                {
+                  label: 'Deutsch',
+                  action: () => changeLanguage('de-DE'),
+                },
+              ]}
+            />
+          </Box>
+          {/* <Notifications /> */}
+          <Box ml={2} display="flex" alignItems="center">
+            <Avatar alt={fullName} src={user?.userAccount.photoUrl} />
+            <MenuBtn
+              endIcon={
+                <ArrowDropDownIcon sx={{color: theme.palette.action.active}} />
+              }
+              label={profileBtnLabel()}
+              menu={[
+                {
+                  label: t('Logout'),
+                  action: () => {
+                    signout();
+                  },
+                },
+              ]}
+            />
           </Box>
         </Box>
       </Box>
-    </AppBar>
+    </Box>
   );
 };

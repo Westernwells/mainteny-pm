@@ -253,7 +253,6 @@ export const ServiceHistoryTab = () => {
                   ) : (
                     <EmptySection
                       label="No image attachments are added to the work report!"
-                      illustration="no-image"
                       size="tiny"
                     />
                   )

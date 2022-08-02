@@ -47,7 +47,7 @@ export const Router = () => {
               <Helmet>
                 <title>{`Units - ${titleTail}`}</title>
               </Helmet>
-              <PageLayout>
+              <PageLayout pageTitle="Units">
                 <MyUnits />
               </PageLayout>
             </>

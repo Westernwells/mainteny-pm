@@ -9,7 +9,6 @@ import {useQueryContract} from 'hooks/reactQuery/useContract';
 import {ContractOrderField, ContractView} from 'models/contract';
 import {Order} from 'models/misc';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
-import {PageOverviewLayout} from 'components/PageOverviewLayout';
 import {Widget} from 'components/Widget';
 import {
   convertToMacro,
@@ -21,6 +20,7 @@ import {useSearchParams} from 'react-router-dom';
 import {EmptySection} from 'components/EmptySection';
 import {Progress} from 'components/Progress';
 import {costRangeConvertor as crConverter} from 'utils/contract-utils';
+import {PageListingLayout} from 'components/PageListingLayout';
 import {columns, makeRows} from './ContractsDataGridProps';
 import {upcommingDates} from './Date';
 
@@ -139,8 +139,7 @@ export const Contracts = () => {
   }
 
   return (
-    <PageOverviewLayout
-      label="Contracts"
+    <PageListingLayout
       renderWidget={
         <Widget
           searchPlaceholder="Search contractor number, contractor, expiry date etc."
@@ -200,6 +199,6 @@ export const Contracts = () => {
         pageCount={pageCount}
         totalRows={contractResource.total}
       />
-    </PageOverviewLayout>
+    </PageListingLayout>
   );
 };

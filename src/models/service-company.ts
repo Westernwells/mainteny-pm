@@ -1,6 +1,7 @@
 import {ContractStatus, ContractType} from './contract';
 import {ElevatorView} from './elevator';
 import {
+  Address,
   CompanyContact,
   Language,
   Meta,
@@ -48,6 +49,8 @@ export interface ServiceCompany {
   language: Language;
   meta: Meta;
   settings: Settings;
+  postalAddress?: Address;
+  businessAddress?: Address;
 }
 
 export interface ServiceCompanyActivity<T> {

@@ -1,5 +1,5 @@
 import React from 'react';
-/* eslint-disable no-unused-vars */
+
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     largeBtnText: React.CSSProperties;
@@ -9,6 +9,8 @@ declare module '@mui/material/styles' {
     alertTitleText: React.CSSProperties;
     helperText: React.CSSProperties;
     chip: React.CSSProperties;
+    inputLabel: React.CSSProperties;
+    tooltip: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
@@ -20,10 +22,13 @@ declare module '@mui/material/styles' {
     alertTitleText?: React.CSSProperties;
     helperText?: React.CSSProperties;
     chip?: React.CSSProperties;
+    inputLabel?: React.CSSProperties;
+    tooltip?: React.CSSProperties;
   }
 
   interface CustomPalleteColor {
     outlinedHoverBg?: string;
+    containedHoverBackground?: string;
     infoAlert?: string;
   }
   interface PaletteColor extends CustomPalleteColor {}
@@ -33,14 +38,18 @@ declare module '@mui/material/styles' {
     danger?: SimplePaletteColorOptions;
     inputBackground: SimplePaletteColorOptions;
     amber: SimplePaletteColorOptions;
+    eden: SimplePaletteColorOptions;
+    suvaGrey: SimplePaletteColorOptions;
   }
   interface Palette extends CustomPalette {}
   interface PaletteOptions extends CustomPalette {}
 
   interface CustomTheme {
-    state?: {
-      hover?: string;
-      ratingActive?: string;
+    state: {
+      hover: string;
+      ratingActive: string;
+      scheduleWarningColor: string;
+      aubergine: string;
     };
   }
 
@@ -57,6 +66,8 @@ declare module '@mui/material/Typography' {
     alertTitleText: true;
     helperText: true;
     chip: true;
+    inputLabel: true;
+    tooltip: true;
   }
 }
 
@@ -65,7 +76,6 @@ declare module '@mui/material/Button' {
     danger: true;
   }
 }
-/* eslint-enable no-unused-vars */
 
 // ButtonPropsVariantOverrides
 

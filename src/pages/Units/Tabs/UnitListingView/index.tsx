@@ -1,102 +1,70 @@
-/* eslint-disable */
-import {useEffect, useRef, useState} from 'react';
-import Box from '@mui/material/Box';
-import {ElevatorStatus, ElevatorView} from 'models/elevator';
-import * as _ from 'lodash';
-import {getCenter} from 'geolib';
-import {Location, Order, Resource} from 'models/misc';
-
+import {useCallback, useEffect, useRef, useState} from 'react';
+import {ElevatorView} from 'models/elevator';
 import {Widget} from 'components/Widget';
-import {DataGridLayout} from 'components/DataGridLayout';
-import {GridRowsProp} from '@mui/x-data-grid';
 import {LogIssue} from 'pages/Units/LogIssue';
-import {useLogIssue} from 'hooks/reactQuery/useServiceOrder';
-import Fade from '@mui/material/Fade';
 import Drawer from '@mui/material/Drawer';
-import {useFormik} from 'formik';
-import * as Yup from 'yup';
+import {useLogIssue} from 'hooks/reactQuery/useServiceOrder';
+import {LogIssueBody} from 'pages/Units/LogIssue/LogIssueBody';
+import {LogIssueDescription} from 'pages/Units/LogIssue/LogIssueDescription';
+import {LogIssueUnitInput} from 'pages/Units/LogIssue/LogIssueUnitInput';
+import {LogIssueTimePreference} from 'pages/Units/LogIssue/LogIssueTimePreference';
+import {LogIssueDateTime} from 'pages/Units/LogIssue/LogIssueDateTime';
+import {GridRowsProp, GridSortModel} from '@mui/x-data-grid';
+import {DataGridLayout} from 'components/DataGridLayout';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
-import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
-import {PageOverviewLayout} from 'components/PageOverviewLayout';
-
 import {FilterFields} from 'components/FilterFields';
 import {Progress} from 'components/Progress';
-import {useSearchParams} from 'react-router-dom';
+import {EmptySection} from 'components/EmptySection';
+import {ServiceOrderOrderField} from 'models/service-order';
+import {DatePicker} from 'components/DatePicker';
+import {Order} from 'models/misc';
+import {useFormatDate} from 'hooks/useFormatDate';
 import {
-  convertToMacro,
-  convertToText,
   formatSearchParamsPageIndex,
   formatSearchParamsPageSize,
 } from 'utils/utils';
 import useTheme from '@mui/material/styles/useTheme';
-import MapIcon from '@mui/icons-material/Map';
-import {EmptySection} from 'components/EmptySection';
-import {useFormatDate} from 'hooks/useFormatDate';
-import {columns, makeRows} from '../UnitsDataGridProps';
-import {LogIssueBody} from '../LogIssue/LogIssueBody';
-import {LogIssueDescription} from '../LogIssue/LogIssueDescription';
-import {LogIssueUnitInput} from '../LogIssue/LogIssueUnitInput';
-import {LogIssueTimePreference} from '../LogIssue/LogIssueTimePreference';
-import {LogIssueDateTime} from '../LogIssue/LogIssueDateTime';
-import {DataGridElevatorView, ElevatorByAddr} from '../Models';
-import {upcommingDates} from '../Date';
-import {ServiceOrderOrderField} from 'models/service-order';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 import {FlexContainer} from 'components/FlexContainer';
+import Box from '@mui/material/Box';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import {columns, makeRows} from './UnitsDataGridProps';
 
-const pageSize = 15;
+const pageInfo = makePage(0, 50);
+
+const validationSchema = Yup.object().shape({
+  description: Yup.string().required('description is required'),
+});
+
 interface FormikFields {
   description: string;
   elevator?: ElevatorView;
   moreInformation: string;
 }
 
-interface UpcommingVisit {
-  start: Date;
-  end: Date;
-}
-
-const validationSchema = Yup.object().shape({
-  description: Yup.string().required('description is required'),
-});
-
 export const UnitListingView = () => {
-  const fallback = useRef({
-    elevatorByAddress: {} as ElevatorByAddr,
-    centerCoord: {longitude: 0, latitude: 0},
-  }).current;
-
-  const [search, setSearch] = useState('');
+  const theme = useTheme();
+  const navigate = useNavigate();
   const formatDate = useFormatDate();
-  const [page, setPage] = useState(makePage(0, pageSize));
   const [queryParams, setQueryParams] = useSearchParams();
-  const totalUnitsRef = useRef(0);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [lastVisitStart, setLastVisitStart] = useState<Date | null>(null);
   const [lastVisitEnd, setLastVisitEnd] = useState<Date | null>(null);
   const [nextVisitStart, setNextVisitStart] = useState<Date | null>(null);
+  const [logIssueDate, setLogIssueDate] = useState<Date | null>(null);
+  const [logIssueTime, setLogIssueTime] = useState<Date | null>(null);
   const [nextVisitEnd, setNextVisitEnd] = useState<Date | null>(null);
   const [sortOrder, setSortOrder] = useState<Order | undefined>();
   const [orderBy, setOrderBy] = useState<ServiceOrderOrderField | undefined>();
-  const [showFilter, setShowFilter] = useState(false);
-  const [showMapview, setShowMapview] = useState(false);
-  const [logIssueDate, setLogIssueDate] = useState<Date | null>(null);
-  const [logIssueTime, setLogIssueTime] = useState<Date | null>(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(pageInfo);
+  const totalUnitsRef = useRef(0);
   const [pageCount, setPageCount] = useState(0);
   const [rows, setRows] = useState<GridRowsProp>([]);
-  const [status, setStatus] = useState('');
+  const [resetDatePicker, setResetDatePicker] = useState(false);
   const textInput = useRef<HTMLInputElement>(null);
-  const [upcommingVisit, setUpcommingVisit] = useState<UpcommingVisit | null>(
-    null,
-  );
-
-  const theme = useTheme();
-
-  const [elevatorView, setElevatorView] = useState<{
-    elevatorByAddress: ElevatorByAddr;
-    centerCoord: Location;
-  }>(fallback);
-
   const {
     data: elevatorResponse = createEmptyResource<ElevatorView>(10),
     isLoading,
@@ -129,50 +97,55 @@ export const UnitListingView = () => {
 
   totalUnitsRef.current = totalUnitsRef.current || elevatorResponse.total;
 
-  const groupElevatorByAddressList = (elevatorRes?: Resource<ElevatorView>) => {
-    const elevatorMap = _.groupBy(
-      elevatorRes?.data,
-      (elevator: ElevatorView) => elevator.address.fullName,
-    );
-
-    return elevatorMap;
-  };
-
-  const flatenn = (elevators: {[key: string]: ElevatorView[]}) => {
-    let prevAdddressId = '';
-    const flatArray: DataGridElevatorView[] = [];
-    Object.keys(elevators).forEach((key) => {
-      elevators[key].forEach((elevator) => {
-        const {address} = elevator;
-        const showAddress = address.id !== prevAdddressId;
-        flatArray.push({showAddress, ...elevator});
-        prevAdddressId = address.id;
-      });
-    });
-    return flatArray;
-  };
+  useEffect(() => {
+    if (page.pageIndex) {
+      setQueryParams(formatSearchParamsPageIndex(1, queryParams));
+    }
+  }, [search, lastVisitStart, lastVisitEnd, nextVisitStart, nextVisitEnd]);
 
   useEffect(() => {
     if (!isLoading) {
-      const latLng = elevatorResponse?.data.map((elevator: ElevatorView) => ({
-        latitude: elevator.address.location.latitude,
-        longitude: elevator.address.location.longitude,
-      }));
-      const centerCoord = getCenter(latLng) as unknown as Location;
-      const result = groupElevatorByAddressList(elevatorResponse);
-
-      setElevatorView({
-        elevatorByAddress: result,
-        centerCoord,
-      });
+      setRows(makeRows(elevatorResponse.data, formatDate));
     }
-  }, [isLoading, elevatorResponse]);
+  }, [elevatorResponse, isLoading]);
 
   useEffect(() => {
-    if (elevatorResponse && !isLoading) {
+    const currentParams = Object.fromEntries([...queryParams]);
+    if (currentParams.pageSize)
+      setPage({
+        ...page,
+        pageSize: Number(currentParams.pageSize),
+      });
+    if (currentParams.pageIndex)
+      setPage({
+        ...page,
+        pageIndex: Number(currentParams.pageIndex) - 1,
+      });
+  }, [queryParams]);
+
+  useEffect(() => {
+    if (elevatorResponse) {
       setPageCount(Math.ceil(elevatorResponse.total / page.pageSize));
     }
-  }, [elevatorResponse, page, isLoading]);
+  }, [elevatorResponse, page]);
+
+  const handleSortModelChange = useCallback((sortModel: GridSortModel) => {
+    // Here you save the data you need from the sort model
+    setSortOrder(sortModel[0].sort?.toUpperCase() as Order);
+    setOrderBy(sortModel[0].field as ServiceOrderOrderField);
+  }, []);
+
+  const clearFilters = () => {
+    setLastVisitStart(null);
+    setLastVisitEnd(null);
+    setNextVisitStart(null);
+    setNextVisitEnd(null);
+    setResetDatePicker(true);
+    setSearch('');
+    if (textInput.current) {
+      textInput.current.value = '';
+    }
+  };
 
   // TODO: LogIssue to be refactored and improved after VFA
 
@@ -204,55 +177,15 @@ export const UnitListingView = () => {
     validationSchema,
   });
 
-  useEffect(() => {
-    const currentParams = Object.fromEntries([...queryParams]);
-
-    setPage({
-      ...page,
-      pageSize: Number(currentParams.pageSize),
-      pageIndex: Number(currentParams.pageIndex) - 1,
-    });
-  }, [queryParams]);
-
-  useEffect(() => {
-    if (elevatorView.elevatorByAddress) {
-      const flatArr = flatenn(elevatorView.elevatorByAddress);
-      setRows(
-        makeRows({
-          elevators: flatArr,
-          setDrawerOpen,
-          setField: formik.setFieldValue,
-        }),
-      );
-    }
-  }, [elevatorView]);
-
-  useEffect(() => {
-    if (!logIssueTime) setLogIssueDate(null);
-  }, [logIssueTime]);
-
-  useEffect(() => {
-    if (!showFilter) {
-      setStatus('');
-      setUpcommingVisit(null);
-    }
-  }, [showFilter]);
-
-  const renderWidget = () => (
-    <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-      <Widget
-        searchPlaceholder="Search by number, model, customer, address etc."
-        getSearchValue={(val) => setSearch(val)}
-        refInput={textInput}
-        filterItems={null}
-      />
-    </Box>
-  );
-
   if (isFetched && !totalUnitsRef.current) {
     return (
       <EmptySection
-        label="Units will appear here once they are added!"
+        label="No units yet. Please click the button below add."
+        showActionBtn
+        btnLabel="Add Unit"
+        btnAction={() => {
+          navigate('/units/new');
+        }}
         containerStyle={{
           height: '100%',
           mb: '10em',
@@ -260,9 +193,98 @@ export const UnitListingView = () => {
       />
     );
   }
+
+  const renderFilterItems = () => (
+    <FilterFields onClear={() => clearFilters()} wrapperStyle={{width: '90%'}}>
+      <DatePicker
+        defaultDate={lastVisitStart}
+        containerStyles={{mr: '1em'}}
+        reset={resetDatePicker}
+        getReset={(val) => {
+          if (val) {
+            setResetDatePicker(false);
+          }
+        }}
+        maxDate={lastVisitEnd || new Date()}
+        getSelectedDate={(date) => setLastVisitStart(date)}
+        inputLabelProps={{shrink: undefined}}
+        textFieldProps={{
+          label: 'Last Visit Start',
+          sx: {background: '#fff'},
+        }}
+      />
+      <DatePicker
+        defaultDate={lastVisitEnd}
+        maxDate={new Date()}
+        minDate={lastVisitStart || undefined}
+        reset={resetDatePicker}
+        getReset={(val) => {
+          if (val) {
+            setResetDatePicker(false);
+          }
+        }}
+        containerStyles={{mr: '1em'}}
+        getSelectedDate={(date) => setLastVisitEnd(date)}
+        inputLabelProps={{shrink: undefined}}
+        textFieldProps={{
+          label: 'Last Visit End',
+          sx: {background: '#fff'},
+        }}
+      />
+
+      <DatePicker
+        defaultDate={nextVisitStart}
+        minDate={new Date()}
+        maxDate={nextVisitEnd || undefined}
+        reset={resetDatePicker}
+        getReset={(val) => {
+          if (val) {
+            setResetDatePicker(false);
+          }
+        }}
+        containerStyles={{mr: '1em'}}
+        getSelectedDate={(date) => setNextVisitStart(date)}
+        inputLabelProps={{shrink: undefined}}
+        textFieldProps={{
+          label: 'Next Visit Start',
+          sx: {background: '#fff'},
+        }}
+      />
+      <DatePicker
+        defaultDate={nextVisitEnd}
+        minDate={nextVisitStart || new Date()}
+        reset={resetDatePicker}
+        getReset={(val) => {
+          if (val) {
+            setResetDatePicker(false);
+          }
+        }}
+        containerStyles={{mr: '1em'}}
+        getSelectedDate={(date) => setNextVisitEnd(date)}
+        inputLabelProps={{shrink: undefined}}
+        textFieldProps={{
+          label: 'Next Visit End',
+          sx: {background: '#fff'},
+        }}
+      />
+    </FilterFields>
+  );
+
+  const renderWidget = () => (
+    <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+      <Widget
+        searchPlaceholder="Search by number, model, customer, address etc."
+        getSearchValue={(val) => setSearch(val)}
+        refInput={textInput}
+        filterItems={renderFilterItems()}
+      />
+    </Box>
+  );
+
   if (isLoading) {
     return <Progress />;
   }
+
   return (
     <FlexContainer>
       {renderWidget()}
@@ -270,9 +292,11 @@ export const UnitListingView = () => {
         hideFooter={pageCount <= 1}
         rows={rows}
         columns={columns}
+        scrollToTop={search}
         loading={isFetching}
         pageSize={page.pageSize}
-        pageIndex={page.pageIndex}
+        pageIndex={page.pageIndex + 1}
+        onSortModelChange={handleSortModelChange}
         handlePageSizeChange={(newPageSize: number) =>
           setQueryParams(formatSearchParamsPageSize(newPageSize, queryParams))
         }

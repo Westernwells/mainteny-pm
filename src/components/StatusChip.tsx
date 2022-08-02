@@ -1,45 +1,59 @@
 import Chip from '@mui/material/Chip';
-import Typography from '@mui/material/Typography';
+import {useTranslation} from 'react-i18next';
+import {ReactNode} from 'react';
 
+const statusWidth = {
+  auto: 'auto',
+  short: '6rem',
+  medium: '8rem',
+  long: '10rem',
+};
+
+const statusColor = {
+  default: 'warning.main',
+  primary: 'primary.main',
+  secondary: 'secondary.main',
+  error: 'error.light',
+  info: 'text.secondary',
+  success: 'success.main',
+  warning: 'warning.light',
+  'action.active': 'action.active',
+};
 interface Props {
-  label: string;
-  bgColor?: string;
-  textColor?: string;
-  style?: {[key: string]: string | number};
-  variant?: 'filled' | 'outlined';
-  color?:
-    | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'error'
-    | 'info'
-    | 'success'
-    | 'warning';
+  label: string | ReactNode;
+  style?: {[key: string]: any};
+  length?: 'short' | 'medium' | 'long' | 'auto';
+  size?: 'small' | 'medium';
+  variant?: 'outlined' | 'filled';
+  color?: keyof typeof statusColor;
+  maxChars?: number;
 }
 
 export const StatusChip = ({
   label,
-  bgColor,
-  color,
-  textColor,
-  variant,
   style,
-}: Props) => (
-  <Chip
-    variant={variant || 'filled'}
-    sx={{
-      py: 2,
-      color: textColor || '#fff',
-      minWidth: '5.75rem',
-      backgroundColor: bgColor,
-      ...style,
-    }}
-    color={color}
-    label={
-      <Typography variant="largeBtnText" sx={{textTransform: 'capitalize'}}>
-        {`${label.charAt(0)}${label.slice(1).toLowerCase()}`}
-      </Typography>
-    }
-    size="medium"
-  />
-);
+  maxChars,
+  size = 'small',
+  color = 'default',
+  variant = 'filled',
+  length = 'auto',
+}: Props) => {
+  const {t} = useTranslation();
+  return (
+    <Chip
+      sx={{
+        bgcolor: variant === 'filled' ? statusColor[color] : undefined,
+        borderColor: variant === 'outlined' ? statusColor[color] : undefined,
+        color:
+          variant === 'outlined' ? statusColor[color] : 'primary.contrastText',
+        minWidth: maxChars ? `calc(${maxChars}ch + .5em)` : statusWidth[length],
+        boxShadow: 0,
+        px: '0.25em',
+        ...style,
+      }}
+      variant={variant}
+      label={typeof label === 'string' ? t(label) : label}
+      size={size}
+    />
+  );
+};

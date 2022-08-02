@@ -211,5 +211,10 @@ export interface MenuBtnProps {
   action: (event: MouseEvent<HTMLLIElement>) => void;
 }
 
+export type FormatDate = (
+  input?: string | Date | undefined,
+  dateFormat?: string | undefined,
+) => string | undefined;
+
 export type WithOptional<T, K extends keyof T> = Omit<T, K> &
   Partial<Pick<T, K>>;
