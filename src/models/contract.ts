@@ -56,15 +56,15 @@ export interface Contract {
 }
 
 export interface QueryContractParams {
-  order?: Order;
-  orderBy?: ContractOrderField; // remove the conditional operator from all these later
-  pageIndex?: number;
-  pageSize?: number;
-  query?: string;
-  serviceCompanyId?: string;
+  order: Order;
+  orderBy: ContractOrderField;
+  pageIndex: number;
+  pageSize: number;
+  query: string;
+  serviceCompanyId: string;
   status?: string[];
-  priceStart?: number;
-  priceEnd?: number;
+  priceStart: number;
+  priceEnd: number;
 }
 
 export enum InvoiceDueType {

@@ -1,27 +1,16 @@
-import {MouseEvent} from 'react';
+import {MouseEvent, ReactNode} from 'react';
+import {number} from 'yup';
+import {GetState, SetState} from 'zustand';
+import {UserAccountSimpleView} from './user';
 
 export interface RestError {
   errorCode: string;
   message: string;
 }
 
-export interface Amount {
-  currency: string;
-  fractionDigits: number;
-  grossAmount: number;
-  netAmount: number;
-  percentageVat: number;
-  vat: number;
-}
-
 export enum State {
   ACTIVE = 'ACTIVE',
   DELETED = 'DELETED',
-}
-
-export enum BtnGroupType {
-  ICON = 'ICON',
-  TEXT = 'TEXT',
 }
 
 export enum DispatchStrategy {
@@ -30,7 +19,7 @@ export enum DispatchStrategy {
 }
 
 export interface Meta {
-  creator?: string;
+  creator?: UserAccountSimpleView;
   createdAt: string;
   lastUpdatedAt: string;
   state: State;
@@ -38,9 +27,23 @@ export interface Meta {
 
 export interface Settings {
   nightlyShuffleEnabled: boolean;
+  isNightlyShuffleEnabled: boolean;
   companyDispatchStrategy: DispatchStrategy;
   totalYearlyVacationDaysAllowed: number;
   dateFormat: string;
+  percentageVat: number;
+  vatId: string;
+  emailAddresses: string[];
+  emailBasedServiceOrderProvider: string;
+  timezone: string;
+  managingDirector: string;
+  arbitrationCourt: string;
+  tradeRegisterNumber: string;
+  paymentInfo: PaymentInfo;
+  timeFormat: string;
+  whiteLabel: {
+    logoPath: string;
+  };
 }
 
 export interface Page {
@@ -63,10 +66,6 @@ export interface AddressRecord {
   fullName: string;
   countryCode: string;
   location: Location;
-}
-
-export interface AddressViewRecord {
-  fullName: string;
 }
 
 export interface Address extends AddressRecord {
@@ -136,8 +135,8 @@ export enum SaveMode {
 }
 
 export enum Language {
-  EN_US = 'en-us',
-  DE_DE = 'de-de',
+  'en-US' = 'en-us',
+  'de-DE' = 'de-de',
 }
 
 export enum Order {
@@ -190,13 +189,41 @@ export interface StringValueResponse {
   value: string;
 }
 
-export interface Fee {
+export interface Money {
   amount: number;
   currency: string;
 }
 
 export interface FileWithPreview extends File {
   preview: string;
+}
+
+export interface Price {
+  amount: number;
+  grossAmount: number;
+  currency: string;
+  vat: number;
+}
+
+export interface Amount {
+  currency: string;
+  fractionDigits: number;
+  grossAmount: number;
+  netAmount: number;
+  percentageVat: number;
+  vat: number;
+}
+
+export interface AmountRecord {
+  currency: string;
+  netAmount: number;
+  percentageVat: number;
+}
+
+export interface PaymentInfo {
+  accountNumber: string;
+  bic: string;
+  iban: string;
 }
 
 export enum PdfGenerationStatus {
@@ -206,15 +233,44 @@ export enum PdfGenerationStatus {
   RUNNING = 'RUNNING',
 }
 
+export interface WeekPair {
+  startOfWeekDay: Date;
+  endOfWeekDay: Date;
+}
+
+export type WithOptional<T, K extends keyof T> = Omit<T, K> &
+  Partial<Pick<T, K>>;
+
+export interface BasicDetailsValue {
+  label: string;
+  value: string | ReactNode;
+  icon: JSX.Element;
+}
+
+export type StoreSlice<T extends object, E extends object = T> = (
+  set: SetState<E extends T ? E : E & T>,
+  get: GetState<E extends T ? E : E & T>,
+) => T;
+
 export interface MenuBtnProps {
   label: string;
   action: (event: MouseEvent<HTMLLIElement>) => void;
+}
+
+export enum CacheTypes {
+  ELEVATOR_CAPACITY = 'ELEVATOR_CAPACITY',
+  ELEVATOR_MODEL = 'ELEVATOR_MODEL',
+  ELEVATOR_SKILL = 'ELEVATOR_SKILL',
+  ELEVATOR_TYPE = 'ELEVATOR_TYPE',
+}
+
+export interface CacheTypesParams {
+  pageSize: number;
+  pageIndex: number;
+  query: string;
 }
 
 export type FormatDate = (
   input?: string | Date | undefined,
   dateFormat?: string | undefined,
 ) => string | undefined;
-
-export type WithOptional<T, K extends keyof T> = Omit<T, K> &
-  Partial<Pick<T, K>>;

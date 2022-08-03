@@ -1,6 +1,4 @@
-import {useEffect, useState} from 'react';
-import Box from '@mui/material/Box';
-import Fade from '@mui/material/Fade';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import {GridRowsProp} from '@mui/x-data-grid';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
@@ -9,6 +7,7 @@ import {useQueryContract} from 'hooks/reactQuery/useContract';
 import {ContractOrderField, ContractView} from 'models/contract';
 import {Order} from 'models/misc';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
+import {PageListingLayout} from 'components/PageListingLayout';
 import {Widget} from 'components/Widget';
 import {
   convertToMacro,
@@ -16,49 +15,35 @@ import {
   formatSearchParamsPageIndex,
   formatSearchParamsPageSize,
 } from 'utils/utils';
-import {useSearchParams} from 'react-router-dom';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 import {EmptySection} from 'components/EmptySection';
 import {Progress} from 'components/Progress';
-import {costRangeConvertor as crConverter} from 'utils/contract-utils';
-import {PageListingLayout} from 'components/PageListingLayout';
+import {useFormatDate} from 'hooks/useFormatDate';
+import {
+  costRangeConvertor as crConverter,
+  getStartEndPrice,
+} from 'utils/contract-utils';
 import {columns, makeRows} from './ContractsDataGridProps';
-import {upcommingDates} from './Date';
 
 const pageSize = 25;
 
-// TODO: standardize this interface
-interface ExpiryDate {
-  start: Date;
-  end: Date;
-}
-
 export const Contracts = () => {
+  const navigate = useNavigate();
+  const formatDate = useFormatDate();
   const [search, setSearch] = useState('');
   const [queryParams, setQueryParams] = useSearchParams();
   const [page, setPage] = useState(makePage(0, pageSize));
-  const [showFilter] = useState(false);
-  const [expiryDate, setExpiryDate] = useState<ExpiryDate | null>();
-  const [contractor, setContractor] = useState<string[]>([]);
+  const totalContractRef = useRef(0);
+  const [status, setStatus] = useState<string[]>([]);
   const [cost, setCost] = useState<number[][]>([]);
   const [pageCount, setPageCount] = useState(0);
   const [contractorFilterItems, setContractorFilterItems] = useState<string[]>(
     [],
   );
   const [rows, setRows] = useState<GridRowsProp>([]);
+  const textInput = useRef<HTMLInputElement>(null);
 
-  const {data: {total: totalContract} = createEmptyResource<ContractView>(10)} =
-    useQueryContract(
-      {
-        order: Order.DESC,
-        orderBy: ContractOrderField.CREATED_TIME,
-        pageIndex: 0,
-        pageSize: 1,
-        query: '',
-        status: [],
-      },
-      {},
-      {keepPreviousData: true},
-    );
+  const [priceStart, priceEnd] = useMemo(() => getStartEndPrice(cost), [cost]);
 
   const {
     data: contractResource = createEmptyResource<ContractView>(10),
@@ -70,23 +55,37 @@ export const Contracts = () => {
     {
       order: Order.DESC,
       orderBy: ContractOrderField.CREATED_TIME,
-      pageIndex: page.pageIndex,
-      pageSize: page.pageSize,
+      pageIndex: page.pageIndex || 0,
+      pageSize: page.pageSize || 25,
       query: search,
-      status: [],
+      status,
+      priceStart,
+      priceEnd,
     },
-    {expiryDate, contractor, price: cost},
     {keepPreviousData: true},
   );
+
+  totalContractRef.current = totalContractRef.current || contractResource.total;
+
+  useEffect(() => {
+    if (page.pageIndex) {
+      setQueryParams(formatSearchParamsPageIndex(1, queryParams));
+    }
+  }, [search, cost, status]);
 
   useEffect(() => {
     const currentParams = Object.fromEntries([...queryParams]);
 
-    setPage({
-      ...page,
-      pageSize: Number(currentParams.pageSize),
-      pageIndex: Number(currentParams.pageIndex) - 1,
-    });
+    if (currentParams.pageSize)
+      setPage({
+        ...page,
+        pageSize: Number(currentParams.pageSize),
+      });
+    if (currentParams.pageIndex)
+      setPage({
+        ...page,
+        pageIndex: Number(currentParams.pageIndex) - 1,
+      });
   }, [queryParams]);
 
   const costRangeConvertor = (selectedItems: string[]) => {
@@ -96,36 +95,32 @@ export const Contracts = () => {
 
   useEffect(() => {
     const options: string[] = [];
-    // TODO: Resolve 'any' here
-    contractResource.data.forEach((item: any) => {
-      if (
-        !options.includes(item.serviceCompany.name) &&
-        !contractorFilterItems.includes(item.serviceCompany.name)
-      ) {
-        options.push(item.serviceCompany.name);
-      }
-    });
-    setRows(makeRows(contractResource.data));
 
-    setContractorFilterItems([...contractorFilterItems, ...options]);
-  }, [contractResource, showFilter]);
+    if (!isLoading && !isFetching && !isIdle) {
+      contractResource.data.forEach((item: ContractView) => {
+        if (
+          !options.includes(item.serviceCompany.name) &&
+          !contractorFilterItems.includes(item.serviceCompany.name)
+        ) {
+          options.push(item.serviceCompany.name);
+        }
+      });
+      setRows(makeRows(contractResource.data, formatDate));
+      setContractorFilterItems([...contractorFilterItems, ...options]);
+    }
+  }, [contractResource, isLoading, isFetching, isIdle]);
 
   useEffect(() => {
     setPageCount(Math.ceil(contractResource.total / page.pageSize));
   }, [contractResource, page.pageSize]);
 
-  useEffect(() => {
-    if (!showFilter) {
-      setExpiryDate(null);
-      setContractor([]);
-      setCost([]);
-    }
-  }, [showFilter]);
-
-  if (isFetched && !totalContract) {
+  if (isFetched && !totalContractRef.current) {
     return (
       <EmptySection
-        label="Contracts will appear here once they are created!"
+        label="No contracts yet. Please click the button below to add."
+        showActionBtn
+        btnLabel="Add Contract"
+        btnAction={() => navigate('/contracts/new')}
         containerStyle={{
           height: '100%',
           mb: '10em',
@@ -134,7 +129,34 @@ export const Contracts = () => {
     );
   }
 
-  if (isLoading || isIdle) {
+  const renderFilterItems = () => (
+    <FilterFields
+      onClear={() => {
+        setStatus([]);
+        setCost([]);
+        setSearch('');
+        if (textInput.current) {
+          textInput.current.value = '';
+        }
+      }}>
+      <MultipleSelectCheckmarks
+        label="Price Range"
+        options={['0 - €500', '€500 - €1,000', '> €1,000']}
+        initialSelectedItems={cost}
+        getSelectedValue={(item) => costRangeConvertor(item)}
+      />
+      <MultipleSelectCheckmarks
+        label="Status"
+        options={['VALID', 'EXPIRED'].map((item) => convertToText(item))}
+        initialSelectedItems={status}
+        getSelectedValue={(item) =>
+          setStatus(item.map((val) => convertToMacro(val)))
+        }
+      />
+    </FilterFields>
+  );
+
+  if (isIdle || isLoading) {
     return <Progress />;
   }
 
@@ -142,54 +164,20 @@ export const Contracts = () => {
     <PageListingLayout
       renderWidget={
         <Widget
-          searchPlaceholder="Search contractor number, contractor, expiry date etc."
+          searchPlaceholder="Search by number, customer, contract type etc."
           getSearchValue={(val: string) => setSearch(val)}
+          filterItems={renderFilterItems()}
+          refInput={textInput}
         />
       }>
-      <Fade in={showFilter} unmountOnExit>
-        <Box>
-          <FilterFields>
-            <MultipleSelectCheckmarks
-              label="Expiry Date"
-              options={Object.keys(upcommingDates).map((item) =>
-                convertToText(item),
-              )}
-              getSelectedValue={(item) => {
-                if (item.length)
-                  setExpiryDate(upcommingDates[convertToMacro(item[0])]);
-                else setExpiryDate(null);
-              }}
-              multiple={false}
-            />
-
-            <MultipleSelectCheckmarks
-              label="Contractor"
-              options={contractorFilterItems}
-              getSelectedValue={(item) => setContractor(item)}
-            />
-
-            <MultipleSelectCheckmarks
-              label="Cost/year"
-              options={[
-                'Below 1000 €',
-                '1000 - 3000 €',
-                '3000 - 5000 €',
-                'Above 5000 €',
-              ]}
-              getSelectedValue={(item) => costRangeConvertor(item)}
-              multiple={false}
-            />
-          </FilterFields>
-        </Box>
-      </Fade>
-
       <DataGridLayout
         hideFooter={pageCount <= 1}
         rows={rows}
         columns={columns}
+        scrollToTop={search}
         loading={isFetching}
         pageSize={page.pageSize}
-        pageIndex={page.pageIndex}
+        pageIndex={page.pageIndex + 1}
         handlePageSizeChange={(newPageSize: number) =>
           setQueryParams(formatSearchParamsPageSize(newPageSize, queryParams))
         }
