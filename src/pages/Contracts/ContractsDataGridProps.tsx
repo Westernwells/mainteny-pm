@@ -1,116 +1,82 @@
-import {
-  GridAlignment,
-  GridColDef,
-  GridColumnHeaderParams,
-  GridRenderCellParams,
-  GridRowsProp,
-} from '@mui/x-data-grid';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import {GridColDef} from '@mui/x-data-grid';
+import {getColumnProps} from 'components/DataGridLayout';
+import {formatNetAmount} from 'utils/currency';
+import {FormatDate} from 'models/misc';
 import {ContractView} from 'models/contract';
-import {formatDate} from '../../utils/datetime';
-
-const defaultProps = {
-  editable: false,
-  renderHeader: (params: GridColumnHeaderParams) => (
-    <Typography variant="tableHeaderText" color="textSecondary">
-      {params.colDef.headerName}
-    </Typography>
-  ),
-  renderCell: (params: GridRenderCellParams<any, any, any>) => (
-    <Typography variant="subtitle2">{params.value}</Typography>
-  ),
-};
-const defaultAlignment: {
-  flex: number;
-  headerAlign: GridAlignment;
-  align: GridAlignment;
-} = {
-  flex: 1,
-  headerAlign: 'center',
-  align: 'center',
-};
+import {Actions} from './Actions';
 
 export const columns: GridColDef[] = [
-  {
-    field: 'contractNumber',
-    headerName: 'CONTRACT NUMBER',
-    type: 'string',
-    ...defaultAlignment,
-    ...defaultProps,
-  },
-  {
-    field: 'contractor',
-    headerName: 'CONTRACTOR',
-    type: 'string',
-    flex: 2,
-    headerAlign: 'left',
-    ...defaultProps,
-  },
-  {
-    field: 'cost',
-    headerName: 'COST/YEAR',
-    type: 'number',
-    ...defaultAlignment,
-    ...defaultProps,
-  },
-  {
+  getColumnProps({
+    field: 'number',
+    headerName: 'number',
+    align: 'center',
+    flex: 0,
+  }),
+  getColumnProps({
     field: 'units',
-    headerName: 'UNITS',
-    type: 'number',
-    ...defaultAlignment,
-    ...defaultProps,
-  },
-  {
-    field: 'expiryDate',
-    headerName: 'EXPIRY DATE',
-    type: 'string',
-    ...defaultAlignment,
-    ...defaultProps,
-  },
-  {
+    headerName: 'no. of units',
+    align: 'right',
+  }),
+  getColumnProps({
+    field: 'start',
+    headerName: 'start date',
+    align: 'center',
+    flex: 0.75,
+  }),
+  getColumnProps({
+    field: 'end',
+    headerName: 'expiry date',
+    align: 'center',
+    flex: 0.75,
+  }),
+  getColumnProps({
+    field: 'type',
+    headerName: 'contact type',
+    align: 'center',
+  }),
+  getColumnProps({
+    field: 'cost',
+    headerName: 'cost/year',
+    align: 'right',
+    flex: 0.5,
+  }),
+  getColumnProps({
     field: 'actions',
-    headerName: 'ACTIONS',
-    // TODO: Actions not working as expected
-    // type: 'actions',
-    // getActions: (params: GridRowParams) => [
-    //   <GridActionsCellItem
-    //     icon={<FileDownloadOutlinedIcon sx={{color: '#2196F3'}} />}
-    //     onClick={() => console.log('ACTION: Click', params.id)}
-    //     label="Download"
-    //   />,
-    // ],
-    editable: false,
-    sortable: false,
-    disableColumnMenu: true,
-    disableExport: true,
-    ...defaultAlignment,
-
-    renderHeader: (params) => (
-      <Typography variant="tableHeaderText" color="textSecondary">
-        {params.colDef.headerName}
-      </Typography>
+    headerName: 'actions',
+    align: 'center',
+    renderCell: (params) => (
+      <Actions url={params.value.url} fileName={params.value.fileName} />
     ),
-    renderCell: () => (
-      <IconButton
-        onClick={() =>
-          window.open(`${process.env.PUBLIC_URL}/CNT1000001.pdf`, '_blank')
-        }>
-        <FileDownloadOutlinedIcon sx={{color: 'info.main'}} />
-      </IconButton>
-    ),
-  },
+    flex: 0,
+  }),
 ];
 
-export const makeRows = (contracts: any): GridRowsProp =>
-  contracts &&
-  contracts.map((item: ContractView, index: number) => ({
-    id: index,
-    contractor: item.serviceCompany.name,
-    contractNumber: item.number,
-    units: 1,
-    cost: `4 €`,
-    expiryDate: formatDate(item.endTime),
-    navigateTo: `details/${item.id}`,
-  }));
+export const makeRows = (
+  contracts: ContractView[],
+  formatDate: FormatDate = () => '',
+) =>
+  contracts
+    ? contracts.map((item, index) => ({
+        id: index,
+        number: item.number,
+        customer: item.propertyOwner.name,
+        units: item.elevators.length,
+        start: formatDate(item.startTime),
+        end: formatDate(item.endTime),
+        type: item.type,
+        cost: formatNetAmount(item.additionalInfo?.price) || '-',
+        actions: {
+          url:
+            item?.additionalInfo?.documents &&
+            item?.additionalInfo?.documents.length > 0
+              ? item?.additionalInfo?.documents[0].uri
+              : '',
+          fileName:
+            item?.additionalInfo?.documents &&
+            item?.additionalInfo?.documents?.length > 0
+              ? item?.additionalInfo?.documents[0]?.description
+              : 'contract',
+        },
+        navigateTo: `details/${item.id}`,
+      }))
+    : [];

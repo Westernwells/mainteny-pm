@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useTranslation} from 'react-i18next';
 import useTheme from '@mui/material/styles/useTheme';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -22,9 +23,14 @@ const MenuProps = {
 
 interface Props {
   options: string[];
-  getSelectedValue?: (item: string[]) => any;
+  getSelectedValue?: (item: string[]) => void;
   label: string;
   multiple?: boolean;
+  containerStyles?: {[key: string]: any};
+  formControlStyles?: {[key: string]: any};
+  initialSelectedItems?: any[];
+  required?: boolean;
+  disableClearBtn?: boolean;
 }
 
 export const MultipleSelectCheckmarks = ({
@@ -32,13 +38,19 @@ export const MultipleSelectCheckmarks = ({
   getSelectedValue,
   label,
   multiple = true,
+  containerStyles,
+  required = false,
+  formControlStyles,
+  initialSelectedItems = [],
+  disableClearBtn = false,
 }: Props) => {
+  const {t} = useTranslation();
   const theme = useTheme();
-  const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
+  const [selectedItems, setSelectedItems] =
+    React.useState<string[]>(initialSelectedItems);
   const visibility = selectedItems.length
     ? {visibility: 'visible'}
     : {visibility: 'hidden'};
-
   const handleChange = (event: SelectChangeEvent<typeof selectedItems>) => {
     const {
       target: {value},
@@ -57,25 +69,32 @@ export const MultipleSelectCheckmarks = ({
     }
   }, [selectedItems]);
 
+  React.useEffect(() => {
+    if (initialSelectedItems.length === 0) {
+      setSelectedItems(initialSelectedItems);
+    }
+  }, [initialSelectedItems.length]);
+
   return (
-    <Box mb={3}>
-      <FormControl size="small" sx={{m: 1, width: '13.75rem'}}>
-        <InputLabel id={label}>{label}</InputLabel>
+    <Box sx={{...containerStyles}}>
+      <FormControl
+        size="small"
+        required={required}
+        sx={{mr: '0.5em', width: '8.5rem', ...formControlStyles}}>
+        <InputLabel id={label}>{t(label)}</InputLabel>
         <Select
           id={label}
           multiple={multiple}
           value={selectedItems}
           onChange={handleChange}
-          input={<OutlinedInput sx={{background: '#fff'}} label={label} />}
-          renderValue={() => selectedItems.join(',')}
-          MenuProps={MenuProps}
-          // sx={{maxHeight: 30}}
-        >
-          {!multiple ? (
+          input={<OutlinedInput sx={{background: '#fff'}} label={t(label)} />}
+          renderValue={() => selectedItems.map((i) => t(i)).join(',')}
+          MenuProps={MenuProps}>
+          {!multiple && !disableClearBtn ? (
             <MenuItem
               disableTouchRipple
               sx={{
-                height: '1em',
+                // height: '1em',
                 overflow: 'hidden',
                 backgroundColor: '#fff !important',
               }}
@@ -86,7 +105,7 @@ export const MultipleSelectCheckmarks = ({
                   color: theme.palette.info.main,
                   ...visibility,
                 }}
-                primary="Clear"
+                primary={t('Clear')}
               />
             </MenuItem>
           ) : null}
@@ -95,12 +114,12 @@ export const MultipleSelectCheckmarks = ({
             ? options.map((option) => (
                 <MenuItem key={option} value={option}>
                   <Checkbox checked={selectedItems.includes(option)} />
-                  <ListItemText primary={option} />
+                  <ListItemText primary={t(option)} />
                 </MenuItem>
               ))
             : options.map((option) => (
                 <MenuItem key={option} value={option}>
-                  <ListItemText primary={option} />
+                  <ListItemText primary={t(option)} />
                 </MenuItem>
               ))}
         </Select>
