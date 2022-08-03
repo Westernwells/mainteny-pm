@@ -79,7 +79,9 @@ export const MyDropzone = ({
   const {getRootProps, getInputProps, open, acceptedFiles} = useDropzone({
     noClick: true,
     noKeyboard: true,
-    accept: 'image/*',
+    accept: {
+      'image/*': [],
+    },
     onDrop: (theAcceptedFiles) => {
       const result = modifyFile(theAcceptedFiles);
       setFileError(result.error);

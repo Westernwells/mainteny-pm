@@ -8,7 +8,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import {MyDropzone} from 'components/MyDropZone';
+import {MyDropzone} from 'components/DropZone';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import {FileWithPreview} from 'models/misc';
