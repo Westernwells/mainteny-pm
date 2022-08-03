@@ -1,11 +1,9 @@
 import {useQuery, UseQueryOptions} from 'react-query';
-import * as _ from 'lodash';
-import {useCallback} from 'react';
 import {queryKeys as qk} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {Resource, RestError} from 'models/misc';
 import {InvoiceView, QueryInvoiceParams} from 'models/invoice';
-import {useUserSession} from './useUserSession';
+import {useUser} from './useUserSession';
 
 export const fetchInvoices = async (
   params: QueryInvoiceParams,
@@ -21,80 +19,20 @@ export const fetchInvoices = async (
   return response.data;
 };
 
-export const filterByTotalAmount = (
-  invoiceRes: Resource<InvoiceView>,
-  amountRange: number[][],
-) => {
-  const inRange = (item: number, range: number[][]) => {
-    let result = false;
-    range.forEach((interval) => {
-      if (item >= interval[0] && item < interval[1]) {
-        result = true;
-      }
-    });
-    return result;
-  };
-  return invoiceRes.data.filter((item) =>
-    inRange(item.totalAmount.amount, amountRange),
-  );
-};
-
-const filterByStatus = (
-  invoiceRes: Resource<InvoiceView>,
-  status: string[],
-) => {
-  let filteredResult = [] as InvoiceView[];
-  const invoiceStatusMap = _.groupBy(
-    invoiceRes.data,
-    (ivoice) => ivoice.status,
-  );
-  status
-    .map((item) => invoiceStatusMap[item])
-    .filter((item) => item)
-    .forEach((item) => {
-      filteredResult = [...filteredResult, ...item];
-    });
-  return filteredResult;
-};
-
-const filterInvoices = (
-  invoicesRes: Resource<InvoiceView>,
-  filters: {amount: number[][]; status: string[]},
-) => {
-  let result = {...invoicesRes};
-  if (filters.amount.length) {
-    const amounts = filterByTotalAmount(result, filters.amount);
-    result = {...result, data: amounts, total: amounts.length};
-  }
-  if (filters.status.length) {
-    const status = filterByStatus(result, filters.status);
-    result = {...result, data: status, total: status.length};
-  }
-  return result;
-};
-
 export function useInvoices(
   params: QueryInvoiceParams,
-  filters: {amount: number[][]; status: string[]},
   options?: UseQueryOptions<
     Resource<InvoiceView>,
     RestError,
     Resource<InvoiceView>
   >,
 ) {
-  const {user} = useUserSession();
+  const {data: user} = useUser();
   return useQuery<Resource<InvoiceView>, RestError>(
     [qk.fetchInvoices, params],
-    () => fetchInvoices(params, user!.userAccount.id),
+    () => fetchInvoices(params, user!.userData.propertyOwner.id),
     {
       enabled: !!user,
-      select: useCallback(
-        (invoicesRes: Resource<InvoiceView>) => {
-          const filterResult = filterInvoices(invoicesRes, filters);
-          return filterResult;
-        },
-        [filters],
-      ),
       ...options,
     },
   );
