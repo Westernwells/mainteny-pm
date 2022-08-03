@@ -1,171 +1,155 @@
-import {useEffect, useState} from 'react';
-import Box from '@mui/material/Box';
-import Fade from '@mui/material/Fade';
+import {useEffect, useRef, useState} from 'react';
 import {GridRowsProp} from '@mui/x-data-grid';
 import {FilterFields} from 'components/FilterFields';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {DataGridLayout} from 'components/DataGridLayout';
-import {PageListingLayout} from 'components/PageListingLayout';
-import {createEmptyResource, makePage} from 'utils/paging-utils';
-import {useInvoices} from 'hooks/reactQuery/useInvoice';
-import {Widget} from 'components/Widget';
 import {InvoiceStatus, InvoiceStatusView, InvoiceView} from 'models/invoice';
-import {EmptySection} from 'components/EmptySection';
-import {Progress} from 'components/Progress';
-import {useSearchParams} from 'react-router-dom';
+import {useInvoices} from 'hooks/reactQuery/useInvoice';
+import {PageListingLayout} from 'components/PageListingLayout';
 import {
-  formatSearchParamsPageSize,
   formatSearchParamsPageIndex,
+  formatSearchParamsPageSize,
 } from 'utils/utils';
+import {useSearchParams, useNavigate} from 'react-router-dom';
+import {Progress} from 'components/Progress';
+import {EmptySection} from 'components/EmptySection';
+import {useFormatDate} from 'hooks/useFormatDate';
 import {columns, makeRows} from './InvoicesDataGridProps';
+import {createEmptyResource, makePage} from '../../utils/paging-utils';
+import {Widget} from '../../components/Widget';
 
 const pageSize = 25;
 
 export const Invoices = () => {
+  const navigate = useNavigate();
+  const formatDate = useFormatDate();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(makePage(0, pageSize));
   const [queryParams, setQueryParams] = useSearchParams();
-  const [showFilter] = useState(false);
-  const [amount, setAmount] = useState<number[][]>([]);
-  const [status, setStatus] = useState<string[]>([]);
-  const [pageCount, setPageCount] = useState(0);
+  const totalInvoiceRef = useRef(0);
+  const [status, setStatus] = useState<InvoiceStatus>();
   const [rows, setRows] = useState<GridRowsProp>([]);
+  const [pageCount, setPageCount] = useState(0);
+  const textInput = useRef<HTMLInputElement>(null);
+
   const {
     data: invoiceResource = createEmptyResource<InvoiceView>(10),
     isLoading,
     isFetching,
     isFetched,
+    isIdle,
   } = useInvoices(
     {
       pageIndex: page.pageIndex,
       pageSize: page.pageSize,
       query: search,
-      status: [InvoiceStatus.PAID, InvoiceStatus.NOT_PAID],
+      status: [],
     },
-    {amount, status},
     {keepPreviousData: true},
   );
+
+  totalInvoiceRef.current = totalInvoiceRef.current || invoiceResource.total;
+
+  useEffect(() => {
+    if (page.pageIndex) {
+      setQueryParams(formatSearchParamsPageIndex(1, queryParams));
+    }
+  }, [search, status]);
 
   useEffect(() => {
     const currentParams = Object.fromEntries([...queryParams]);
 
-    setPage({
-      ...page,
-      pageSize: Number(currentParams.pageSize),
-      pageIndex: Number(currentParams.pageIndex) - 1,
-    });
+    if (currentParams.pageSize)
+      setPage({
+        ...page,
+        pageSize: Number(currentParams.pageSize),
+      });
+    if (currentParams.pageIndex)
+      setPage({
+        ...page,
+        pageIndex: Number(currentParams.pageIndex) - 1,
+      });
   }, [queryParams]);
 
-  const amountRangeConvertor = (selectedItems: string[]) => {
-    const range: number[][] = [];
-    selectedItems.forEach((item) => {
-      switch (item) {
-        case 'Below 1000 EUR':
-          range.push([0, 1000]);
-          break;
-
-        case '1000 - 3000 EUR':
-          range.push([1000, 3000]);
-          break;
-
-        case '3000 - 5000 EUR':
-          range.push([3000, 5000]);
-          break;
-
-        case 'Above 5000 EUR':
-          range.push([5000, 99999]);
-          break;
-
-        default:
-          break;
-      }
-    });
-    setAmount(range);
-  };
-
   useEffect(() => {
-    if (invoiceResource.total) {
-      setRows(makeRows(invoiceResource));
+    if (!isLoading) {
+      setRows(makeRows(invoiceResource.data, formatDate));
     }
-  }, [invoiceResource]);
-
-  useEffect(() => {
-    if (!showFilter) {
-      setAmount([]);
-      setStatus([]);
-    }
-  }, [showFilter]);
+  }, [invoiceResource, isLoading]);
 
   useEffect(() => {
     setPageCount(Math.ceil(invoiceResource.total / page.pageSize));
   }, [invoiceResource, pageSize]);
 
-  if (isFetched && !invoiceResource.total) {
+  const navigateToNewInvoice = () => {
+    navigate('/invoices/new');
+  };
+
+  if (isIdle || isLoading) {
+    return <Progress />;
+  }
+
+  const renderFilterItems = () => (
+    <FilterFields
+      onClear={() => {
+        setStatus(undefined);
+        setSearch('');
+        if (textInput.current) {
+          textInput.current.value = '';
+        }
+      }}>
+      <MultipleSelectCheckmarks
+        label="Status"
+        options={Object.values(InvoiceStatusView).map((value) => value)}
+        getSelectedValue={(items: string[]) =>
+          items.length
+            ? items[0] === 'Paid'
+              ? setStatus(InvoiceStatus.PAID)
+              : setStatus(InvoiceStatus.NOT_PAID)
+            : setStatus(undefined)
+        }
+        multiple={false}
+        initialSelectedItems={status ? [status] : []}
+      />
+    </FilterFields>
+  );
+
+  if (isFetched && !totalInvoiceRef.current) {
     return (
       <EmptySection
-        label="Invoices will appear here once they are created!"
+        label="No invoices yet. Please click the button below to add."
+        showActionBtn
+        btnLabel="Add Invoice"
         containerStyle={{
           height: '100%',
           mb: '10em',
         }}
+        btnAction={navigateToNewInvoice}
       />
     );
-  }
-
-  if (isLoading) {
-    return <Progress />;
   }
 
   return (
     <PageListingLayout
       renderWidget={
         <Widget
-          searchPlaceholder="Search invoice number, service company, invoice date, status etc."
-          getSearchValue={(val: string) => {
-            setSearch(val);
-          }}
+          searchPlaceholder="Search by number, customer, service type etc."
+          getSearchValue={(val: string) => setSearch(val)}
+          showActionBtn
+          refInput={textInput}
+          btnLabel="New Invoice"
+          btnOnClick={navigateToNewInvoice}
+          filterItems={renderFilterItems()}
         />
       }>
-      <Fade in={showFilter} unmountOnExit>
-        <Box>
-          <FilterFields>
-            <MultipleSelectCheckmarks
-              label="Total Amount"
-              options={[
-                'Below 1000 EUR',
-                '1000 - 3000 EUR',
-                '3000 - 5000 EUR',
-                'Above 5000 EUR',
-              ]}
-              getSelectedValue={(item) => amountRangeConvertor(item)}
-              multiple={false}
-            />
-
-            <MultipleSelectCheckmarks
-              label="Status"
-              options={Object.values(InvoiceStatusView).map((value) => value)}
-              getSelectedValue={(items) =>
-                setStatus(
-                  items.map((item) =>
-                    item === 'Paid'
-                      ? InvoiceStatus.PAID
-                      : InvoiceStatus.NOT_PAID,
-                  ),
-                )
-              }
-              multiple={false}
-            />
-          </FilterFields>
-        </Box>
-      </Fade>
-
       <DataGridLayout
         rows={rows}
         columns={columns}
         loading={isFetching}
+        scrollToTop={search}
         hideFooter={pageCount <= 1}
         pageSize={page.pageSize}
-        pageIndex={page.pageIndex}
+        pageIndex={page.pageIndex + 1}
         handlePageSizeChange={(newPageSize: number) =>
           setQueryParams(formatSearchParamsPageSize(newPageSize, queryParams))
         }

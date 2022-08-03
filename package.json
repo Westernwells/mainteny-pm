@@ -32,6 +32,7 @@
     "i18next-http-backend": "^1.4.1",
     "lint-staged": ">=10",
     "lodash": "^4.17.21",
+    "mui-address-autocomplete": "^2.2.1",
     "notistack": "^2.0.3",
     "query-string": "^7.0.1",
     "react": "latest",

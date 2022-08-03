@@ -1,15 +1,19 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import {ReactNode} from 'react';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   icon: JSX.Element;
   label: string;
-  bodyTextVariant: any;
+  bodyTextVariant?: any;
   titleTextVariant?: any;
   iconBackground?: string;
-  bodyText?: string;
+  bodyText: string | JSX.Element | ReactNode;
   iconMaxHeight?: string | number;
-  containerStyles?: {[key: string]: string | number};
+  containerStyles?: {[key: string]: any};
+  bodyStyle?: {[key: string]: any};
+  labelStyle?: {[key: string]: any};
 }
 
 export const CardProps = ({
@@ -21,33 +25,44 @@ export const CardProps = ({
   bodyText,
   iconMaxHeight,
   containerStyles,
-}: Props) => (
-  <Box display="flex" sx={{...containerStyles}}>
-    <Box
-      sx={{
-        background: iconBackground,
-        p: '0.7em',
-        display: 'flex',
-        justifyContent: 'center',
-        flexGrow: 1,
-        mr: '1em',
-        maxHeight: iconMaxHeight || 'default',
-      }}>
-      {icon}
-    </Box>
-    <Box>
+  bodyStyle,
+  labelStyle,
+}: Props) => {
+  const {t} = useTranslation();
+  return (
+    <Box display="flex" sx={{...containerStyles}}>
+      {/* remove width to make this component more generic */}
+      <Box
+        sx={{
+          backgroundColor: iconBackground,
+          p: '0.7em',
+          display: 'flex',
+          justifyContent: 'center',
+          mr: '1em',
+          maxHeight: iconMaxHeight || 'default',
+        }}>
+        {icon}
+      </Box>
       <Box>
         <Typography
+          component="div"
           variant={titleTextVariant || 'caption'}
-          sx={{color: (theme) => theme.palette.text.secondary}}>
-          {label}
+          color="textSecondary"
+          sx={{textTransform: 'capitalize', ...labelStyle}}>
+          {t(label)}
         </Typography>
-      </Box>
-      <Box>
-        <Typography variant={bodyTextVariant || 'subtitle1'}>
-          {bodyText || ''}
-        </Typography>
+
+        {typeof bodyText === 'string' ? (
+          <Typography
+            component="div"
+            variant={bodyTextVariant || 'body2'}
+            sx={{...bodyStyle}}>
+            {bodyText}
+          </Typography>
+        ) : (
+          bodyText
+        )}
       </Box>
     </Box>
-  </Box>
-);
+  );
+};

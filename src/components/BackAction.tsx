@@ -7,20 +7,25 @@ import {useNavigate} from 'react-router-dom';
 interface Props {
   label: string;
   containerStyle?: {[key: string]: string | number};
+  path?: string;
 }
 
-export const BackAction = ({label, containerStyle}: Props) => {
+export const BackAction = ({label, containerStyle, path}: Props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   return (
-    <Box display="flex" sx={{mb: '1em', ...containerStyle}}>
+    <Box display="flex" sx={{...containerStyle}}>
       <Box
         mr={2}
-        sx={{cursor: 'pointer', mt: '0.2em'}}
-        onClick={() => navigate(-1)}>
+        sx={{cursor: 'pointer', mt: '0.3em'}}
+        onClick={() => (path ? navigate(path) : navigate(-1))}>
         <ArrowBackIosNewIcon sx={{color: theme.palette.action.active}} />
       </Box>
-      <Typography variant="h5">{label}</Typography>
+      {label ? (
+        <Typography variant="h4" component="div">
+          {label}
+        </Typography>
+      ) : null}
     </Box>
   );
 };

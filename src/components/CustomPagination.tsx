@@ -14,6 +14,8 @@ interface Props {
   pageCount?: number;
   totalRows?: number;
   pageIndex?: number;
+  showPageCount?: boolean;
+  showPagePerSize?: boolean;
 }
 
 export const CustomPagination = ({
@@ -23,6 +25,8 @@ export const CustomPagination = ({
   pageCount,
   totalRows,
   pageIndex,
+  showPageCount,
+  showPagePerSize,
 }: Props) => {
   const theme = useTheme();
   const [page, setPage] = useState(makePage(pageIndex || 0, pageSize || 10));
@@ -54,50 +58,69 @@ export const CustomPagination = ({
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: showPageCount ? 'space-between' : 'center',
         py: '1em',
       }}>
-      <Box>
-        <Typography
-          variant="subtitle2"
-          sx={{color: theme.palette.text.secondary, mt: '0.3em'}}>
-          {currentPageDetails}
-        </Typography>
-      </Box>
+      {showPageCount ? (
+        <Box>
+          <Typography
+            variant="subtitle2"
+            sx={{color: theme.palette.text.secondary, mt: '0.3em'}}>
+            {currentPageDetails}
+          </Typography>
+        </Box>
+      ) : null}
+
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'center',
         }}>
-        <Box>
-          <CustomSelect
-            handleChange={onPageSizeChange}
-            options={[
-              {label: '25', value: 25},
-              {label: '50', value: 50},
-            ]}
-            defaultOption={page.pageSize}
-            label="rows per page"
-            size="small"
-          />
-        </Box>
+        {showPagePerSize ? (
+          <Box>
+            <CustomSelect
+              handleChange={onPageSizeChange}
+              options={[
+                {label: '25', value: 25},
+                {label: '50', value: 50},
+                {label: '75', value: 75},
+                {label: '100', value: 100},
+              ]}
+              defaultOption={page.pageSize}
+              label="rows per page"
+              size="small"
+            />
+          </Box>
+        ) : null}
+
         <Pagination
           count={pageCount || 10}
-          page={pageIndex ? pageIndex + 1 : 1}
+          page={pageIndex || 1}
           shape="rounded"
+          variant="outlined"
           onChange={(event: React.ChangeEvent<unknown>, newPage: number) => {
             event.preventDefault();
             if (handlePageChange) {
               handlePageChange(newPage);
             }
-            setPage({...page, pageIndex: newPage - 1});
+            setPage({...page, pageIndex: newPage});
           }}
           sx={{
             mt: '0.3em',
             '& .MuiPaginationItem-previousNext': {},
             '& .MuiPaginationItem-root.Mui-selected': {
               background: theme.palette.primary.main,
-              color: '#fff',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: theme.palette.primary.main,
+              },
+            },
+            '&.MuiPagination-root': {
+              background: '#fff',
+              py: '0.2em',
+            },
+            '& .MuiPaginationItem-page': {
+              border: 0,
             },
           }}
         />
