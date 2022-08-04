@@ -3,13 +3,13 @@ import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {queryKeys} from 'reactQuery/constants';
 import {useNavigate} from 'react-router-dom';
-import {Elevator, ElevatorQueryParams, ElevatorView} from 'models/elevator';
+import {ElevatorQueryParams, ElevatorView} from 'models/elevator';
 import {Resource, RestError} from 'models/misc';
 import {MaintainerView} from 'models/technician';
 import {useUser} from './useUserSession';
 
 export const fetchElevator = async (elevatorId: string) => {
-  const response = await axiosClient.get<Elevator>(
+  const response = await axiosClient.get<ElevatorView>(
     `/api/elevators/${elevatorId}`,
   );
   return response.data;

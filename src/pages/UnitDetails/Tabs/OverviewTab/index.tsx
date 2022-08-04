@@ -1,12 +1,24 @@
 import {useTranslation} from 'react-i18next';
+import {useParams} from 'react-router-dom';
 import useTheme from '@mui/material/styles/useTheme';
 import {Grid} from '@mui/material';
+import {useElevatorById} from 'hooks/reactQuery/useElevator';
 import {Button} from 'components/Button';
 import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
+import {Progress} from 'components/Progress';
+import {Unit} from './Unit';
 
 export const OverviewTab = () => {
+  const {id: elevatorId} = useParams();
   const {t} = useTranslation();
   const theme = useTheme();
+
+  const {data: elevator, isLoading: isLoadingElevator} =
+    useElevatorById(elevatorId);
+
+  if (isLoadingElevator) {
+    return <Progress />;
+  }
 
   return (
     <Grid container spacing={2}>
@@ -35,7 +47,7 @@ export const OverviewTab = () => {
       </Grid>
       <Grid container>
         <Grid item xs={12} lg={4}>
-          Unit
+          <Unit elevator={elevator!} />
         </Grid>
         <Grid item xs={12} lg={4}>
           Service Company
