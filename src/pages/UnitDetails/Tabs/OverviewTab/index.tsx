@@ -10,6 +10,7 @@ import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
 import {Progress} from 'components/Progress';
 import {Unit} from './Unit';
 import {Service} from './Service';
+import {UnitDetails} from './UnitDetails';
 
 export const OverviewTab = () => {
   const {id: elevatorId} = useParams();
@@ -34,7 +35,7 @@ export const OverviewTab = () => {
   }
 
   return (
-    <Grid container spacing={2}>
+    <Grid container rowSpacing={2}>
       <Grid item ml="auto" py="1.25rem">
         <CustomButtonUnstyled
           label={t('Change Information')}
@@ -70,7 +71,7 @@ export const OverviewTab = () => {
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        Unit Details
+        <UnitDetails elevator={elevator!} />
       </Grid>
       <Grid item xs={12}>
         Related Contracts
