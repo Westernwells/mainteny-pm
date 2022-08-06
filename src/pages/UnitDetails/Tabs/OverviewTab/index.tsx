@@ -11,6 +11,7 @@ import {Progress} from 'components/Progress';
 import {Unit} from './Unit';
 import {Service} from './Service';
 import {UnitDetails} from './UnitDetails';
+import {RelatedContracts} from './RelatedContracts';
 
 export const OverviewTab = () => {
   const {id: elevatorId} = useParams();
@@ -74,7 +75,7 @@ export const OverviewTab = () => {
         <UnitDetails elevator={elevator!} />
       </Grid>
       <Grid item xs={12}>
-        Related Contracts
+        <RelatedContracts contracts={elevator!.contracts} />
       </Grid>
       <Grid item xs={12}>
         Related Invoices
