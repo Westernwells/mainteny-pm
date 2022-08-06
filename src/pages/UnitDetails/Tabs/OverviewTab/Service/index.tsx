@@ -32,7 +32,7 @@ export const Service = ({containerStyles, elevator, validContract}: Props) => {
       header={<Typography variant="subtitle1">{t('Service')}</Typography>}
       showHeaderBackground
       headerStyles={{
-        py: '0.125rem',
+        py: '0.25rem',
         px: '0.5rem',
       }}>
       <Grid container spacing={4}>
