@@ -10,6 +10,7 @@ import {getDataGridHeight} from 'utils/utils';
 import {useFormatDate} from 'hooks/useFormatDate';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {InfoCard} from 'components/InfoCard';
+import {EmptySection} from 'components/EmptySection';
 import {columns, makeRows} from './RelatedContractsDataGridProps';
 
 interface Props {
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export const RelatedContracts = ({containerStyles, contracts}: Props) => {
+  const {t} = useTranslation();
   const formatDate = useFormatDate();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -27,7 +29,23 @@ export const RelatedContracts = ({containerStyles, contracts}: Props) => {
     setRows(makeRows(contracts.slice(0, 3), formatDate));
   }, [contracts]);
 
-  const {t} = useTranslation();
+  const renderNoRowsSection = () => (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+      }}>
+      <EmptySection
+        illustration="clipboard"
+        size="tiny"
+        containerStyle={{m: 'auto', width: '60%'}}
+        label={t('No contracts yet.')}
+      />
+    </Box>
+  );
+
   return (
     <InfoCard
       containerStyles={{...containerStyles}}
@@ -39,29 +57,35 @@ export const RelatedContracts = ({containerStyles, contracts}: Props) => {
         py: '0.25rem',
         px: '0.5rem',
       }}>
-      <DataGridLayout
-        fullHeight={false}
-        height={getDataGridHeight(rows.length, 3)}
-        hideFooter
-        isWidget
-        rows={rows}
-        columns={columns}
-        containerStyle={{
-          borderBottom: 'none',
-        }}
-      />
-      {contracts.length > 3 ? (
-        <Box
-          sx={{textAlign: 'center', cursor: 'pointer', pt: '1rem'}}
-          onClick={() => navigate('/contracts')}>
-          <Typography
-            variant="caption"
-            textTransform="capitalize"
-            color={theme.palette.info.main}>
-            {t('see more')}
-          </Typography>
-        </Box>
-      ) : null}
+      {!contracts.length ? (
+        renderNoRowsSection()
+      ) : (
+        <>
+          <DataGridLayout
+            fullHeight={false}
+            height={getDataGridHeight(rows.length, 3)}
+            hideFooter
+            isWidget
+            rows={rows}
+            columns={columns}
+            containerStyle={{
+              borderBottom: 'none',
+            }}
+          />
+          {contracts.length > 3 ? (
+            <Box
+              sx={{textAlign: 'center', cursor: 'pointer', pt: '1rem'}}
+              onClick={() => navigate('/contracts')}>
+              <Typography
+                variant="caption"
+                textTransform="capitalize"
+                color={theme.palette.info.main}>
+                {t('see more')}
+              </Typography>
+            </Box>
+          ) : null}
+        </>
+      )}
     </InfoCard>
   );
 };

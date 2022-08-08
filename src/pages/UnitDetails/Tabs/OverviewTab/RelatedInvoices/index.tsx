@@ -43,7 +43,7 @@ export const RelatedInvoices = ({invoices}: Props) => {
         illustration="clipboard"
         size="tiny"
         containerStyle={{m: 'auto', width: '60%'}}
-        label="No invoices yet. They will appear here once added."
+        label={t('No invoice yet.')}
       />
     </Box>
   );
