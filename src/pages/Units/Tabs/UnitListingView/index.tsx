@@ -181,7 +181,6 @@ export const UnitListingView = () => {
     return (
       <EmptySection
         label="No units yet. Please click the button below add."
-        showActionBtn
         btnLabel="Add Unit"
         btnAction={() => {
           navigate('/units/new');

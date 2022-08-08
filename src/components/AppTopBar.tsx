@@ -96,15 +96,17 @@ export const AppTopBar = ({
       }}>
       <Box width="4.5rem" />
       <Box sx={{display: 'flex', justifyContent: 'space-between', flexGrow: 1}}>
-        {showBackAction ? (
-          <BackAction label={backBtnLabel} containerStyle={{mt: '1em'}} />
-        ) : null}
-        <Typography
-          variant="h4"
-          component="div"
-          sx={{display: 'flex', alignItems: 'center', mt: '0.2em'}}>
-          {pageTitle || null}
-        </Typography>
+        <Box display="flex">
+          {showBackAction ? (
+            <BackAction label={backBtnLabel} containerStyle={{mt: '1em'}} />
+          ) : null}
+          <Typography
+            variant="h4"
+            component="div"
+            sx={{display: 'flex', alignItems: 'center', mt: '0.2em'}}>
+            {pageTitle || null}
+          </Typography>
+        </Box>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box display="flex" mt={1} alignItems="center">
             <MenuBtn

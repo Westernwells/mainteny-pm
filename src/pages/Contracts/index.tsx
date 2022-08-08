@@ -118,7 +118,6 @@ export const Contracts = () => {
     return (
       <EmptySection
         label="No contracts yet. Please click the button below to add."
-        showActionBtn
         btnLabel="Add Contract"
         btnAction={() => navigate('/contracts/new')}
         containerStyle={{

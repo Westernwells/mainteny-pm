@@ -71,7 +71,7 @@ export const Router = () => {
               <Helmet>
                 <title>{`Contracts - ${titleTail}`}</title>
               </Helmet>
-              <PageLayout>
+              <PageLayout pageTitle="Contracts">
                 <Contracts />
               </PageLayout>
             </>
@@ -85,7 +85,10 @@ export const Router = () => {
               <Helmet>
                 <title>{`Contract Details - ${titleTail}`}</title>
               </Helmet>
-              <PageLayout pageScrollable>
+              <PageLayout
+                pageTitle="Contract Details"
+                showBackAction
+                pageScrollable>
                 <ContractDetails />
               </PageLayout>
             </>
