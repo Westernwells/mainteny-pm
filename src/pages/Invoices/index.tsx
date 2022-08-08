@@ -118,7 +118,6 @@ export const Invoices = () => {
     return (
       <EmptySection
         label="No invoices yet. Please click the button below to add."
-        showActionBtn
         btnLabel="Add Invoice"
         containerStyle={{
           height: '100%',

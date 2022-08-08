@@ -1,15 +1,16 @@
 /* eslint-disable */
 import {useState} from 'react';
-import {TabsBody} from 'components/TabsBody';
-import {Tabs} from 'components/Tabs';
+import {useParams} from 'react-router';
 import ElevatorIcon from '@mui/icons-material/Elevator';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import {TabsBody} from 'components/TabsBody';
+import {Tabs} from 'components/Tabs';
+import {Progress} from 'components/Progress';
 import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {useFetchContractDetails} from 'hooks/reactQuery/useContract';
-import {useParams} from 'react-router';
-// import {UnitsTab} from './Tabs/UnitsTab';
-// import {ContractOverview} from './Tabs/ContractOverview';
+import {Overview} from './Tabs/Overview';
+import {Units} from './Tabs/Units';
 
 const tabItems = [
   {
@@ -25,10 +26,11 @@ const tabItems = [
 export const ContractDetails = () => {
   const [tabValue, setTabValue] = useState(0);
   const {id: contractId} = useParams();
-  const {data: contractDetails, isLoading} = useFetchContractDetails(
-    contractId!,
-  );
-
+  const {
+    data: contractDetails,
+    isLoading,
+    isIdle,
+  } = useFetchContractDetails(contractId!);
   const {data: downloadUrl} = useDownloadUrl(
     contractDetails?.additionalInfo?.documents?.length
       ? [contractDetails?.additionalInfo?.documents[0]?.uri]
@@ -39,7 +41,11 @@ export const ContractDetails = () => {
     contractDetails?.additionalInfo?.documents &&
     contractDetails?.additionalInfo?.documents?.length > 0
       ? contractDetails?.additionalInfo?.documents[0]?.description
-      : 'contract';
+      : 'Not Available';
+
+  if (isIdle || isLoading) {
+    return <Progress />;
+  }
 
   return (
     <Tabs
@@ -65,15 +71,14 @@ export const ContractDetails = () => {
         }
       }}>
       <TabsBody value={tabValue} index={0}>
-        {null}
-        {/* <ContractOverview
-          contractDetails={contractDetails!}
-          isLoading={isLoading}
-        /> */}
+        <Overview
+          contract={contractDetails}
+          downloadUrl={downloadUrl}
+          fileName={fileName}
+        />
       </TabsBody>
       <TabsBody value={tabValue} index={1}>
-        {null}
-        {/* <UnitsTab elevators={contractDetails?.elevators || []} /> */}
+        <Units elevators={contractDetails?.elevators || []} />
       </TabsBody>
     </Tabs>
   );
