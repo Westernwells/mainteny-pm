@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {useNavigate} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 import {GridRowsProp} from '@mui/x-data-grid';
@@ -19,11 +20,11 @@ interface Props {
 export const RelatedContracts = ({containerStyles, contracts}: Props) => {
   const formatDate = useFormatDate();
   const theme = useTheme();
+  const navigate = useNavigate();
   const [rows, setRows] = useState<GridRowsProp>([]);
-  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
-    setRows(makeRows(!showAll ? contracts.slice(0, 3) : contracts, formatDate));
+    setRows(makeRows(contracts.slice(0, 3), formatDate));
   }, [contracts]);
 
   const {t} = useTranslation();
@@ -51,10 +52,13 @@ export const RelatedContracts = ({containerStyles, contracts}: Props) => {
       />
       {contracts.length > 3 ? (
         <Box
-          sx={{textAlign: 'center', cursor: 'pointer'}}
-          onClick={() => setShowAll(!showAll)}>
-          <Typography variant="caption" color={theme.palette.info.main}>
-            {showAll ? t('see less') : t('see more')}
+          sx={{textAlign: 'center', cursor: 'pointer', pt: '1rem'}}
+          onClick={() => navigate('/contracts')}>
+          <Typography
+            variant="caption"
+            textTransform="capitalize"
+            color={theme.palette.info.main}>
+            {t('see more')}
           </Typography>
         </Box>
       ) : null}
