@@ -3,6 +3,7 @@ import {queryKeys as qk} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {Resource, RestError} from 'models/misc';
 import {InvoiceView, QueryInvoiceParams} from 'models/invoice';
+import {ElevatorInvoicesQueryParams} from 'models/elevator';
 import {useUser} from './useUserSession';
 
 export const fetchInvoices = async (
@@ -49,4 +50,34 @@ export function useInvoiceDetail(invoiceId?: string) {
   return useQuery(qk.invoiceById, () => fetchInvoice(invoiceId!), {
     enabled: !!invoiceId,
   });
+}
+
+export const fetchElevatorInvoices = async (
+  elevatorId: string,
+  params: ElevatorInvoicesQueryParams,
+): Promise<Resource<InvoiceView>> => {
+  const response = await axiosClient.get<Resource<InvoiceView>>(
+    `/api/elevators/${elevatorId}/invoices`,
+    {
+      params,
+      paramsSerializer,
+    },
+  );
+  return response.data;
+};
+
+export function useElevatorInvoices(
+  elevatorId: string,
+  params: ElevatorInvoicesQueryParams,
+  options?: any,
+) {
+  const {data: user} = useUser();
+  return useQuery<Resource<InvoiceView>, RestError>(
+    [qk.fetchElevatorInvoices, elevatorId, params],
+    () => fetchElevatorInvoices(elevatorId, params),
+    {
+      enabled: !!user,
+      ...options,
+    },
+  );
 }

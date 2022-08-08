@@ -4,7 +4,10 @@ import {useParams} from 'react-router-dom';
 import useTheme from '@mui/material/styles/useTheme';
 import {Grid} from '@mui/material';
 import {useElevatorById} from 'hooks/reactQuery/useElevator';
+import {useElevatorInvoices} from 'hooks/reactQuery/useInvoice';
+import {createEmptyResource} from 'utils/paging-utils';
 import {ContractSimpleView, ContractStatus} from 'models/contract';
+import {InvoiceStatus, InvoiceView} from 'models/invoice';
 import {Button} from 'components/Button';
 import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
 import {Progress} from 'components/Progress';
@@ -12,6 +15,7 @@ import {Unit} from './Unit';
 import {Service} from './Service';
 import {UnitDetails} from './UnitDetails';
 import {RelatedContracts} from './RelatedContracts';
+import {RelatedInvoices} from './RelatedInvoices';
 
 export const OverviewTab = () => {
   const {id: elevatorId} = useParams();
@@ -22,6 +26,22 @@ export const OverviewTab = () => {
   const {data: elevator, isLoading: isLoadingElevator} =
     useElevatorById(elevatorId);
 
+  const {
+    data: elevatorInvoices = createEmptyResource<InvoiceView>(3),
+    isLoading: isLoadingElevatorInvoices,
+  } = useElevatorInvoices(
+    elevatorId || '',
+    {
+      pageIndex: 0,
+      pageSize: 3,
+      query: '',
+      status: Object.values(InvoiceStatus),
+    },
+    {
+      enabled: !!elevatorId,
+    },
+  );
+
   useEffect(() => {
     if (elevator) {
       const result = elevator.contracts.filter(
@@ -31,7 +51,7 @@ export const OverviewTab = () => {
     }
   }, [elevator]);
 
-  if (isLoadingElevator) {
+  if (isLoadingElevator || isLoadingElevatorInvoices) {
     return <Progress />;
   }
 
@@ -78,7 +98,7 @@ export const OverviewTab = () => {
         <RelatedContracts contracts={elevator!.contracts} />
       </Grid>
       <Grid item xs={12}>
-        Related Invoices
+        <RelatedInvoices invoices={elevatorInvoices} />
       </Grid>
     </Grid>
   );
