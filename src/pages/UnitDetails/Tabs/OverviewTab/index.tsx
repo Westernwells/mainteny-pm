@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate, useParams} from 'react-router-dom';
-import useTheme from '@mui/material/styles/useTheme';
 import {Grid} from '@mui/material';
 import {useElevatorById} from 'hooks/reactQuery/useElevator';
 import {useElevatorInvoices} from 'hooks/reactQuery/useInvoice';
@@ -9,7 +8,6 @@ import {createEmptyResource} from 'utils/paging-utils';
 import {ContractSimpleView, ContractStatus} from 'models/contract';
 import {InvoiceStatus, InvoiceView} from 'models/invoice';
 import {Button} from 'components/Button';
-import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
 import {Progress} from 'components/Progress';
 import {Unit} from './Unit';
 import {Service} from './Service';
@@ -21,7 +19,6 @@ export const OverviewTab = () => {
   const {id: elevatorId} = useParams();
   const {t} = useTranslation();
   const navigate = useNavigate();
-  const theme = useTheme();
   const [validContract, setValidContract] = useState<ContractSimpleView>();
 
   const {data: elevator, isLoading: isLoadingElevator} =
@@ -59,24 +56,11 @@ export const OverviewTab = () => {
   return (
     <Grid container rowSpacing={2}>
       <Grid item ml="auto" py="1.25rem">
-        <CustomButtonUnstyled
-          label={t('Change Information')}
-          size="large"
-          onClick={() => {}}
-          styles={{
-            '&:hover': {
-              background: theme.palette.primary.outlinedHoverBg,
-            },
-          }}
-        />
         <Button
           label={t('Report Issue')}
           buttonProps={{
             variant: 'contained',
             size: 'large',
-            sx: {
-              marginLeft: '0.625rem',
-            },
             onClick: () => navigate('/units/report-issue'),
           }}
         />
