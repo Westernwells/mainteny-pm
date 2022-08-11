@@ -294,7 +294,7 @@ export const useLogIssue = () => {
       }),
     {
       onSuccess: () => {
-        enqueueSnackbar('Issue logged successfully', {
+        enqueueSnackbar('Issue has been reported successfully', {
           variant: 'success',
         });
       },
