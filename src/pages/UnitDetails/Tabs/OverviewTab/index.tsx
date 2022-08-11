@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import useTheme from '@mui/material/styles/useTheme';
 import {Grid} from '@mui/material';
 import {useElevatorById} from 'hooks/reactQuery/useElevator';
@@ -20,6 +20,7 @@ import {RelatedInvoices} from './RelatedInvoices';
 export const OverviewTab = () => {
   const {id: elevatorId} = useParams();
   const {t} = useTranslation();
+  const navigate = useNavigate();
   const theme = useTheme();
   const [validContract, setValidContract] = useState<ContractSimpleView>();
 
@@ -76,7 +77,7 @@ export const OverviewTab = () => {
             sx: {
               marginLeft: '0.625rem',
             },
-            onClick: () => {},
+            onClick: () => navigate('/units/report-issue'),
           }}
         />
       </Grid>

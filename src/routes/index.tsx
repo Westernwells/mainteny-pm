@@ -11,6 +11,7 @@ import {MySettings} from 'pages/MySettings';
 import {ContractDetails} from 'pages/ContractDetails';
 import {MyUnits} from 'pages/Units';
 import {UnitDetails} from 'pages/UnitDetails';
+import {ReportIssue} from 'pages/ReportIssue';
 import {NotFound} from 'pages/NotFound';
 import {ProtectedRoutes} from 'routes/ProtectedRoutes';
 import {Navigate, Route, Routes} from 'react-router-dom';
@@ -67,6 +68,19 @@ export const Router = () => {
                 showBackAction
                 backBtnLabel={`${t('Unit Details')}`}>
                 <UnitDetails />
+              </PageLayout>
+            </>
+          }
+        />
+        <Route
+          path="/units/report-issue"
+          element={
+            <>
+              <Helmet>
+                <title>{`Report Issue - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout backBtnLabel="Report Issue" showBackAction>
+                <ReportIssue />
               </PageLayout>
             </>
           }
