@@ -11,6 +11,7 @@ import {InvoiceStatus, InvoiceView} from 'models/invoice';
 import {Button} from 'components/Button';
 import {Progress} from 'components/Progress';
 import {Unit} from './Unit';
+import {ServiceCompany} from './ServiceCompany';
 import {Service} from './Service';
 import {UnitDetails} from './UnitDetails';
 import {RelatedContracts} from './RelatedContracts';
@@ -95,7 +96,7 @@ export const OverviewTab = () => {
           <Unit elevator={elevator!} />
         </Grid>
         <Grid item xs={12} lg={4}>
-          Service Company
+          <ServiceCompany elevator={elevator!} />
         </Grid>
         <Grid item xs={12} lg={4}>
           <Service elevator={elevator!} validContract={validContract} />

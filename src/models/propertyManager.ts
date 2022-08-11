@@ -33,6 +33,7 @@ export interface PropertyOwnerView {
   billingAddress: Address;
   businessAddress: Address;
   serviceCompany: ServiceCompany;
+  serviceCompanyId: string;
   contact: ContactPropertyOwner;
   search: string;
   meta: Meta;
