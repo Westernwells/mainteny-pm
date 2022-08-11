@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate, useParams} from 'react-router-dom';
-import {Grid} from '@mui/material';
+import useTheme from '@mui/material/styles/useTheme';
+import {Grid, Typography} from '@mui/material';
 import {useElevatorById} from 'hooks/reactQuery/useElevator';
 import {useElevatorInvoices} from 'hooks/reactQuery/useInvoice';
 import {createEmptyResource} from 'utils/paging-utils';
@@ -17,6 +18,7 @@ import {RelatedInvoices} from './RelatedInvoices';
 
 export const OverviewTab = () => {
   const {id: elevatorId} = useParams();
+  const theme = useTheme();
   const {t} = useTranslation();
   const navigate = useNavigate();
   const [validContract, setValidContract] = useState<ContractSimpleView>();
@@ -55,15 +57,38 @@ export const OverviewTab = () => {
 
   return (
     <Grid container rowSpacing={2}>
-      <Grid item ml="auto" py="1.25rem">
-        <Button
-          label={t('Report Issue')}
-          buttonProps={{
-            variant: 'contained',
-            size: 'large',
-            onClick: () => navigate('/units/report-issue'),
-          }}
-        />
+      <Grid
+        container
+        justifyContent="space-between"
+        alignItems="flex-end"
+        py="1.25rem">
+        <Grid item>
+          <Typography variant="subtitle2">
+            To change the data below, please contact the Service Manager,{' '}
+            <Typography
+              component="span"
+              color={theme.palette.info.main}
+              sx={{cursor: 'pointer', '&:hover': {textDecoration: 'underline'}}}
+              onClick={() =>
+                window.open(
+                  `mailto:${elevator?.meta.creator?.contact.email}`,
+                  '_blank',
+                )
+              }>
+              {elevator?.meta.creator?.contact.email}
+            </Typography>
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Button
+            label={t('Report Issue')}
+            buttonProps={{
+              variant: 'contained',
+              size: 'large',
+              onClick: () => navigate('/units/report-issue'),
+            }}
+          />
+        </Grid>
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} lg={4}>
