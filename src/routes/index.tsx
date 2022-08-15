@@ -1,4 +1,5 @@
 import {Helmet} from 'react-helmet';
+import {useTranslation} from 'react-i18next';
 import {PageLayout} from 'components/PageLayout';
 import {Login} from 'pages/Login';
 import {ResetPassword} from 'pages/ResetPassword';
@@ -9,6 +10,8 @@ import {Notifications} from 'pages/Notifications';
 import {MySettings} from 'pages/MySettings';
 import {ContractDetails} from 'pages/ContractDetails';
 import {MyUnits} from 'pages/Units';
+import {UnitDetails} from 'pages/UnitDetails';
+import {ReportIssue} from 'pages/ReportIssue';
 import {NotFound} from 'pages/NotFound';
 import {ProtectedRoutes} from 'routes/ProtectedRoutes';
 import {Navigate, Route, Routes} from 'react-router-dom';
@@ -16,6 +19,7 @@ import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {AuthRoutes} from './AuthRoutes';
 
 export const Router = () => {
+  const {t} = useTranslation();
   const titleTail = 'Property Manager Portal';
   const {user} = useUserSession();
   const fullName = `${user?.userAccount.firstName} ${user?.userAccount.lastName}`;
@@ -59,7 +63,25 @@ export const Router = () => {
               <Helmet>
                 <title>{`Unit Details - ${titleTail}`}</title>
               </Helmet>
-              <PageLayout pageScrollable>{null}</PageLayout>
+              <PageLayout
+                pageScrollable
+                showBackAction
+                backBtnLabel={`${t('Unit Details')}`}>
+                <UnitDetails />
+              </PageLayout>
+            </>
+          }
+        />
+        <Route
+          path="/units/report-issue"
+          element={
+            <>
+              <Helmet>
+                <title>{`Report Issue - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout backBtnLabel="Report Issue" showBackAction>
+                <ReportIssue />
+              </PageLayout>
             </>
           }
         />

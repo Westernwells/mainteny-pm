@@ -12,7 +12,11 @@ import {
 import {TechnicianSimpleView, TechnicianView} from './technician';
 import {FileResource, FileResourceRecord} from './media';
 import {ServiceCompanyTimeUnit} from './service-company';
-import {ServiceOrderOrderField, ServiceOrderView} from './service-order';
+import {
+  ServiceOrderOrderField,
+  ServiceOrderType,
+  ServiceOrderView,
+} from './service-order';
 import {ContractSimpleView} from './contract';
 import {EmployeesSimpleView} from './employee';
 import {
@@ -20,6 +24,7 @@ import {
   PropertyOwnerSimpleView,
   PropertyOwnerView,
 } from './propertyManager';
+import {InvoiceStatus} from './invoice';
 
 export interface ElevatorAdditionalInfo {
   priority: Priority;
@@ -429,4 +434,25 @@ export interface ElevatorCommentRecord {
 export interface QueryTodoParams {
   pageIndex: number;
   pageSize: number;
+}
+
+export enum ElevatorInvoicesOrderByField {
+  CUSTOMER_NAME = 'CUSTOMER_NAME',
+  ISSUED_DATE = 'ISSUED_DATE',
+  DUE_DATE = 'DUE_DATE',
+  NUMBER = 'NUMBER',
+}
+
+export interface ElevatorInvoicesQueryParams {
+  createdDateTimeFrom?: string;
+  createdDateTimeTo?: string;
+  order?: Order;
+  orderByField?: ElevatorInvoicesOrderByField;
+  pageIndex?: number;
+  pageSize?: number;
+  query?: string;
+  serviceOrderTypes?: ServiceOrderType[];
+  status?: InvoiceStatus[];
+  totalAmountFrom?: number;
+  totalAmountTo?: number;
 }
