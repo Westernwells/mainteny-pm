@@ -56,7 +56,7 @@ export const UnitDetails = () => {
           </TabsBody>
 
           <TabsBody value={value} index={2}>
-            <PerformanceTab />
+            <PerformanceTab elevator={elevator!} />
           </TabsBody>
 
           <TabsBody value={value} index={3}>
