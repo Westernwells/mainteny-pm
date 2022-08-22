@@ -3,9 +3,9 @@ import {useTranslation} from 'react-i18next';
 import {useNavigate, useParams} from 'react-router-dom';
 import useTheme from '@mui/material/styles/useTheme';
 import {Grid, Typography} from '@mui/material';
-import {useElevatorById} from 'hooks/reactQuery/useElevator';
 import {useElevatorInvoices} from 'hooks/reactQuery/useInvoice';
 import {createEmptyResource} from 'utils/paging-utils';
+import {ElevatorView} from 'models/elevator';
 import {ContractSimpleView, ContractStatus} from 'models/contract';
 import {InvoiceStatus, InvoiceView} from 'models/invoice';
 import {Button} from 'components/Button';
@@ -17,15 +17,16 @@ import {UnitDetails} from './UnitDetails';
 import {RelatedContracts} from './RelatedContracts';
 import {RelatedInvoices} from './RelatedInvoices';
 
-export const OverviewTab = () => {
+interface Props {
+  elevator: ElevatorView;
+}
+
+export const OverviewTab = ({elevator}: Props) => {
   const {id: elevatorId} = useParams();
   const theme = useTheme();
   const {t} = useTranslation();
   const navigate = useNavigate();
   const [validContract, setValidContract] = useState<ContractSimpleView>();
-
-  const {data: elevator, isLoading: isLoadingElevator} =
-    useElevatorById(elevatorId);
 
   const {
     data: elevatorInvoices = createEmptyResource<InvoiceView>(3),
@@ -52,7 +53,7 @@ export const OverviewTab = () => {
     }
   }, [elevator]);
 
-  if (isLoadingElevator || isLoadingElevatorInvoices) {
+  if (isLoadingElevatorInvoices) {
     return <Progress />;
   }
 
