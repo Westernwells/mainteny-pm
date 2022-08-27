@@ -216,3 +216,19 @@ export const formatNotificationsTimestamp = (date: Date, formatStr: string) => {
 
 export const getDifferenceInInterval = (start: Date, end: Date) =>
   intervalToDuration({start: new Date(start), end: new Date(end)});
+
+export const generateYearsBetween = ({
+  startYear = 2000,
+  endYear = new Date().getFullYear(),
+}: {
+  startYear?: number;
+  endYear?: number;
+}) => {
+  const years = [];
+
+  for (let i = startYear; i <= endYear; i += 1) {
+    years.push(startYear.toString());
+    startYear += 1;
+  }
+  return years;
+};

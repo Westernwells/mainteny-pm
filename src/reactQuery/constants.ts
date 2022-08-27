@@ -5,6 +5,7 @@ export const queryKeys = {
   contractDetails: 'contractDetails',
   propertyManager: 'propertyManager',
   fetchAllElevators: 'fetchAllElevators',
+  queryServiceOrders: 'queryServiceOrders',
   fetchElevatorMaintenanceHistory: 'fetchElevatorMaintenanceHistory',
   fetchServiceOrders: 'fetchServiceOrders',
   fetchElevatorAvailability: 'fetchElevatorAvailability',

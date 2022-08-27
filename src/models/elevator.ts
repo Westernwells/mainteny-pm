@@ -266,6 +266,7 @@ export interface ElevatorSimpleView {
   number: string;
   model: string;
   type: string;
+  externalId: string;
   capacity: string;
   category: ElevatorCategory;
   address: Address;
