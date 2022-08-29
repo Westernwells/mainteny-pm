@@ -1,6 +1,12 @@
 import {useCallback} from 'react';
 import {useSnackbar} from 'notistack';
-import {useMutation, useQuery, UseQueryOptions} from 'react-query';
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  useMutation,
+  useQuery,
+  UseQueryOptions,
+} from 'react-query';
 import * as _ from 'lodash';
 import {AxiosResponse} from 'axios';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
@@ -19,6 +25,7 @@ import {toDate, toRestDate, toRestDateTime} from 'utils/datetime';
 import {
   OptionalCreateNonScheduledBody,
   ServiceOrderReport,
+  ServiceOrdersByElevatorQueryParams,
   ServiceOrderType,
   ServiceOrderView,
 } from '../../models/service-order';
@@ -273,6 +280,40 @@ export function useFetchServiceOrdersByElevators(
 
         [availability, user, filter],
       ),
+    },
+  );
+}
+
+export function useFetchServiceOrdersByElevator(
+  propertyOwnerId: string,
+  params: ServiceOrdersByElevatorQueryParams,
+  options?: UseInfiniteQueryOptions<any, any, any>,
+) {
+  return useInfiniteQuery<
+    Resource<ServiceOrderView>,
+    RestError,
+    Resource<ServiceOrderView>
+  >(
+    [queryKeys.fetchServiceOrders, propertyOwnerId, params],
+    ({pageParam = 0}) =>
+      fetchServiceOrders(
+        {
+          ...params,
+          pageIndex: pageParam,
+        },
+        propertyOwnerId,
+      ),
+    {
+      enabled: !!propertyOwnerId,
+      getNextPageParam: (lastPage) => {
+        const currentTotal =
+          (lastPage.page.pageIndex + 1) * lastPage.page.pageSize;
+        if (lastPage.total && currentTotal < lastPage.total) {
+          return lastPage.page.pageIndex + 1;
+        }
+        return undefined;
+      },
+      ...options,
     },
   );
 }

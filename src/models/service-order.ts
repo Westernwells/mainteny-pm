@@ -269,3 +269,26 @@ export type OptionalCreateNonScheduledBody = WithOptional<
   | 'serviceCompanyId'
   | 'elevatorId'
 >;
+
+export interface ServiceOrdersByElevatorQueryParams {
+  elevatorIds?: string[];
+  start: string;
+  end: string;
+  pageIndex: number;
+  pageSize: number;
+  query?: string;
+  status?: ServiceOrderStatus[];
+  technicianIds?: string[];
+  types?: ServiceOrderType[];
+}
+
+export const serviceOrderStatusMap = {
+  Unscheduled: ServiceOrderStatus.READY_TO_SCHEDULE,
+  Pending: ServiceOrderStatus.SCHEDULED,
+  Ongoing: ServiceOrderStatus.IN_PROGRESS,
+  Completed: ServiceOrderStatus.COMPLETED,
+  Cancelled: ServiceOrderStatus.CANCELLED,
+  Expired: ServiceOrderStatus.EXPIRED,
+};
+
+export type serviceOrderStatusMapKey = keyof typeof serviceOrderStatusMap;

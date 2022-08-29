@@ -52,7 +52,9 @@ export const UnitDetails = () => {
           </TabsBody>
 
           <TabsBody value={value} index={1}>
-            <ServiceOrdersTab />
+            <ServiceOrdersTab
+              propertyOwnerId={elevator?.propertyOwner.id ?? ''}
+            />
           </TabsBody>
 
           <TabsBody value={value} index={2}>

@@ -1,18 +1,16 @@
 import Typography from '@mui/material/Typography';
-import useTheme from '@mui/material/styles/useTheme';
+import {useServiceOrderStatusColor} from 'hooks/useServiceOrderStatusColor';
 import {ServiceOrderStatus} from '../models/service-order';
 
 interface Props {
   serviceOrderStatus?: ServiceOrderStatus;
   style?: {[key: string]: string | number};
-  color?: any;
 }
-export const ServiceOrderStatusText = ({
-  serviceOrderStatus,
-  style,
-  color,
-}: Props) => {
-  const theme = useTheme();
+export const ServiceOrderStatusText = ({serviceOrderStatus, style}: Props) => {
+  const [serviceOrderStatusColor] = useServiceOrderStatusColor();
+  const statusColor = serviceOrderStatus
+    ? serviceOrderStatusColor[serviceOrderStatus]
+    : serviceOrderStatusColor.SCHEDULED;
   const renderStatus = () => {
     switch (serviceOrderStatus) {
       case ServiceOrderStatus.COMPLETED:
@@ -33,8 +31,15 @@ export const ServiceOrderStatusText = ({
   return (
     <Typography
       variant="chip"
-      color={theme.palette.text.secondary || color}
-      sx={{textTransform: 'capitalize', ...style}}>
+      color="white"
+      bgcolor={statusColor}
+      sx={{
+        textTransform: 'capitalize',
+        px: '0.625rem',
+        py: '3px',
+        borderRadius: '1rem',
+        ...style,
+      }}>
       {renderStatus()}
     </Typography>
   );
