@@ -1,5 +1,6 @@
 import Typography from '@mui/material/Typography';
 import {useServiceOrderStatusColor} from 'hooks/useServiceOrderStatusColor';
+import {useTranslation} from 'react-i18next';
 import {ServiceOrderStatus} from '../models/service-order';
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
   style?: {[key: string]: string | number};
 }
 export const ServiceOrderStatusText = ({serviceOrderStatus, style}: Props) => {
+  const {t} = useTranslation();
   const [serviceOrderStatusColor] = useServiceOrderStatusColor();
   const statusColor = serviceOrderStatus
     ? serviceOrderStatusColor[serviceOrderStatus]
@@ -14,15 +16,15 @@ export const ServiceOrderStatusText = ({serviceOrderStatus, style}: Props) => {
   const renderStatus = () => {
     switch (serviceOrderStatus) {
       case ServiceOrderStatus.COMPLETED:
-        return 'Completed';
+        return t('Completed');
       case ServiceOrderStatus.SCHEDULED:
-        return 'Pending';
+        return t('Pending');
       case ServiceOrderStatus.IN_PROGRESS:
-        return 'In Progress';
+        return t('In Progress');
       case ServiceOrderStatus.EXPIRED:
-        return 'Expired';
+        return t('Expired');
       case ServiceOrderStatus.CANCELLED:
-        return 'Cancelled';
+        return t('Cancelled');
       default:
         return null;
     }

@@ -7,6 +7,7 @@ import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {ContractView} from 'models/contract';
 import {formatCurrency, formatNetAmount} from 'utils/currency';
 import {convertToText} from 'utils/utils';
+import {useTranslation} from 'react-i18next';
 import {ContractBasic} from './ContractBasic';
 import {ContractParties} from './ContractParties';
 import {ContractPayment} from './ContractPayment';
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export const Overview = ({contract, downloadUrl, fileName}: Props) => {
+  const {t} = useTranslation();
   const {user} = useUserSession();
 
   return contract ? (
@@ -66,7 +68,7 @@ export const Overview = ({contract, downloadUrl, fileName}: Props) => {
                   <InfoCard
                     header={
                       <Typography variant="subtitle1">
-                        Contract Parties
+                        {t('Contract Parties')}
                       </Typography>
                     }
                     showHeaderBackground>
@@ -101,7 +103,9 @@ export const Overview = ({contract, downloadUrl, fileName}: Props) => {
                       flexDirection: 'column',
                     }}
                     header={
-                      <Typography variant="subtitle1">Document</Typography>
+                      <Typography variant="subtitle1">
+                        {t('Document')}
+                      </Typography>
                     }
                     showHeaderBackground>
                     <Box
@@ -141,7 +145,9 @@ export const Overview = ({contract, downloadUrl, fileName}: Props) => {
         <Grid xs={4} item>
           <InfoCard
             header={
-              <Typography variant="subtitle1">Contract Timeline</Typography>
+              <Typography variant="subtitle1">
+                {t('Contract Timeline')}
+              </Typography>
             }
             containerStyles={{height: '100%'}}
             showHeaderBackground>
@@ -153,7 +159,9 @@ export const Overview = ({contract, downloadUrl, fileName}: Props) => {
         <Grid item xs={8}>
           <InfoCard
             header={
-              <Typography variant="subtitle1">Payment Details</Typography>
+              <Typography variant="subtitle1">
+                {t('Payment Details')}
+              </Typography>
             }
             showHeaderBackground>
             <ContractPayment name={contract?.propertyOwner.name} />
