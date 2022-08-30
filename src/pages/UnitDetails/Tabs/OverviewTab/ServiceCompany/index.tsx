@@ -22,7 +22,7 @@ export const ServiceCompany = ({containerStyles, elevator}: Props) => {
   const theme = useTheme();
   const {user} = useUserSession();
   const logoPath =
-    user?.userAccount.serviceCompany.settings.whiteLabel.logoPath ?? '';
+    user?.userAccount.serviceCompany.settings.whiteLabel?.logoPath ?? '';
   const {data: logoUrl} = useDownloadUrl(logoPath ? [logoPath] : []);
 
   const technician = useMemo(() => {
