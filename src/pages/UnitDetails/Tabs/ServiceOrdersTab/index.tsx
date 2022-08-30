@@ -105,7 +105,11 @@ export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
     </InfoCard>
   );
 
-  if (isLoadingServiceOrders || isLoadingInvoices || !selectedServiceOrder) {
+  if (
+    isLoadingServiceOrders ||
+    isLoadingInvoices ||
+    (flatServiceOrders.length && !selectedServiceOrder)
+  ) {
     return <Progress />;
   }
 
