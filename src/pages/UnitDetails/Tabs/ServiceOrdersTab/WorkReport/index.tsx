@@ -17,9 +17,10 @@ import {ServiceOrderView} from 'models/service-order';
 
 interface Props {
   serviceOrder: ServiceOrderView;
+  cost: string;
 }
 
-export const WorkReport = ({serviceOrder}: Props) => {
+export const WorkReport = ({serviceOrder, cost}: Props) => {
   const {t} = useTranslation();
   const formatDate = useFormatDate();
   const theme = useTheme();
@@ -47,22 +48,9 @@ export const WorkReport = ({serviceOrder}: Props) => {
             icon={<EuroSymbol sx={{color: theme.palette.info.dark}} />}
             label="COST"
             bodyText={
-              <>
-                <Typography component="div" variant="body2">
-                  9,700 EUR
-                </Typography>
-                <Typography
-                  variant="caption"
-                  color={theme.palette.info.main}
-                  sx={{
-                    cursor: 'pointer',
-                    '&:hover': {
-                      color: theme.palette.info.dark,
-                    },
-                  }}>
-                  {t('View invoice')}
-                </Typography>
-              </>
+              <Typography component="div" variant="body2">
+                {cost}
+              </Typography>
             }
             iconBackground={theme.palette.info.outlinedHoverBg}
             containerStyles={{mt: '0.5em'}}
@@ -132,12 +120,15 @@ export const WorkReport = ({serviceOrder}: Props) => {
       headerStyles={{
         py: '0.25rem',
         px: '0.5rem',
-      }}
-      containerStyles={{
-        height: '100%',
       }}>
       <Typography variant="body2" color={theme.palette.text.secondary}>
-        Resolved on 25.09.2021, 17:00 - 17:45
+        {serviceOrder.actualEndTime
+          ? `Resolved on 
+        ${formatDate(toDate(serviceOrder.actualEndTime))}, ${formatDate(
+              toDate(serviceOrder.actualEndTime),
+              'HH:mm',
+            )}`
+          : null}
       </Typography>
       <Typography
         variant="body1"
