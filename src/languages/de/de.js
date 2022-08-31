@@ -90,7 +90,7 @@ module.exports = {
     'CONTRACT TYPE': 'VERTRAGSTYP',
     'START DATE': 'ANFANGSDATUM',
     'NO. OF UNITS': 'ANZAHL ANLAGEN',
-    'CONTACT TYPE': 'KONTAKT',
+    'CONTACT TYPE': 'VERTRAGSART',
     'New Contract': 'Neuer Vertrag',
     'Select units': 'Wähle Aufzug',
     'Add contract terms': 'Vertragsbedingungen hinzufügen',
@@ -974,6 +974,24 @@ module.exports = {
     Checklist: 'Checkliste',
     'No checklist yet.': 'Keine Checkliste vorhanden.',
     'Order Details': 'Auftragsdetails',
+
+    'To change the data below, please contact the Service Manager,':
+      'Wenn Sie die nachstehenden Daten ändern möchten, wenden Sie sich bitte an den Service Manager,',
+    'The displayed information is based on dummy data. In order to show real-time unit information, the unit has to be connected to an IoT device. For more details, please reach out writing an email to':
+      'Die angezeigten Informationen beruhen auf Dummy-Daten. Um Echtzeit-Informationen über das Gerät anzuzeigen, muss das Gerät mit einem IoT-Gerät verbunden sein. Für weitere Details, schreiben Sie bitte eine E-Mail an',
+    'Contract Parties': 'Vertragsparteien',
+    'Payment Details': 'Details zur Bezahlung',
+    Company: 'Unternehmen',
+    'Elevator Address': 'Aufzug Adresse',
+    Capacity: 'Kapazität',
+    'Next Visit': 'Nächster Besuch',
+    'More details': 'Mehr Details',
+    Stopped: 'Gestoppt',
+    'Related Invoices': 'Verwandte Rechnungen',
+    'No invoice yet.': 'Noch keine Rechnung.',
+    'START TIME': 'STARTZEIT',
+    'END TIME': 'ENDZEIT',
+    COST: 'KOSTEN',
   },
 };
 

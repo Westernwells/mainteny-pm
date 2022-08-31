@@ -66,7 +66,7 @@ export const OverviewTab = ({elevator}: Props) => {
         py="1.25rem">
         <Grid item>
           <Typography variant="subtitle2">
-            To change the data below, please contact the Service Manager,{' '}
+            {t('To change the data below, please contact the Service Manager,')}{' '}
             <Typography
               component="span"
               color={theme.palette.info.main}
