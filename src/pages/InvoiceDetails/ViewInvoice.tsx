@@ -1,22 +1,22 @@
 import {useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
+import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import {Button} from 'components/Button';
+import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
 import {StatusChip} from 'components/StatusChip';
 import {PageCard} from 'components/PageCard';
 import {PDFContainer} from 'components/PDFContainer';
 import {FormLabel} from 'components/form/FormLabel';
 import {EmptySection} from 'components/EmptySection';
 import {InvoiceView} from 'models/invoice';
+import {ServiceOrderReport} from 'models/service-order';
 import {getInvoiceStatusStyles} from 'pages/Invoices/InvoicesDataGridProps';
 import {PdfGenerationStatus} from 'models/misc';
 import {formatNetAmount} from 'utils/currency';
-import {ServiceOrderIcons} from 'components/ServiceOrderIcons';
-import {ServiceOrderTypeText} from 'components/ServiceOrderTypeText';
 import {
   getServiceOrderStatusColor,
   serviceOrderStatusToString,
@@ -26,12 +26,14 @@ import {useFormatDate} from 'hooks/useFormatDate';
 interface Props {
   downloadUrl: string;
   invoice: InvoiceView;
+  workReport: ServiceOrderReport;
 }
 
-export const ViewInvoice = ({downloadUrl, invoice}: Props) => {
+export const ViewInvoice = ({downloadUrl, invoice, workReport}: Props) => {
   const {t} = useTranslation();
   const navigate = useNavigate();
   const formatDate = useFormatDate();
+  const theme = useTheme();
 
   return (
     <Box>
@@ -39,7 +41,7 @@ export const ViewInvoice = ({downloadUrl, invoice}: Props) => {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        gap="1em">
+        gap="2em">
         <Box ml="auto">
           <StatusChip
             label={getInvoiceStatusStyles(invoice.status).label}
@@ -49,15 +51,21 @@ export const ViewInvoice = ({downloadUrl, invoice}: Props) => {
           />
         </Box>
         {downloadUrl && (
-          <Button
-            label="Download Invoice"
-            buttonProps={{
-              variant: 'outlined',
-              onClick: () => window.open(`${downloadUrl}`, '_blank'),
-              disabled:
-                invoice!.additionalInfo.pdfGenerationStatus !==
-                PdfGenerationStatus.DONE,
-              startIcon: <FileDownloadIcon color="primary" />,
+          <CustomButtonUnstyled
+            label={t('Download Invoice')}
+            size="medium"
+            onClick={() => window.open(`${downloadUrl}`, '_blank')}
+            startIcon={<FileDownloadIcon />}
+            disabled={
+              invoice!.additionalInfo.pdfGenerationStatus !==
+              PdfGenerationStatus.DONE
+            }
+            styles={{
+              color: theme.palette.primary.main,
+              '&:hover': {
+                background: theme.palette.primary.main,
+                color: 'white',
+              },
             }}
           />
         )}
@@ -66,7 +74,7 @@ export const ViewInvoice = ({downloadUrl, invoice}: Props) => {
         <Grid item xs={8}>
           <PageCard
             containerStyles={{mb: '1.5em'}}
-            contentContainerStyles={{display: 'flex', gap: '1.5em'}}>
+            contentContainerStyles={{display: 'flex', gap: '6em'}}>
             <Box>
               <FormLabel text="Invoice Number" sx={{color: 'text.main'}} />
               <Typography variant="subtitle1">{invoice.number}</Typography>
@@ -74,7 +82,7 @@ export const ViewInvoice = ({downloadUrl, invoice}: Props) => {
 
             <Box>
               <FormLabel
-                text="Total (excl. VAT)"
+                text="Total"
                 sx={{color: 'text.main', textTransform: 'initial'}}
               />
               <Typography variant="subtitle1">
@@ -88,7 +96,9 @@ export const ViewInvoice = ({downloadUrl, invoice}: Props) => {
           ) : (
             <PageCard>
               <EmptySection
-                label="The PDF generation is in progress, please try again after sometime. We apologize for the inconvenience."
+                label={t(
+                  'The PDF generation is in progress, please try again after sometime. We apologize for the inconvenience.',
+                )}
                 size="small"
               />
             </PageCard>
@@ -96,13 +106,13 @@ export const ViewInvoice = ({downloadUrl, invoice}: Props) => {
         </Grid>
         <Grid item xs sx={{display: 'flex', flexDirection: 'column', gap: 2}}>
           <PageCard
-            headerLabel="Service Order"
-            contentContainerStyles={{
-              display: 'flex',
-              gap: '1em',
-              flexDirection: 'column',
+            headerLabel={t('Service Order')}
+            headerStyles={{
+              pt: '11px',
             }}
-            headerActionIcon={<OpenInNewIcon />}
+            headerActionIcon={
+              <OpenInNewIcon sx={{color: theme.palette.secondary.dark}} />
+            }
             handleAction={() =>
               navigate(`/orders/details/${invoice.serviceOrder.id}`)
             }>
@@ -118,8 +128,8 @@ export const ViewInvoice = ({downloadUrl, invoice}: Props) => {
                   size="small"
                 />
               </Box>
-              <FormLabel text="Order Number" sx={{color: 'text.main'}} />
-              <Typography variant="subtitle1">
+              <FormLabel text="Order Number" sx={{color: 'text.primary'}} />
+              <Typography variant="body2">
                 {invoice.serviceOrder.number}
               </Typography>
               <Typography variant="caption" sx={{color: 'text.secondary'}}>
@@ -127,21 +137,31 @@ export const ViewInvoice = ({downloadUrl, invoice}: Props) => {
                   invoice.serviceOrder.meta.createdAt,
                 )}`}
               </Typography>
-              <Box display="flex" alignItems="center" gap=".5em" mt="1em">
-                <ServiceOrderIcons
-                  serviceOrderType={invoice.serviceOrder.type}
-                  size="small"
-                />
-                <ServiceOrderTypeText
-                  serviceOrderType={invoice.serviceOrder.type}
-                  capitalizeText
-                />
+              <Box display="flex" pt="2em">
+                <Typography variant="caption">
+                  {invoice.serviceOrder.description}
+                </Typography>
               </Box>
-              <Typography variant="caption">
-                {invoice.serviceOrder.description}
-              </Typography>
             </Box>
           </PageCard>
+          {!!workReport && (
+            <PageCard
+              headerLabel={t('Work Report')}
+              headerStyles={{
+                pt: '11px',
+              }}
+              headerActionIcon={
+                <OpenInNewIcon sx={{color: theme.palette.secondary.dark}} />
+              }
+              handleAction={() =>
+                navigate(`/orders/details/${invoice.serviceOrder.id}`)
+              }>
+              <Typography variant="body1">
+                {formatDate(workReport.serviceOrder.actualStartTime)}:{' '}
+                {workReport.description || '-'}
+              </Typography>
+            </PageCard>
+          )}
         </Grid>
       </Grid>
     </Box>
