@@ -138,7 +138,10 @@ export const Router = () => {
               <Helmet>
                 <title>{`Invoice Details - ${titleTail}`}</title>
               </Helmet>
-              <PageLayout pageScrollable>
+              <PageLayout
+                pageScrollable
+                showBackAction
+                backBtnLabel="Invoice Details">
                 <InvoiceDetails />
               </PageLayout>
             </>

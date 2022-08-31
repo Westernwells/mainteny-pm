@@ -182,7 +182,7 @@ export const useFetchElevatorAvailability = (elevatorIds: string[]) => {
   );
 };
 
-export const fetchServiceOrderReport = async (
+export const fetchServiceOrderReports = async (
   params: ServiceOrderReportPayload,
 ) => {
   const response = await axiosClient.get<ServiceOrderReport[]>(
@@ -195,11 +195,29 @@ export const fetchServiceOrderReport = async (
   return response.data;
 };
 
-export function useServiceOrderReport(params: ServiceOrderReportPayload) {
+export function useServiceOrderReports(params: ServiceOrderReportPayload) {
   return useQuery<ServiceOrderReport[], RestError>(
-    [queryKeys.fetchServiceOrderReport, params],
-    () => fetchServiceOrderReport(params as ServiceOrderReportPayload),
+    [queryKeys.fetchServiceOrderReports, params],
+    () => fetchServiceOrderReports(params as ServiceOrderReportPayload),
     {enabled: !!params.serviceOrderId || !!params.serviceOrderId.length},
+  );
+}
+
+export const fetchServiceOrderReport = async (serviceOrderId: string) => {
+  const response = await axiosClient.get<ServiceOrderReport>(
+    `/api/serviceOrders/${serviceOrderId}/report`,
+  );
+  return response.data;
+};
+
+export function useServiceOrderReport(
+  serviceOrderId: string,
+  options?: UseQueryOptions<any, any, any>,
+) {
+  return useQuery<ServiceOrderReport, RestError>(
+    [queryKeys.fetchServiceOrderReport, serviceOrderId],
+    () => fetchServiceOrderReport(serviceOrderId),
+    {...options},
   );
 }
 
