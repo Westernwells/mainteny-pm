@@ -81,3 +81,20 @@ export function useElevatorInvoices(
     },
   );
 }
+
+const fetchServiceOrderInvoices = async (serviceOrderId: string) => {
+  const response = await axiosClient.get<InvoiceView[]>(
+    `/api/serviceOrders/${serviceOrderId}/invoices`,
+  );
+  return response.data;
+};
+
+export const useFetchServiceOrderInvoices = (
+  serviceOrderId?: string,
+  options?: UseQueryOptions<any, any, any>,
+) =>
+  useQuery<InvoiceView[]>(
+    [qk.fetchServiceOrderInvoices, serviceOrderId],
+    () => fetchServiceOrderInvoices(serviceOrderId!),
+    {enabled: !!serviceOrderId, ...options},
+  );

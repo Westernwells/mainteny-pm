@@ -8,17 +8,21 @@ import {InfoCard} from 'components/InfoCard';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {Progress} from 'components/Progress';
 import {useFetchServiceOrdersByElevator} from 'hooks/reactQuery/useServiceOrder';
+import {useFetchServiceOrderInvoices} from 'hooks/reactQuery/useInvoice';
 import {
   ServiceOrderStatus,
   serviceOrderStatusMap,
   serviceOrderStatusMapKey,
   ServiceOrderView,
 } from 'models/service-order';
+import {InvoiceView} from 'models/invoice';
 import {generateYearsBetween, toRestDateTime} from 'utils/datetime';
 import {serviceOrderStatusToString} from 'utils/service-order-utils';
+import {formatCurrency} from 'utils/currency';
 import {Details} from './Details';
 import {WorkReport} from './WorkReport';
 import {TimelineCard} from './Timeline/TimelineCard';
+import {Invoices} from './Invoices';
 
 interface Props {
   propertyOwnerId: string;
@@ -37,9 +41,6 @@ export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
       pageParams: [],
     },
     isLoading: isLoadingServiceOrders,
-    isFetchingNextPage: isFetchingNextServiceOrdersPage,
-    hasNextPage: hasNextServiceOrdersPage,
-    fetchNextPage: fetchNextServiceOrdersPage,
   } = useFetchServiceOrdersByElevator(propertyOwnerId, {
     elevatorIds: [elevatorId],
     status,
@@ -48,16 +49,10 @@ export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
     pageSize: 10,
     pageIndex: 0,
   });
-  console.log(
-    '🚀 ~ file: index.tsx ~ line 498 ~ ServiceOrdersTab ~ serviceOrders',
-    {
-      serviceOrders,
-      isLoadingServiceOrders,
-      isFetchingNextServiceOrdersPage,
-      hasNextServiceOrdersPage,
-      fetchNextServiceOrdersPage,
-    },
-  );
+  const {data: invoices = [], isLoading: isLoadingInvoices} =
+    useFetchServiceOrderInvoices(selectedServiceOrder?.id, {
+      enabled: !!selectedServiceOrder?.id,
+    });
 
   const flatServiceOrders = useMemo(
     () => serviceOrders.pages.flatMap((i) => i.data),
@@ -69,6 +64,25 @@ export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
       setSelectedServiceOrder(flatServiceOrders[0]);
     }
   }, [flatServiceOrders]);
+
+  const cost = useMemo(() => {
+    if (!invoices.length) {
+      return '-';
+    }
+
+    const {currency, fractionDigits} = invoices[0].totalAmount;
+
+    return formatCurrency(
+      invoices.reduce(
+        (prev, curr: InvoiceView) => prev + curr.totalAmount.netAmount,
+        0,
+      ) /
+        10 ** fractionDigits,
+      {
+        currency,
+      },
+    );
+  }, [invoices]);
 
   const renderEmptySection = () => (
     <InfoCard
@@ -91,7 +105,11 @@ export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
     </InfoCard>
   );
 
-  if (isLoadingServiceOrders || !selectedServiceOrder) {
+  if (
+    isLoadingServiceOrders ||
+    isLoadingInvoices ||
+    (flatServiceOrders.length && !selectedServiceOrder)
+  ) {
     return <Progress />;
   }
 
@@ -100,8 +118,8 @@ export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
   }
 
   return (
-    <Grid container columnSpacing={3} maxHeight="80vh">
-      <Grid item xs={4} maxHeight="100%">
+    <Grid container columnSpacing={3}>
+      <Grid item xs={4}>
         <InfoCard
           header={<Typography variant="subtitle1">{t('Timeline')}</Typography>}
           showHeaderBackground
@@ -168,12 +186,15 @@ export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
           </Box>
         </InfoCard>
       </Grid>
-      <Grid item xs={8} container spacing={2} maxHeight="100%">
+      <Grid item xs={8} container spacing={2}>
         <Grid item xs={12}>
           <Details serviceOrder={selectedServiceOrder!} />
         </Grid>
-        <Grid item xs={12} height="72%">
-          <WorkReport serviceOrder={selectedServiceOrder!} />
+        <Grid item xs={12}>
+          <WorkReport serviceOrder={selectedServiceOrder!} cost={cost} />
+        </Grid>
+        <Grid item xs={12}>
+          <Invoices invoices={invoices} />
         </Grid>
       </Grid>
     </Grid>
