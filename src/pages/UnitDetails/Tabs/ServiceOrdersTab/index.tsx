@@ -28,11 +28,20 @@ interface Props {
   propertyOwnerId: string;
 }
 
+const statusOptions = [
+  ServiceOrderStatus.READY_TO_SCHEDULE,
+  ServiceOrderStatus.SCHEDULED,
+  ServiceOrderStatus.IN_PROGRESS,
+  ServiceOrderStatus.COMPLETED,
+  ServiceOrderStatus.CANCELLED,
+  ServiceOrderStatus.EXPIRED,
+].map((item) => serviceOrderStatusToString(item));
+
 export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
   const {id: elevatorId = ''} = useParams();
   const {t} = useTranslation();
   const [year, setYear] = useState(new Date().getFullYear());
-  const [status, setStatus] = useState<ServiceOrderStatus[]>([]);
+  const [status, setStatus] = useState<serviceOrderStatusMapKey[]>([]);
   const [selectedServiceOrder, setSelectedServiceOrder] =
     useState<ServiceOrderView | null>(null);
   const {
@@ -43,7 +52,7 @@ export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
     isLoading: isLoadingServiceOrders,
   } = useFetchServiceOrdersByElevator(propertyOwnerId, {
     elevatorIds: [elevatorId],
-    status,
+    status: status.map((i) => serviceOrderStatusMap[i]),
     start: toRestDateTime(startOfYear(new Date(year, 0, 1))),
     end: toRestDateTime(endOfYear(new Date(year, 0, 1))),
     pageSize: 10,
@@ -113,7 +122,7 @@ export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
     return <Progress />;
   }
 
-  if (flatServiceOrders.length === 0) {
+  if (flatServiceOrders.length === 0 && !selectedServiceOrder) {
     return renderEmptySection();
   }
 
@@ -155,21 +164,10 @@ export const ServiceOrdersTab = ({propertyOwnerId}: Props) => {
                 formControlStyles={{
                   width: '100%',
                 }}
-                options={[
-                  ServiceOrderStatus.READY_TO_SCHEDULE,
-                  ServiceOrderStatus.SCHEDULED,
-                  ServiceOrderStatus.IN_PROGRESS,
-                  ServiceOrderStatus.COMPLETED,
-                  ServiceOrderStatus.CANCELLED,
-                  ServiceOrderStatus.EXPIRED,
-                ].map((item) => serviceOrderStatusToString(item))}
+                options={statusOptions}
+                initialSelectedItems={status}
                 getSelectedValue={(item) =>
-                  setStatus(
-                    item.map(
-                      (i) =>
-                        serviceOrderStatusMap[i as serviceOrderStatusMapKey],
-                    ),
-                  )
+                  setStatus(item as serviceOrderStatusMapKey[])
                 }
               />
             </Grid>
