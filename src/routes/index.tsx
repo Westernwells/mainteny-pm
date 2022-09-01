@@ -124,7 +124,7 @@ export const Router = () => {
               <Helmet>
                 <title>{`Invoices - ${titleTail}`}</title>
               </Helmet>
-              <PageLayout>
+              <PageLayout pageTitle="Invoices">
                 <Invoices />
               </PageLayout>
             </>

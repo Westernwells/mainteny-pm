@@ -134,10 +134,7 @@ export const Invoices = () => {
         <Widget
           searchPlaceholder="Search by number, customer, service type etc."
           getSearchValue={(val: string) => setSearch(val)}
-          showActionBtn
           refInput={textInput}
-          btnLabel="New Invoice"
-          btnOnClick={navigateToNewInvoice}
           filterItems={renderFilterItems()}
         />
       }>

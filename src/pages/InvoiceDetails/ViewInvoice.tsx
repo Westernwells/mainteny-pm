@@ -1,11 +1,9 @@
-import {useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
 import {StatusChip} from 'components/StatusChip';
 import {PageCard} from 'components/PageCard';
@@ -31,7 +29,6 @@ interface Props {
 
 export const ViewInvoice = ({downloadUrl, invoice, workReport}: Props) => {
   const {t} = useTranslation();
-  const navigate = useNavigate();
   const formatDate = useFormatDate();
   const theme = useTheme();
 
@@ -109,13 +106,7 @@ export const ViewInvoice = ({downloadUrl, invoice, workReport}: Props) => {
             headerLabel={t('Service Order')}
             headerStyles={{
               pt: '11px',
-            }}
-            headerActionIcon={
-              <OpenInNewIcon sx={{color: theme.palette.secondary.dark}} />
-            }
-            handleAction={() =>
-              navigate(`/orders/details/${invoice.serviceOrder.id}`)
-            }>
+            }}>
             <Box>
               <Box sx={{float: 'right'}}>
                 <StatusChip
@@ -149,13 +140,7 @@ export const ViewInvoice = ({downloadUrl, invoice, workReport}: Props) => {
               headerLabel={t('Work Report')}
               headerStyles={{
                 pt: '11px',
-              }}
-              headerActionIcon={
-                <OpenInNewIcon sx={{color: theme.palette.secondary.dark}} />
-              }
-              handleAction={() =>
-                navigate(`/orders/details/${invoice.serviceOrder.id}`)
-              }>
+              }}>
               <Typography variant="body1">
                 {formatDate(workReport.serviceOrder.actualStartTime)}:{' '}
                 {workReport.description || '-'}

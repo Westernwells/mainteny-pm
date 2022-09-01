@@ -277,7 +277,7 @@ export interface ServiceOrdersByElevatorQueryParams {
   pageIndex: number;
   pageSize: number;
   query?: string;
-  status?: ServiceOrderStatus[];
+  status?: Partial<ServiceOrderStatus[]>;
   technicianIds?: string[];
   types?: ServiceOrderType[];
 }
