@@ -8,6 +8,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import i18n from 'i18n';
 import {useAuth} from 'hooks/useAuth';
 import {useEffect, useState} from 'react';
+import {Mixpanel} from 'mixpanel/mixpanel';
+import {mixpanelEvents} from 'mixpanel/constants';
 import {axiosClient} from 'utils/axios-utils';
 import {Role} from 'models/user';
 import {convertToText, languageMap} from 'utils/utils';
@@ -136,6 +138,7 @@ export const AppTopBar = ({
                 {
                   label: t('Logout'),
                   action: () => {
+                    Mixpanel.identifyAndTrack(mixpanelEvents.LOGOUT);
                     signout();
                   },
                 },
