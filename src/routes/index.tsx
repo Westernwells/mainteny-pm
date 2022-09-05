@@ -1,5 +1,9 @@
+import {useEffect} from 'react';
 import {Helmet} from 'react-helmet';
 import {useTranslation} from 'react-i18next';
+import {onVisibilityChange} from 'utils/utils';
+import {Mixpanel} from 'mixpanel/mixpanel';
+import {mixpanelEvents} from 'mixpanel/constants';
 import {PageLayout} from 'components/PageLayout';
 import ErrorBoundary from 'components/ErrorBoundary';
 import {Login} from 'pages/Login';
@@ -32,6 +36,16 @@ export const Router = () => {
   const titleTail = 'Property Manager Portal';
   const {user} = useUserSession();
   const fullName = `${user?.userAccount.firstName} ${user?.userAccount.lastName}`;
+
+  useEffect(() => {
+    onVisibilityChange((visible) => {
+      if (visible) {
+        Mixpanel.timeEvent(mixpanelEvents.ACTIVE_SESSION);
+      } else {
+        Mixpanel.identifyAndTrack(mixpanelEvents.ACTIVE_SESSION);
+      }
+    });
+  }, []);
 
   return (
     <ErrorBoundary navigate={navigate} location={location}>

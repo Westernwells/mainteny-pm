@@ -23,6 +23,8 @@ import {ReactComponent as MaintenyLogo} from 'assets/icons/Mainteny.svg';
 import Fade from '@mui/material/Fade';
 import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {Role} from 'models/user';
+import {Mixpanel} from 'mixpanel/mixpanel';
+import {mixpanelEvents} from 'mixpanel/constants';
 
 const drawerWidth = '15rem';
 
@@ -103,6 +105,7 @@ export const AppDrawer = () => {
         e.preventDefault();
         setSelectedIndex(index);
         setSelectedPath('/units');
+        Mixpanel.identifyAndTrack(mixpanelEvents.MENU_UNITS_CLICKED);
         navigate('/units');
       },
     },
@@ -118,6 +121,7 @@ export const AppDrawer = () => {
         e.preventDefault();
         setSelectedIndex(index);
         setSelectedPath('/contracts');
+        Mixpanel.identifyAndTrack(mixpanelEvents.MENU_CONTRACTS_CLICKED);
         navigate('/contracts');
       },
     },
@@ -133,6 +137,7 @@ export const AppDrawer = () => {
         e.preventDefault();
         setSelectedIndex(index);
         setSelectedPath('/invoices');
+        Mixpanel.identifyAndTrack(mixpanelEvents.MENU_INVOICES_CLICKED);
         navigate('/invoices');
       },
     },
@@ -176,6 +181,7 @@ export const AppDrawer = () => {
             disableRipple
             onClick={() => {
               setSelectedPath('/orders');
+              Mixpanel.identifyAndTrack(mixpanelEvents.MENU_HOME_CLICKED);
               navigate('/orders');
             }}>
             <MaintenyLogo

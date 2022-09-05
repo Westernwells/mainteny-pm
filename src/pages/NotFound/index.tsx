@@ -1,14 +1,21 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {ReactComponent as PersonSpannerIcon} from 'assets/icons/PersonSpanner.svg';
-import React from 'react';
+import {useEffect} from 'react';
 import {CustomButtonUnstyled} from 'components/CustomButtonUnstyled';
 import useTheme from '@mui/material/styles/useTheme';
 import {useNavigate} from 'react-router-dom';
+import {Mixpanel} from 'mixpanel/mixpanel';
+import {mixpanelEvents} from 'mixpanel/constants';
 
 export const NotFound = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+
+  useEffect(() => {
+    Mixpanel.identifyAndTrack(mixpanelEvents['404_PAGE_SHOWN']);
+  }, []);
+
   return (
     <Box
       display="flex"
