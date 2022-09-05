@@ -88,12 +88,11 @@ export const makeRows = (
     elevators.length &&
     elevators.map((elevator: ElevatorView, index: number) => ({
       id: index,
-      number: elevator.number,
+      number: elevator.externalId,
       model: elevator.model,
       lastVisit: formatDate(elevator.lastVisitDate),
       nextVisit: formatDate(elevator.nextVisitDate),
       address: elevator.address.fullName,
-      headerText: elevator.address.fullName,
       priorityTechnician: elevator.assignments?.length
         ? getPriorityTechnician(elevator.assignments)
         : '-',
