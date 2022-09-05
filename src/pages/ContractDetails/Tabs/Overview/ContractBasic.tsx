@@ -13,6 +13,7 @@ import {useTranslation} from 'react-i18next';
 
 interface Props {
   contractStatus?: string;
+  contractStatusColor: 'success' | 'error';
   type?: string;
   numberOfVisits?: number;
   costPerYear?: string | number;
@@ -24,6 +25,7 @@ interface Props {
 
 export const ContractBasic = ({
   contractStatus,
+  contractStatusColor,
   costPerYear,
   type,
   spendingLimit,
@@ -37,7 +39,7 @@ export const ContractBasic = ({
   return (
     <>
       <StatusChip
-        color="success"
+        color={contractStatusColor}
         label={contractStatus}
         style={{mb: '1em', float: 'right'}}
       />
@@ -50,6 +52,7 @@ export const ContractBasic = ({
             iconBackground={theme.palette.info.outlinedHoverBg}
             iconMaxHeight="3rem"
             bodyText={convertToText(type || '-')}
+            bodyStyle={{textTransform: 'uppercase'}}
           />
         </Grid>
         <Grid item xs={4}>
@@ -65,7 +68,7 @@ export const ContractBasic = ({
         </Grid>
         <Grid item xs={4}>
           <CardProps
-            label="PRICE/YEAR (excl. VAT)"
+            label="PRICE/YEAR (excl VAT)"
             bodyTextVariant="subtitle1"
             icon={<EuroSymbolIcon color="info" />}
             containerStyles={{mr: '0.5em'}}
