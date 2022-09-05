@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import {InfoCard} from 'components/InfoCard';
 import {useUserSession} from 'hooks/reactQuery/useUserSession';
+import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {ContractView} from 'models/contract';
 import {formatCurrency, formatNetAmount} from 'utils/currency';
 import {convertToText} from 'utils/utils';
@@ -22,6 +23,11 @@ interface Props {
 export const Overview = ({contract, downloadUrl, fileName}: Props) => {
   const {t} = useTranslation();
   const {user} = useUserSession();
+  const serviceCompanyLogoPath =
+    user?.userAccount.serviceCompany.settings.whiteLabel?.logoPath ?? '';
+  const {data: serviceCompanyLogoUrl} = useDownloadUrl(
+    serviceCompanyLogoPath ? [serviceCompanyLogoPath] : [],
+  );
 
   return contract ? (
     <>
@@ -43,6 +49,9 @@ export const Overview = ({contract, downloadUrl, fileName}: Props) => {
                   contractStatus={convertToText(
                     contract?.status === 'VALID' ? 'ACTIVE' : contract.status,
                   )}
+                  contractStatusColor={
+                    contract?.status === 'VALID' ? 'success' : 'error'
+                  }
                   numberOfVisits={contract?.visitsNumber}
                   costPerYear={
                     formatNetAmount(contract.additionalInfo?.price) || '-'
@@ -82,10 +91,13 @@ export const Overview = ({contract, downloadUrl, fileName}: Props) => {
                         user?.userAccount.serviceCompany.contact.phone
                       }
                       partyType="CONTRACTOR"
+                      logoUrl={
+                        serviceCompanyLogoUrl ? serviceCompanyLogoUrl[0] : ''
+                      }
                     />
                     <ContractParties
                       name={contract?.propertyOwner.name}
-                      occupation="Property Owner"
+                      occupation="Property Manager"
                       address={contract?.propertyOwner.postalAddress.fullName}
                       phoneNumber={contract?.propertyOwner.contact.phone}
                       partyType="CUSTOMER"
@@ -133,7 +145,10 @@ export const Overview = ({contract, downloadUrl, fileName}: Props) => {
                         File.pdf
                       </Typography>
                     </Box>
-                    <Typography variant="subtitle2" color="textSecondary">
+                    <Typography
+                      variant="subtitle2"
+                      color="textSecondary"
+                      textAlign="center">
                       {fileName}
                     </Typography>
                   </InfoCard>
@@ -164,7 +179,17 @@ export const Overview = ({contract, downloadUrl, fileName}: Props) => {
               </Typography>
             }
             showHeaderBackground>
-            <ContractPayment name={contract?.propertyOwner.name} />
+            <ContractPayment
+              name={contract?.propertyOwner.name}
+              iban={
+                user?.userAccount.serviceCompany.settings?.paymentInfo?.iban ||
+                '-'
+              }
+              bic={
+                user?.userAccount.serviceCompany.settings?.paymentInfo?.bic ||
+                '-'
+              }
+            />
           </InfoCard>
         </Grid>
       </Grid>

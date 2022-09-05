@@ -14,6 +14,7 @@ interface Props {
   partyType?: 'CONTRACTOR' | 'CUSTOMER';
   occupation?: string;
   containerStyle?: {[key: string]: string | number};
+  logoUrl?: string;
 }
 
 export interface Parties {
@@ -27,6 +28,7 @@ export const ContractParties = ({
   phoneNumber,
   partyType,
   containerStyle,
+  logoUrl = '',
 }: Props) => {
   const {t} = useTranslation();
 
@@ -34,13 +36,20 @@ export const ContractParties = ({
     <Grid container sx={{...containerStyle, marginBottom: 2}}>
       <Grid item xs={5}>
         <Box display="flex" alignItems="center">
-          <Avatar sx={{width: '3rem', height: '3rem', mr: '1em'}}>H</Avatar>
+          <Avatar
+            src={logoUrl}
+            sx={{width: '3rem', height: '3rem', mr: '0.5em'}}
+            alt={name}
+          />
 
           <Box display="flex" flexDirection="column">
             <Typography variant="subtitle1" sx={{display: 'block'}}>
               {name || ''}
             </Typography>
-            <Typography variant="body2" sx={{display: 'block'}}>
+            <Typography
+              variant="body2"
+              sx={{display: 'block'}}
+              color="text.secondary">
               {typeof occupation === 'string' ? t(occupation) : ''}
             </Typography>
           </Box>

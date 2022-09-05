@@ -56,7 +56,7 @@ export const ContractDetails = () => {
       btnLabel="Download contract"
       actionBtnVariant="outlined"
       disableBtnAction={!Object.values(downloadUrl || {}).length}
-      actionButtonIcon={<FileDownloadIcon color="primary" />}
+      actionButtonIcon={<FileDownloadIcon />}
       btnOnClick={() => {
         if (downloadUrl && Object.values(downloadUrl).length) {
           const uploadUrl = Object.values(downloadUrl)[0];

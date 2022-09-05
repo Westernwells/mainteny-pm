@@ -8,7 +8,7 @@ import useTheme from '@mui/material/styles/useTheme';
 import {MenuBtnProps} from 'models/misc';
 import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
-import {Button} from './Button';
+import {CustomButtonUnstyled} from './CustomButtonUnstyled';
 import {MenuBtn} from './MenuBtn';
 
 interface TabItems {
@@ -72,25 +72,22 @@ export const Tabs = ({
           // mb: '0.5em'
         }}>
         {showActionBtn ? (
-          <Button
-            label="Filter"
+          <CustomButtonUnstyled
+            label={t(btnLabel)}
             disabled={disableBtnAction}
-            buttonProps={{
-              onClick: () => (btnOnClick ? btnOnClick() : () => {}),
-              sx: {
-                textTransform: 'capitalize',
-                ml: '0.8em',
-                height: '100%',
+            size="large"
+            onClick={() => (btnOnClick ? btnOnClick() : () => {})}
+            startIcon={actionButtonIcon || <AddIcon />}
+            styles={{
+              ml: '0.8em',
+              height: '100%',
+              color: theme.palette.primary.main,
+              '&:hover': {
+                background: theme.palette.primary.main,
+                color: 'white',
               },
-              variant: actionBtnVariant || 'contained',
-              color: 'primary',
-              size: 'small',
-              startIcon: actionButtonIcon || <AddIcon />,
-            }}>
-            <Typography variant="body1" sx={{textTransform: 'capitalize'}}>
-              {t(btnLabel)}
-            </Typography>
-          </Button>
+            }}
+          />
         ) : null}
 
         {showMenuActionBtn && menu ? (
