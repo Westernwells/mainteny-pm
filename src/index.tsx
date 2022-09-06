@@ -5,10 +5,22 @@ import CssBaseline from '@mui/material/CssBaseline';
 import {ThemeProvider} from '@mui/material/styles';
 import {SnackbarProvider} from 'notistack';
 
+import {mutationErrorHandler, queryErrorHandler} from 'reactQuery/handlers';
 import {App} from './App';
 import {theme} from './theme';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      useErrorBoundary: true,
+      onError: queryErrorHandler,
+      refetchOnWindowFocus: false,
+    },
+    mutations: {
+      onError: mutationErrorHandler,
+    },
+  },
+});
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
