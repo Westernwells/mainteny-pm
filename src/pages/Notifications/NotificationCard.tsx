@@ -1,102 +1,199 @@
+import {useMemo} from 'react';
+import {useNavigate} from 'react-router-dom';
+import Box, {BoxProps} from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {ReactNode} from 'react';
+import LinearProgress from '@mui/material/LinearProgress';
 import useTheme from '@mui/material/styles/useTheme';
-import Box from '@mui/material/Box';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
+import {useTranslation} from 'react-i18next';
+import {
+  ContractExpiryAlertData,
+  MessageType,
+  NotificationMessage,
+  ServiceOrderScheduleAlertData,
+} from 'models/notification';
+import {
+  notificationButtonLabel,
+  notificationJSONDataToObject,
+  notificationSubtitle,
+  notificationTitle,
+  notificationTypeToString,
+} from 'utils/notification';
+import {useMarkNotificationAsRead} from 'hooks/reactQuery/useNotifications';
+import {useFormatDateDistance} from 'hooks/useFormatDateDistance';
+import {Button} from 'components/Button';
+import {NotificationIcon} from 'components/NotificationIcon';
 
-interface Props {
-  title: ReactNode;
-  description: ReactNode;
-  btnLabel: string;
-  chipLabel: string;
-  chipColor:
-    | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'error'
-    | 'info'
-    | 'success'
-    | 'warning';
-  helperText?: string;
-  btnAction?: () => void;
-  icon?: ReactNode;
+interface Props extends BoxProps {
+  notification: NotificationMessage<string>;
+  closeSideDrawer: () => void;
+  read?: boolean;
 }
 
 export const NotificationCard = ({
-  title,
-  description,
-  chipLabel,
-  chipColor,
-  btnLabel,
-  helperText,
-  btnAction,
-  icon,
+  notification,
+  closeSideDrawer,
+  read = false,
+  ...rest
 }: Props) => {
+  const {t} = useTranslation();
   const theme = useTheme();
+  const formatDateDistance = useFormatDateDistance();
+  const navigate = useNavigate();
+
+  const {
+    mutate: markNotificationAsRead,
+    isLoading: isLoadingMarkNotificationAsRead,
+  } = useMarkNotificationAsRead();
+  const notificationData = useMemo(
+    () =>
+      notificationJSONDataToObject(notification.messageType, notification.data),
+    [notification.id],
+  );
+
+  const ctaButtonHandler = () => {
+    switch (notification.messageType) {
+      case MessageType.SERVICE_ORDER_SCHEDULE_ALERT:
+        navigate(
+          `/orders/details/${
+            (notificationData as ServiceOrderScheduleAlertData).serviceOrder.id
+          }`,
+        );
+        if (!read) {
+          markNotificationAsRead(notification.id);
+        }
+        closeSideDrawer();
+        break;
+      case MessageType.CONTRACT_EXPIRY_ALERT:
+        navigate(
+          `/contracts/details/${
+            (notificationData as ContractExpiryAlertData).contract.id
+          }`,
+        );
+        if (!read) {
+          markNotificationAsRead(notification.id);
+        }
+        closeSideDrawer();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <Box
-      mx="auto"
-      mt={2}
-      sx={{
-        backgroundColor: '#fff',
-        p: 3,
-        boxShadow: '0px 4px 15px rgba(144, 144, 144, 0.2)',
-        borderRadius: '4px',
-      }}
-      display="flex"
-      justifyContent="space-between">
+    <Box>
       <Box
-        mr={3}
-        flexGrow={1}
         sx={{
-          background: theme.palette.info.outlinedHoverBg,
-          borderRadius: 10,
-          padding: '11px',
-          width: 45,
-          height: 45,
-        }}>
-        {icon || <FileCopyIcon />}
-      </Box>
-      <Box display="flex" flexDirection="column" gap="2em">
-        <Box display="flex">
-          <Box display="flex" flexDirection="column" gap=".5em">
-            <Typography variant="body1">{title}</Typography>
-            <Typography
-              variant="body1"
-              sx={{color: theme.palette.text.secondary}}>
-              {description}
+          py: '1.5em',
+          px: '1em',
+          '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+            '& #mark-as-read-button': {
+              display: 'inline-flex',
+            },
+            [`& #unread-indicator-${notification.id}`]: {
+              display: 'none',
+            },
+          },
+        }}
+        {...rest}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+          }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '0.5rem',
+            }}>
+            <Box
+              sx={{
+                width: '2rem',
+                height: '2rem',
+                bgcolor:
+                  notification.messageType === MessageType.CONTRACT_EXPIRY_ALERT
+                    ? '#FF182F14'
+                    : '#0f4c6414',
+                p: '0.5rem',
+                borderRadius: '50%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <NotificationIcon
+                messageType={notification.messageType}
+                style={{fontSize: '1rem'}}
+              />
+            </Box>
+            <Typography variant="h6" sx={{textTransform: 'capitalize'}}>
+              {t(notificationTypeToString(notification.messageType))}
             </Typography>
           </Box>
-          <Chip
-            label={<Typography variant="smallBtnText">{chipLabel}</Typography>}
-            color={chipColor}
-            variant="outlined"
-            size="medium"
-          />
-        </Box>
-        <Box display="flex" justifyContent="space-between">
-          <Button size="small" variant="contained" onClick={btnAction}>
-            <Typography
-              variant="smallBtnText"
-              sx={{
-                color: theme.palette.primary.contrastText,
-                textTransform: 'capitalize',
-                px: 0.5,
-              }}>
-              {btnLabel}
+          <Box display="flex" alignItems="center">
+            <Typography variant="caption" color={theme.palette.text.secondary}>
+              {formatDateDistance(new Date(notification.timestamp))}
             </Typography>
-          </Button>
-          <Typography
-            variant="helperText"
-            mt={1}
-            minWidth="12ch"
-            textAlign="right">
-            {helperText}
-          </Typography>
+            {!read && (
+              <Box
+                id={`unread-indicator-${notification.id}`}
+                width="0.75rem"
+                height="0.75rem"
+                borderRadius="50%"
+                ml="0.5rem"
+                bgcolor={theme.palette.error.main}
+              />
+            )}
+          </Box>
+        </Box>
+
+        <Typography variant="subtitle2" pt="0.5rem">
+          {notificationTitle(notification.messageType, notificationData)}
+        </Typography>
+        <Typography variant="body2">
+          {notificationSubtitle(notification.messageType, notificationData)}
+        </Typography>
+
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Button
+            label={notificationButtonLabel(notification.messageType)}
+            buttonProps={{
+              onClick: ctaButtonHandler,
+              size: 'medium',
+              variant: 'contained',
+              sx: {mt: '1rem', py: '0.53rem', px: '1.25rem'},
+            }}
+          />
+
+          {!read && (
+            <Button
+              label={t('Mark as read')}
+              buttonProps={{
+                id: 'mark-as-read-button',
+                onClick: () => markNotificationAsRead(notification.id),
+                size: 'small',
+                variant: 'text',
+                sx: {
+                  display: 'none',
+                  mt: '1rem',
+                  py: '0.53rem',
+                  px: '1.25rem',
+                  textTransform: 'none',
+                },
+              }}
+            />
+          )}
         </Box>
       </Box>
+
+      {isLoadingMarkNotificationAsRead && (
+        <Box height="4px">
+          <LinearProgress />
+        </Box>
+      )}
     </Box>
   );
 };

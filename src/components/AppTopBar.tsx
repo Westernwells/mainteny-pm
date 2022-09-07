@@ -14,7 +14,7 @@ import {axiosClient} from 'utils/axios-utils';
 import {Role} from 'models/user';
 import {convertToText, languageMap} from 'utils/utils';
 // import {useQueryClient} from 'react-query';
-// import {Notifications} from 'pages/Notifications';
+import {Notifications} from 'pages/Notifications';
 import {Language} from 'models/misc';
 // import {queryKeys} from 'reactQuery/constants';
 import {useUserSession} from '../hooks/reactQuery/useUserSession';
@@ -126,7 +126,7 @@ export const AppTopBar = ({
               ]}
             />
           </Box>
-          {/* <Notifications /> */}
+          <Notifications />
           <Box ml={2} display="flex" alignItems="center">
             <Avatar alt={fullName} src={user?.userAccount.photoUrl} />
             <MenuBtn
