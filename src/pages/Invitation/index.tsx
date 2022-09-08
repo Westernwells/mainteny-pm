@@ -21,11 +21,14 @@ import {axiosClient} from 'utils/axios-utils';
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .required('This field is required')
-    .test('password', 'Invalid password', (value = '') => (
+    .test(
+      'password',
+      'Invalid password',
+      (value = '') =>
         value.length >= 8 &&
         !!value.match(/[!@#$%^&*(),.?":{}|<>_]/g) &&
-        !!value.match(/\d/)
-      )),
+        !!value.match(/\d/),
+    ),
   confirmPassword: Yup.string()
     .required('This field is required')
     .test('passwords-match', 'Passwords must match', function (value) {
