@@ -1,3 +1,4 @@
+import {useTranslation} from 'react-i18next';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useFormik} from 'formik';
@@ -20,6 +21,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export const Login = () => {
+  const {t} = useTranslation();
   const {search} = useLocation();
   const {authType} = queryString.parse(search);
   const {signin, loading} = useAuth();
@@ -39,17 +41,17 @@ export const Login = () => {
 
   return (
     <AuthLayout>
-      {authType === 'reset' ? (
-        <Box display="flex" justifyContent="center">
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="flex-end"
-            mr={2}>
+      {authType ? (
+        <Box display="flex" justifyContent="center" alignItems="center" mt={6}>
+          <Box display="flex" mr={2}>
             <CheckMark />
           </Box>
-          <Typography variant="h4" mt={7}>
-            Password created successfully
+          <Typography variant="h4" component="div">
+            {authType === 'reset'
+              ? t('Password created successfully')
+              : authType === 'accountActivated'
+              ? t('Account activated successfully')
+              : ''}
           </Typography>
         </Box>
       ) : null}
