@@ -13,7 +13,6 @@ import {Contracts} from 'pages/Contracts';
 import {Invoices} from 'pages/Invoices';
 import {InvoiceDetails} from 'pages/InvoiceDetails';
 import {Notifications} from 'pages/Notifications';
-import {MySettings} from 'pages/MySettings';
 import {ContractDetails} from 'pages/ContractDetails';
 import {MyUnits} from 'pages/Units';
 import {UnitDetails} from 'pages/UnitDetails';
@@ -27,7 +26,6 @@ import {
   useLocation,
   useNavigate,
 } from 'react-router-dom';
-import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {AuthRoutes} from './AuthRoutes';
 
 export const Router = () => {
@@ -35,8 +33,6 @@ export const Router = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const titleTail = 'Property Manager Portal';
-  const {user} = useUserSession();
-  const fullName = `${user?.userAccount.firstName} ${user?.userAccount.lastName}`;
 
   useEffect(() => {
     onVisibilityChange((visible) => {
@@ -183,20 +179,6 @@ export const Router = () => {
                 </Helmet>
                 <PageLayout excludeSidebar pageScrollable excludeDefaultSpacing>
                   <Notifications />
-                </PageLayout>
-              </>
-            }
-          />
-
-          <Route
-            path="/settings"
-            element={
-              <>
-                <Helmet>
-                  <title>{`${fullName} - ${titleTail}`}</title>
-                </Helmet>
-                <PageLayout excludeSidebar excludeDefaultSpacing pageScrollable>
-                  <MySettings />
                 </PageLayout>
               </>
             }
