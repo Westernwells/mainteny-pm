@@ -6,6 +6,7 @@ import {Mixpanel} from 'mixpanel/mixpanel';
 import {mixpanelEvents} from 'mixpanel/constants';
 import {PageLayout} from 'components/PageLayout';
 import ErrorBoundary from 'components/ErrorBoundary';
+import {Invitation} from 'pages/Invitation';
 import {Login} from 'pages/Login';
 import {ResetPassword} from 'pages/ResetPassword';
 import {Contracts} from 'pages/Contracts';
@@ -59,6 +60,7 @@ export const Router = () => {
               <AuthRoutes />
             </>
           }>
+          <Route path="/invitation" element={<Invitation />} />
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
