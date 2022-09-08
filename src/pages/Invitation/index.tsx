@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
     ),
   confirmPassword: Yup.string()
     .required('This field is required')
-    .test('passwords-match', 'Passwords must match', function (value) {
+    .test('passwords-match', 'Passwords must match', function fn(value) {
       return this.parent.password === value;
     }),
 });
