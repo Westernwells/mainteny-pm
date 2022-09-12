@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import {useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import Typography from '@mui/material/Typography';
@@ -34,6 +35,7 @@ export const AppTopBar = ({
 }: Props) => {
   const {t} = useTranslation();
   const theme = useTheme();
+  const navigate = useNavigate();
   const [selectedLng, setSelectedLng] = useState('');
   const {signout} = useAuth();
   const {user, updateUser} = useUserSession();
@@ -135,6 +137,15 @@ export const AppTopBar = ({
               }
               label={profileBtnLabel()}
               menu={[
+                {
+                  label: t('Profile'),
+                  action: () => {
+                    Mixpanel.identifyAndTrack(
+                      mixpanelEvents.MENU_PROFILE_CLICKED,
+                    );
+                    navigate('/profile');
+                  },
+                },
                 {
                   label: t('Logout'),
                   action: () => {
