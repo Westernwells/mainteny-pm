@@ -1,5 +1,5 @@
 import {AxiosResponse} from 'axios';
-import {PropertyManager} from 'models/propertyManager';
+import {PropertyOwnerView} from 'models/propertyManager';
 import {UpdateUserAccountData} from 'models/user';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {queryKeys} from 'reactQuery/constants';
@@ -8,7 +8,7 @@ import {useSnackbar} from 'notistack';
 import {useUser} from './useUserSession';
 
 const fetchPropertyManager = async (id: string) => {
-  const response: AxiosResponse<PropertyManager> = await axiosClient({
+  const response: AxiosResponse<PropertyOwnerView> = await axiosClient({
     method: 'GET',
     url: `/api/propertyOwners/${id}`,
   });
