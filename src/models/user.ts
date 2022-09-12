@@ -35,7 +35,7 @@ export interface UserAccountView {
   lastName: string;
   photoUrl: string;
   roles: Role[];
-  serviceCompany: ServiceCompanyView;
+  serviceCompany: ServiceCompany;
   status: UserAccountStatus;
   contact: Contact;
   meta: Meta;
