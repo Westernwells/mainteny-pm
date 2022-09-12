@@ -17,6 +17,7 @@ import {ContractDetails} from 'pages/ContractDetails';
 import {MyUnits} from 'pages/Units';
 import {UnitDetails} from 'pages/UnitDetails';
 import {ReportIssue} from 'pages/ReportIssue';
+import {ProfilePage} from 'pages/Profile';
 import {NotFound} from 'pages/NotFound';
 import {ProtectedRoutes} from 'routes/ProtectedRoutes';
 import {
@@ -184,6 +185,20 @@ export const Router = () => {
             }
           />
         </Route>
+
+        <Route
+          path="/profile"
+          element={
+            <>
+              <Helmet>
+                <title>{`Profile - ${titleTail}`}</title>
+              </Helmet>
+              <PageLayout pageScrollable pageTitle="Profile">
+                <ProfilePage />
+              </PageLayout>
+            </>
+          }
+        />
 
         <Route
           path="*"
