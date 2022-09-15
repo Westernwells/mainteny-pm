@@ -59,6 +59,7 @@ export interface PropertyManager {
   id: string;
   propertyOwner: PropertyOwner;
   userAccount: UserAccount;
+  propertyContactPersonId: string;
   meta: Meta;
 }
 

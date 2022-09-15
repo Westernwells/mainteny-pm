@@ -1,4 +1,8 @@
+import {useMutation} from 'react-query';
+import {useSnackbar} from 'hooks/useSnackbar';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
+import {FileWithPreview} from 'components/MyDropZone/MyDropzone';
+import {useUserSession} from './useUserSession';
 
 export const getUploadSignedUrl = async (
   filePath: string[],
@@ -12,4 +16,69 @@ export const getUploadSignedUrl = async (
     },
   );
   return response.data;
+};
+
+const getArrayBuffer = (file: FileWithPreview) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+
+const uploadAndSave = async (
+  file: FileWithPreview,
+  serviceCompanyId: string,
+  uploadPath: string,
+) => {
+  const [signedUrl, arrayBuffer] = await Promise.all([
+    getUploadSignedUrl([`${uploadPath}/${file.name}`], serviceCompanyId),
+    getArrayBuffer(file) as unknown as ArrayBuffer,
+  ]);
+
+  await fetch(signedUrl[`${uploadPath}/${file.name}`], {
+    method: 'PUT',
+    headers: {
+      'Content-Type': file.type,
+    },
+    body: arrayBuffer,
+  });
+};
+
+export const uploadImages = async (
+  files: FileWithPreview[],
+  serviceCompanyId: string,
+  uploadPath: string,
+) =>
+  Promise.all(
+    files.map((item) => uploadAndSave(item, serviceCompanyId!, uploadPath)),
+  );
+
+export const useUploadFiles = (successMsg: string, companyId?: string) => {
+  const {enqueueSnackbar} = useSnackbar();
+  const {user} = useUserSession();
+  let fetchId = user?.userAccount.serviceCompany.id;
+  if (companyId) {
+    fetchId = companyId;
+  }
+
+  return useMutation(
+    ({files, uploadPath}: {files: FileWithPreview[]; uploadPath: string}) =>
+      uploadImages(files, fetchId!, uploadPath),
+    {
+      onSuccess: () => {
+        if (successMsg) {
+          enqueueSnackbar(successMsg, {
+            variant: 'success',
+          });
+        }
+      },
+      onError: (err: any) => {
+        console.log(err);
+        enqueueSnackbar('An unexpected error occurred, please try again.', {
+          variant: 'error',
+        });
+      },
+    },
+  );
 };

@@ -18,6 +18,7 @@ import {convertToText, languageMap} from 'utils/utils';
 import {Notifications} from 'pages/Notifications';
 import {Language} from 'models/misc';
 // import {queryKeys} from 'reactQuery/constants';
+import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {useUserSession} from '../hooks/reactQuery/useUserSession';
 import {MenuBtn} from './MenuBtn';
 import {BackAction} from './BackAction';
@@ -39,6 +40,8 @@ export const AppTopBar = ({
   const [selectedLng, setSelectedLng] = useState('');
   const {signout} = useAuth();
   const {user, updateUser} = useUserSession();
+  const photoUri = user?.userAccount?.photoUrl || '';
+  const {data: photoUrl} = useDownloadUrl(photoUri ? [photoUri] : []);
   // const queryClient = useQueryClient();
   const fullName = `${user?.userAccount.firstName} ${user?.userAccount.lastName}`;
 
@@ -130,7 +133,7 @@ export const AppTopBar = ({
           </Box>
           <Notifications />
           <Box ml={2} display="flex" alignItems="center">
-            <Avatar alt={fullName} src={user?.userAccount.photoUrl} />
+            <Avatar alt={fullName} src={photoUrl?.[0] ?? ''} />
             <MenuBtn
               endIcon={
                 <ArrowDropDownIcon sx={{color: theme.palette.action.active}} />
