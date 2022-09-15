@@ -1,9 +1,7 @@
-import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import useTheme from '@mui/material/styles/useTheme';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import EditIcon from '@mui/icons-material/Edit';
 import Language from '@mui/icons-material/Language';
 import Timelapse from '@mui/icons-material/Timelapse';
 import {CommonUserView} from 'models/user';
@@ -29,11 +27,6 @@ interface Props {
 export const LanguageAndRegion = ({propertyOwner, containerStyles}: Props) => {
   const {t} = useTranslation();
   const theme = useTheme();
-  const [openDialog, setOpenDialog] = useState(false);
-  console.log(
-    '🚀 ~ file: index.tsx ~ line 33 ~ LanguageAndRegion ~ openDialog',
-    openDialog,
-  );
 
   return (
     <InfoCard
@@ -43,12 +36,10 @@ export const LanguageAndRegion = ({propertyOwner, containerStyles}: Props) => {
         },
         ...containerStyles,
       }}
-      handleAction={() => setOpenDialog(true)}
       header={
         <Typography variant="subtitle1">{t('Language & Region')}</Typography>
       }
-      showHeaderBackground
-      headerActionIcon={<EditIcon />}>
+      showHeaderBackground>
       <Grid container spacing={2}>
         <Grid item xs={6} md={12}>
           <CardProps

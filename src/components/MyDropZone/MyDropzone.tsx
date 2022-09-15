@@ -267,24 +267,28 @@ export const MyDropZone = ({
             buttonProps={{
               variant: 'outlined',
               onClick: open,
+              sx: {
+                background: theme.palette.inputBackground.main,
+                color: theme.palette.primary.main,
+                '&:hover': {
+                  background: theme.palette.primary.main,
+                  color: 'white',
+                },
+              },
             }}
           />
         </Box>
       </Box>
 
-      {!isCropped && (
-        <Box sx={{mt: '1.5em'}}>
-          <Box sx={{display: 'flex', flexDirection: 'column'}}>
-            {hintsLabel}
+      <Box sx={{mt: '1.5em'}}>
+        <Box sx={{display: 'flex', flexDirection: 'column'}}>{hintsLabel}</Box>
+        <>
+          <Box sx={{display: 'flex', flexWrap: 'wrap', margin: '0.625em 0'}}>
+            {thumbs}
           </Box>
-          <>
-            <Box sx={{display: 'flex', flexWrap: 'wrap', margin: '0.625em 0'}}>
-              {thumbs}
-            </Box>
-            <Box>{renderErrors()}</Box>
-          </>
-        </Box>
-      )}
+          <Box>{renderErrors()}</Box>
+        </>
+      </Box>
 
       <Dialog
         title={cropperTitle || 'Upload image'}
