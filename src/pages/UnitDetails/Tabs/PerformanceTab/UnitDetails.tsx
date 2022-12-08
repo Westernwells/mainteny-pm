@@ -9,18 +9,32 @@ import {
   PermContactCalendar,
 } from '@mui/icons-material';
 import {Divider, Grid, Typography} from '@mui/material';
+import {ElevatorView} from 'models/elevator';
 import useTheme from '@mui/material/styles/useTheme';
 import {CardProps} from 'components/CardProps';
 import {InfoCard} from 'components/InfoCard';
 import {StatusChip} from 'components/StatusChip';
-import {addDays} from 'date-fns';
 import {useFormatDate} from 'hooks/useFormatDate';
 import {useTranslation} from 'react-i18next';
+import {groupBy} from 'lodash';
+import {useRef} from 'react';
 
-export const UnitDetails = () => {
+interface Props {
+  elevator: ElevatorView;
+}
+
+// const properties = {
+//   responseTime: 'Response Time',
+//   availability: 'Availability'
+// }
+
+export const UnitDetails = ({elevator}: Props) => {
   const formatDate = useFormatDate();
   const theme = useTheme();
   const {t} = useTranslation();
+  const properties = useRef(
+    groupBy(elevator.properties, (record) => record.key),
+  ).current;
 
   return (
     <InfoCard
@@ -48,7 +62,11 @@ export const UnitDetails = () => {
           <CardProps
             icon={<PermContactCalendar sx={{color: theme.palette.info.dark}} />}
             label="LAST VISIT"
-            bodyText={formatDate(addDays(new Date(), -3))}
+            bodyText={
+              elevator.lastVisitDate
+                ? formatDate(new Date(elevator.lastVisitDate))
+                : '-'
+            }
             iconBackground={theme.palette.info.outlinedHoverBg}
             containerStyles={{mt: '0.5em'}}
             iconMaxHeight="3rem"
@@ -58,7 +76,13 @@ export const UnitDetails = () => {
           <CardProps
             icon={<Cached sx={{color: theme.palette.info.dark}} />}
             label="LAST INSPECTION"
-            bodyText={formatDate(addDays(new Date(), -1))}
+            bodyText={
+              elevator.additionalInfo.lastInspectionDate
+                ? formatDate(
+                    new Date(elevator.additionalInfo.lastInspectionDate),
+                  )
+                : '-'
+            }
             iconBackground={theme.palette.info.outlinedHoverBg}
             containerStyles={{mt: '0.5em'}}
             iconMaxHeight="3rem"
@@ -71,7 +95,18 @@ export const UnitDetails = () => {
           <CardProps
             icon={<EventAvailable sx={{color: theme.palette.info.dark}} />}
             label="Ø AVAILABILITY"
-            bodyText="98%"
+            bodyText={
+              properties.Availability
+                ? `${
+                    (properties.Availability.reduce(
+                      (prev, curr) => prev + Number(curr.value),
+                      0,
+                    ) *
+                      100) /
+                    properties.Availability.length
+                  }%`
+                : '-'
+            }
             bodyTextVariant="body1"
             iconBackground={theme.palette.info.outlinedHoverBg}
             containerStyles={{mt: '0.5em'}}
@@ -81,8 +116,17 @@ export const UnitDetails = () => {
         <Grid item xs={4}>
           <CardProps
             icon={<Forward10 sx={{color: theme.palette.info.dark}} />}
-            label="Ø RUNTIME/DAY"
-            bodyText="1:04 h"
+            label="RESPONSE TIME"
+            bodyText={
+              properties['Response time']
+                ? `${
+                    properties['Response time'].reduce(
+                      (prev, curr) => prev + Number(curr.value),
+                      0,
+                    ) / properties['Response time'].length
+                  } minutes`
+                : '-'
+            }
             bodyTextVariant="body1"
             iconBackground={theme.palette.info.outlinedHoverBg}
             containerStyles={{mt: '0.5em'}}

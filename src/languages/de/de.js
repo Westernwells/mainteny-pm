@@ -11,6 +11,7 @@ module.exports = {
     'DUE DATE': 'FÄLLIGKEITSDATUM',
     TECHNICIAN: 'TECHNIKER',
     Unschedule: 'Abmeldung',
+    'RESPONSE TIME': 'REAKTIONSZEIT',
     // Units: '1 {UnitVariable}',
     elevators: 'Aufzüge',
     meters: 'Zähler',

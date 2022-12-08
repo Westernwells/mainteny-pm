@@ -49,7 +49,7 @@ export const PerformanceTab = ({elevator}: Props) => {
         py="1rem">
         {/* Unit Details */}
         <Grid item lg={6.8}>
-          <UnitDetails />
+          <UnitDetails elevator={elevator} />
         </Grid>
         <Grid item lg={5}>
           <StatsSection />
