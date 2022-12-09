@@ -14,6 +14,7 @@ module.exports = {
     'RESPONSE TIME': 'REAKTIONSZEIT',
     // Units: '1 {UnitVariable}',
     elevators: 'Aufzüge',
+    minutes: 'Minuten',
     meters: 'Zähler',
     'there are 3 {{units}}': 'es gibt 3 {{units}}',
     'there are 3 elevators': 'es sind 3 Meter',

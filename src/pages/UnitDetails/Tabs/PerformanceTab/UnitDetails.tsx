@@ -124,7 +124,7 @@ export const UnitDetails = ({elevator}: Props) => {
                       (prev, curr) => prev + Number(curr.value),
                       0,
                     ) / properties['Response time'].length
-                  } minutes`
+                  } ${t('minutes')}`
                 : '-'
             }
             bodyTextVariant="body1"
