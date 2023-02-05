@@ -50,8 +50,8 @@ variables:
     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" # Install AWS CLI
     - unzip -qq awscliv2.zip
     - ./aws/install
-    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/mainteny/infra/kubeapps
-    - cd kubeapps
+    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/mainteny/infra/pm-ui-deployment
+    - cd pm-ui-deployment
     - npm ci
     - pulumi login s3://mainteny-pulumi-state
   variables:
@@ -59,13 +59,12 @@ variables:
     CACHE_PATH: /pm*
   script:
     - echo "Deploying ${IMAGE_SUFFIX} on environment $ENV"
-    - pulumi stack select pm.$ENV
-    - pulumi config set --path "mainteny:k8sConfig.services[0].image" ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${ENV}
+    - pulumi stack select pm-ui.$ENV
+    - pulumi config set --path "mainteny:imageName" ${DOCKER_REGISTRY}/pm:${IMAGE_SUFFIX}-${ENV}
     - pulumi config set mainteny:version ${CI_COMMIT_SHORT_SHA}_$(date '+%Y%m%d')
     - pulumi config set mainteny:deploymentTimeStamp "$(date)"
     - pulumi up -y
-    - pulumi stack select cdn.$ENV
-    - aws cloudfront create-invalidation --distribution-id $(pulumi stack output distributionId) --paths "$CACHE_PATH"
+    - aws cloudfront create-invalidation --distribution-id $(pulumi stack output cdnDistributionId) --paths "$CACHE_PATH"
     - >-
       curl -X POST
       --data-urlencode
