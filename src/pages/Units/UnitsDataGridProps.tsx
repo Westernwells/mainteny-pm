@@ -8,10 +8,10 @@ import {
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Elevator from '@mui/icons-material/Elevator';
-import {ElevatorStatus, ElevatorView} from 'models/elevator';
 import {useTheme} from '@mui/material';
 import Chip from '@mui/material/Chip';
 import {FormikErrors} from 'formik';
+import {ElevatorStatus, ElevatorView} from 'models/elevator';
 import {formatDate} from 'utils/datetime';
 import {convertToText} from 'utils/utils';
 import {DataGridElevatorView} from './Models';
