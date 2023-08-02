@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import {axiosClient} from 'utils/axios-utils';
 import {useSnackbar} from 'notistack';
 import {useNavigate} from 'react-router-dom';
+import {axiosClient} from 'utils/axios-utils';
 
 interface UseRecoverPassword {
   request: (email: string, navigation?: boolean) => Promise<void>;

@@ -3,21 +3,21 @@ import {
   DoorSliding,
   Equalizer,
   EventAvailable,
-  Flourescent,
+  Fluorescent,
   Forward10,
   History,
   PermContactCalendar,
 } from '@mui/icons-material';
 import {Divider, Grid, Typography} from '@mui/material';
-import {ElevatorView} from 'models/elevator';
 import useTheme from '@mui/material/styles/useTheme';
+import {useTranslation} from 'react-i18next';
+import {groupBy} from 'lodash';
+import {useRef} from 'react';
+import {ElevatorView} from 'models/elevator';
 import {CardProps} from 'components/CardProps';
 import {InfoCard} from 'components/InfoCard';
 import {StatusChip} from 'components/StatusChip';
 import {useFormatDate} from 'hooks/useFormatDate';
-import {useTranslation} from 'react-i18next';
-import {groupBy} from 'lodash';
-import {useRef} from 'react';
 
 interface Props {
   elevator: ElevatorView;
@@ -157,7 +157,7 @@ export const UnitDetails = ({elevator}: Props) => {
         </Grid>
         <Grid item xs={4}>
           <CardProps
-            icon={<Flourescent sx={{color: theme.palette.info.dark}} />}
+            icon={<Fluorescent sx={{color: theme.palette.info.dark}} />}
             label="CURRENT FLOOR"
             bodyText="4"
             bodyTextVariant="body1"

@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
-import {useServiceOrderStatusColor} from 'hooks/useServiceOrderStatusColor';
 import {useTranslation} from 'react-i18next';
+import {useServiceOrderStatusColor} from 'hooks/useServiceOrderStatusColor';
 import {ServiceOrderStatus} from '../models/service-order';
 
 interface Props {

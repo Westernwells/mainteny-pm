@@ -4,8 +4,8 @@ import {Chart, registerables} from 'chart.js';
 import {Line} from 'react-chartjs-2';
 import {addDays, format} from 'date-fns';
 import {random} from 'lodash';
-import {InfoCard} from 'components/InfoCard';
 import {useTranslation} from 'react-i18next';
+import {InfoCard} from 'components/InfoCard';
 
 Chart.register(...registerables);
 

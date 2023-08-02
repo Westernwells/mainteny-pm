@@ -1,8 +1,8 @@
 import {useQuery, UseQueryOptions} from 'react-query';
 import {AxiosResponse} from 'axios';
+import {useNavigate} from 'react-router-dom';
 import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {queryKeys} from 'reactQuery/constants';
-import {useNavigate} from 'react-router-dom';
 import {ElevatorQueryParams, ElevatorView} from 'models/elevator';
 import {Resource, RestError} from 'models/misc';
 import {MaintainerView} from 'models/technician';

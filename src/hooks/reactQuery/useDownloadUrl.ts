@@ -34,7 +34,7 @@ export const useDownloadUrl = (
       cacheTime: 0,
       ...options,
       select: useCallback(
-        (data) => filePath?.map((item) => data[item]),
+        (data: any) => filePath?.map((item) => data[item]),
         [filePath],
       ),
     },

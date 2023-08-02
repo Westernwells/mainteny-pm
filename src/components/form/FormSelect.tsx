@@ -4,9 +4,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
 import Select, {SelectProps} from '@mui/material/Select';
 import {SxProps} from '@mui/system';
-import {capitalize} from 'utils/utils';
 import {useTranslation} from 'react-i18next';
 import {FormHelperText} from '@mui/material';
+import {capitalize} from 'utils/utils';
 
 interface Props<T> {
   labelId: string;

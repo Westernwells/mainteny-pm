@@ -12,6 +12,7 @@ import {useFormatDate} from 'hooks/useFormatDate';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {InfoCard} from 'components/InfoCard';
 import {EmptySection} from 'components/EmptySection';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {columns, makeRows} from './RelatedInvoicesDataGridProps';
 
 interface Props {
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export const RelatedInvoices = ({invoices}: Props) => {
+  const {user} = useUserSession();
   const {t} = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -27,7 +29,13 @@ export const RelatedInvoices = ({invoices}: Props) => {
 
   useEffect(() => {
     if (invoices.data.length) {
-      setRows(makeRows(invoices.data, formatDate));
+      setRows(
+        makeRows(
+          invoices.data,
+          user?.userAccount.serviceCompany.id,
+          formatDate,
+        ),
+      );
     }
   }, [invoices]);
 

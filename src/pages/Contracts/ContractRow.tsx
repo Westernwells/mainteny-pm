@@ -1,11 +1,10 @@
 import Grid from '@mui/material/Grid';
-
 import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import useTheme from '@mui/material/styles/useTheme';
 import {useNavigate} from 'react-router-dom';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {formatDate} from '../../utils/datetime';
 import {ContractView} from '../../models/contract';
 
@@ -14,6 +13,7 @@ export interface Props {
 }
 
 export const ContractRow = ({contract}: Props) => {
+  const {user} = useUserSession();
   const theme = useTheme();
   const navigate = useNavigate();
   return (
@@ -31,7 +31,7 @@ export const ContractRow = ({contract}: Props) => {
       <Grid container sx={{pl: 2}}>
         <Grid item xs={3} sx={{cursor: 'pointer'}}>
           <Typography variant="subtitle1">
-            {contract.serviceCompany.name}
+            {user?.userAccount.serviceCompany.name}
           </Typography>
         </Grid>
 

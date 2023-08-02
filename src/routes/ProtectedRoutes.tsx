@@ -1,5 +1,5 @@
-import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {Navigate, Outlet, useLocation} from 'react-router-dom';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 
 export const ProtectedRoutes = () => {
   const {user} = useUserSession();

@@ -6,7 +6,7 @@ import {queryKeys as qk} from 'reactQuery/constants';
 import {axiosClient, paramsSerializer} from '../../utils/axios-utils';
 import {ContractView, QueryContractParams} from '../../models/contract';
 import {Resource, RestError} from '../../models/misc';
-import {useUser, useUserSession} from './useUserSession';
+import {useUser} from './useUserSession';
 
 export const fetchContractElevatorCount = async (contractId: string[]) => {
   const response = await axiosClient.get<{[key: string]: number}>(
@@ -73,7 +73,7 @@ export const useContractElevatorCount = (
       ...options,
       enabled: !!contracts.length,
       select: useCallback(
-        (data) =>
+        (data: any) =>
           contracts.map((contract) => ({
             ...contract,
             units: data[contract.id],

@@ -1,5 +1,6 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {GridRowsProp} from '@mui/x-data-grid';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {FilterFields} from 'components/FilterFields';
@@ -15,7 +16,6 @@ import {
   formatSearchParamsPageIndex,
   formatSearchParamsPageSize,
 } from 'utils/utils';
-import {useNavigate, useSearchParams} from 'react-router-dom';
 import {EmptySection} from 'components/EmptySection';
 import {Progress} from 'components/Progress';
 import {useFormatDate} from 'hooks/useFormatDate';
@@ -23,11 +23,13 @@ import {
   costRangeConvertor as crConverter,
   getStartEndPrice,
 } from 'utils/contract-utils';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {columns, makeRows} from './ContractsDataGridProps';
 
 const pageSize = 25;
 
 export const Contracts = () => {
+  const {user} = useUserSession();
   const navigate = useNavigate();
   const formatDate = useFormatDate();
   const [search, setSearch] = useState('');
@@ -97,12 +99,14 @@ export const Contracts = () => {
     const options: string[] = [];
 
     if (!isLoading && !isFetching && !isIdle) {
-      contractResource.data.forEach((item: ContractView) => {
+      contractResource.data.forEach(() => {
         if (
-          !options.includes(item.serviceCompany.name) &&
-          !contractorFilterItems.includes(item.serviceCompany.name)
+          !options.includes(user?.userAccount.serviceCompany.name!) &&
+          !contractorFilterItems.includes(
+            user?.userAccount.serviceCompany.name!,
+          )
         ) {
-          options.push(item.serviceCompany.name);
+          options.push(user?.userAccount.serviceCompany.name!);
         }
       });
       setRows(makeRows(contractResource.data, formatDate));

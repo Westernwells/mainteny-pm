@@ -1,7 +1,6 @@
 import {Article} from './article';
 import {ElevatorView} from './elevator';
 import {Amount, Meta} from './misc';
-import {ServiceCompanySimpleView} from './service-company';
 
 export enum QuotationStatus {
   ACCEPTED = 'ACCEPTED',
@@ -43,7 +42,6 @@ export interface QuotationItemRecord {
 
 export interface QuotationView {
   id: string;
-  serviceCompany: ServiceCompanySimpleView;
   elevator: ElevatorView;
   number: string;
   externalId: string;

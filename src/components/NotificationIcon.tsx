@@ -1,6 +1,6 @@
 import {LocalShipping, Report} from '@mui/icons-material';
-import {MessageType} from 'models/notification';
 import useTheme from '@mui/material/styles/useTheme';
+import {MessageType} from 'models/notification';
 
 interface Props {
   messageType?: MessageType;

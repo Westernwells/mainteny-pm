@@ -1,6 +1,13 @@
 import {useEffect} from 'react';
 import {Helmet} from 'react-helmet';
 import {useTranslation} from 'react-i18next';
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import {onVisibilityChange} from 'utils/utils';
 import {Mixpanel} from 'mixpanel/mixpanel';
 import {mixpanelEvents} from 'mixpanel/constants';
@@ -20,13 +27,6 @@ import {ReportIssue} from 'pages/ReportIssue';
 import {ProfilePage} from 'pages/Profile';
 import {NotFound} from 'pages/NotFound';
 import {ProtectedRoutes} from 'routes/ProtectedRoutes';
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
 import {AuthRoutes} from './AuthRoutes';
 
 export const Router = () => {

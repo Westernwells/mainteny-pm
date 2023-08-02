@@ -1,8 +1,8 @@
 import useTheme from '@mui/material/styles/useTheme';
-import {CardProps} from 'components/CardProps';
 import PersonIcon from '@mui/icons-material/Person';
 import MoneyIcon from '@mui/icons-material/Money';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import {CardProps} from 'components/CardProps';
 
 import {convertToText} from 'utils/utils';
 

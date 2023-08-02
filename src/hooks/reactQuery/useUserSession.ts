@@ -1,8 +1,8 @@
 import {useQuery, useQueryClient} from 'react-query';
+import {differenceInMinutes} from 'date-fns';
 import {getStoredUser, setStoredUser, clearStoredUser} from 'userStorage';
 import {queryKeys} from 'reactQuery/constants';
 import {UserSession} from 'models/session';
-import {differenceInMinutes} from 'date-fns';
 import {axiosClient} from 'utils/axios-utils';
 import {CommonUserView} from 'models/user';
 

@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {axiosClient} from 'utils/axios-utils';
 import {useSnackbar} from 'notistack';
+import {axiosClient} from 'utils/axios-utils';
 import {RolesType} from 'pages/Profile/PersonalDetails/model';
 import {useUserSession} from './reactQuery/useUserSession';
 import {UserSession} from '../models/session';

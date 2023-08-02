@@ -1,7 +1,7 @@
 import {Grid, Typography} from '@mui/material';
 import useTheme from '@mui/material/styles/useTheme';
-import {InfoCard} from 'components/InfoCard';
 import {useTranslation} from 'react-i18next';
+import {InfoCard} from 'components/InfoCard';
 import {CircularProgressWithLabel} from './CircularProgressWithLabel';
 
 export const CabinDoorRolls = () => {

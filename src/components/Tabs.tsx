@@ -5,9 +5,9 @@ import MuiTabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
-import {MenuBtnProps} from 'models/misc';
 import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
+import {MenuBtnProps} from 'models/misc';
 import {CustomButtonUnstyled} from './CustomButtonUnstyled';
 import {MenuBtn} from './MenuBtn';
 

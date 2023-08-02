@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import GridViewIcon from '@mui/icons-material/GridView';
-import {formatSearchParams} from 'utils/utils';
 import {useNavigate, useSearchParams} from 'react-router-dom';
+import {formatSearchParams} from 'utils/utils';
 import {Tabs} from 'components/Tabs';
 import {TabsBody} from 'components/TabsBody';
 import {UnitListingView} from './Tabs/UnitListingView';
