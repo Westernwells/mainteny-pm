@@ -73,8 +73,7 @@ export const notificationSubtitle = (
     case MessageType.CONTRACT_EXPIRY_ALERT: {
       const data = notificationData as ContractExpiryAlertData;
       const {user} = useUserSession();
-      const serviceCompanyName = user?.userAccount.serviceCompany.name;
-      return `${serviceCompanyName}'s contract for the unit will be expiring in ${data.days} days.`;
+      return `${user?.userAccount.serviceCompany.name}'s contract for the unit will be expiring in ${data.days} days.`;
     }
     default:
       return '-';
