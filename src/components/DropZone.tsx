@@ -4,9 +4,9 @@ import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import {FileWithPreview} from 'models/misc';
 import Cropper from 'react-easy-crop';
 import {Area, Point} from 'react-easy-crop/types'; // eslint-disable-line
+import {FileWithPreview} from 'models/misc';
 
 interface Props {
   getFiles: (files: FileWithPreview[]) => void;

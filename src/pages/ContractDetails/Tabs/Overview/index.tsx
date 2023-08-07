@@ -2,13 +2,13 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import {useTranslation} from 'react-i18next';
 import {InfoCard} from 'components/InfoCard';
 import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {ContractView} from 'models/contract';
 import {formatCurrency, formatNetAmount} from 'utils/currency';
 import {convertToText} from 'utils/utils';
-import {useTranslation} from 'react-i18next';
 import {ContractBasic} from './ContractBasic';
 import {ContractParties} from './ContractParties';
 import {ContractPayment} from './ContractPayment';
@@ -82,7 +82,7 @@ export const Overview = ({contract, downloadUrl, fileName}: Props) => {
                     }
                     showHeaderBackground>
                     <ContractParties
-                      name={contract.serviceCompany.name}
+                      name={user?.userAccount.serviceCompany.name}
                       occupation="Service Company"
                       address={
                         user?.userAccount.serviceCompany.postalAddress?.fullName

@@ -1,5 +1,5 @@
-import {ContactBody} from 'models/contacts';
 import {useMutation, useQueryClient} from 'react-query';
+import {ContactBody} from 'models/contacts';
 import {queryKeys} from 'reactQuery/constants';
 import {useSnackbar} from 'hooks/useSnackbar';
 import {axiosClient} from 'utils/axios-utils';

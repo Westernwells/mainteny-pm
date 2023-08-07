@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {GridRowsProp} from '@mui/x-data-grid';
+import {useSearchParams, useNavigate} from 'react-router-dom';
 import {FilterFields} from 'components/FilterFields';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {DataGridLayout} from 'components/DataGridLayout';
@@ -10,10 +11,10 @@ import {
   formatSearchParamsPageIndex,
   formatSearchParamsPageSize,
 } from 'utils/utils';
-import {useSearchParams, useNavigate} from 'react-router-dom';
 import {Progress} from 'components/Progress';
 import {EmptySection} from 'components/EmptySection';
 import {useFormatDate} from 'hooks/useFormatDate';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {columns, makeRows} from './InvoicesDataGridProps';
 import {createEmptyResource, makePage} from '../../utils/paging-utils';
 import {Widget} from '../../components/Widget';
@@ -21,6 +22,7 @@ import {Widget} from '../../components/Widget';
 const pageSize = 25;
 
 export const Invoices = () => {
+  const {user} = useUserSession();
   const navigate = useNavigate();
   const formatDate = useFormatDate();
   const [search, setSearch] = useState('');
@@ -73,7 +75,13 @@ export const Invoices = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      setRows(makeRows(invoiceResource.data, formatDate));
+      setRows(
+        makeRows(
+          invoiceResource.data,
+          user?.userAccount.serviceCompany.id,
+          formatDate,
+        ),
+      );
     }
   }, [invoiceResource.data, isLoading]);
 

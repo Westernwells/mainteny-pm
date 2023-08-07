@@ -1,12 +1,10 @@
 import {Address, AddressRecord, Contact, Meta, Priority} from './misc';
-import {ServiceCompany} from './service-company';
 import {UserAccount, UserAccountSimpleView} from './user';
 
 export interface PropertyOwner {
   id: string;
   name: string;
   address: AddressRecord;
-  serviceCompany: ServiceCompany;
   contact: ContactPropertyOwner;
   search: string;
   meta: Meta;
@@ -32,7 +30,6 @@ export interface PropertyOwnerView {
   postalAddress: Address;
   billingAddress: Address;
   businessAddress: Address;
-  serviceCompany: ServiceCompany;
   serviceCompanyId: string;
   contact: ContactPropertyOwner;
   search: string;

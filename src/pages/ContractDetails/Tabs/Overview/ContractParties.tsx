@@ -3,9 +3,9 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
+import {useTranslation} from 'react-i18next';
 import {ServiceCompanyView} from 'models/service-company';
 import {PropertyOwnerView} from 'models/propertyManager';
-import {useTranslation} from 'react-i18next';
 
 interface Props {
   name?: string;

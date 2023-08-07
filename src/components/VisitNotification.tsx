@@ -1,7 +1,7 @@
+import React from 'react';
 import {formatDistance, formatDistanceStrict, isAfter} from 'date-fns';
 import {ServiceOrderStatus, ServiceOrderView} from 'models/service-order';
 import {calculateNextVisitDate} from 'pages/Units/Models';
-import React from 'react';
 import {CardAlert} from './CardAlert';
 
 interface Props {

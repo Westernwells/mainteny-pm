@@ -1,9 +1,9 @@
 import {useEffect, useMemo, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import {EmptySection} from 'components/EmptySection';
 import {endOfYear, startOfYear} from 'date-fns';
 import {Box, Grid, Typography} from '@mui/material';
+import {EmptySection} from 'components/EmptySection';
 import {InfoCard} from 'components/InfoCard';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {Progress} from 'components/Progress';

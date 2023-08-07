@@ -1,6 +1,5 @@
 import {ContractSimpleView} from './contract';
 import {Address, Contact} from './misc';
-import {ServiceCompanySimpleView} from './service-company';
 import {ServiceOrderType} from './service-order';
 import {UserAccountSimpleView} from './user';
 
@@ -67,7 +66,6 @@ export interface ServiceOrderScheduleAlertData {
 
 export interface ContractExpiryAlertData {
   contract: ContractSimpleView;
-  serviceCompany: ServiceCompanySimpleView;
   days: number;
   timestamp: string;
 }

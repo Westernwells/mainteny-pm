@@ -1,5 +1,4 @@
 import useTheme from '@mui/material/styles/useTheme';
-import {CardProps} from 'components/CardProps';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import TodayIcon from '@mui/icons-material/Today';
 import EuroSymbolIcon from '@mui/icons-material/EuroSymbol';
@@ -7,9 +6,10 @@ import CalendarViewWeekIcon from '@mui/icons-material/CalendarViewWeek';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import ElevatorIcon from '@mui/icons-material/Elevator';
 import {Grid} from '@mui/material';
+import {useTranslation} from 'react-i18next';
 import {StatusChip} from 'components/StatusChip';
 import {convertToText} from 'utils/utils';
-import {useTranslation} from 'react-i18next';
+import {CardProps} from 'components/CardProps';
 
 interface Props {
   contractStatus?: string;

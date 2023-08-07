@@ -3,6 +3,7 @@ import {
   ContractExpiryAlertData,
   ServiceOrderScheduleAlertData,
 } from 'models/notification';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {formatDate} from './datetime';
 
 export const convertServiceOrderScheduleAlert = (
@@ -43,12 +44,14 @@ export const notificationTitle = (
   type: MessageType | string,
   notificationData: ContractExpiryAlertData | ServiceOrderScheduleAlertData,
 ) => {
+  const {user} = useUserSession();
+
   switch (type) {
     case MessageType.SERVICE_ORDER_SCHEDULE_ALERT:
       return (notificationData as ServiceOrderScheduleAlertData).serviceOrder
         .elevator.propertyOwner.name;
     case MessageType.CONTRACT_EXPIRY_ALERT:
-      return (notificationData as ContractExpiryAlertData).serviceCompany.name;
+      return user?.userAccount.serviceCompany.name;
     default:
       return '-';
   }
@@ -69,8 +72,8 @@ export const notificationSubtitle = (
     }
     case MessageType.CONTRACT_EXPIRY_ALERT: {
       const data = notificationData as ContractExpiryAlertData;
-      const serviceCompanyName = data.serviceCompany.name;
-      return `${serviceCompanyName}'s contract for the unit will be expiring in ${data.days} days.`;
+      const {user} = useUserSession();
+      return `${user?.userAccount.serviceCompany.name}'s contract for the unit will be expiring in ${data.days} days.`;
     }
     default:
       return '-';

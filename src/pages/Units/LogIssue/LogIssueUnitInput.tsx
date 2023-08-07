@@ -1,14 +1,13 @@
 import {ChangeEvent} from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-
 import {Box} from '@mui/system';
 import Autocomplete from '@mui/material/Autocomplete';
 import Elevator from '@mui/icons-material/Elevator';
-import {ElevatorView} from 'models/elevator';
 import {FormikErrors} from 'formik';
 import grey from '@mui/material/colors/grey';
 import useTheme from '@mui/material/styles/useTheme';
+import {ElevatorView} from 'models/elevator';
 
 interface Props {
   elevators: ElevatorView[];

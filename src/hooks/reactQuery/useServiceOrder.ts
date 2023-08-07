@@ -9,7 +9,6 @@ import {
 } from 'react-query';
 import * as _ from 'lodash';
 import {AxiosResponse} from 'axios';
-import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {
   addDays,
   endOfMonth,
@@ -19,6 +18,7 @@ import {
   getWeek,
   getMonth,
 } from 'date-fns';
+import {axiosClient, paramsSerializer} from 'utils/axios-utils';
 import {queryKeys} from 'reactQuery/constants';
 import {ServiceCompanyTimeUnit} from 'models/service-company';
 import {toDate, toRestDate, toRestDateTime} from 'utils/datetime';
@@ -243,7 +243,7 @@ export function useServiceOrders(params: any) {
     () => fetchServiceOrders(params, user!.userAccount.id),
     {
       enabled: !!user && !!params.elevatorIds,
-      select: useCallback((data) => data, [user, params]),
+      select: useCallback((data: any) => data, [user, params]),
     },
   );
 }

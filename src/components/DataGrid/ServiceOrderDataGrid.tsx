@@ -122,7 +122,7 @@ export const ServiceOrdersDataGrid = ({
         placeholder="search"
         onValueChanged={(value) => setSearch(value)}
       />
-      <Box display="flex" flexGrow={1} sx={styles.scrollBar}>
+      <Box display="flex" flexGrow={1} sx={{...styles.scrollbar}}>
         <DataGridLayout
           rows={rows}
           columns={columns}

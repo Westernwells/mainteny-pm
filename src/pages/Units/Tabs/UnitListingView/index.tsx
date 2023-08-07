@@ -1,15 +1,20 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
+import Drawer from '@mui/material/Drawer';
+import {GridRowsProp, GridSortModel} from '@mui/x-data-grid';
+import useTheme from '@mui/material/styles/useTheme';
+import {useNavigate, useSearchParams} from 'react-router-dom';
+import Box from '@mui/material/Box';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
 import {ElevatorView} from 'models/elevator';
 import {Widget} from 'components/Widget';
 import {LogIssue} from 'pages/Units/LogIssue';
-import Drawer from '@mui/material/Drawer';
 import {useLogIssue} from 'hooks/reactQuery/useServiceOrder';
 import {LogIssueBody} from 'pages/Units/LogIssue/LogIssueBody';
 import {LogIssueDescription} from 'pages/Units/LogIssue/LogIssueDescription';
 import {LogIssueUnitInput} from 'pages/Units/LogIssue/LogIssueUnitInput';
 import {LogIssueTimePreference} from 'pages/Units/LogIssue/LogIssueTimePreference';
 import {LogIssueDateTime} from 'pages/Units/LogIssue/LogIssueDateTime';
-import {GridRowsProp, GridSortModel} from '@mui/x-data-grid';
 import {DataGridLayout} from 'components/DataGridLayout';
 import {createEmptyResource, makePage} from 'utils/paging-utils';
 import {useAllElevators} from 'hooks/reactQuery/useElevator';
@@ -24,12 +29,8 @@ import {
   formatSearchParamsPageIndex,
   formatSearchParamsPageSize,
 } from 'utils/utils';
-import useTheme from '@mui/material/styles/useTheme';
-import {useNavigate, useSearchParams} from 'react-router-dom';
 import {FlexContainer} from 'components/FlexContainer';
-import Box from '@mui/material/Box';
-import {useFormik} from 'formik';
-import * as Yup from 'yup';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {columns, makeRows} from './UnitsDataGridProps';
 
 const pageInfo = makePage(0, 50);
@@ -45,6 +46,7 @@ interface FormikFields {
 }
 
 export const UnitListingView = () => {
+  const {user} = useUserSession();
   const theme = useTheme();
   const navigate = useNavigate();
   const formatDate = useFormatDate();
@@ -159,7 +161,7 @@ export const UnitListingView = () => {
       const body = {
         description: values.description,
         moreInstruction: values.moreInformation,
-        serviceCompanyId: values.elevator?.propertyOwner.serviceCompany.id,
+        serviceCompanyId: user?.userAccount.serviceCompany.id,
         timePreference: logIssueTime
           ? logIssueDate
               ?.toJSON()

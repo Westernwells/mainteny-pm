@@ -60,7 +60,6 @@ export interface InvoiceView {
   issuedDate: string;
   dueDate: string;
   status: InvoiceStatus;
-  serviceCompany: ServiceCompanySimpleView;
   serviceOrder: ServiceOrderView;
   propertyOwner: PropertyOwner;
   items: InvoiceItem[];

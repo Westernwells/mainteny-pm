@@ -1,8 +1,4 @@
-import {
-  ServiceCompany,
-  ServiceCompanySimpleView,
-  ServiceCompanyView,
-} from './service-company';
+import {ServiceCompanyView} from './service-company';
 import {AttachmentResource, Elevator, ElevatorSimpleView} from './elevator';
 import {Contract, ContractSimpleView} from './contract';
 import {Fee, JobStatus, Meta, Priority, WithOptional} from './misc';
@@ -57,7 +53,6 @@ export interface ServiceOrder {
   id: string;
   number: string;
   externalID: string;
-  serviceCompany: ServiceCompany;
   elevator: Elevator;
   contract: Contract;
   description: string;
@@ -87,7 +82,6 @@ export interface ServiceOrderView {
   id: string;
   number: string;
   externalID: string;
-  serviceCompany: ServiceCompanySimpleView;
   elevator: ElevatorSimpleView;
   contract?: ContractSimpleView;
   description: string;
@@ -122,7 +116,6 @@ export interface ServiceOrderActivity {
 
 export interface DispatchPlanView {
   id: string;
-  serviceCompany: ServiceCompanyView;
   planMonth: string;
   status: DispatchPlanStatus;
   notes: string;

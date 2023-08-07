@@ -2,14 +2,12 @@ import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {addDays, format} from 'date-fns';
 import * as _ from 'lodash';
-
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Grid from '@mui/material/Grid';
-import {InfoCard} from 'components/InfoCard';
 import {
   BarElement,
   CategoryScale,
@@ -22,6 +20,7 @@ import {
 import {Bar} from 'react-chartjs-2';
 
 import {Button, ButtonGroup} from '@mui/material';
+import {InfoCard} from 'components/InfoCard';
 import {useFormatDate} from 'hooks/useFormatDate';
 
 ChartJS.register(

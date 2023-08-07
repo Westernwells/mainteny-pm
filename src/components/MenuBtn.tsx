@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Button, {ButtonProps} from '@mui/material/Button';
 import Menu, {MenuProps} from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import {MenuBtnProps} from 'models/misc';
 import IconButton from '@mui/material/IconButton';
 import {MouseEvent, useState} from 'react';
+import {MenuBtnProps} from 'models/misc';
 
 interface Props extends ButtonProps {
   label?: string | JSX.Element;

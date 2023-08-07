@@ -3,10 +3,10 @@ import AddressAutocomplete from 'mui-address-autocomplete';
 import Box from '@mui/material/Box';
 import LocationIcon from '@mui/icons-material/LocationOn';
 import Typography from '@mui/material/Typography';
-import {AddressRecord} from 'models/misc';
-import {FormInput} from 'components/form/FormInput';
 import {TextFieldProps} from '@mui/material/TextField';
 import {useTranslation} from 'react-i18next';
+import {AddressRecord} from 'models/misc';
+import {FormInput} from 'components/form/FormInput';
 
 interface Props {
   getAddress?: (val?: AddressRecord) => void;

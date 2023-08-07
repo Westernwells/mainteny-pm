@@ -39,7 +39,6 @@ export interface ContractElevator {
 export interface Contract {
   id: string;
   propertyOwner: Client;
-  serviceCompany: ServiceCompany;
   type: ContractType;
   elevators: ContractElevator[];
   visitsNumber: number;
@@ -93,7 +92,6 @@ export interface ContractView {
   additionalInfo: ContractAdditionalInfo;
   id: string;
   propertyOwner: PropertyOwnerSimpleView;
-  serviceCompany: ServiceCompanySimpleView;
   type: ContractType;
   visitsNumber: number;
   number: number;
