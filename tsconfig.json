@@ -1,5 +1,4 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "src",
     "target": "es5",
@@ -20,6 +19,6 @@
     "jsx": "react-jsx",
     "sourceMap": true
   },
-  "include": ["src"],
+  "include": ["src", "cypress.d.ts"],
   "exclude": ["node_modules"]
 }
