@@ -1,5 +1,6 @@
 {
   "name": "create-react-app-with-typescript",
+  "license": "UNLICENSED",
   "version": "5.0.0",
   "private": true,
   "homepage": "/pm",
@@ -71,8 +72,10 @@
     "check-types": "tsc --pretty --noEmit",
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "lint": "eslint . --fix",
     "format": "prettier --write .",
-    "test-all": "npm run check-format && npm run check-lint && npm run check-types"
+    "check-all": "yarn check-format && yarn check-lint && yarn check-types",
+    "cypress:run": "cypress run --config video=false --e2e && cypress run --config video=false --component"
   },
   "browserslist": {
     "production": [
@@ -87,19 +90,28 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/cypress": "^10.0.1",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.0.1",
+    "@testing-library/user-event": "^13.5.0",
     "@types/dinero.js": "^1.9.0",
     "@types/google-map-react": "^2.1.3",
+    "@types/jest": "^27.4.1",
     "@types/mixpanel-browser": "^2.38.0",
+    "@types/node": "^16.11.27",
     "@types/react-helmet": "^6.1.5",
     "@types/react-pdf": "^5.0.9",
     "@types/supercluster": "^7.1.0",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
+    "cypress": "^13.6.0",
     "eslint-config-airbnb": "^19.0.2",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jest": "^27.6.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",

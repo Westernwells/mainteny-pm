@@ -2,6 +2,8 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    'jest/globals': true,
+    'cypress/globals': true,
   },
   extends: ['plugin:react/recommended', 'airbnb', 'prettier'],
   parser: '@typescript-eslint/parser',
@@ -15,7 +17,7 @@ module.exports = {
   globals: {
     JSX: 'readonly',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', '@typescript-eslint', 'cypress', 'jest'],
   ignorePatterns: ['src/models/*.ts'],
   rules: {
     'react/react-in-jsx-scope': 'off',
@@ -41,10 +43,11 @@ module.exports = {
     'import/extensions': 'off',
     'arrow-body-style': 1,
     'no-nested-ternary': 0,
+    'import/no-extraneous-dependencies': ['error', {devDependencies: true}],
   },
   settings: {
     react: {
-      version: 'latest',
+      version: 'detect',
     },
     'import/resolver': {
       node: {

@@ -1,5 +1,6 @@
 stages:
   - lint
+  - test
   - build-project
   - build-images
   - deploy
@@ -86,13 +87,23 @@ lint-project:
   image: node:lts-gallium
   script:
     - yarn install --frozen-lockfile
-    - yarn check-format
-    - yarn check-types
-    - yarn check-lint
-  rules:
-    - if: $CI_MERGE_REQUEST_ID
-      when: never
-    - when: always
+    - yarn check-all
+
+tests:
+  stage: test
+  image: node:lts-gallium
+  variables:
+    ENV: stage
+    REACT_APP_BASE_URL: http://localhost:3000/pm
+    REACT_APP_API_URL: $REACT_APP_API_URL_STAGE
+    REACT_APP_MIXPANEL_TOKEN: $REACT_APP_MIXPANEL_TOKEN_STAGE
+    REACT_APP_GOOGLE_MAPS_KEY: $REACT_APP_GOOGLE_MAPS_KEY_STAGE
+  script:
+    - apt-get -y update
+    - apt-get install -y xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libgbm1 libnss3 libxss1 libasound2 --fix-missing
+    - yarn install
+    - yarn start & # Start the application in the background
+    - yarn cypress:run # Run Cypress tests
 
 build-stage:
   <<: *build-template
