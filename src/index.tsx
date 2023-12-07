@@ -4,8 +4,8 @@ import {ReactQueryDevtools} from 'react-query/devtools';
 import CssBaseline from '@mui/material/CssBaseline';
 import {ThemeProvider} from '@mui/material/styles';
 import {SnackbarProvider} from 'notistack';
-
 import {mutationErrorHandler, queryErrorHandler} from 'reactQuery/handlers';
+import {initSmartlook} from 'utils/smart-look';
 import {App} from './App';
 import {theme} from './theme';
 
@@ -21,6 +21,9 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+// Initializa smartlook
+initSmartlook();
 
 // eslint-disable-next-line react/no-deprecated
 ReactDOM.render(
