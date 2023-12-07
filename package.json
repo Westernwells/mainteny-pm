@@ -53,6 +53,7 @@
     "react-router-dom": "^6.0.2",
     "react-scripts": "latest",
     "react-top-loading-bar": "^2.1.0",
+    "smartlook-client": "^8.2.0",
     "supercluster": "^7.1.5",
     "typescript": "latest",
     "use-supercluster": "^0.4.0",

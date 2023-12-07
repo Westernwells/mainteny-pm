@@ -10251,6 +10251,11 @@ slice-ansi@^5.0.0:
     ansi-styles "^6.0.0"
     is-fullwidth-code-point "^4.0.0"
 
+smartlook-client@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/smartlook-client/-/smartlook-client-8.2.0.tgz#3d4d372a320e4a17d6c7a5ce35195e87cb740531"
+  integrity sha512-zIGEV7jeSDqLrwW2bBooSNFYIExuzgYtFkVi7fySVOgW4S5dy/pYh4fAnf/d+GA3oodS+x7/zT2E7xhbsNXLDg==
+
 sockjs@^0.3.24:
   version "0.3.24"
   resolved "https://registry.yarnpkg.com/sockjs/-/sockjs-0.3.24.tgz#c9bc8995f33a111bea0395ec30aa3206bdb5ccce"
