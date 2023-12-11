@@ -42,7 +42,7 @@ export interface PropertyOwnerView {
 
 export interface PropertyOwnerSimpleView {
   additionalInfo: PropertyOwnerAdditionalInfo;
-  postalAddress: Address;
+  billingAddress: Address;
   contact: ContactPropertyOwner;
   id: string;
   labels: string[];

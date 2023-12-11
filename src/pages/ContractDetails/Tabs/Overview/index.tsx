@@ -98,7 +98,7 @@ export const Overview = ({contract, downloadUrl, fileName}: Props) => {
                     <ContractParties
                       name={contract?.propertyOwner.name}
                       occupation="Property Manager"
-                      address={contract?.propertyOwner.postalAddress.fullName}
+                      address={contract?.propertyOwner.billingAddress.fullName}
                       phoneNumber={contract?.propertyOwner.contact.phone}
                       partyType="CUSTOMER"
                     />

@@ -15,10 +15,7 @@ import {ServiceOrderReport} from 'models/service-order';
 import {getInvoiceStatusStyles} from 'pages/Invoices/InvoicesDataGridProps';
 import {PdfGenerationStatus} from 'models/misc';
 import {formatNetAmount} from 'utils/currency';
-import {
-  getServiceOrderStatusColor,
-  serviceOrderStatusToString,
-} from 'utils/service-order-utils';
+
 import {useFormatDate} from 'hooks/useFormatDate';
 
 interface Props {
@@ -102,39 +99,6 @@ export const ViewInvoice = ({downloadUrl, invoice, workReport}: Props) => {
           )}
         </Grid>
         <Grid item xs sx={{display: 'flex', flexDirection: 'column', gap: 2}}>
-          <PageCard
-            headerLabel={t('Service Order')}
-            headerStyles={{
-              pt: '11px',
-            }}>
-            <Box>
-              <Box sx={{float: 'right'}}>
-                <StatusChip
-                  color={getServiceOrderStatusColor(
-                    invoice.serviceOrder.status,
-                  )}
-                  label={serviceOrderStatusToString(
-                    invoice.serviceOrder.status,
-                  )}
-                  size="small"
-                />
-              </Box>
-              <FormLabel text="Order Number" sx={{color: 'text.primary'}} />
-              <Typography variant="body2">
-                {invoice.serviceOrder.number}
-              </Typography>
-              <Typography variant="caption" sx={{color: 'text.secondary'}}>
-                {`${t('Created on')} ${formatDate(
-                  invoice.serviceOrder.meta.createdAt,
-                )}`}
-              </Typography>
-              <Box display="flex" pt="2em">
-                <Typography variant="caption">
-                  {invoice.serviceOrder.description}
-                </Typography>
-              </Box>
-            </Box>
-          </PageCard>
           {!!workReport && (
             <PageCard
               headerLabel={t('Work Report')}

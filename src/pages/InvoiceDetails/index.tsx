@@ -11,11 +11,12 @@ import {ViewInvoice} from './ViewInvoice';
 export const InvoiceDetails = () => {
   const {id: invoiceId} = useParams();
   const {data: invoice, isLoading, isFetched} = useInvoiceDetail(invoiceId);
+
   const {data: workReport, isLoading: isLoadingWorkReport} =
-    useServiceOrderReport(invoice?.serviceOrder.id ?? '', {
+    useServiceOrderReport(invoice?.serviceOrder?.id ?? '', {
       enabled:
-        !!invoice?.serviceOrder.id &&
-        invoice.serviceOrder.status === ServiceOrderStatus.COMPLETED,
+        !!invoice?.serviceOrder?.id &&
+        invoice?.serviceOrder?.status === ServiceOrderStatus.COMPLETED,
     });
 
   const {data: downloadUrl} = useDownloadUrl(

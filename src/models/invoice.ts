@@ -9,7 +9,6 @@ import {
 } from './misc';
 import {PropertyOwner} from './propertyManager';
 import {QuotationItemRecord} from './quotation';
-import {ServiceCompanySimpleView} from './service-company';
 import {ServiceOrderView, ServiceOrderType} from './service-order';
 
 export enum InvoiceStatus {
@@ -17,6 +16,8 @@ export enum InvoiceStatus {
   NOT_PAID = 'NOT_PAID',
   DRAFT = 'DRAFT',
   EXPIRED = 'EXPIRED',
+  PARTIALLY_PAID = 'PARTIALLY_PAID',
+  CANCELLED = 'CANCELLED',
 }
 
 export enum InvoiceDueType {
@@ -31,7 +32,36 @@ export enum InvoiceStatusView {
   NOT_PAID = 'Unpaid',
   DRAFT = 'Draft',
   EXPIRED = 'Overdue',
+  PARTIALLY_PAID = 'Partially Paid',
+  CANCELLED = 'Cancelled',
 }
+
+export enum InvoiceStatusViewWithoutDraft {
+  PAID = 'Paid',
+  NOT_PAID = 'Unpaid',
+  EXPIRED = 'Overdue',
+  PARTIALLY_PAID = 'Partially Paid',
+  CANCELLED = 'Cancelled',
+}
+
+export const mapInvoiceStatus = (invoiceStatus: InvoiceStatusView) => {
+  switch (invoiceStatus) {
+    case InvoiceStatusView.PAID:
+      return InvoiceStatus.PAID;
+    case InvoiceStatusView.NOT_PAID:
+      return InvoiceStatus.NOT_PAID;
+    case InvoiceStatusView.DRAFT:
+      return InvoiceStatus.DRAFT;
+    case InvoiceStatusView.EXPIRED:
+      return InvoiceStatus.EXPIRED;
+    case InvoiceStatusView.PARTIALLY_PAID:
+      return InvoiceStatus.PARTIALLY_PAID;
+    case InvoiceStatusView.CANCELLED:
+      return InvoiceStatus.CANCELLED;
+    default:
+      return undefined;
+  }
+};
 
 export interface InvoiceItem {
   article: Article;

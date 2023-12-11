@@ -4,7 +4,13 @@ import {useSearchParams, useNavigate} from 'react-router-dom';
 import {FilterFields} from 'components/FilterFields';
 import {MultipleSelectCheckmarks} from 'components/MultipleSelectCheckmarks';
 import {DataGridLayout} from 'components/DataGridLayout';
-import {InvoiceStatus, InvoiceStatusView, InvoiceView} from 'models/invoice';
+import {
+  InvoiceStatus,
+  InvoiceStatusView,
+  InvoiceStatusViewWithoutDraft,
+  InvoiceView,
+  mapInvoiceStatus,
+} from 'models/invoice';
 import {useInvoices} from 'hooks/reactQuery/useInvoice';
 import {PageListingLayout} from 'components/PageListingLayout';
 import {
@@ -45,7 +51,15 @@ export const Invoices = () => {
       pageIndex: page.pageIndex,
       pageSize: page.pageSize,
       query: search,
-      status: [],
+      status: status
+        ? [status]
+        : [
+            InvoiceStatus.CANCELLED,
+            InvoiceStatus.EXPIRED,
+            InvoiceStatus.NOT_PAID,
+            InvoiceStatus.PAID,
+            InvoiceStatus.PARTIALLY_PAID,
+          ],
     },
     {keepPreviousData: true},
   );
@@ -108,14 +122,12 @@ export const Invoices = () => {
       }}>
       <MultipleSelectCheckmarks
         label="Status"
-        options={Object.values(InvoiceStatusView).map((value) => value)}
-        getSelectedValue={(items: string[]) =>
-          items.length
-            ? items[0] === 'Paid'
-              ? setStatus(InvoiceStatus.PAID)
-              : setStatus(InvoiceStatus.NOT_PAID)
-            : setStatus(undefined)
-        }
+        options={Object.values(InvoiceStatusViewWithoutDraft).map(
+          (value) => value,
+        )}
+        getSelectedValue={(items: string[]) => {
+          setStatus(mapInvoiceStatus((items as InvoiceStatusView[])[0]));
+        }}
         multiple={false}
         initialSelectedItems={status ? [status] : []}
       />

@@ -29,6 +29,8 @@ export const getInvoiceStatusStyles = (
   switch (status) {
     case InvoiceStatus.PAID:
       return {label: InvoiceStatusView.PAID, color: 'success'};
+    case InvoiceStatus.PARTIALLY_PAID:
+      return {label: InvoiceStatusView.PARTIALLY_PAID, color: 'warning'};
     case InvoiceStatus.DRAFT:
       return {label: InvoiceStatusView.DRAFT, color: 'action.active'};
     case InvoiceStatus.EXPIRED:
