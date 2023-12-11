@@ -1,7 +1,7 @@
 import {GridColDef, GridRenderCellParams, GridRowsProp} from '@mui/x-data-grid';
 import {formatCurrency} from 'utils/currency';
 import {toDate} from 'utils/datetime';
-import {InvoiceStatus, InvoiceView} from 'models/invoice';
+import {InvoiceStatus, InvoiceStatusView, InvoiceView} from 'models/invoice';
 import {FormatDate} from 'models/misc';
 import {StatusChip} from 'components/StatusChip';
 import {getColumnProps} from 'components/DataGridLayout';
@@ -31,6 +31,8 @@ export const getInvoiceStatusStyles = (
       return {label: 'Expired', color: 'error'};
     case InvoiceStatus.NOT_PAID:
       return {label: 'Unpaid', color: 'warning'};
+    case InvoiceStatus.PARTIALLY_PAID:
+      return {label: InvoiceStatusView.PARTIALLY_PAID, color: 'warning'};
     default:
       return {label: '-', color: 'default'};
   }
