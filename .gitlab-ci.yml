@@ -94,7 +94,8 @@ tests:
   image: node:lts-gallium
   variables:
     ENV: stage
-    REACT_APP_BASE_URL: http://localhost:3000/pm
+    REACT_APP_BASE_URL: /pm
+    REACT_APP_URL: http://localhost:3000/pm
     REACT_APP_API_URL: $REACT_APP_API_URL_STAGE
     REACT_APP_MIXPANEL_TOKEN: $REACT_APP_MIXPANEL_TOKEN_STAGE
     REACT_APP_GOOGLE_MAPS_KEY: $REACT_APP_GOOGLE_MAPS_KEY_STAGE
@@ -103,6 +104,7 @@ tests:
     - apt-get install -y xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libgbm1 libnss3 libxss1 libasound2 --fix-missing
     - yarn install
     - yarn start & # Start the application in the background
+    - sleep 180
     - yarn cypress:run # Run Cypress tests
 
 build-stage:
