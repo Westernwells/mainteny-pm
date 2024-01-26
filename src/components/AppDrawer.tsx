@@ -19,9 +19,10 @@ import Typography from '@mui/material/Typography';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import Fade from '@mui/material/Fade';
+import Avatar from '@mui/material/Avatar';
 import {ReactComponent as Logo} from 'assets/icons/Logo.svg';
-import {ReactComponent as MaintenyLogo} from 'assets/icons/Mainteny.svg';
 import {useUserSession} from 'hooks/reactQuery/useUserSession';
+import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
 import {Role} from 'models/user';
 import {Mixpanel} from 'mixpanel/mixpanel';
 import {mixpanelEvents} from 'mixpanel/constants';
@@ -77,6 +78,10 @@ export const AppDrawer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const {user} = useUserSession();
+  const companyName = user?.userAccount.serviceCompany.name ?? '';
+  const logoPath =
+    user?.userAccount.serviceCompany.settings.whiteLabel?.logoPath ?? '';
+  const {data: logoUrl} = useDownloadUrl(logoPath ? [logoPath] : []);
 
   useEffect(() => {
     setSelectedPath(location.pathname);
@@ -176,7 +181,6 @@ export const AppDrawer = () => {
     open
       ? drawerHeader(
           <IconButton
-            sx={{mr: '1em'}}
             edge="start"
             disableRipple
             onClick={() => {
@@ -184,17 +188,31 @@ export const AppDrawer = () => {
               Mixpanel.identifyAndTrack(mixpanelEvents.MENU_HOME_CLICKED);
               navigate('/orders');
             }}>
-            <MaintenyLogo
-              style={{marginRight: '0.5em'}}
-              width={155.22}
-              height={32}
-            />
+            <Box display="flex" alignItems="center" gap={1}>
+              {logoUrl?.[0] ? (
+                <Avatar src={logoUrl ? logoUrl[0] : ''} />
+              ) : (
+                <Logo width={55.22} height={32} />
+              )}
+              <Typography
+                sx={{
+                  maxWidth: '153px',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                }}>
+                {companyName}
+              </Typography>
+            </Box>
           </IconButton>,
           <ArrowBackIosNewIcon />,
         )
       : drawerHeader(
           <IconButton>
-            <Logo style={{marginRight: '0.5em'}} width={55.22} height={32} />
+            {logoUrl?.[0] ? (
+              <Avatar src={logoUrl ? logoUrl[0] : ''} />
+            ) : (
+              <Logo style={{marginRight: '0.5em'}} width={55.22} height={32} />
+            )}
           </IconButton>,
           <ArrowForwardIos />,
         );
