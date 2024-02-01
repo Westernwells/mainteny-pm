@@ -21,8 +21,9 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import Fade from '@mui/material/Fade';
 import Avatar from '@mui/material/Avatar';
 import {ReactComponent as Logo} from 'assets/icons/Logo.svg';
-import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
+import {useUserSession} from 'hooks/reactQuery/useUserSession';
+import {useCompanyById} from 'hooks/reactQuery/useCompanies';
 import {Role} from 'models/user';
 import {Mixpanel} from 'mixpanel/mixpanel';
 import {mixpanelEvents} from 'mixpanel/constants';
@@ -78,9 +79,9 @@ export const AppDrawer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const {user} = useUserSession();
-  const companyName = user?.userAccount.serviceCompany.name ?? '';
-  const logoPath =
-    user?.userAccount.serviceCompany.settings.whiteLabel?.logoPath ?? '';
+  const {data: company} = useCompanyById(user?.userAccount.serviceCompany.id);
+  const companyName = company?.name ?? '';
+  const logoPath = company?.settings.whiteLabel?.logoPath ?? '';
   const {data: logoUrl} = useDownloadUrl(logoPath ? [logoPath] : []);
 
   useEffect(() => {
@@ -181,6 +182,7 @@ export const AppDrawer = () => {
     open
       ? drawerHeader(
           <IconButton
+            sx={{justifyContent: 'start', paddingLeft: '22px'}}
             edge="start"
             disableRipple
             onClick={() => {
