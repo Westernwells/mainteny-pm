@@ -11,6 +11,7 @@ import {InfoCard} from 'components/InfoCard';
 import {CardProps} from 'components/CardProps';
 import {useUserSession} from 'hooks/reactQuery/useUserSession';
 import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
+import {useCompanyById} from 'hooks/reactQuery/useCompanies';
 
 interface Props {
   containerStyles?: {[key: string]: any};
@@ -21,8 +22,9 @@ export const ServiceCompany = ({containerStyles, elevator}: Props) => {
   const {t} = useTranslation();
   const theme = useTheme();
   const {user} = useUserSession();
-  const logoPath =
-    user?.userAccount.serviceCompany.settings.whiteLabel?.logoPath ?? '';
+  const {data: company} = useCompanyById(user?.userAccount.serviceCompany.id);
+  const companyName = company?.name ?? '';
+  const logoPath = company?.settings.whiteLabel?.logoPath ?? '';
   const {data: logoUrl} = useDownloadUrl(logoPath ? [logoPath] : []);
 
   const technician = useMemo(() => {
@@ -54,7 +56,7 @@ export const ServiceCompany = ({containerStyles, elevator}: Props) => {
           <CardProps
             icon={<Avatar src={logoUrl ? logoUrl[0] : ''} />}
             iconMaxHeight="3rem"
-            label={user?.userAccount.serviceCompany.name ?? '-'}
+            label={companyName ?? '-'}
             titleTextVariant="subtitle1"
             labelStyle={{color: theme.palette.text.primary}}
             bodyText={
