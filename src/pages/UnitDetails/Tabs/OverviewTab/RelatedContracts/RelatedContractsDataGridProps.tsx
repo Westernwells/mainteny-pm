@@ -102,8 +102,8 @@ export const makeRows = (
     id: item.id,
     number: item.number,
     contractType: convertToText(item.type),
-    startDate: formatDate(new Date(item.startTime)) || '-',
-    expiryDate: formatDate(new Date(item.endTime)) || '-',
+    startDate: formatDate(new Date(item.start)) || '-',
+    expiryDate: formatDate(new Date(item.end)) || '-',
     status: item.status,
     navigateTo: `/contracts/details/${item.id}`,
   }));
