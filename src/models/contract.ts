@@ -124,6 +124,8 @@ export interface ContractSimpleView {
   search: string;
   status: ContractStatus;
   meta: Meta;
+  start: string;
+  end: string;
 }
 
 export interface CreateContractRecord {
