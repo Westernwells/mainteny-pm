@@ -195,31 +195,12 @@ export const fetchServiceOrderReports = async (
   return response.data;
 };
 
-export function useServiceOrderReports(params: ServiceOrderReportPayload) {
-  return useQuery<ServiceOrderReport[], RestError>(
-    [queryKeys.fetchServiceOrderReports, params],
-    () => fetchServiceOrderReports(params as ServiceOrderReportPayload),
-    {enabled: !!params.serviceOrderId || !!params.serviceOrderId.length},
-  );
-}
-
 export const fetchServiceOrderReport = async (serviceOrderId: string) => {
   const response = await axiosClient.get<ServiceOrderReport>(
     `/api/serviceOrders/${serviceOrderId}/report`,
   );
   return response.data;
 };
-
-export function useServiceOrderReport(
-  serviceOrderId: string,
-  options?: UseQueryOptions<any, any, any>,
-) {
-  return useQuery<ServiceOrderReport, RestError>(
-    [queryKeys.fetchServiceOrderReport, serviceOrderId],
-    () => fetchServiceOrderReport(serviceOrderId),
-    {...options},
-  );
-}
 
 export const fetchServiceOrders = async (
   params: any,
