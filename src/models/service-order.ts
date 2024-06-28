@@ -1,9 +1,23 @@
 import {ServiceCompanyView} from './service-company';
-import {AttachmentResource, Elevator, ElevatorSimpleView} from './elevator';
+import {
+  AttachmentResource,
+  Elevator,
+  ElevatorSimpleView,
+  ElevatorView,
+} from './elevator';
 import {Contract, ContractSimpleView} from './contract';
-import {Fee, JobStatus, Meta, Priority, WithOptional} from './misc';
+import {
+  Amount,
+  Fee,
+  JobStatus,
+  Meta,
+  PdfGenerationStatus,
+  Priority,
+  WithOptional,
+} from './misc';
 import {Technician, TechnicianSimpleView} from './technician';
 import {UserAccount} from './user';
+import {FileResource} from './media';
 
 export enum ServiceOrderStatus {
   ALL = 'ALL',
@@ -78,6 +92,55 @@ export interface ServiceOrderAdditionalInfo {
   priority: Priority;
 }
 
+export interface CheckListAnswerRecord {
+  componentId: string;
+  values: string[];
+  note: string;
+}
+
+export interface ServiceOrderTimeSlot {
+  startTime: string;
+  minutes?: number;
+}
+
+export interface ServiceOrderReportAdditionalInfo {
+  checkListAnswers: CheckListAnswerRecord[];
+  pdfPath: string;
+  pdfGenerationStatus: PdfGenerationStatus;
+  onlyShowTotalTime: boolean;
+  workTimeInfo?: {
+    timeSlots: ServiceOrderTimeSlot[];
+    percentageSurcharge?: number;
+    billableMinutes?: number;
+    startTime: string;
+    endTime: string;
+  };
+  travelTimeInfo?: {
+    timeSlots: ServiceOrderTimeSlot[];
+    percentageSurcharge?: number;
+    billableMinutes?: number;
+    startTime: string;
+    endTime: string;
+  };
+}
+
+export interface ServiceOrderReportView {
+  number: string;
+  actualServiceTime: number;
+  actualTravelTime?: number;
+  additionalInfo: ServiceOrderReportAdditionalInfo;
+  attachments: ServiceOrderReportAttachmentView[];
+  description: string;
+  elevator: ElevatorView;
+  externalId: string;
+  id: string;
+  technicianId: string;
+  meta: Meta;
+  serviceOrder: ServiceOrderView;
+  totalAmount: Amount;
+  signatures: ServiceOrderReportSignatureView[];
+}
+
 export interface ServiceOrderView {
   id: string;
   number: string;
@@ -98,6 +161,21 @@ export interface ServiceOrderView {
   search: string;
   meta: Meta;
   additionalInfo: ServiceOrderAdditionalInfo;
+  report?: ServiceOrderReportView;
+  reports?: ServiceOrderReportView[];
+  checkLists?: ServiceOrderCheckListInfo[];
+}
+
+export enum ChecklistStatus {
+  INIT = 'INIT',
+  COMPLETED = 'COMPLETED',
+}
+
+export interface ServiceOrderCheckListInfo {
+  checkListId: string;
+  technicianId: string;
+  pdfGenerationStatus?: PdfGenerationStatus;
+  status?: ChecklistStatus;
 }
 
 export interface AppointmentRes {
@@ -237,6 +315,18 @@ export interface ServiceOrderReport {
   serviceOrderId: string;
   serviceOrder: ServiceOrderView;
   fee: Fee;
+}
+
+export interface ServiceOrderReportAttachmentView {
+  fileResource: FileResource;
+  id: string;
+  serviceOrderReportId: string;
+}
+
+export interface ServiceOrderReportSignatureView {
+  id: string;
+  serviceOrderReportId: string;
+  fileResource: FileResource;
 }
 
 export interface CreateNonScheduledServiceOrder {

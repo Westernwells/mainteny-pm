@@ -1,9 +1,9 @@
 import {useParams} from 'react-router-dom';
+import {useEffect, useState} from 'react';
 import {useInvoiceDetail} from 'hooks/reactQuery/useInvoice';
 import {useDownloadUrl} from 'hooks/reactQuery/useDownloadUrl';
-import {useServiceOrderReport} from 'hooks/reactQuery/useServiceOrder';
 import {InvoiceStatus} from 'models/invoice';
-import {ServiceOrderStatus} from 'models/service-order';
+import {ServiceOrderReportView} from 'models/service-order';
 import {Progress} from 'components/Progress';
 import {EmptySection} from 'components/EmptySection';
 import {ViewInvoice} from './ViewInvoice';
@@ -12,18 +12,25 @@ export const InvoiceDetails = () => {
   const {id: invoiceId} = useParams();
   const {data: invoice, isLoading, isFetched} = useInvoiceDetail(invoiceId);
 
-  const {data: workReport, isLoading: isLoadingWorkReport} =
-    useServiceOrderReport(invoice?.serviceOrder?.id ?? '', {
-      enabled:
-        !!invoice?.serviceOrder?.id &&
-        invoice?.serviceOrder?.status === ServiceOrderStatus.COMPLETED,
-    });
+  const [report, setReport] = useState<ServiceOrderReportView | undefined>(
+    invoice?.serviceOrder?.reports?.[0],
+  );
+
+  const reportToUpdate = invoice?.serviceOrder?.reports?.find(
+    (r) => r.externalId === report?.externalId,
+  );
 
   const {data: downloadUrl} = useDownloadUrl(
     isFetched ? [invoice!.additionalInfo.pdfPath] : [],
   );
 
-  if (isLoading || isLoadingWorkReport) {
+  useEffect(() => {
+    if (reportToUpdate) {
+      setReport(reportToUpdate);
+    }
+  }, [reportToUpdate]);
+
+  if (isLoading) {
     return <Progress />;
   }
 
@@ -31,7 +38,7 @@ export const InvoiceDetails = () => {
     <ViewInvoice
       downloadUrl={downloadUrl ? Object.values(downloadUrl)[0] : ''}
       invoice={invoice}
-      workReport={workReport!}
+      workReport={report!}
     />
   ) : (
     <EmptySection label="Sorry, we couldn't find the invoice." />

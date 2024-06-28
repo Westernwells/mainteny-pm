@@ -11,7 +11,7 @@ import {PDFContainer} from 'components/PDFContainer';
 import {FormLabel} from 'components/form/FormLabel';
 import {EmptySection} from 'components/EmptySection';
 import {InvoiceView} from 'models/invoice';
-import {ServiceOrderReport} from 'models/service-order';
+import {ServiceOrderReportView} from 'models/service-order';
 import {getInvoiceStatusStyles} from 'pages/Invoices/InvoicesDataGridProps';
 import {PdfGenerationStatus} from 'models/misc';
 import {formatNetAmount} from 'utils/currency';
@@ -21,7 +21,7 @@ import {useFormatDate} from 'hooks/useFormatDate';
 interface Props {
   downloadUrl: string;
   invoice: InvoiceView;
-  workReport: ServiceOrderReport;
+  workReport: ServiceOrderReportView;
 }
 
 export const ViewInvoice = ({downloadUrl, invoice, workReport}: Props) => {
@@ -106,8 +106,9 @@ export const ViewInvoice = ({downloadUrl, invoice, workReport}: Props) => {
                 pt: '11px',
               }}>
               <Typography variant="body1">
-                {formatDate(workReport.serviceOrder.actualStartTime)}:{' '}
-                {workReport.description || '-'}
+                {workReport?.serviceOrder?.actualStartTime &&
+                  `${formatDate(workReport?.serviceOrder?.actualStartTime)}: `}
+                {workReport?.description || '-'}
               </Typography>
             </PageCard>
           )}
