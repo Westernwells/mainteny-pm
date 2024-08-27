@@ -2,7 +2,6 @@ import {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {useSnackbar} from 'notistack';
 import {axiosClient} from 'utils/axios-utils';
-import {RolesType} from 'pages/Profile/PersonalDetails/model';
 import {useUserSession} from './reactQuery/useUserSession';
 import {UserSession} from '../models/session';
 
@@ -35,19 +34,6 @@ export const useAuth = (): UseAuth => {
       console.log(status, '######');
 
       if (user.token) {
-        if (
-          !user.userAccount.roles.some((role) =>
-            Object.keys(RolesType).includes(role),
-          )
-        ) {
-          enqueueSnackbar(
-            `Uh oh! As a Service Manager, please login at ${process.env.REACT_APP_SMUI_URL}`,
-            {
-              variant: 'warning',
-            },
-          );
-          return;
-        }
         axiosClient.defaults.headers.common.Authorization = `Bearer ${user.token}`;
         // update stored user data
         updateUser(user);
