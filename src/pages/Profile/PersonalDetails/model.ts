@@ -5,6 +5,7 @@ export enum RolesType {
   PROPERTY_MANAGER = 'PROPERTY_MANAGER',
   CONTACT_PERSON = 'CONTACT_PERSON',
   ASSET_OWNER = 'ASSET_OWNER',
+  GENERAL_MANAGER = 'GENERAL_MANAGER',
 }
 
 export const roles = Object.keys(RolesType).map((role) => ({
