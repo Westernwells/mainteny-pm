@@ -87,7 +87,7 @@ export interface InvoiceView {
   subject: string;
   type: InvoiceType;
   totalAmount: Amount;
-  issuedDate: string;
+  sentDate: string;
   dueDate: string;
   status: InvoiceStatus;
   serviceOrder: ServiceOrderView;
